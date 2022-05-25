@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Registro de Trabajo</title>
+  <style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+  </style>
+
+</head>
+<body class="bg-light">
+  <div class="container">
+    <div class="d-flex align-items-center p-2 my-2 bg-purple bg-light shadow p-2 mb-5 rounded shadow-sm">
+      <img src="../../../assets/Imagenes/trabajando.svg" alt="" width="70" height="70">
+      <div class="tituloFormulario text-center form-group col-md-8 offset-md-1">
+        <p> Formulario de Carga de Trabajo.</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 order-md-2 mb-4">
+        <h4 class="d-flex justify-content-between align-items-center mb-3">
+          <span class="text-muted">Pruebas Gráficas</span>
+          <span class="badge badge-secondary badge-pill">3</span>
+        </h4>
+        <ul class="list-group mb-3">
+          <li class="list-group-item d-flex justify-content-between lh-condensed">
+            <div>
+              <h6 class="my-0">Prueba gráfica nro 1</h6>
+              <small class="text-muted">Fecha de registro</small>
+            </div>
+            <span class="text-muted">ver..</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between lh-condensed">
+            <div>
+              <h6 class="my-0">Prueba gráfica nro 2</h6>
+              <small class="text-muted">Fecha de registro</small>
+            </div>
+            <span class="text-muted">ver..</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between lh-condensed">
+            <div>
+              Prueba gráfica nro
+              <h6 class="my-0"></h6>
+              <small class="text-muted">Prueba gráfica nro 3</small>
+            </div>
+            <span class="text-muted">ver.. </span>
+          </li>
+
+        </ul>
+      </div>
+
+      <!--Aca empieza la Primera columa del row general que es la de registro de trabajo. -->
+
+      <div class="col-md-8 order-md-1">
+        <form [formGroup]="Trabajo" (ngSubmit)="guardarDatos()">
+          <div class="row p-3 my-2 ">
+            <div class="form-group form-inline">
+              <label>Nro Reclamo&nbsp;:&nbsp;</label>
+              <input type="text" class="form-control sin-borde" id="nro_Reclamo" formControlName="nro_Reclamo" placeholder="" value="" readonly>
+            </div>
+            <div class="offset-md-1  form-group form-inline">
+              <label for="firstName">Estado&nbsp;:&nbsp;&nbsp;</label>
+              <input type="text" class="form-control sin-borde" id="estado_Reclamo" formControlName="estado_Reclamo" placeholder="" value="" readonly>
+            </div>
+            <div class="form-group form-inline">
+              <label for="Id_Vecino">Id Vecino&nbsp;:&nbsp;&nbsp;</label>
+              <input type="text" class="form-control sin-borde" id="Id_Vecino" formControlName="Id_Vecino" placeholder="" value="" readonly>
+            </div>
+            <div class="form-group form-inline">
+              <label for="firstName">Nombre y Apellido del Vecino&nbsp;:&nbsp;</label>
+              <input type="text" class="form-control sin-borde" id="nomApeVecino" formControlName="nomApeVecino" placeholder="" value="" readonly>
+            </div>
+
+
+          </div>
+
+          <div class="row">
+            <div class="form-group col-md-12 mb-3">
+              <label for="Descripcion">(*) Ingresar descripcion del Trabajo Realizado</label>
+              <textarea class="form-control" formControlName="Descripcion" id="exampleFormControlTextarea1" rows="8" placeholder="Descripción la actividad realizada por el empleado. "></textarea>
+            </div>
+          </div>
+
+          <div class="row p-3 ml-2 form-group">
+            <div class="form-group col-md-5 mb-3">
+              <label>Derivar Reclamo a:</label>
+              <select class="form-control selectAltura" id="IdUsuario" formControlName="Id_Usuario">
+                <option value="" selected="selected">--Seleccione Empleado--</option>
+                <option [ngValue]="Empleado.idUsuario" *ngFor="let Empleado of Empleados">
+                  Empleado&nbsp;:&nbsp;{{Empleado.nombreUser}}
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group offset-md-2 col-md-5 mb-3">
+              <label>Prioridad:</label>
+              <select class="form-control selectAltura" id="Nro_Prioridad" formControlName="Nro_Prioridad">
+                <option value="" selected="selected">--Seleccione Prioridad--</option>
+                <option [ngValue]="Prioridad.nroPrioridad" *ngFor="let Prioridad of Prioridades">.&nbsp;{{Prioridad.nombrePrioridad}}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row p-3 my-2">
+            <div class="col-md-5  custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" id="same-address">
+              <label class="custom-control-label" for="same-address">Notificar al Vecino.</label>
+            </div>
+          </div>
+
+          <div class="row p-3 my-2 ">
+            <div class="col-md-5 mb-2 form-group form-inline">
+              <label for="Id_Usuario">Legajo Empleado:&nbsp;&nbsp;&nbsp;</label>
+              <input type="text" class="form-control w-25 sin-borde " id="Id_Usuario" formControlName="Id_Usuario" placeholder="" value="">
+
+
+            </div>
+            <div class="offset-md-1 col-md-5 mb-3 custom-file ">
+              <input type="file" class="custom-file-input" id="customFileLang" lang="es">
+              <label class="custom-file-label" for="customFileLang"><img src="../../../assets/IconsGoogle/card-image.svg" alt="" width="16" height="16" title="card-image"> Adjuntar Prueba 2</label>
+            </div>
+          </div>
+          <div class="row p-3 my-2">
+            <!--<hr class="col-md-3 offset-2 mb-4">-->
+            <div class="col-md-3 offset-2 mb-4">
+              <button [disabled]="!Trabajo.valid" class="btn btn-primary btn-sm btn-block" type="submit" (click)="clickMethod()">Registrar Trabajo</button>
+            </div>
+
+
+
+
+            <div class="col-md-3 offset-2 mb-4">
+              <button class="btn btn-primary btn-sm btn-block" type="submit">Solucionar Reclamo</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

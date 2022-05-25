@@ -1,0 +1,13 @@
+.tituloFormulario {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 3.5em;
+}
+
+.subtitulo {
+  font-family: "times new roman", times, serif;
+  font-size: 2em;
+  text-align: center;
+  letter-spacing: 2pt;
+  word-spacing: -1.8pt;
+  line-height: 2.8;
+}

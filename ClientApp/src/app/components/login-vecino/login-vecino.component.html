@@ -1,0 +1,51 @@
+<head>
+  <title>Ingresar a Cristal</title>
+  <style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+  </style>
+
+</head>
+<body class="text-center">
+
+  <form class="form-signin align-content-md-center " [formGroup]="vecino" (ngSubmit)="login()">
+    <div class="form-group group ">
+      <img class="mb-4" src="../../../assets/Imagenes/file-person-fill.svg" alt="" width="72" height="72">
+      <h1 class="h3 mb-3 font-weight-normal">Estimada/o Vecina/o ingrese sus credenciales</h1>
+      <label for="inputEmail" class="sr-only">Email</label>
+      <input type="email" id="inputEmail" class="form-control" formControlName="NombreUser" placeholder="correo electronico" required autofocus>
+      <div style="color:red" *ngIf="vecino.controls['NombreUser'].errors?.required">El nombre de vecino es requerido</div>
+    </div>
+    <div class="form-group group ">
+      <label for="inputPassword" class="sr-only">Contraseña</label>
+      <input type="password" id="inputPassword" class="form-control" formControlName="Contrasenia" placeholder="Contraseña" required>
+      <div style="color:red" *ngIf="vecino.controls['Contrasenia'].errors?.required">La contraseña de vecino es requerida</div>
+      <div class="checkbox mb-3">
+        <label>
+          <input type="checkbox" value="remember-me"> Recuerdame
+        </label>
+      </div>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" [disabled]="!vecino.valid" type="submit">Ingresar</button>
+    <p class="mt-5 mb-3 text-muted">&copy; Cristal 2020-2021 </p>
+    <div class="form-group group">
+      <div style="color:red" *ngIf="error==true">El nombre de vecino o la contraseña es incorrecto</div>
+    </div>
+
+
+  </form>
+
+
+</body>

@@ -1,0 +1,53 @@
+<div class="d-flex align-items-center p-3 my-3 bg-purple bg-light shadow p-2 mb-5 rounded shadow-sm">
+  <img src="../../../assets/IconsGoogle/money.svg" alt="" width="58" height="58">
+  <div class="tituloFormulario text-center form-group col-md-8 offset-md-1">
+    <p>Tabla de Impuestos </p>
+  </div>
+
+
+</div>
+<body>
+  <form [formGroup]="FGimpuestos" (ngSubmit)="guardarDatos()">
+    <table class="table table-hover">
+      <thead class="thead-dark">
+        <tr>
+          <th class="text-center" *ngFor="let cabecera of cabeceras">{{cabecera}} </th>
+          <th class="text-center">Operaciones</th>
+          <!--<th class="text-center" *ngIf="isMantenimiento==true">Operaciones</th>-->
+
+        </tr>
+      </thead>
+
+      <tbody class="textoTabla">
+        <tr *ngFor="let impuestoss of impuestos | paginate: { itemsPerPage: 12, currentPage: p }">
+          <td class="text-center">{{impuestoss.mes}}</td>
+          <td class="text-center">{{impuestoss.anio}}</td>
+          <td class="text-center">{{impuestoss.importeBase|currency:'USD':'symbol'}}</td>
+          <td class="text-center">{{impuestoss.interesValor|currency:'USD':'symbol'}}</td>
+          <td class="text-center">{{impuestoss.importeFinal|currency:'USD':'symbol'}}</td>
+          <td class="text-center">
+            <input class="check" [name]="impuestoss.idImpuesto" (change)="verCheck()" [value]="impuestoss.importeFinal" type="checkbox" />
+
+            <img src="../../../assets/IconsGoogle/money.svg" alt="" width="24" height="24" title="Pagar">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    <div class="row">
+      <label class="textopagar Col-md-12 offset-3 d-flex align-items-center text-center ">El importe total a abonar es: {{suma_actual|currency:'USD':'symbol'}}</label>
+    </div>
+
+    <div class="row p-3 my-2">
+      <hr class="mb-4">
+      <div class="form-group col-md-12 mb-3 pt-3">
+        <!--[disabled]="!FGimpuestos.valid"       (click)="clickMethod()"-->
+        <input type="submit" value="Pagar" class="btn btn-success col-md-4 offset-md-1 " />
+        <button type="button" class="btn btn-secondary col-md-4 offset-md-1" (click)="volver()">Volver</button>
+      </div>
+
+    </div>
+
+    <!--<button type="button" class="btn btn-light" [routerLink]="['/trabajo-detalle-denuncia',Denuncia.nro_Denuncia]"><img src="../../../assets/icons/eye.svg" alt="" width="24" height="24" title="Ver Detalles"></button>-->
+  </form>
+</body>

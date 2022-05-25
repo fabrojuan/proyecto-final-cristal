@@ -1,0 +1,34 @@
+.tituloFormulario {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 3.5em;
+  color: #240f7d;
+}
+
+.Tipo_Denuncia {
+  margin-right: 1.5em;
+}
+
+.textopago {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 1.7em;
+  color: #240f7d;
+}
+
+
+
+.tituloTabla {
+  font-size: 2.3em;
+  text-shadow: 1px 1px 2px #000, 0 0 25px #00f, 0 0 5px #00008b;
+  border-bottom: thin solid;
+  border-color: grey;
+  padding-bottom: .1em;
+  margin-bottom: .5em;
+}
+
+.sombras {
+  box-shadow: 0 4px 8px 0 rgb(255 255 255), 0 6px 20px 0 rgb(128 128 128);
+}
+
+.cardcss {
+  padding-top: 11em;
+}

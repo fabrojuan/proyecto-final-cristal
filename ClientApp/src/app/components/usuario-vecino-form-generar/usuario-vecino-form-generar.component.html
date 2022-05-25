@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Registro Vecino</title>
+  <style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+  </style>
+
+</head>
+<body class="bg-light">
+  <form [formGroup]="Usuario" (ngSubmit)="guardarDatos()">
+
+    <div class="container">
+      <div class="d-flex align-items-center p-2 my-2 bg-purple bg-light shadow p-2 mb-5 rounded shadow-sm">
+        <img src="../../../assets/Imagenes/person-plus-fill.svg" alt="" width="88" height="88">
+        <div class="tituloFormulario text-center form-group col-md-8 offset-md-1">
+          <p> {{titulo}} como vecino.</p>
+        </div>
+      </div>
+
+      <div class="col-md-12 order-md-1">
+        <div class="row">
+          <div class="form-group col-md-6 mb-3 form-group">
+            <label for="NombrePersona"> Nombre</label>
+            <input type="text" class="form-control" id="NombrePersona" formControlName="NombrePersona" placeholder="Ejemplo: Jorge" value="" required>
+            <div style="color: coral" *ngIf="Usuario.controls['NombrePersona'].errors?.required">
+              Su nombre de Pila es un dato requerido.
+            </div>
+          </div>
+          <div class="form-group col-md-6 mb-3">
+            <label for="Apellido">Apellido/s</label>
+            <input type="text" class="form-control" id="Apellido" formControlName="Apellido" placeholder="Ejemplo: Perez" value="" required>
+            <div style="color: coral" *ngIf="Usuario.controls['Apellido'].errors?.required">
+              Su Apellido/s es un dato requerido.
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-md-6 mb-3">
+            <label for="Telefono"> Telefono</label>
+            <input type="text" class="form-control" id="Telefono" formControlName="Telefono" placeholder="Ejemplo: 3515305248 ; Sin guion ni espacios" value="" required>
+            <div style="color: coral" *ngIf="Usuario.controls['Telefono'].errors?.required">
+              Telefono es un dato requerido como contacto en la solución de solicitudes/reclamos.
+            </div>
+            <div style="color: coral" *ngIf="Usuario.controls['Telefono'].errors?.pattern ">
+              Ingrese únicacmente números por favor.
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="Dni"> Dni</label>
+            <input type="text" class="form-control" id="Dni" formControlName="Dni" placeholder="Ejemplo: 29345654" value="" required>
+            <div style="color: coral" *ngIf="Usuario.controls['Dni'].errors?.required">
+              DNI es un dato requerido.
+            </div>
+            <div style="color: coral" *ngIf="Usuario.controls['Dni'].errors?.minlength">
+              DNI ingresado incorrecto verifique el numero ingresado.
+            </div>
+            <div style="color: coral" *ngIf="Usuario.controls['Dni'].errors?.maxlength">
+              El DNI ingresado es incorrecto verifique por favor.
+            </div>
+            <div style="color: coral" *ngIf="Usuario.controls['Dni'].errors?.pattern">
+              El DNI solo debe estar compuesto por números.
+            </div>
+
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-md-6 mb-3">
+            <label for="Mail"> Mail</label>
+            <input type="text" class="form-control" id="Mail" formControlName="Mail" placeholder="Ejemplo: juan44tolosa@gmail.com" value="" required>
+            <div style="color: coral" *ngIf="Usuario.controls['Mail'].errors?.pattern ">
+              Email incorrecto, verifiquelo por favor.
+            </div>
+            <div style="color: coral" *ngIf="Usuario.controls['Mail'].errors?.required">
+              Email es requerido, para enviar notificaciones de gestiones resueltas.
+            </div>
+
+            <div style="color: coral" *ngIf="Usuario.controls['Mail'].errors?.yaExiste">
+              Email ya esta registrado en la base de datos utilice otro correo por favor...
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="FechaNac"> Fecha de Nacicimiento</label>
+            <input type="date" class="form-control" id="FechaNac" formControlName="FechaNac" placeholder="" value="" required name="Fecha Nacimiento">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="Domicilio"> Domiciliado en Calle</label>
+            <input type="text" class="form-control" id="Domicilio" formControlName="Domicilio" placeholder="Ejemplo: 4" value="" required>
+            <div style="color: coral" *ngIf="Usuario.controls['Domicilio'].errors?.required">
+              Su domicilio es un dato requerido.
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="Altura"> Altura</label>
+            <input type="text" class="form-control" id="Altura" formControlName="Altura" placeholder="Ejemplo: 334" value="" required>
+            <div style="color: coral" *ngIf="Usuario.controls['Altura'].errors?.required">
+              Altura de la calle es requerido.
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-md-6 mb-3">
+            <label for="NombreUser"> Nombre de Usuario :</label>
+            <input type="text" class="form-control" id="NombreUser" formControlName="NombreUser" placeholder="Ejemplo: jorgitoelperez" value="" required>
+            <div style="color: coral" *ngIf="Usuario.controls['NombreUser'].errors?.required">
+              El nombrede usuario es un dato requerido.
+            </div>
+          </div>
+
+        </div>
+
+        <div class="row p-3 my-2">
+          <div class="form-group col-md-6 mb-3">
+            <label for="Contrasenia">Contraseña</label>
+            <input type="password" id="Contrasenia" formControlName="Contrasenia" class="form-control" placeholder="Ejemplo: A5T5DerfG" required>
+            <div style="color: coral" *ngIf="Usuario.controls['Contrasenia'].errors?.required ">
+              Ingrese una contraseña.
+            </div>
+            <div style="color: coral" *ngIf="Usuario.controls['Contrasenia'].errors?.pattern ">
+              Ingrese 8 caracteres como mínimo; al menos una letra mayuscula, una minuscula y un numero.
+            </div>
+          </div>
+          <div class="form-group col-md-6 mb-3">
+            <label for="lastName">Repetir Contraseña</label>
+            <input type="password" id="Contrasenia2" formControlName="Contrasenia2" class="form-control" placeholder="Repetir Contraseña" required>
+            <div style="color: coral" *ngIf="Usuario.controls['Contrasenia2'].errors?.noIguales">
+              La contraseña no es la misma verifique.
+            </div>
+            <div style="color: coral" *ngIf="Usuario.controls['Contrasenia2'].errors?.required ">
+              Ingrese la contraseña nuevamente.
+            </div>
+          </div>
+        </div>
+
+        <div class="row p-3 my-2">
+          <hr class="mb-4">
+          <div class="form-group col-md-12 mb-3 pt-3">
+            <input [disabled]="!Usuario.valid" type="submit" value="Generar" class="btn btn-success col-md-4 offset-md-1 " (click)="clickMethod()" />
+            <button type="button" class="btn btn-secondary col-md-4 offset-md-1" (click)="volverHome()">Cancelar</button>
+          </div>
+
+        </div>
+
+        <div style="margin:1em; color:white" class="form-group col-md-12 justify-content-around">
+
+          <div class="text-center  bg-danger shadow p-2 mb-5 rounded shadow-sm" *ngIf="Usuario.valid==false">Esta Alerta se ocultará cuando todos los campos sean llenados, completa y correctamente.</div>
+
+        </div>
+
+
+
+
+
+
+      </div>
+    </div>
+
+  </form>
+</body>
+
+</html>

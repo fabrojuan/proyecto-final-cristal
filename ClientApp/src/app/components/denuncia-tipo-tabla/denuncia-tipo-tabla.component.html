@@ -1,0 +1,18 @@
+<p>denuncia-tipo-tabla works!</p>
+
+<table class="table table-hover">
+  <thead class="thead-dark">
+    <tr>
+      <th class="text-center" *ngFor="let cabecera of cabeceras">{{cabecera}} </th>
+    </tr>
+  </thead>
+  <tbody class="textoTabla">
+    <tr *ngFor="let TipoDenuncia of TiposDenuncia">
+      <td>{{TipoDenuncia.cod_Tipo_Denuncia}}</td>
+      <td class="text-center">{{TipoDenuncia.nombre}}</td>
+      <td class="text-center">{{TipoDenuncia.tiempo_Max_Tratamiento}}</td>
+      <td class="text-center">{{TipoDenuncia.descripcion}}</td>
+    </tr>
+  </tbody>
+</table>
+

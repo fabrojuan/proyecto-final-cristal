@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Registro de Trabajo</title>
+  <style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+
+    .alert {
+      padding: 20px;
+      background-color: #f44336;
+      color: white;
+      opacity: 1;
+      transition: opacity 0.6s;
+      margin-bottom: 15px;
+    }
+  </style>
+
+</head>
+<body class="fondo">
+  <div class="container">
+    <div class="d-flex align-items-center p-2 my-2 bg-purple bg-light shadow p-2 mb-5 rounded shadow-l">
+      <img src="../../../assets/Imagenes/trabajando.svg" alt="" width="80" height="80">
+      <div class="sin-borde tituloFormulario text-center form-group col-md-8 offset-md-1">
+        <p> Formulario de Carga de Trabajo</p>
+      </div>
+    </div>
+
+    <form [formGroup]="Trabajo" (ngSubmit)="guardarDatos()">
+      <div class="row p-1 my-2 ">
+        <div class="letraSubtitulos col-md-4 form-group form-inline">
+          <label>Nro Denuncia&nbsp;:&nbsp;</label>
+          <input type="text" class="letraGral form-control sin-borde" id="nro_Denuncia" formControlName="nro_Denuncia" placeholder="" value="" readonly>
+        </div>
+        <div class="letraSubtitulos col-md-4 form-group form-inline">
+          <label for="firstName">Estado&nbsp;:&nbsp;</label>
+          <input type="text" class="letraGral form-control sin-borde" id="estado_Denuncia" formControlName="estado_Denuncia" placeholder="" value="" readonly>
+        </div>
+        <div class="letraSubtitulos col-md-4 form-group form-inline">
+          <label for="legajoActual">Legajo asignado:&nbsp;&nbsp;</label>
+          <input type="text" class="letraGral form-control sin-borde " id="legajoActual" formControlName="legajoActual" placeholder="" value="" readonly>
+        </div>
+
+      </div>
+
+      <div class="row mt-4">
+        <div class="letraSubtitulos form-group col-md-12 mb-3">
+          <label for="Descripcion">(*) Ingresar descripción del Trabajo Realizado</label>
+          <textarea class="letraGral2 form-control" formControlName="Descripcion" id="exampleFormControlTextarea1" rows="8" placeholder="Describa la actividad que realizó... "></textarea>
+        </div>
+      </div>
+
+      <div class="row p-3 my-2 mt-4">
+        <div class=" form-group col-md-8 mb-3">
+          <label class="letraSubtitulos">Trabajo Realizado por:&nbsp;</label>
+          <select class="letraGral2" id="Id_Usuario" formControlName="Id_Usuario">
+            <option class="letraGral2" value="">--Seleccione Opción--</option>
+            <option class="letraGral2" [ngValue]="Empleado.idUsuario" *ngFor="let Empleado of Empleados">
+              Legajo&nbsp;:&nbsp;
+              {{Empleado.idUsuario}}&nbsp;--&nbsp;Usuario&nbsp;:&nbsp;{{Empleado.nombreUser}}
+            </option>
+          </select>
+        </div>
+
+
+
+        <div class="letraSubtitulos  col-md-4  custom-control custom-checkbox ">
+
+          <!--       custom-checkbox         <input class="check" [name]="impuestoss.idImpuesto" (change)="verCheck()" [value]="impuestoss.importeFinal" type="checkbox" />-->
+          <!-- <input type="checkbox" class="check" id="same-address">-->
+          <input class="check" (change)="verCheck()" type="checkbox" />
+          <label class="custom-control-label" for="same-address">&nbsp;Notificar a Denunciante.</label>
+        </div>
+      </div>
+
+      <div class="row  p-3 my-2 mt-3">
+        <h4 class="letraSubtitulos col-md-4 offset-md-4 d-flex justify-content-between align-items-center mb-3">
+          <label>Adjuntar hasta 3 pruebas graficas&nbsp;</label>
+        </h4>
+      </div>
+
+      <div class="row col-md-12 order-md-2 mb-4 mt-5">
+
+        <div class="offset-md-1 col-md-3 mb-3 custom-file ">
+          <input type="file" class="form-control  custom-file-input letraGral2" id="fupFoto" lang="es" (change)="changeFoto()" accept="image/*">
+          <img class="offset-3 mt-md-3" src="{{foto}}" width="100" height="100" />
+
+          <label class="custom-file-label" for="customFileLang"><img src="../../../assets/IconsGoogle/card-image.svg" alt="" width="16" height="16" title="card-image"> Adjuntar Prueba 1</label>
+        </div>
+
+        <div class="offset-md-1 col-md-3 mb-3 custom-file">
+          <input type="file" class="form-control custom-file-input letraGral2" id="fupFoto2" lang="es" (change)="changeFoto()" accept="image/*">
+          <img class="offset-3 mt-md-3" src="{{foto2}}" width="100" height="100" />
+
+          <label class="custom-file-label" for="customFileLang"><img src="../../../assets/IconsGoogle/card-image.svg" alt="" width="16" height="16" title="card-image"> Adjuntar Prueba 2</label>
+        </div>
+
+        <div class="offset-md-1 col-md-3 mb-3 custom-file">
+          <input type="file" class="form-control custom-file-input letraGral2" id="fupFoto3" lang="es" (change)="changeFoto()" accept="image/*">
+          <img class="offset-3 mt-md-3" src="{{foto3}}" width="100" height="100" />
+
+          <label class="custom-file-label" for="customFileLang"><img src="../../../assets/IconsGoogle/card-image.svg" alt="" width="16" height="16" title="card-image"> Adjuntar Prueba 3</label>
+        </div>
+
+        <div class="row p-5 my-2 col-md-10 offset-3 mt-5">
+        </div>
+
+      </div>
+
+      <div class="row col-md-12 order-md-2 mb-4 mt-5">
+        <div class="col-md-2 offset-1 mb-4 mt-xs-5">
+          <button [disabled]="!Trabajo.valid" class="btn btn-primary btn-sm btn-block letraButton" type="submit" title="Para registrar el trabajo minimamente debe ingresar 50 caracteres">Registrar Trabajo</button>
+        </div>
+
+        <div class="col-md-2 offset-1 mb-4 mt-xs-5">
+          <button class="btn btn-primary btn-sm  btn-block letraButton" type="submit" (click)="derivarAMesaEntrada()" title="Deriva la Denuncia para que Mesa de Entrada realice gestiones posteriores&#44; o la derive a quien corresponda">Derivar a Mesa</button>
+        </div>
+
+        <div class="col-md-2 offset-1 mb-4 mt-xs-5">
+          <button class="btn btn-danger btn-sm btn-block letraButton" type="submit" (click)="solucionarDenuncia()" title="Se enviara a Mesa para que cierre la denuncia">Solucionar Denuncia</button>
+        </div>
+
+        <div class="col-md-2 offset-1 mb-4 mt-xs-5">
+          <button class="btn btn-primary btn-sm btn-block letraButton" (click)="volver()" title="ir al Tablero de Gestión de Denuncias">Volver</button>
+        </div>
+
+
+
+      </div>
+      <ng-template #myModalInfo let-modal>
+        <div class="modal bg-secondary" tabindex="-1" style="display:block;" role="dialog">
+          <div class="modal-dialog modal-dialog-scrollable modal-lg">
+            <div class="modal-content ">
+              <div class="modal-header">
+                <h5 class="modal-title">Confirmación sobre Operación</h5>
+                <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.close()">
+              <span aria-hidden="true">&times;</span>
+            </button>-->
+              </div>
+              <div class="modal-body">
+                {{resultadoGuardadoModal}}
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-outline-dark" (click)="modal.close('Close click')">Cerrar</button>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </ng-template>
+
+    </form>
+
+  </div>
+
+</body>
+</html>

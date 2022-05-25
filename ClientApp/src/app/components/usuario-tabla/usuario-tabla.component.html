@@ -1,0 +1,29 @@
+<div class="d-flex align-items-center p-3 my-3 bg-purple bg-light shadow p-2 mb-5 rounded shadow-sm">
+  <img src="../../../assets/IconsGoogle/trabajador.svg" alt="" width="80" height="80">
+  <div class="tituloSombra text-center form-group col-md-8 offset-md-1">
+    <p>Empleados Municipales</p>
+  </div>
+</div>
+<table class="table table-hover">
+  <thead class="thead-dark">
+    <tr>
+      <th *ngFor="let cabecera of cabeceras">{{cabecera}} </th>
+      <th class="text-center" *ngIf="isMantenimiento==true">Operaciones con usuario</th>
+    </tr>
+  </thead>
+  <tbody class="textoTabla">
+    <tr *ngFor="let usuario of usuarios">
+      <td>{{usuario.idUsuario}}</td>
+      <td>{{usuario.nombreUser}}</td>
+      <td>{{usuario.fechaAlta| date: 'dd/MM/yyyy'}}</td>
+      <td>{{usuario.nombreTipoUsuario}}</td>
+      <td class="text-center" *ngIf="isMantenimiento==true">
+        <button type="button" class="btn btn-outline-success" [routerLink]="['/form-usuario-generar',usuario.idUsuario]"><img src="../../../assets/IconsGoogle/pencil-square.svg" alt="" width="24" height="24" title="Editar Usuario"></button>
+        <button type="button" class="btn btn-outline-secondary" [routerLink]="['/trabajo-form-generar']">
+          <img src="../../../assets/IconsGoogle/trash.svg" alt="" width="24" height="24" title="Eliminar Usuario">
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+

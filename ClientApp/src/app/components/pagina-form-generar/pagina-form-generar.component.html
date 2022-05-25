@@ -1,0 +1,69 @@
+<form [formGroup]="Pagina" (ngSubmit)="guardarDatos()">
+  <div class="container-fluid">
+    <div class="d-flex align-items-center p-2 my-2 bg-purple bg-light shadow p-2 mb-5 rounded shadow-sm">
+      <img src="../../../assets/Imagenes/Reclamo.svg" alt="" width="58" height="58">
+      <div class="tituloFormulario text-center form-group col-md-8 offset-md-1">
+        <p> Formulario Registrar Página{{titulo}}</p>
+      </div>
+    </div>
+
+
+    <div class="row p-3 ml-2 form-group offset-md-2 ">
+
+      <div class="form-group col-md-3 offset-md-1">
+        <label for="formGroupExampleInput">Id de Pagina:</label>
+        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="sm-3" formControlName="idPagina" readonly>
+      </div>
+
+
+      <div class="form-group col-md-2 offset-md-1">
+        <label for="formGroupExampleInput">Mensaje:</label>
+        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="" formControlName="Mensaje" required>
+        <div style="color: coral" *ngIf="Pagina.controls['Mensaje'].errors?.required">
+          El mensaje es obligatorio.
+        </div>
+        <div style="color: coral" *ngIf="Pagina.controls['Mensaje'].errors?.maxLength ">
+          No debe superar los 70 caracteres.
+        </div>
+      </div>
+      <div class="form-group col-md-3 offset-md-1">
+        <label for="formGroupExampleInput">Accion´:</label>
+        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="" formControlName="Accion" required>
+        <div style="color: coral" *ngIf="Pagina.controls['Accion'].errors?.required">
+          Dato obligatorio comenzar la uri con /.
+        </div>
+        <div style="color: coral" *ngIf="Pagina.controls['Accion'].errors?.maxLength ">
+          La url debe no debe superar los 100 caracteres
+        </div>
+        <!--<div style="color: coral" *ngIf="Pagina.controls['Accion'].errors?.pattern ">
+          La url debe iniciar con "/"
+        </div>-->
+      </div>
+    </div>
+
+    <!--radion button debajo    "col-md-5    -->
+    <div class="row form-group p-3 ml-2 col-md-12 offset-md-2">
+      <div class="col-md-3  offset-md-2">
+        <label>Visible:</label>
+        <input type="radio" name="Bvisible" title="Visible" value=1 class="form-control" id="formGroupExampleInput" formControlName="Bvisible">
+      </div>
+      <div class="col-md-3  offset-md-2">
+        <label>No Visible:</label>
+        <input type="radio" name="Bvisible" title="No Visible" value=0 class="form-control" id="formGroupExampleInput" formControlName="Bvisible">
+      </div>
+    </div>
+
+
+    <div style="margin:1em; color:white" class="form-group col-md-12 justify-content-around">
+      <div class="text-center  bg-danger shadow p-2 mb-5 rounded shadow-sm" *ngIf="Pagina.valid==false">Verifique que los datos indicados con (*) estén correctamente ingresados</div>
+    </div>
+
+
+    <div class="form-group col-md-8 offset-md-4">
+      <input [disabled]="!Pagina.valid" type="submit" value="Generar" class="btn btn-success col-md-1 offset-md-1" (click)="clickMethod()" />
+      <button type="button" [routerLink]="['/pagina-tabla']" class="btn btn-light col-md-1 offset-md-1">Cancelar</button>
+    </div>
+  </div>
+</form>
+
+

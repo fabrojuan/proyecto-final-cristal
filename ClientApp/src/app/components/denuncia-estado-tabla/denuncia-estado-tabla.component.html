@@ -1,0 +1,15 @@
+
+<table class="table table-hover">
+  <thead class="thead-dark">
+    <tr>
+      <th *ngFor="let cabecera of cabeceras">{{cabecera}} </th>
+    </tr>
+  </thead>
+  <tbody class="textoTabla">
+    <tr *ngFor="let EstadoDenuncia of EstadosDenuncia">
+      <td>{{EstadoDenuncia.cod_Estado_Denuncia}}</td>
+      <td>{{EstadoDenuncia.nombre}}</td>
+      <td>{{EstadoDenuncia.descripcion}}</td>
+    </tr>
+  </tbody>
+</table>

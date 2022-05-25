@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Buscar Denuncia</title>
+
+</head>
+<body class="bg-light">
+  <form [formGroup]="Denuncia" (ngSubmit)="filtrarDenuncias()">
+
+    <div class="container">
+      <div class="col-md-12 order-md-1">
+
+
+
+        <div class="row">
+
+          <!--<div class="col-md-3 mb-3 offset-3">
+            <input type="submit" value="Buscar" class="btn-primary col-md-4 offset-md-1 " (click)="clickMethod()" />
+
+          </div>
+          <div class="col-md-3 mb-3">
+            <input type="text" class="form-control" id="Domicilio" formControlName="Domicilio" placeholder="Ejemplo: 4" value="" required>
+            <div style="color: coral" *ngIf="Usuario.controls['Domicilio'].errors?.required">
+              No se Encontró la Denuncia
+            </div>
+          </div>-->
+
+          <div class="input-group mb-4">
+            <input type="text" class="form-control col-md-3 mb-3" placeholder="Descripcion denuncia">
+            <div class="input-group-append">
+              <button class="btn btn-success" type="submit">Buscar</button>
+            </div>
+          </div>
+
+        </div>
+
+
+      </div>
+
+    </div>
+
+  </form>
+
+
+
+</body>
+
+</html>

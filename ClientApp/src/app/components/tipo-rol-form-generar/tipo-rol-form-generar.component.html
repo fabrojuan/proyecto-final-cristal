@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Rol Paginas</title>
+  <style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 900px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+  </style>
+
+</head>
+<body class="bg-light">
+  <form [formGroup]="Rol" (ngSubmit)="guardarDatos()">
+
+    <div class="container">
+      <div class="d-flex align-items-center p-2 my-1 bg-purple bg-light shadow p-2 mb-5 rounded shadow-sm">
+        <img src="../../../assets/Imagenes/Rol.png" alt="" width="88" height="88">
+        <div class="tituloFormulario text-center form-group col-md-8 offset-md-1">
+          <p> {{titulo}} Rol.</p>
+        </div>
+      </div>
+
+      <div class="col-md-12 order-md-1">
+        <div class="row">
+          <div class="form-group col-md-2 mb-3 form-group offset-md-1">
+            <label for="IidRol"> Id Rol</label>
+            <input type="text" class="form-control" id="IidRol" formControlName="IidRol" readonly>
+
+          </div>
+          <div class="form-group col-md-4 mb-3 offset-md-1">
+            <label for="NombreRol">Nombre Rol</label>
+            <input type="text" class="form-control" id="NombreRol" formControlName="NombreRol" placeholder="Ejemplo: Externo" value="" required>
+            <div style="color: coral" *ngIf="Rol.controls['NombreRol'].errors?.required">
+              Nombre del Rol es un dato requerido.
+            </div>
+          </div>
+
+          <div class="form-group col-md-2 mb-3 offset-md-1">
+            <label for="BHabilitado"> Habilitado</label>
+            <input type="text" class="form-control" id="BHabilitado" formControlName="BHabilitado" placeholder="Ejemplo: 1 o 0 ; Sin guion ni espacios" value="" required>
+            <div style="color: coral" *ngIf="Rol.controls['BHabilitado'].errors?.required">
+              Ingrese  1 o 0 por favor.
+            </div>
+            <div style="color: coral" *ngIf="Rol.controls['BHabilitado'].errors?.pattern ">
+              Ingrese únicamente número 0 o 1.
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+
+
+          <div class="form-group col-md-10 mb-3">
+            <label class="subtitulo"> Seleccione Las paginas Permitidas:</label>
+            <div *ngFor="let pagina of paginas">
+              <input class="check" [name]="pagina.idPagina" (change)="verCheck()" type="checkbox" />
+
+              <label>
+                {{pagina.mensaje}}
+              </label>
+            </div>
+          </div>
+
+        </div>
+
+
+        <div class="row p-3 my-2">
+          <hr class="mb-4">
+          <div class="form-group col-md-12 mb-3 pt-3">
+            <input [disabled]="!Rol.valid" type="submit" value="Generar" class="btn btn-success col-md-4 offset-md-1 " (click)="clickMethod()" />
+            <button type="button" class="btn btn-secondary col-md-4 offset-md-1" (click)="volverHome()">Cancelar</button>
+          </div>
+
+        </div>
+
+        <div style="margin:1em; color:white" class="form-group col-md-12 justify-content-around">
+
+          <div class="text-center  bg-danger shadow p-2 mb-5 rounded shadow-sm" *ngIf="Rol.valid==false">Esta Alerta se ocultará cuando todos los campos sean llenados, completa y correctamente.</div>
+
+        </div>
+
+
+
+
+
+
+      </div>
+    </div>
+
+  </form>
+</body>
+
+</html>

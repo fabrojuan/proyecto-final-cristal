@@ -1,0 +1,189 @@
+<style>
+  .dropdown:hover > .dropdown-menu {
+    display: block;
+  }
+</style>
+<header>
+  <!--<div class='main-nav'>     Linea Original
+    <div class='navbar navbar-inverse'> Linea Original-->
+  <nav class="main-nav navbar navbar-expand-sm navbar-toggleable-sm   navbar-dark  border-bottom box-shadow mb-3">
+    <div class="main-nav container-fluid">
+      <div class='navbar-header'>
+        <button type='button' class='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapse' [attr.aria-expanded]='isExpanded' (click)='toggle()'>
+          <span class='sr-only'>Toggle navigation</span>
+          <span class='icon-bar'></span>
+          <span class='icon-bar'></span>
+          <span class='icon-bar'></span>
+        </button>
+        <div class="d-flex align-items-center p-2 my-2 bg-purple  mb-2 ">
+          <img src="../../../assets/Imagenes/logo-cristal_3.png" alt="" width="80" height="80" [routerLink]='["/"]'>
+        </div>
+
+
+      </div>
+      <div class='clearfix'></div>
+      <div class='navbar-collapse collapse' [ngClass]='{ "in": isExpanded }'>
+        <ul class='nav navbar-nav'>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle texto-blanco" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <img src="../../../assets/Imagenes/vecinos.svg" alt="" width="30" height="30">&nbsp;&nbsp; &nbsp;&nbsp;Vecinos
+            </a>
+            <div class="dropdown-menu texto-blanco" aria-labelledby="navbarDropdown">
+              <!--<a class="dropdown-item" [routerLink]="['/login-vecino']">&nbsp;&nbsp;Ingresar a Cristal</a>-->
+          <li class="nav-item"
+              [routerLinkActive]="['link-active']">
+            <a class="dropdown-item" [routerLink]="['/login-vecino']" *ngIf="loginVecino==false" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <img src="../../assets/IconsGoogle/Persona.png" alt="" width="36" height="36">&nbsp;&nbsp;&nbsp;Ingreso Vecino
+            </a>
+          </li>
+
+          <li class="nav-item"
+              [routerLinkActive]="['link-active']">
+            <a class="dropdown-item" (click)="cerrarSessionVecino()" *ngIf="loginVecino==true" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <img class="dropdown-item" src="../../assets/IconsGoogle/power.svg" alt="" width="24" height="24">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cerrar Sesión Vecino
+            </a>
+          </li>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item " [routerLink]="['/usuario-vecino-form-generar']"> &nbsp;&nbsp;Registrarse en Cristal</a>
+          <a class="dropdown-item " href="#"> &nbsp;&nbsp;Darse de Baja del Sistema</a>
+          <a class="dropdown-item " [routerLink]="['/mantenimiento-persona']">&nbsp;otros..</a>
+
+
+
+
+
+      </div>
+      </li>
+
+
+
+
+
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle texto-blanco" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <img src="../../../assets/Imagenes/ordenanzas.svg" alt="" width="30" height="30">&nbsp;&nbsp; &nbsp;&nbsp;Ordenanzas
+        </a>
+        <div class="dropdown-menu texto-blanco" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" [routerLink]="['/usuario-tabla']">&nbsp;&nbsp;Ordenanzas Civiles</a>
+          <a class="dropdown-item " [routerLink]="['/form-usuario-generar']"> &nbsp;&nbsp;Ordenanzas Comerciales</a>
+          <a class="dropdown-item " href="#"> &nbsp;&nbsp;Codigo de Edificacion</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item " [routerLink]="['/mantenimiento-persona']">&nbsp;Ordenanzas Ambientales</a>
+        </div>
+      </li>
+
+
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle texto-blanco" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <img src="../../../assets/Imagenes/servicio.svg" alt="" width="30" height="30">&nbsp;&nbsp; &nbsp;Servicios
+        </a>
+        <div class="dropdown-menu texto-blanco" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item " [routerLink]="['/solicitud-form-generar']"> &nbsp;&nbsp;Solicitudes</a>
+          <a class="dropdown-item " [routerLink]="['/sugerencia-form-generar']"> &nbsp;&nbsp;Sugerencias</a>
+          <a class="dropdown-item " [routerLink]="['/mapas-cordoba']"> &nbsp;&nbsp;Inmobiliario Provincial</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item " [routerLink]="['/reclamo-form-generar']"> &nbsp;&nbsp;Generar Reclamo</a>
+          <a class="dropdown-item " [routerLink]="['/denuncia-form-generar']"> &nbsp;&nbsp;Generar Denuncia</a>
+        </div>
+      </li>
+
+
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle texto-blanco" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <img src="../../../assets/Imagenes/OPENDATA.svg" alt="" width="36" height="36"> &nbsp;Datos Abiertos
+        </a>
+        <div class="dropdown-menu texto-blanco" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item " href="solicitudes"> &nbsp;&nbsp;Solicitudes</a>
+          <a class="dropdown-item " [routerLink]="['/datos-finanzas-economicos']"> &nbsp;&nbsp;Finanzas -> Impuestos</a>
+          <a class="dropdown-item " [routerLink]="['/denuncia-form-generar']"> &nbsp;&nbsp;Denuncias</a>
+          <a class="dropdown-item " href="#"> &nbsp;&nbsp;Recoleccion de Residuos</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item " href="#"> &nbsp;&nbsp;Reclamos</a>
+
+        </div>
+      </li>
+
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle texto-blanco" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <img src="../../assets/Imagenes/contactanos2.svg" alt="" width="36" height="34"> &nbsp;Contactanos
+        </a>
+        <div class="dropdown-menu texto-blanco" aria-labelledby="navbarDropdown">
+
+          <a class="dropdown-item " href="https://wa.me/54935176622912" target="popup" onclick="window.open('https://wa.me/5493516622912','Wasai','width=600,height=400')"> <img src="../../assets/Imagenes/Wsapp.png" alt="" width="24" height="24">&nbsp;&nbsp;Whatsapp</a>
+
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item " href="https://www.facebook.com/MuniVillaParqueSantaAna" target="popup" onclick="window.open('https://www.facebook.com/MuniVillaParqueSantaAna','face','width=600,height=400')">  <img src="../../assets/Imagenes/facebook.png" alt="" width="24" height="24">&nbsp;&nbsp;Facebook</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle texto-blanco" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <img src="../../../assets/Imagenes/eMPLEADO.svg" alt="" width="36" height="36">&nbsp;&nbsp;&nbsp; Empleados
+        </a>
+
+        <div class="dropdown-menu texto-blanco" aria-labelledby="navbarDropdown">
+
+
+          <!--<a *ngFor="let menu of menus" class="dropdown-item" [routerLink]="[menu.accion]">&nbsp;&nbsp;{{menu.mensaje}}</a>-->
+          <!--<a class="dropdown-item" [routerLink]="['/tipo-rol-tabla']">&nbsp;Tipos de Roles</a>-->
+
+        </div>
+
+
+
+        <div class="dropdown-menu texto-negro" aria-labelledby="navbarDropdown"
+             [routerLinkActive]="['link-active']">
+          <a class="nav-link texto-negro" [routerLink]="['/login']" *ngIf="login==false" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <img src="../../assets/IconsGoogle/EmpleadoLogin.png" alt="" width="36" height="36">&nbsp;&nbsp;&nbsp;Inicie Sesión
+          </a>
+        </div>
+
+        <div class="dropdown-menu texto-negro" aria-labelledby="navbarDropdown"
+             [routerLinkActive]="['link-active']">
+          <a class="nav-link  texto-negro" (click)="cerrarSession()" *ngIf="login==true" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <img src="../../assets/IconsGoogle/EmpleadoLogin.png" alt="" width="36" height="36">&nbsp;&nbsp;&nbsp;Cerrar Sesión
+          </a>
+          <a *ngFor="let menu of menus" class="dropdown-item" [routerLink]="[menu.accion]">&nbsp;&nbsp;{{menu.mensaje}}</a>
+        </div>
+
+
+      </li>
+
+      <!--Desde aca comentar-->
+      <!--<li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle " href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <img src="../../../assets/Imagenes/configuraciones.svg" alt="" width="36" height="36">&nbsp;&nbsp;&nbsp;Avanzadas..
+        </a>
+        <div class="dropdown-menu texto-blanco" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" [routerLink]="['/tabla-tipo-denuncia']">&nbsp;Tipo Denuncia</a>
+          <a class="dropdown-item" [routerLink]="['/tabla-estado-denuncia']">&nbsp;Estado Denuncia</a>
+          <a class="dropdown-item " [routerLink]="['/pagina-tabla']"> &nbsp;&nbsp;Paginas</a>
+
+          <a class="dropdown-item " [routerLink]="['/pagina-form-generar']"> &nbsp;&nbsp;Pagina Nueva</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item " [routerLink]="['/mantenimiento-persona']">&nbsp;Mantenimiento Persona</a>
+        </div>
+      </li>-->
+      <!--<li class="nav-item"
+          [routerLinkActive]="['link-active']">
+        <a class="nav-link" [routerLink]="['/login']" *ngIf="login==false" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <img src="../../../assets/Imagenes/login.svg" alt="" width="36" height="36">&nbsp;&nbsp;&nbsp;Empleados
+        </a>
+      </li>-->
+
+      <li class="nav-item"
+          [routerLinkActive]="['link-active']">
+        <a class="nav-link" (click)="cerrarSession()" *ngIf="login==true" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <img src="../../../assets/Imagenes/login.svg" alt="" width="36" height="36">&nbsp;&nbsp;&nbsp;Cerrar Sesión
+        </a>
+      </li>
+
+
+
+      </ul>
+    </div>
+    </div>
+  </nav>
+</header>
+
+
+

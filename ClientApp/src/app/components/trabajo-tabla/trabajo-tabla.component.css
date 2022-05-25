@@ -1,0 +1,12 @@
+.tituloFormulario {
+  color: #240f7d;
+  font-size: 3em;
+  font-weight: 900;
+  text-shadow: 6px 8px 10px #555;
+}
+
+.textoTabla {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 1.3em;
+  color: #ffffff;
+}

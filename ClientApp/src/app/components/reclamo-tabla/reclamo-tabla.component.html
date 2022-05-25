@@ -1,0 +1,35 @@
+<div class="d-flex align-items-center p-3 my-3 bg-purple bg-light shadow p-2 mb-5 rounded shadow-sm">
+  <img src="../../../assets/Imagenes/reclamos.jpg" alt="" width="58" height="58">
+  <div class="tituloFormulario text-center form-group col-md-8 offset-md-1">
+    <p>Tablero de Gestión de Reclamos.</p>
+  </div>
+</div>
+<table class="table table-hover">
+  <thead class="thead-dark">
+    <tr>
+      <th class="text-center" *ngFor="let cabecera of cabeceras">{{cabecera}} </th>
+      <th class="text-center" *ngIf="isMantenimiento==true">Operaciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let reclamo of Reclamos | paginate: { itemsPerPage: 10, currentPage: p }">
+      <td>{{reclamo.nroReclamo}}</td>
+      <td class="text-center">{{reclamo.fecha}}</td>
+      <td class="text-center">{{reclamo.estadoReclamo}}</td>
+      <td class="text-center">{{reclamo.tipoReclamo}}</td>
+      <td class="text-center">Media</td>
+      <td class="text-center">Sin Asignar</td>
+      <td class="text-center" *ngIf="isMantenimiento==true">
+        <button type="button" class="btn btn-light" [routerLink]="['/reclamo-trabajo-tabla',reclamo.nroReclamo]"><img src="../../../assets/IconsGoogle/eyeglasses.svg" alt="" width="24" height="24" title="Ver Trabajos"></button>
+        <button type="button" class="btn btn-outline-primary">  <img src="../../../assets/IconsGoogle/hand-index-thumb.svg" alt="" width="24" height="24" title="Tomar Reclamo"></button>
+        <button type="button" class="btn btn-outline-success"><img src="../../../assets/IconsGoogle/arrow-up-right-square.svg" alt="" width="24" height="24" title="Derivar Reclamo"></button>
+        <button type="button" class="btn btn-outline-secondary" [routerLink]="['/reclamo-trabajo-form' ,reclamo.nroReclamo]">
+          <img src="../../../assets/IconsGoogle/gear.svg" alt="" width="24" height="24" title="Cargar Trabajo">
+        </button>
+        <button type="button" class="btn btn-light"><img src="../../../assets/IconsGoogle/pause.svg" alt="" width="24" height="24" title="Suspender"></button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<pagination-controls previousLabel="Anteriores" nextLabel="Siguientes" (pageChange)="p = $event"></pagination-controls>
+

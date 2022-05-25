@@ -1,0 +1,132 @@
+<form [formGroup]="Denuncia" (ngSubmit)="guardarDatos()">
+  <div class="container-fluid">
+    <div class="d-flex align-items-center p-2 my-2  bg-light shadow p-2 mb-5 rounded shadow-sm  fondoTextTitulo">
+      <img src="../../../assets/IconsGoogle/Justicia.svg" alt="" width="58" height="58">
+      <div class="tituloFormulario text-center form-group col-md-8 offset-md-1">
+        <p> Formulario de Denuncia</p>
+      </div>
+    </div>
+
+    <div class="form-group offset-md-1">
+      <label>(*) Tipo de Denuncia&nbsp;</label>
+      <select id="Tipo_Denuncia" formControlName="codTipoDenuncia" class="combobox">
+        <option value="">--Seleccione Opción--</option>
+        <option [ngValue]="TipoDenuncia.cod_Tipo_Denuncia" *ngFor="let TipoDenuncia of TiposDenuncia">{{TipoDenuncia.nombre}}</option>
+      </select>
+    </div>
+
+    <div class="form-group col-md-3 offset-md-1">
+      <label for="formGroupExampleInput">(*)</label>
+      <input type="text" class="form-control" id="formGroupExampleInput" placeholder=" Calle del hecho" formControlName="Calle">
+    </div>
+    <div class="form-group col-md-2 offset-md-1">
+      <label for="formGroupExampleInput">(*)</label>
+      <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Altura aproximada" formControlName="Altura">
+    </div>
+    <div class="form-group col-md-3 offset-md-1">
+      <label for="formGroupExampleInput">(*)</label>
+      <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Entre Calles" formControlName="Entre_Calles">
+    </div>
+    <div class="form-group col-md-10 offset-md-1">
+      <label for="exampleFormControlTextarea1"> (*)</label>
+      <textarea class="form-control" formControlName="Descripcion" id="exampleFormControlTextarea1" rows="5" placeholder="Descripcion de la circunstancia o acciones realizadas por el infractor, puede añadirse informacion que se considere importante"></textarea>
+    </div>
+
+    <div class="form-group justify-content-around offset-md-1">
+      <div class="offset-md-1 col-md-3 mb-3">
+        <label for="formGroupExampleInput">  </label>
+        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Nombre Infractor" formControlName="Nombre_Infractor">
+      </div>
+      <div class="offset-md-1 col-md-3 mb-3">
+        <label for="formGroupExampleInput">  </label>
+        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Apellido Infractor" formControlName="Apellido_Infractor">
+      </div>
+    </div>
+
+
+    <div style="margin:2em" class="form-group subtitulo mx-md-n5 col-md-12 shadow p-3 mb-5 subtitulo rounded text-center">  <img src="../../../assets/IconsGoogle/camera.svg" alt="" width="48" height="48"> &nbsp;&nbsp;&nbsp; Puede añadir hasta 3 imágenes como prueba </div>
+
+
+    <div style="margin:2em" class="form-group col-md-11 offset-md-1">
+      <div class="offset-md-1 col-md-3 mb-3 custom-file">
+        <input type="file" class="form-control custom-file-input" id="fupFoto" lang="es" (change)="changeFoto()" accept="image/*">
+        <img src="{{foto}}" width="100" height="100" />
+
+        <label class="custom-file-label" for="customFileLang"><img src="../../../assets/IconsGoogle/card-image.svg" alt="" width="16" height="16" title="card-image"> Adjuntar Prueba 1</label>
+      </div>
+
+      <div class="offset-md-1 col-md-3 mb-3 custom-file">
+        <input type="file" class="form-control custom-file-input" id="fupFoto2" lang="es" (change)="changeFoto()" accept="image/*">
+        <img src="{{foto2}}" width="100" height="100" />
+
+        <label class="custom-file-label" for="customFileLang"><img src="../../../assets/IconsGoogle/card-image.svg" alt="" width="16" height="16" title="card-image"> Adjuntar Prueba 2</label>
+      </div>
+
+      <div class="offset-md-1 col-md-3 mb-3 custom-file">
+        <input type="file" class="form-control custom-file-input" id="fupFoto3" lang="es" (change)="changeFoto()" accept="image/*">
+        <img src="{{foto3}}" width="100" height="100" />
+
+        <label class="custom-file-label" for="customFileLang"><img src="../../../assets/IconsGoogle/card-image.svg" alt="" width="16" height="16" title="card-image"> Adjuntar Prueba 3</label>
+      </div>
+
+    </div>
+
+
+    <div style="margin:2em" class="form-group subtitulo mx-md-n5 col-md-12 shadow p-3 mb-5 subtitulo rounded text-center">  <img src="../../../assets/IconsGoogle/camera.svg" alt="" width="48" height="48"> &nbsp;&nbsp;&nbsp; Información de Contacto Opcional </div>
+    <div class="form-group col-md-11 offset-md-1">
+      <div class="row">
+        <div class="form-group col-md-4 offset-md-1 ">
+
+          <label for="exampleFormControlInput1" class="col-md-8 tooltiper" data-toggle="tooltip" data-placement="top" title="Email para la recepcion de notificaciones sobre el estado de la denuncia">
+            Mail
+          </label>
+          <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Ej: juanperez34@gmail.com" formControlName="Mail_Notificacion" />
+
+        </div>
+
+        <div class="form-group col-md-4 offset-md-1">
+          <label for="exampleFormControlInput1" class="col-md-9">Teléfono para envío de notificaciones sms</label>
+          <input type="text" class="form-control col-md-3" id="exampleFormControlInput1" placeholder="Opcional teléfono de contacto" formControlName="Movil_Notificacion">
+        </div>
+      </div>
+    </div>
+
+    <div style="margin:1em; color:white" class="form-group col-md-12 justify-content-around">
+
+      <div class="text-center  bg-danger shadow p-2 mb-5 rounded shadow-sm" *ngIf="Denuncia.valid==false">Verifique que los datos indicados con (*) estén correctamente ingresados</div>
+
+    </div>
+
+
+    <div class="form-group justify-content-around offset-md-4">
+      <input [disabled]="!Denuncia.valid" type="submit" value="Generar" class="btn btn-success col-md-1 offset-md-1" />
+      <button type="button" class="btn btn-light col-md-1 offset-md-1">Cancelar</button>
+    </div>
+  </div>
+  <ng-template #myModalInfo let-modal>
+    <div class="modal bg-secondary" tabindex="-1" style="display:block;" role="dialog">
+      <div class="modal-dialog modal-dialog-scrollable modal-lg">
+        <div class="modal-content ">
+          <div class="modal-header">
+            <h5 class="modal-title">Confirmación sobre Operación</h5>
+            <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.close()">
+    <span aria-hidden="true">&times;</span>
+  </button>-->
+            <img src="../../../assets/Imagenes/logo-cristal_3.png" width="100" height="100" />
+          </div>
+          <div class="modal-body">
+            {{resultadoGuardadoModal}}
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-dark" (click)="modal.close('Close click')">Cerrar</button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </ng-template>
+
+</form>
+
+

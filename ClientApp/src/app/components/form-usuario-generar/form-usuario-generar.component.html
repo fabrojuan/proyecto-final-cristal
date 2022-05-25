@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Empleado Municipal -Editar</title>
+  <style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+  </style>
+
+</head>
+<body>
+  <!-- <form [formGroup]="Denuncia" (ngSubmit)="guardarDatos()" class=" needs-validation" novalidate>-->
+  <form [formGroup]="Usuario" (ngSubmit)="guardarDatos()">
+
+    <div class="container">
+      <div class="d-flex align-items-center p-2 my-2 bg-purple bg-light shadow p-2 mb-5 rounded shadow-sm">
+        <img src="../../../assets/Imagenes/Worker.svg" alt="" width="88" height="88">
+        <div class="tituloSombra text-center form-group col-md-8 offset-md-1">
+          <p> {{titulo}} Empleado Municipal.</p>
+        </div>
+      </div>
+
+      <div class="col-md-12 order-md-1">
+        <div class="row">
+          <div class="form-group col-md-6 mb-3 form-group">
+            <label for="NombrePersona">(*) Nombre</label>
+            <input type="text" class="form-control" id="NombrePersona" formControlName="NombrePersona" placeholder="Ej: Jorge" value="" required>
+            <div class="invalid-feedback">
+              Su nombre de Pila es requerido.
+            </div>
+          </div>
+          <div class="form-group col-md-6 mb-3">
+            <label for="Apellido">(*)Apellido</label>
+            <input type="text" class="form-control" id="Apellido" formControlName="Apellido" placeholder="" value="" required>
+            <div class="invalid-feedback">
+              Apellido is required.
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-md-6 mb-3">
+            <label for="Telefono">(*) Telefono</label>
+            <input type="text" class="form-control" id="Telefono" formControlName="Telefono" placeholder="351-5305248" value="" required>
+            <div class="invalid-feedback">
+              Telefono is required.
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="Dni">(*) Dni</label>
+            <input type="text" class="form-control" id="Dni" formControlName="Dni" placeholder="" value="" required>
+            <div class="invalid-feedback">
+              Dni is required.
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-md-6 mb-3">
+            <label for="Mail">(*) Mail</label>
+            <input type="text" class="form-control" id="Mail" formControlName="Mail" placeholder="Ej: juan44tolosa@gmail.com" value="" required>
+            <div class="invalid-feedback">
+              El mail es requerido.
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="FechaNac">(*) Fecha de Nacicimiento</label>
+            <input type="date" class="form-control" id="FechaNac" placeholder="" value="" required name="Fecha Nacimiento">
+            <div class="invalid-feedback">
+              Fecha de Nacimiento is required.
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="Domicilio">(*) Calle</label>
+            <input type="text" class="form-control" id="Domicilio" formControlName="Domicilio" placeholder="" value="" required>
+            <div class="invalid-feedback">
+              Domicilio Calle is required.
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="Altura">(*) Altura</label>
+            <input type="text" class="form-control" id="Altura" formControlName="Altura" placeholder="" value="" required>
+            <div class="invalid-feedback">
+              Altura is required.
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-group col-md-6 mb-3">
+            <label for="NombreUser">(*) Nombre de Usuario :</label>
+            <input type="text" class="form-control" id="NombreUser" formControlName="NombreUser" placeholder="" value="" required>
+            <div class="invalid-feedback">
+              NombreUser is required.
+            </div>
+          </div>
+          <div class=" col-md-6 mb-3">
+            <!--#tipo (change)="filtrar(tipo)-->
+            <label>(*) Rol de Usuario :</label>
+            <select class="form-group d-block w-100" id="TiposRol" formControlName="TiposRol">
+              <option value="">&nbsp;&nbsp;--&nbsp;&nbsp;Seleccione Rol&nbsp;&nbsp; --&nbsp;</option>
+              <option [ngValue]="Rol.iidRol" *ngFor="let Rol of TiposRol">{{Rol.iidRol}},{{Rol.nombreRol}}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row p-3 my-2">
+          <div class="form-group col-md-6 mb-3">
+            <label for="Contrasenia">(*)Contraseña</label>
+            <input type="password" id="Contrasenia" formControlName="Contrasenia" class="form-control" placeholder="Password" required>
+            <div class="invalid-feedback">
+              Contrasenia is required.
+            </div>
+          </div>
+          <!--<div class="form-group col-md-6 mb-3">         RECORDAR QUE ESTE CAMPO ES REPETIR CONTRASEÑA
+            <label for="lastName">Repetir Contraseña</label>
+            <input type="password" id="Contrasenia" formControlName="Contrasenia" class="form-control" placeholder="Password" required>
+            <div class="invalid-feedback">
+              Valid last name is required.
+            </div>
+          </div>-->
+        </div>
+
+        <div class="row p-3 my-2">
+          <hr class="mb-4">
+          <div class="form-group col-md-12 mb-3 pt-3">
+            <input [disabled]="!Usuario.valid" type="submit" value="Generar" class="btn btn-success col-md-4 offset-md-1 " (click)="clickMethod()" />
+            <button type="button" class="btn btn-secondary col-md-4 offset-md-1 " (click)="volver()">Cancelar</button>
+          </div>
+
+        </div>
+
+        <div style="margin:1em; color:white" class="form-group col-md-12 justify-content-around">
+
+          <div class="text-center  bg-danger shadow p-2 mb-5 rounded shadow-sm" *ngIf="Usuario.valid==false">Verifique que los datos indicados con (*) estén correctamente ingresados</div>
+
+        </div>
+
+
+
+
+
+
+      </div>
+    </div>
+
+  </form>
+</body>
+
+</html>

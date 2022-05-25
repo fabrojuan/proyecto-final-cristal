@@ -1,0 +1,35 @@
+<div class="d-flex align-items-center p-3 my-3 bg-purple bg-light shadow p-2 mb-5 rounded shadow-sm">
+  <img src="../../../assets/Imagenes/opendataFinance.png" alt="" width="90" height="90">
+  <div class="tituloSombra text-center form-group col-md-8 offset-md-1">
+    <p>Descarga de Datos Abiertos Financieros</p>
+  </div>
+</div>
+
+<br />
+<br />
+<table class="table table-hover" style="padding-bottom: 2.5em">
+  <thead class="thead-dark tituloTabla">
+
+
+    <tr>
+      <th class="text-center" *ngFor="let cabecera of cabeceras ">{{cabecera}} </th>
+      <th class="text-center" *ngIf="isMantenimiento==true">Operaciones</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let financiero of financieros | paginate: { itemsPerPage: 10, currentPage: p }">
+      <td class="text-center textoTabla">{{financiero.nombreArchivo}}</td>
+      <td class="text-center textoTabla">Gobierno abierto municipal</td>
+      <!-- <td class="text-center textoTabla"><a href={{financiero.ubicacion}}{{financiero.nombreArchivo}} target="_blank" rel="noopener noreferrer">Descargar</a></td>-->
+
+      <td class="text-center" *ngIf="isMantenimiento==true">
+        <button type="button" class="btn btn-light">
+          <a href={{financiero.ubicacion}}{{financiero.nombreArchivo}} target="_blank" rel="noopener noreferrer">Descargar</a>
+          <img src="../../../assets/IconsGoogle/download.svg" alt="" width="24" height="24" title="Marcar como Irrelevante">
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<pagination-controls (pageChange)="p = $event"></pagination-controls>

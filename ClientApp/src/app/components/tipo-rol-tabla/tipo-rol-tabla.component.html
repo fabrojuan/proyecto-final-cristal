@@ -1,0 +1,38 @@
+<div class="d-flex align-items-center p-3 my-3 bg-purple bg-light shadow p-2 mb-5 rounded shadow-sm">
+  <img src="../../../assets/Imagenes/Rol.png" alt="" width="58" height="58">
+  <div class="tituloFormulario text-center form-group col-md-8 offset-md-1">
+    <p>Tablero de Gestión de Roles.</p>
+  </div>
+</div>
+<table class="table table-hover">
+  <thead class="thead-dark">
+    <tr>
+      <th class="text-center" *ngFor="let cabecera of cabeceras | paginate: { itemsPerPage: 10, currentPage: p }">{{cabecera}} </th>
+      <th class="text-center" *ngIf="isMantenimiento==true">Operaciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let rol of roles">
+      <td class="textoTabla">{{rol.iidRol}}</td>
+      <td class="text-center textoTabla">{{rol.nombreRol}}</td>
+      <td class="text-center textoTabla">{{rol.bHabilitado}}</td>
+      <td class="text-center " *ngIf="isMantenimiento==true">
+        <button type="button" class="btn btn-outline-primary" [routerLink]="['/tipo-rol-form-generar',rol.iidRol]">  <img src="../../../assets/IconsGoogle/gear.svg" alt="" width="24" height="24" title="Modificar"></button>
+        <button type="button" class="btn btn-outline-success" (click)="EliminarRol(rol.iidRol)"><img src="../../../assets/IconsGoogle/trash.svg" alt="" width="24" height="24" title="Borrar"></button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<div class="row p-3 my-2">
+  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+</div>
+
+<div class="row p-3 my-2">
+  <hr class="mb-4">
+  <div class="form-group col-md-12 mb-3 pt-3">
+    <button type="button" value="Nuevo" class="btn btn-success col-md-4 offset-md-1 " [routerLink]="['/tipo-rol-form-generar']">  <img src="../../../assets/Imagenes/plus-square.svg" alt="" width="24" height="24" title="Crear Nuevo Rol">&nbsp;&nbsp;Nuevo</button>
+    <button type="button" class="btn btn-secondary col-md-4 offset-md-1" (click)="volverHome()"><img src="../../../assets/IconsGoogle/arrow-bar-left.svg" alt="" width="24" height="24" title="Volver" />&nbsp;&nbsp; Volver</button>
+
+  </div>
+
+</div>

@@ -1,0 +1,37 @@
+<div class="cardcss">
+  <div class="card text-center sombras">
+    <div class="card-header tituloTabla">
+      Diálogo de Confirmación de Pago
+    </div>
+    <div class="card-body">
+
+      <p class="card-text textopago">
+        Para realizar el pago electrónico, haga click en <strong>
+          Generar Cupón
+        </strong>
+        ,
+        y luego haga click en el Botón Generar Pago.
+      </p>
+      <div class="col-md-3 offset-1 mb-2">
+        <button class="btn btn-primary" (click)="sendToMbx2()">1-Generar cupón </button>
+      </div>
+      <div class="col-md-3 offset-1 mb-2">
+        <!-- <p>URL: {{mobexx2.urlMobexx}} <a href={{mobexx2.urlMobexx}} target={{mobexx2.urlMobexx}}></a></p>-->
+        <p><button class="btn btn-dark"> <a href={{mobexx2.urlMobexx}} target="_blank" rel="noopener noreferrer">2- Generar Pago</a></button></p>
+      </div>
+      <div class="col-md-3 offset-1 mb-2">
+        <button type="button" class="btn btn-secondary col-md-4 offset-md-1" (click)="volver()">Volver</button>
+      </div>
+
+
+    </div>
+    <div class="card-footer text-muted">
+      <img src="../../../assets/Imagenes/mobbex.png" alt="" width="400" height="75">
+    </div>
+  </div>
+</div>
+
+
+<!--<button accesskey="getAllTasks()">getAllTasks!</button>
+<button accesskey="getTask()">getTask!</button>
+<button accesskey="createTask()" (click)="createTask()" >CreateTask!</button>-->

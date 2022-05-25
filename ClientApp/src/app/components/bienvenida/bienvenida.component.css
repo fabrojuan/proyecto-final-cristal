@@ -1,0 +1,28 @@
+.sin-borde {
+  border: 0;
+  box-shadow: none; /* You may want to include this as bootstrap applies these styles too */
+  border-top-left-radius: 2em;
+  border-top-right-radius: 2em;
+}
+
+.cssDescripcion {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 1.9em;
+}
+
+.titulo {
+  color: #240f7d;
+  font-size: 2em;
+  font-weight: 900;
+  text-shadow: 6px 8px 10px #555;
+}
+
+.Padding1 {
+  padding-top: 5.9em;
+  margin-top: 4em;
+}
+
+.redondeoInterno {
+  border-top-left-radius: 1em;
+  border-top-right-radius: 1em;
+}

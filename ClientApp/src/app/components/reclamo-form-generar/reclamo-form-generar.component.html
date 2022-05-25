@@ -1,0 +1,78 @@
+<form [formGroup]="Reclamo" (ngSubmit)="guardarDatos()">
+  <div class="container-fluid">
+    <div class="d-flex align-items-center p-2 my-2 bg-purple bg-light shadow p-2 mb-5 rounded shadow-sm">
+      <img src="../../../assets/Imagenes/Reclamo.svg" alt="" width="58" height="58">
+      <div class="tituloFormulario text-center form-group col-md-8 offset-md-1">
+        <p> Formulario de Reclamo.</p>
+      </div>
+    </div>
+
+    <div class="row p-3 ml-3 form-group offset-md-2 ">
+      <label class=" p-2">(*) Tipo de Reclamo&nbsp;:&nbsp;&nbsp;</label>
+      <select id="Tipo_Reclamo" formControlName="codTipoReclamo" class="form-control">
+        <option value="">--Seleccione Opción--</option>
+        <option [ngValue]="TipoReclamo.cod_Tipo_Reclamo" *ngFor="let TipoReclamo of TiposReclamo">{{TipoReclamo.nombre}}</option>
+      </select>
+      <div class="offset-md-1  form-group form-inline">
+        <label for="id_Vecino">Id Vecino&nbsp;:&nbsp;&nbsp;</label>
+        <input type="hidden" class="form-control sin-borde" id="idVecino" formControlName="idVecino" placeholder="" value="" readonly>
+      </div>
+      <div class="offset-md-1  form-group form-inline">
+        <input type="text" class="form-control sin-borde" id="nombreVecino" formControlName="nombreVecino" placeholder="" value="" readonly>
+      </div>
+    </div>
+
+    <div class="row p-3 ml-2 form-group offset-md-2 ">
+
+      <div class="form-group col-md-3 offset-md-1">
+        <label for="formGroupExampleInput">(*)</label>
+        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Nombre Calle sm-3" formControlName="Calle">
+      </div>
+      <div class="form-group col-md-2 offset-md-1">
+        <label for="formGroupExampleInput">(*)</label>
+        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Altura aproximada" formControlName="Altura">
+      </div>
+      <div class="form-group col-md-3 offset-md-1">
+        <label for="formGroupExampleInput">(*)</label>
+        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Entre Calles" formControlName="entreCalles">
+      </div>
+    </div>
+
+    <div class="row p-3 ml-3 form-group offset-md-2 ">
+      <div class="form-group col-md-10 offset-md-1">
+        <label for="exampleFormControlTextarea1"> (*)</label>
+        <textarea class="form-control" formControlName="Descripcion" id="exampleFormControlTextarea1" rows="5" placeholder="Descripcion del reclamo del servicio, circunstancias que lo generaron puede incluir nombres de personas implicadas para mayor trazabilidad."></textarea>
+      </div>
+    </div>
+
+    <div class="row p-3 ml-3 form-group offset-md-2 ">
+
+      <div class="form-group justify-content-around offset-md-1">
+        <div class="offset-md-1 col-md-4 mb-3 custom-file">
+          <input type="file" class="custom-file-input" id="customFileLang" lang="es">
+          <label class="custom-file-label" for="customFileLang"><img src="../../../assets/IconsGoogle/card-image.svg" alt="" width="16" height="16" title="card-image"> Adjuntar Imagen 1</label>
+        </div>
+        <div class="offset-md-1 col-md-4 mb-3 custom-file">
+          <input type="file" class="custom-file-input" id="customFileLang" lang="es">
+          <label class="custom-file-label" for="customFileLang"><img src="../../../assets/IconsGoogle/card-image.svg" alt="" width="16" height="16" title="card-image"> Adjuntar Imagen 2</label>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin:1em; color:white" class="form-group col-md-12 justify-content-around">
+      <div class="text-center  bg-danger shadow p-2 mb-5 rounded shadow-sm" *ngIf="Reclamo.valid==false">Verifique que los datos indicados con (*) estén correctamente ingresados</div>
+    </div>
+
+
+    <div class="form-group col-md-10 offset-md-2">
+      <input [disabled]="!Reclamo.valid" type="submit" value="Generar" class="btn btn-success col-md-1 offset-md-1" (click)="clickMethod()" />
+      <button type="button" class="btn btn-light col-md-1 offset-md-1">Cancelar</button>
+    </div>
+  </div>
+
+
+
+
+</form>
+
+

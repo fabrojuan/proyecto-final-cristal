@@ -1,0 +1,72 @@
+.container {
+  max-width: 120rem;
+}
+
+.lh-condensed {
+  line-height: 1.25;
+}
+
+.tituloFormulario {
+  color: #240f7d;
+  font-size: 3em;
+  font-weight: 900;
+  text-shadow: 6px 8px 10px #555;
+}
+
+.alert {
+  background-color: #2196F3;
+}
+
+.letraSubtitulos {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 1.3em;
+  color: #ffffff;
+}
+
+.combobox {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 1.3em;
+  color: #240f7d;
+}
+
+.letraGral {
+  font-family: "Times New Roman", Times, serif;
+  font-size: .9em;
+  color: #ffffff;
+}
+
+.sin-borde {
+  border: 0;
+  box-shadow: none; /* You may want to include this as bootstrap applies these styles too */
+  background-color: transparent;
+}
+
+.fondo {
+  background-color: #240f7d;
+}
+
+input[type=checkbox] {
+  transform: scale(1.5);
+}
+/*.container {*/
+/*max-width: 1400px;*/
+/*max-width: 1600px;
+}
+
+.lh-condensed {
+  line-height: 1.25;
+}
+
+.tituloFormulario {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 3em;
+}
+
+
+.sin-borde {
+  border: 0;
+  box-shadow: none;*/ /* You may want to include this as bootstrap applies these styles too */
+/*background-color: transparent;
+}*/
+
+

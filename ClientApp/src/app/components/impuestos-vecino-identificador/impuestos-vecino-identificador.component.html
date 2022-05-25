@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Registro Vecino</title>
+  <style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+  </style>
+
+</head>
+<body class="bg-light">
+
+  <div class="container">
+    <div class="d-flex align-items-center p-2 my-2 bg-purple bg-light shadow p-2 mb-5 rounded shadow-sm">
+      <img src="../../../assets/IconsGoogle/money.svg" alt="" width="88" height="88">
+      <div class="tituloFormulario text-center form-group col-md-8 offset-md-1">
+        <p> Impuestos adeudados</p>
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <div class="row form-inline">
+        <label class="etiqueta"> Ingrese número de cuenta:</label>
+        <div class="col-md-4">
+          <input type="text" [(ngModel)]='nroCuenta' placeholder="Ejemplo: 357" value="" required>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row p-3 my-2">
+    <hr class="mb-4">
+    <div class="form-group col-md-12 mb-3 pt-3">
+      <input [disabled]="!nroCuenta" type="button" value="Aceptar" class="btn btn-success col-md-4 offset-md-1
+               " [routerLink]="['/impuestos-vecino-adeuda-tabla',nroCuenta]" />
+      <button type="button" class="btn btn-secondary col-md-4 offset-md-1" (click)="volverHome()">Volver</button>
+    </div>
+
+    <!--[routerLink]="['/trabajo-form-generar',Denuncia.nro_Denuncia]"-->
+  </div>
+
+  <div style="margin:1em; color:white" class="form-group col-md-12 justify-content-around">
+
+    <div class="text-center  bg-danger shadow p-2 mb-5 rounded shadow-sm" *ngIf="nroCuenta.valid==false">Esta Alerta se ocultará cuando todos los campos sean llenados, completa y correctamente.</div>
+
+  </div>
+
+
+</body>
+
+</html>

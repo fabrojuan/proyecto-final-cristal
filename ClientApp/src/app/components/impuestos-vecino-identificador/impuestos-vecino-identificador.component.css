@@ -1,0 +1,37 @@
+.texto-blanco {
+  color: white;
+  font-size: 1.12em;
+}
+
+.NombreTipoUsuario {
+  font-size: 1.12em;
+}
+
+
+.tituloFormulario {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 3.5em;
+}
+
+.nroCuenta {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  height: 30px;
+  width: 350px;
+  font-size: 15px;
+  font-family: 'Times New Roman';
+  line-height: 30px;
+  display: inline-block;
+  *display: inline; /* for IE7*/
+  zoom: 1; /* for IE7*/
+  vertical-align: middle;
+}
+
+.etiqueta {
+  font-family: Verdana;
+  font-size: 15px;
+  line-height: 30px;
+  display: inline-block;
+  *display: inline; /* for IE7*/
+  zoom: 1; /* for IE7*/
+}

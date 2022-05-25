@@ -1,0 +1,14 @@
+
+iframe {
+  height: 80em;
+  width: 100%;
+  margin-right: 2em;
+  margin-left: 2em;
+}
+
+.tituloFormulario {
+  color: #240f7d;
+  font-size: 3em;
+  font-weight: 900;
+  text-shadow: 6px 8px 10px #555;
+}

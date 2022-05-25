@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Detalle de Denuncia</title>
+  <style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    .texto-select {
+      font-size: 1.5rem;
+      padding: 8px 16px 16px 12px;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+  </style>
+
+</head>
+<body class="bg-light">
+  <div class="container">
+    <div class="d-flex align-items-center p-2 my-2 bg-purple bg-light shadow p-2 mb-5 rounded shadow-sm">
+      <img src="../../../assets/icons/Escudo_Denuncia.svg" alt="" width="70" height="70">
+      <div class="tituloFormulario text-center form-group col-md-8 offset-md-1">
+        <p> Descripcion de Denuncia.</p>
+      </div>
+    </div>
+
+
+
+    <div class="row">
+      <div class="col-md-4 order-md-2 mb-4">
+        <h4 class="d-flex justify-content-between align-items-center mb-3">
+          <span class="text-muted">Pruebas Gráficas</span>
+          <span class="badge badge-secondary badge-pill">3</span>
+        </h4>
+        <ul class="list-group mb-3">
+          <li class="list-group-item d-flex justify-content-between lh-condensed" *ngFor="let prueba of pruebas let i = index">
+            <div>
+              <h6 class="my-0">Prueba gráfica nro {{prueba.nroImagen}}</h6>
+              <small class="text-muted">ampliar imagen..</small>
+              <img src={{prueba.foto}} class="d-block w-100">
+            </div>
+
+          </li>
+        </ul>
+      </div>
+
+      <!--Aca empieza la Primera columa del row general que es la de registro de trabajo. -->
+
+      <div class="col-md-8 order-md-1">
+        <form [formGroup]="Trabajo" (ngSubmit)="guardarDatos()">
+          <div class="row p-3 my-2 ">
+            <div class="form-group form-inline">
+              <label>Nro Denuncia&nbsp;:&nbsp;</label>
+              <input type="text" class="form-control sin-borde" id="nro_Denuncia" formControlName="nro_Denuncia" placeholder="" value="" readonly>
+            </div>
+            <div class="offset-md-1  form-group form-inline">
+              <label for="firstName">Estado&nbsp;:&nbsp;&nbsp;</label>
+              <input type="text" class="form-control sin-borde" id="estado_Denuncia" formControlName="estado_Denuncia" placeholder="" value="" readonly>
+
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="form-group col-md-12 mb-3">
+              <label for="Descripcion">Descripcion:</label>
+              <textarea class="form-control sin-borde" formControlName="Descripcion" id="exampleFormControlTextarea1" rows="7" readonly></textarea>
+            </div>
+          </div>
+
+
+
+          <div class="row p-2 my-2 ">
+            <div class="col-md-5 mb-2 form-group form-inline">
+              <label for="calle">Calle  &nbsp;:&nbsp;</label>
+              <input type="text" class="form-control sin-borde " id="calle" formControlName="calle" readonly>
+            </div>
+
+            <div class="col-md-5 mb-2 form-group form-inline">
+              <label for="altura">Altura &nbsp;:&nbsp;</label>
+              <input type="text" class="form-control sin-borde " id="altura" formControlName="altura" readonly>
+            </div>
+
+            <div class="col-md-5 mb-2  form-group form-inline">
+              <label for="entre_Calles">Entre Calles &nbsp;:&nbsp;</label>
+              <input type="text" class="form-control sin-borde " id="entre_Calles" formControlName="entre_Calles" readonly>
+            </div>
+          </div>
+
+          <div class="row p-3 my-2 ">
+            <div class="col-md-6 mb-2 form-group form-inline">
+              <label for="Nombre_Infractor">Infractor &nbsp;:&nbsp;&nbsp;</label>
+              <input type="text" class="form-control sin-borde " id="nombre_Infractor" formControlName="nombre_Infractor" readonly>
+            </div>
+
+            <div class="col-md-6 mb-2 form-group form-inline">
+              <label for="tipo_Denuncia">Tipo Denuncia &nbsp;:&nbsp;&nbsp;</label>
+              <input type="text" class="form-control sin-borde " id="tipo_Denuncia" formControlName="tipo_Denuncia" readonly>
+            </div>
+          </div>
+
+          <div class="row p-3 my-2 ">
+            <div class="col-md-5 mb-2 form-group form-inline">
+              <label for="legajoActual">Mi Legajo &nbsp;&nbsp;&nbsp;</label>
+              <input type="text" class="form-control w-25 sin-borde " id="legajoActual" formControlName="legajoActual" placeholder="" value="">
+            </div>
+          </div>
+
+          <div class="row p-3 my-2">
+            <div class="form-group col-md-5 mb-3 texto-select">
+              <label>Derivar a:</label>
+
+              <select id="idUsuario" formControlName="idUsuario">
+                <option value="">--Seleccione Opción--</option>
+                <option [ngValue]="Empleado.idUsuario" *ngFor="let Empleado of Empleados">
+                  Leg:&nbsp;
+                  {{Empleado.idUsuario}}&nbsp;--&nbsp;&nbsp;{{Empleado.nombreUser}}
+                </option>
+              </select>
+
+
+            </div>
+
+
+
+            <div class="form-group offset-md-2 col-md-5 mb-3">
+              <label>Prioridad:</label>
+              <select id="Nro_Prioridad" formControlName="Nro_Prioridad">
+                <option value="">--Seleccione Opción--</option>
+                <option [ngValue]="Prioridad.nroPrioridad" *ngFor="let Prioridad of Prioridades">&nbsp;&nbsp;{{Prioridad.nombrePrioridad}}</option>
+              </select>
+              <div style="color: coral" *ngIf="Trabajo.controls['Nro_Prioridad'].errors?.pattern">
+                Debe especificar criticidad..
+              </div>
+            </div>
+          </div>
+
+          <div class="row p-3 my-2">
+            <!--<hr class="col-md-3 offset-2 mb-4">-->
+            <div class="col-md-2 offset-1 mb-4">
+              <button [disabled]="!Trabajo.valid" class="btn btn-primary btn-sm btn-block" type="submit" (click)="clickMethod()">Derivar</button>
+            </div>
+
+            <div class="col-md-3 offset-1 mb-4">
+              <button class="btn btn-primary btn-sm btn-block" (click)="registrarTrabajo()">Registrar Trabajo</button>
+            </div>
+
+            <div class="col-md-2 offset-1 mb-4">
+              <button class="btn btn-primary btn-sm btn-block" (click)="volver()">Volver</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+
+</html>

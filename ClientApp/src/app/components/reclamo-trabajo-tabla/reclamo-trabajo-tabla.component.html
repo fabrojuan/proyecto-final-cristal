@@ -1,0 +1,31 @@
+<p>reclamo-trabajo-tabla works!</p>
+<div class="d-flex align-items-center p-3 my-3 bg-purple bg-light shadow p-2 mb-5 rounded shadow-sm">
+  <img src="../../../assets/Imagenes/Reclamo.svg" alt="" width="58" height="58">
+  <div class="tituloFormulario text-center form-group col-md-8 offset-md-1">
+    <p>Trabajos realizados en el Reclamo.</p>
+  </div>
+
+
+</div>
+<table class="table table-hover">
+  <thead class="thead-dark">
+    <tr>
+      <th class="text-center" *ngFor="let cabecera of cabeceras">{{cabecera}} </th>
+      <th class="text-center" *ngIf="isMantenimiento==true">Operaciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let trabajo of trabajos">
+      <td class="text-center">{{trabajo.fecha}}</td>
+      <td class="text-center">{{trabajo.nro_Reclamo}}</td>
+      <td class="text-center">{{trabajo.descripcion}}</td>
+      <td class="text-center">{{trabajo.id_Usuario}}</td>
+      <td class="text-center" *ngIf="isMantenimiento==true">
+        <button type="button" class="btn btn-outline-secondary" [routerLink]="['/trabajo-form-generar']">
+          <img src="../../../assets/IconsGoogle/gear.svg" alt="" width="24" height="24" title="Cargar Trabajo">
+        </button>
+        <button type="button" class="btn btn-light"><img src="../../../assets/IconsGoogle/pause.svg" alt="" width="24" height="24" title="Suspender"></button>
+      </td>
+    </tr>
+  </tbody>
+</table>

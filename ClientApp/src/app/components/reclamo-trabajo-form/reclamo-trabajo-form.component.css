@@ -1,0 +1,26 @@
+.container {
+  max-width: 960px;
+}
+
+.lh-condensed {
+  line-height: 1.25;
+}
+
+.tituloFormulario {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 3em;
+}
+
+
+.sin-borde {
+  border: 0;
+  box-shadow: none; /* You may want to include this as bootstrap applies these styles too */
+  background-color: transparent;
+}
+
+.selectAltura {
+  /*display: block;
+  height: 2em;
+  */ font-size: 1.7rem;
+  /*width: 200px;*/
+}

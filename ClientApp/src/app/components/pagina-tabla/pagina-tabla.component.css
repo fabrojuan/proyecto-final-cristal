@@ -1,0 +1,20 @@
+.tituloFormulario {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 3.5em;
+  color: #240f7d;
+}
+
+.Tipo_Denuncia {
+  margin-right: 1.5em;
+}
+
+.textoTabla {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 1.3em;
+  color: #000000;
+}
+
+
+.tituloTabla {
+  font-size: 1.3em;
+}
