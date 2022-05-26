@@ -34,15 +34,15 @@ namespace MVPSA_V2022.Controllers
             {
                 using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
                 {
-                     oCtrlCLS = (from CONTROLPROCESOS in bd.ControlProcesos
-                                                   where CONTROLPROCESOS.IdProceso == 2
-                                                   select new ControlProcesosCLS
-                                                   {
-                                                       idEjecucion = CONTROLPROCESOS.IdEjecucion,
-                                                       idProceso = CONTROLPROCESOS.IdProceso,
-                                                       fechaEjecucion = (DateTime)CONTROLPROCESOS.FechaEjecucion
-                                                   }).OrderBy(CONTROLPROCESOS => CONTROLPROCESOS.fechaEjecucion).Last();
-                                                   //.Last(); Probamos el descending en vez de last solo a ver que onda. Con El order By va como piña
+                    oCtrlCLS = (from CONTROLPROCESOS in bd.ControlProcesos
+                                where CONTROLPROCESOS.IdProceso == 2
+                                select new ControlProcesosCLS
+                                {
+                                    idEjecucion = CONTROLPROCESOS.IdEjecucion,
+                                    idProceso = CONTROLPROCESOS.IdProceso,
+                                    fechaEjecucion = (DateTime)CONTROLPROCESOS.FechaEjecucion
+                                }).OrderBy(CONTROLPROCESOS => CONTROLPROCESOS.fechaEjecucion).Last();
+                    //.Last(); Probamos el descending en vez de last solo a ver que onda. Con El order By va como piña
                     return oCtrlCLS;
                 }
             }
@@ -139,7 +139,6 @@ namespace MVPSA_V2022.Controllers
             {
                 using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
                 {
-                    //ExecuteSqlCommand no funciona parece que esta deprecado cambio comando ver tambien site
                     bd.Database.ExecuteSqlRaw("BORRADO_BOLETAS");
                     bd.SaveChanges();
                 }
@@ -193,7 +192,21 @@ namespace MVPSA_V2022.Controllers
                         oBoleta.Url = "https://POSTNGROK";
                         oBoleta.Bhabilitado = 0;
                         bd.Boleta.Add(oBoleta);
-                        int idBoleta = oBoleta.IdBoleta;
+                        bd.SaveChanges();
+                        // Debo aca  y luego consultar por 
+                        // el ultimo id de boleta generado con LAST
+
+                        oBoletaCLS = (from boleta in bd.Boleta
+                                      where boleta.Estado == 0
+                                      select new BoletaCLS
+                                      {
+                                          idBoleta = boleta.IdBoleta,
+                                      }).OrderBy(boleta => boleta.idBoleta).Last();
+
+
+
+
+                        int idBoleta = oBoletaCLS.idBoleta;
                         String[] idsDetalles = oDetalleBoletaCLS.Valores.Split("-"); //Separo los valores obtenidos enla variable que tienen el guion como separador y los transformo en un array de objetos separados por coma.
                         for (int i = 0; i < idsDetalles.Length; i++)
                         {
@@ -207,8 +220,8 @@ namespace MVPSA_V2022.Controllers
                         bd.SaveChanges();
                         // bd.Database.ExecuteSqlCommand("GENERACION_IMPORTE_BOLETA"); reeemplazado por
                         bd.Database.ExecuteSqlRaw("GENERACION_IMPORTE_BOLETA");
-                        Boletum oBoleta2 = bd.Boleta.OrderBy(idBoleta=>idBoleta).Last();
-                   // EN LA SIGUIETNE LINEA NO UTILIZADA POR ESO LA COMENTO
+                        Boletum oBoleta2 = bd.Boleta.OrderBy(idBoleta => idBoleta).Last();
+                        // EN LA SIGUIETNE LINEA NO UTILIZADA POR ESO LA COMENTO
                         // HttpContext.Session.SetString("idBoleta", oBoleta2.IdBoleta.ToString());
                         transaccion.Complete();
                     }
@@ -263,6 +276,7 @@ namespace MVPSA_V2022.Controllers
                         //return Redirect(rtaChMobxx.data.url.ToString());  //RedirectToAction
                         // esta joya.
                         //Console.WriteLine("La respuesta es: " + rtaChMobxx.data.url.ToString());
+                        //ATENTO ACA HAY ALGO RARO!!!!!
                         var camposConErrores = Utilidades.ExtraerErrorDelWebApi(cuerpo);
                         if (!(camposConErrores == null))
                         {
