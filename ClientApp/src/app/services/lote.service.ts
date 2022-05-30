@@ -16,8 +16,18 @@ export class LoteService {
 
   }
 
+  public getTipoLote(): Observable<any> {
+    return this.http.get(this.urlBase + 'api/Lote/listarTiposLote').pipe(map(res => res));
+  }
 
   public getLote() {
     return this.http.get(this.urlBase + 'api/Lote').pipe(map(res => res));
   }
+  public agregarLote(Lote: any) {
+    var url = this.urlBase + 'api/Lote/guardarLote/';
+    return this.http.post(url, Lote).pipe(map(res => res));
+  }
+
+
+
 }

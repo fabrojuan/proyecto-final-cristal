@@ -176,7 +176,7 @@ import { ImpuestoService } from './services/impuesto.service';
       { path: 'lote-tabla', component: LoteTablaComponent, canActivate: [SeguridadGuard] },
       { path: 'lote-detalle', component: LoteDetalleComponent, canActivate: [SeguridadGuard]}, //, canActivate: [SeguridadGuard] //Veo que hacen falta los dos rutas sino el guard no anda ok
       { path: 'lote-detalle/:id', component: LoteDetalleComponent }, //, canActivate: [SeguridadGuard]  le dio por no funcionar verlo!
-
+      { path: 'lote-form-generar', component: LoteFormGenerarComponent, canActivate: [SeguridadGuard] },
       { path: '*', redirectTo: '' } //a home
 
 

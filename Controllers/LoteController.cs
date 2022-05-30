@@ -45,14 +45,39 @@ namespace MVPSA_V2022.Controllers
                                                         EstadoDeuda = lote.EstadoDeuda, 
                                                         ValuacionTotal = lote.ValuacionTotal,   
                                                         IdPersona=lote.IdPersona,
-                                                        NroLote=lote.NroLote
+                                                        NroLote=lote.NroLote,
                                                     }).ToList();
                 return listaLote;
             }
         }
+        [HttpGet]
+        [Route("api/Lote/listarTiposLote")]
+        public IEnumerable<TipoLoteCLS> listarTiposLote()
+        {
+            List<TipoLoteCLS> listaTipoLote;
+            using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
+            {
+
+                listaTipoLote = (from TipoLote in bd.TipoLotes
+                                 where TipoLote.Bhabilitado == 1
+                                 select new TipoLoteCLS
+                                 {
+                                     Cod_Tipo_Lote = TipoLote.CodTipoLote,
+                                     Nombre = TipoLote.Nombre,
+                                     Descripcion = TipoLote.Descripcion
+
+                                 }).ToList();
+                return listaTipoLote;
+            }
+
+        }
+
+
+
+
 
 
 
         //fin clase
-        }
     }
+}

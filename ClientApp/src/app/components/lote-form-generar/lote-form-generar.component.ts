@@ -10,99 +10,53 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./lote-form-generar.component.css']
 })
 export class LoteFormGenerarComponent implements OnInit {
-  TiposDenuncia: any;
-  public Denuncia: FormGroup;
-  foto: any;
-  foto2: any;
-  foto3: any;
+  TiposLote: any;
+  public Lote: FormGroup;
   Rpta: number = 0;
   resultadoGuardadoModal: any = "";
   @ViewChild("myModalInfo", { static: false }) myModalInfo: TemplateRef<any> | undefined;
   //Esta linea anterior es para el modal.
 
   constructor(private loteservice: LoteService, private router: Router, private modalService: NgbModal, private formBuilder: FormBuilder) {
-    this.Denuncia = this.formBuilder.group(
+    this.Lote = this.formBuilder.group(
       {
-        "Nro_Denuncia": new FormControl("0"),
-        "codTipoDenuncia": new FormControl("", [Validators.required]),
-        'Descripcion': new FormControl("", [Validators.required, Validators.maxLength(2500)]),
-        'Calle': new FormControl("", [Validators.required, Validators.maxLength(100)]),
-        "Nombre_Infractor": new FormControl(""),
-        "Apellido_Infractor": new FormControl(""),
+        "codTipoLote": new FormControl("", [Validators.required]),
+        "Nomenclatura": new FormControl("", [Validators.required]),
+        'Manzana': new FormControl("", [Validators.required, Validators.maxLength(2500)]),
+        'NroLote': new FormControl("", [Validators.required, Validators.maxLength(100)]),
+        "Calle": new FormControl(""),
+        "Altura": new FormControl(""),
         "Bhabilitado": new FormControl("1"),
-        "Mail_Notificacion": new FormControl(""),  //, [Validators.required,Validators.maxLength(100),Validators.pattern("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")]
-        "Movil_Notificacion": new FormControl(""),
-        "Entre_Calles": new FormControl("", [Validators.required, Validators.maxLength(100)]),
-        "Altura": new FormControl("", [Validators.required, Validators.maxLength(6)]),
-        "foto": new FormControl(""),
-        "foto2": new FormControl(""),
-        "foto3": new FormControl("")
-      }
+        "Sup_Terreno": new FormControl(""),  //, [Validators.required,Validators.maxLength(100),Validators.pattern("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")]
+        "Superficie_Edificada": new FormControl(""),
+       }
     );
   }
 
-  changeFoto() {
-
-
-    //Probar si funca esto que hice en la primer foto.
-    var file = (<HTMLInputElement>document.getElementById("fupFoto")).files?.[0] || new Blob(['test text'], { type: 'text/plain' });
-    var fileReader = new FileReader();
-
-    fileReader.onloadend = () => {   //Uso el Arrowfunction sino me marca error con foto.
-
-      this.foto = fileReader.result;
-    }
-    fileReader.readAsDataURL(file);
-    // Foto 2
-    var file2 = (<HTMLInputElement>document.getElementById("fupFoto2")).files?.[0] || new Blob(['test text'], { type: 'text/plain' });
-    //var file2 = (<HTMLInputElement>document.getElementById("fupFoto2")).files[0];
-
-    var fileReader2 = new FileReader();
-
-    fileReader2.onloadend = () => {   //Uso el Arrowfunction sino me marca error con foto.
-
-      this.foto2 = fileReader2.result;
-    }
-    fileReader2.readAsDataURL(file2);
-    //Foto3
-    var file3 = (<HTMLInputElement>document.getElementById("fupFoto3")).files?.[0] || new Blob(['test text'], { type: 'text/plain' });
-    //var file3 = (<HTMLInputElement>document.getElementById("fupFoto3")).files[0]; original
-    var fileReader3 = new FileReader();
-
-    fileReader3.onloadend = () => {   //Uso el Arrowfunction sino me marca error con foto.
-
-      this.foto3 = fileReader3.result;
-    }
-    fileReader3.readAsDataURL(file3);
-  }
-
   ngOnInit() {
-    this.denunciaservice.getTipoDenuncia().subscribe(data => this.TiposDenuncia = data);
-    this.foto = "";
-    this.foto2 = "";
-    this.foto3 = "";
+    this.loteservice.getTipoLote().subscribe(data => this.TiposLote = data);
   }
   guardarDatos() {
-    if (this.Denuncia.valid == true) {
+    if (this.Lote.valid == true) {
 
-      this.Denuncia.controls["foto"].setValue(this.foto); //Seteo la foto antes de guardarla
-      this.Denuncia.controls["foto2"].setValue(this.foto2); //Seteo la foto antes de guardarla1
-      this.Denuncia.controls["foto3"].setValue(this.foto3); //Seteo la foto antes de guardarla
-      console.log(this.Denuncia.value);
-      this.denunciaservice.agregarDenuncia(this.Denuncia.value).subscribe(data => {
+      console.log(this.Lote.value);
+      this.loteservice.agregarLote(this.Lote.value).subscribe(data => {
         if (data) {
           console.log(data);
-          this.resultadoGuardadoModal = "Se ha generado la denuncia correctamente, pronto le notificaremos acerca de la misma.";
+          this.resultadoGuardadoModal = "Se ha generado la Lote correctamente, pronto le notificaremos acerca de la misma.";
 
         }
         else
-          this.resultadoGuardadoModal = "La denuncia no se ha podido registrar genere un ticket con el error en nuestra pestaña de problemas";
+          this.resultadoGuardadoModal = "La Lote no se ha podido registrar genere un ticket con el error en nuestra pestaña de problemas";
       });
 
 
       this.modalService.open(this.myModalInfo);
       this.router.navigate(["/"]);
     }
+  }
+  volverLoteTabla() {
+    this.router.navigate(["/lote-tabla"]);
   }
 
 }
