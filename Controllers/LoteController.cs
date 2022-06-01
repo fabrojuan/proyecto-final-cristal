@@ -71,7 +71,50 @@ namespace MVPSA_V2022.Controllers
             }
 
         }
+        [HttpPost]
+        [Route("api/Lote")]
+        public int guardarLote([FromBody] LoteCLS oLoteCLS)
+        {
+            int rpta = 0;
+            try
+            {
+                using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
+                {
+                    using (var transaccion = new TransactionScope())
+                    {
+                        Lote oLote = new Lote();
+                        oLote.NroLote = oLoteCLS.NroLote;
+                        oLote.Manzana = oLoteCLS.Manzana;
+                        oLote.Altura = oLoteCLS.Altura;
+                        oLote.Calle = oLoteCLS.Calle;
+                        oLote.SupTerreno = oLoteCLS.SupTerreno;
+                        oLote.SupEdificada = oLoteCLS.SupEdificada;
+                        oLote.NomenclaturaCatastral = oLoteCLS.NomenclaturaCatastral;
+                        oLote.Bhabilitado = 1;
+                        oLote.IdTipoLote = int.Parse(oLoteCLS.TipoInmueble!);
+                        bd.Lotes.Add(oLote);
+                       
+                        bd.SaveChanges();
 
+                        //Antes creo necesitamos un modal para cargar el dueño y luego crear el lote por ultimo un procedimiento almacenado para 
+                        ///calcular la base imponible.
+
+                        transaccion.Complete();
+
+                        // oLote = bd.Lote.Where(d => d.NroLote == LoteCLS.NroLote).First();
+
+
+                    } //Fin de La Transaccion
+                }
+                rpta = 1;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                rpta = 0;
+            }
+            return rpta;
+        }
 
 
 
