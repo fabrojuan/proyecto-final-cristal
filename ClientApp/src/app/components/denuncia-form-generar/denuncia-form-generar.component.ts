@@ -107,4 +107,25 @@ export class DenunciaFormGenerarComponent implements OnInit {
     }
   }
 
+  get foto1Url() {
+    if (this.foto) {
+      return this.foto;
+    }
+    return "../../../../assets/Imagenes/Image_not_available.png";
+  }
+
+  get foto2Url() {
+    if (this.foto2) {
+      return this.foto2;
+    }
+    return "../../../../assets/Imagenes/Image_not_available.png";
+  }
+
+  get foto3Url() {
+    if (this.foto3) {
+      return this.foto3;
+    }
+    return "../../../../assets/Imagenes/Image_not_available.png";
+  }
+
 }
