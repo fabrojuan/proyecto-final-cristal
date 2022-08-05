@@ -1,3 +1,6 @@
+using MVPSA_V2022.Mappers;
+using MVPSA_V2022.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 string cors = "ConfigurarCors";
 // Add services to the container.
@@ -17,6 +20,9 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+
+builder.Services.AddSingleton<IReclamoService, ReclamoService>();
+builder.Services.AddAutoMapper(typeof(ReclamoProfile));
 
 var app = builder.Build();
 

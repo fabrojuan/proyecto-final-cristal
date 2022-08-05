@@ -16,14 +16,14 @@ export class ReclamoService {
   }
 
   public getTipoReclamo(): Observable<any> {
-    return this.http.get(this.urlBase + 'api/Reclamo/ListarTiposReclamo').pipe(map(res => res));
+    return this.http.get(this.urlBase + 'api/reclamos/tipos-reclamo').pipe(map(res => res));
   }
   public agregarReclamo(Reclamo: any) {
-    var url = this.urlBase + 'api/Reclamo/guardarReclamo';
+    var url = this.urlBase + 'api/reclamos';
     return this.http.post(url, Reclamo).pipe(map(res => res));
   }
   public getReclamo(): Observable<any>{
-    return this.http.get(this.urlBase + 'api/Reclamo/ListarReclamos').pipe(map(res => res));
+    return this.http.get(this.urlBase + 'api/reclamos').pipe(map(res => res));
   }
 
   
