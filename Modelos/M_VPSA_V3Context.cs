@@ -26,6 +26,7 @@ namespace MVPSA_V2022.Modelos
         public virtual DbSet<EstadoSolicitud> EstadoSolicituds { get; set; } = null!;
         public virtual DbSet<Impuestoinmobiliario> Impuestoinmobiliarios { get; set; } = null!;
         public virtual DbSet<Lote> Lotes { get; set; } = null!;
+        public virtual DbSet<MobbexPago> MobbexPagos { get; set; } = null!;
         public virtual DbSet<Pagina> Paginas { get; set; } = null!;
         public virtual DbSet<Paginaxrol> Paginaxrols { get; set; } = null!;
         public virtual DbSet<Pago> Pagos { get; set; } = null!;
@@ -371,6 +372,89 @@ namespace MVPSA_V2022.Modelos
                     .HasForeignKey(d => d.IdPersona)
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK__LOTE__idPersona__693CA210");
+            });
+
+            modelBuilder.Entity<MobbexPago>(entity =>
+            {
+                entity.HasKey(e => e.IdMobbexPago);
+
+                entity.ToTable("MOBBEX_PAGO");
+
+                entity.Property(e => e.IdMobbexPago).HasColumnName("id_mobbex_pago");
+
+                entity.Property(e => e.CheckoutUid)
+                    .HasMaxLength(30)
+                    .IsUnicode(false)
+                    .HasColumnName("checkout_uid");
+
+                entity.Property(e => e.CustomerEmail)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("customer_email");
+
+                entity.Property(e => e.CustomerUid)
+                    .HasMaxLength(30)
+                    .IsUnicode(false)
+                    .HasColumnName("customer_uid");
+
+                entity.Property(e => e.PaymentCreated)
+                    .HasMaxLength(30)
+                    .IsUnicode(false)
+                    .HasColumnName("payment_created");
+
+                entity.Property(e => e.PaymentCurrencyCode)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("payment_currency_code");
+
+                entity.Property(e => e.PaymentCurrencySymbol)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("payment_currency_symbol");
+
+                entity.Property(e => e.PaymentId)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("payment_id");
+
+                entity.Property(e => e.PaymentReference)
+                    .HasMaxLength(30)
+                    .IsUnicode(false)
+                    .HasColumnName("payment_reference");
+
+                entity.Property(e => e.PaymentStatusCode)
+                    .HasMaxLength(3)
+                    .IsUnicode(false)
+                    .HasColumnName("payment_status_code");
+
+                entity.Property(e => e.PaymentStatusMessage)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("payment_status_message");
+
+                entity.Property(e => e.PaymentStatusText)
+                    .HasMaxLength(30)
+                    .IsUnicode(false)
+                    .HasColumnName("payment_status_text");
+
+                entity.Property(e => e.PaymentTotal)
+                    .HasColumnType("decimal(18, 2)")
+                    .HasColumnName("payment_total");
+
+                entity.Property(e => e.PaymentUpdated)
+                    .HasMaxLength(30)
+                    .IsUnicode(false)
+                    .HasColumnName("payment_updated");
+
+                entity.Property(e => e.Type)
+                    .HasMaxLength(30)
+                    .IsUnicode(false)
+                    .HasColumnName("type");
+
+                entity.Property(e => e.ViewType)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("view_type");
             });
 
             modelBuilder.Entity<Pagina>(entity =>

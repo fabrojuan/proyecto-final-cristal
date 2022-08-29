@@ -1,6 +1,6 @@
 using MVPSA_V2022.Mappers;
 using MVPSA_V2022.Services;
-
+    
 var builder = WebApplication.CreateBuilder(args);
 string cors = "ConfigurarCors";
 // Add services to the container.
@@ -22,7 +22,9 @@ builder.Services.AddSession(options =>
 });
 
 builder.Services.AddSingleton<IReclamoService, ReclamoService>();
+builder.Services.AddSingleton<IPagoService, PagoService>();
 builder.Services.AddAutoMapper(typeof(ReclamoProfile));
+builder.Services.AddAutoMapper(typeof(MobbexPagoProfile));
 
 var app = builder.Build();
 
