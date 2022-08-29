@@ -8,15 +8,16 @@ namespace MVPSA_V2022.Services
     public class PagoService : IPagoService
     {
         public readonly IMapper _mapper;
+        public readonly IMailService _mailService;
 
-        public PagoService(IMapper mapper)
+        public PagoService(IMapper mapper, IMailService mailService)
         {
             _mapper = mapper;
+            _mailService = mailService;
         }
 
         public void registrarPagoMobbex(PagoCLS pagoDto)
         {
-            // ToDo: envio de mail
             validarPago(pagoDto);
             generarPago(pagoDto);                           
         }
@@ -72,8 +73,12 @@ namespace MVPSA_V2022.Services
             enviarRecibo(recibo);
         }
 
-        private void enviarRecibo(Recibo recibo) { 
-            // ToDo
+        private void enviarRecibo(Recibo recibo) {
+            MailRequest mailRequest = new MailRequest();
+            mailRequest.ToEmail = recibo.Mail;
+            mailRequest.Subject = "Notificacion de Pago Impuestos";
+            mailRequest.Body = "Estimado contribuyente, su pago por $" + recibo.Importe + " fue registrado correctamente.";
+            _mailService.SendEmailAsync(mailRequest);
         }
 
         
