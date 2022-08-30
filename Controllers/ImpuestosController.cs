@@ -250,8 +250,8 @@ namespace MVPSA_V2022.Controllers
             oBolMobexx.reference = oBoletaCLS.idBoleta;
             oBolMobexx.currency = "ARS";
             oBolMobexx.test = true;
-            oBolMobexx.return_url = "NGROKNUESTRO";
-            oBolMobexx.webhook = "https://mobbex.com/webhook_SegundaApi";
+            oBolMobexx.return_url = "https://c421-2803-9800-9889-7eb2-95b7-d410-36cd-5b3f.sa.ngrok.io";
+            oBolMobexx.webhook = "https://c421-2803-9800-9889-7eb2-95b7-d410-36cd-5b3f.sa.ngrok.io/api/pagos/mobbex";
             var jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(oBolMobexx);
             using (var httpClient = new HttpClient())
             {

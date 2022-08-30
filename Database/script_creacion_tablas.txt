@@ -1,0 +1,37 @@
+﻿USE [M_VPSA_V3]
+GO
+
+/****** Object:  Table [dbo].[MOBBEX_PAGO]    Script Date: 25/8/2022 04:03:14 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[MOBBEX_PAGO](
+	[id_mobbex_pago] [int] IDENTITY(1,1) NOT NULL,
+	[type] [varchar](30) NOT NULL,
+	[view_type] [varchar](50) NULL,
+	[payment_id] [varchar](50) NOT NULL,
+	[payment_status_code] [varchar](3) NOT NULL,
+	[payment_status_text] [varchar](30) NOT NULL,
+	[payment_status_message] [varchar](100) NULL,
+	[payment_total] [decimal](18, 2) NOT NULL,
+	[payment_currency_code] [varchar](10) NOT NULL,
+	[payment_currency_symbol] [varchar](10) NOT NULL,
+	[payment_created] [varchar](30) NOT NULL,
+	[payment_updated] [varchar](30) NULL,
+	[payment_reference] [varchar](30) NOT NULL,
+	[customer_uid] [varchar](30) NULL,
+	[customer_email] [varchar](50) NULL,
+	[checkout_uid] [varchar](30) NOT NULL,
+	[fecha_alta] [datetime] NULL,
+ CONSTRAINT [PK_MOBBEX_PAGO] PRIMARY KEY CLUSTERED 
+(
+	[id_mobbex_pago] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[MOBBEX_PAGO] ADD  CONSTRAINT [DF_MOBBEX_PAGO_fecha_alta]  DEFAULT (getdate()) FOR [fecha_alta]
+GO
