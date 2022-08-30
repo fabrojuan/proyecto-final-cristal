@@ -76,11 +76,22 @@ namespace MVPSA_V2022.Services
         private void enviarRecibo(Recibo recibo) {
             MailRequest mailRequest = new MailRequest();
             mailRequest.ToEmail = recibo.Mail;
-            mailRequest.Subject = "Notificacion de Pago Impuestos";
-            mailRequest.Body = "Estimado contribuyente, su pago por $" + recibo.Importe + " fue registrado correctamente.";
+            mailRequest.Subject = "Recibo de Pago Realizado";
+            mailRequest.Body = generarBodyEmailRecibo(recibo);
             _mailService.SendEmailAsync(mailRequest);
         }
 
+        private string generarBodyEmailRecibo(Recibo recibo) {
+            string bodyMail = "<body><p>Estimado vecino,</p><p>Se ha emitido el recibo nro. #reciboNro, por el importe de " +
+                "$#importe, correspondiente a la boleta nro. #boletaNro.</p><p>Muchas gracias.</p><br><p style=\"color:green\">" +
+                "<b>Comuna Villa Parque Santa Ana</b></p></body>";
+
+            bodyMail = bodyMail.Replace("#reciboNro", recibo.IdRecibo.ToString());
+            bodyMail = bodyMail.Replace("#importe", recibo.Importe.ToString());
+            bodyMail = bodyMail.Replace("#boletaNro", recibo.IdBoleta.ToString());
+
+            return bodyMail;
+        }
         
 
         // ToDo Mover este metodo a una clase que tenga metodos relacionados con las boletas
