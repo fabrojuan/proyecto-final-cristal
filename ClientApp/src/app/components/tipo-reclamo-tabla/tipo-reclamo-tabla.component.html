@@ -1,0 +1,64 @@
+<div class="container">
+  <h1 class="text-center">Tipos de Reclamo</h1>
+
+  <div class="mb-1 d-grid justify-content-md-end">
+    <button type="button" class="btn btn-success btn-sm" (click)="nuevoTipoReclamo()">
+      <i class="bi bi-plus-circle"></i><span class="p-1"></span>Nuevo
+    </button>
+  </div>
+
+
+  <table class="table table-bordered table-sm">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col" class="text-center">C&oacute;digo</th>
+        <th scope="col" class="text-center">Nombre</th>
+        <th scope="col" class="text-center">Descripci&oacute;n</th>
+        <th scope="col" class="text-center">Tiempo M&aacute;x.<br>Resoluci&oacute;n</th>
+        <th scope="col" class="text-center">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let tipoReclamo of tiposReclamo | paginate: { itemsPerPage: 5, currentPage: p }">
+        <th scope="row">{{ tipoReclamo.cod_Tipo_Reclamo }}</th>
+        <td>{{ tipoReclamo.nombre }}</td>
+        <td>{{ tipoReclamo.descripcion }}</td>
+        <td class="text-end">{{ tipoReclamo.tiempo_Max_Tratamiento }}</td>
+        <td>
+          <button type="button" class="btn btn-outline-info btn-sm"
+                  (click)="verTipoReclamo(tipoReclamo.cod_Tipo_Reclamo)">
+            <i class="bi bi-pencil"></i>
+          </button>
+          <span class="p-1"></span>
+          <button type="button" class="btn btn-outline-danger btn-sm"
+                  (click)="openModalEliminacion(content, tipoReclamo.cod_Tipo_Reclamo)">
+            <i class="bi bi-trash3"></i>
+          </button>
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+
+  <div class="row p-3">
+    <pagination-controls previousLabel="Anteriores" nextLabel="Siguientes" (pageChange)="p = $event"></pagination-controls>
+  </div>
+
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Confirmaci&oacute;n</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      Desea eliminar el registro?
+      <p class="mt-1 text-danger">{{ mensajeErrorEliminar }}</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="cancelarModalEliminar()">Cancelar</button>
+      <button type="button" class="btn btn-primary" (click)="eliminarTipoReclamo()">
+        Eliminar
+      </button>
+    </div>
+  </ng-template>
+
+</div>

@@ -71,8 +71,8 @@ import { TrabajoService } from './services/trabajo.service';
 import { PruebaGraficaService } from './services/prueba-grafica.service';
 import { IndicadoresService } from './services/indicadores.service';
 import { ImpuestoService } from './services/impuesto.service';
-
-
+import { TipoReclamoTablaComponent } from './components/tipo-reclamo-tabla/tipo-reclamo-tabla.component';
+import { TipoReclamoFormComponent } from './components/tipo-reclamo-form/tipo-reclamo-form.component';
 
 
 @NgModule({
@@ -122,7 +122,9 @@ import { ImpuestoService } from './services/impuesto.service';
     DenunciaGenerarComponent,
     LoteTablaComponent,
     LoteFormGenerarComponent,
-    LoteDetalleComponent
+    LoteDetalleComponent,
+    TipoReclamoTablaComponent,
+    TipoReclamoFormComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -176,6 +178,9 @@ import { ImpuestoService } from './services/impuesto.service';
       { path: 'lote-tabla', component: LoteTablaComponent, canActivate: [SeguridadGuard] },
       { path: 'lote-detalle', component: LoteDetalleComponent, canActivate: [SeguridadGuard]}, //, canActivate: [SeguridadGuard] //Veo que hacen falta los dos rutas sino el guard no anda ok
       { path: 'lote-detalle/:id', component: LoteDetalleComponent }, //, canActivate: [SeguridadGuard]  le dio por no funcionar verlo!
+      { path: 'tipo-reclamo-tabla', component: TipoReclamoTablaComponent, canActivate: [SeguridadGuard] },
+      { path: 'tipo-reclamo-form/:id', component: TipoReclamoFormComponent, canActivate: [SeguridadGuard] },
+      { path: 'tipo-reclamo-form', component: TipoReclamoFormComponent, canActivate: [SeguridadGuard] },
 
       { path: '*', redirectTo: '' } //a home
 
