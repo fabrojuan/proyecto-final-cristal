@@ -939,6 +939,14 @@ namespace MVPSA_V2022.Modelos
                     .HasMaxLength(90)
                     .IsUnicode(false);
 
+                entity.Property(e => e.FechaAlta)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.FechaModificacion)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
                 entity.Property(e => e.TiempoMaxTratamiento).HasColumnName("Tiempo_Max_Tratamiento");
             });
 

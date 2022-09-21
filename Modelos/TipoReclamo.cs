@@ -16,6 +16,11 @@ namespace MVPSA_V2022.Modelos
         public int? Bhabilitado { get; set; }
         public int? TiempoMaxTratamiento { get; set; }
 
+        public DateTime? FechaAlta { get; set; }
+        public DateTime? FechaModificacion { get; set; }
+        public int? IdUsuarioAlta { get; set; }
+        public int? IdUsuarioModificacion { get; set; }
+
         public virtual ICollection<Reclamo> Reclamos { get; set; }
     }
 }

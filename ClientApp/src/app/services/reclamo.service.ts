@@ -15,9 +15,37 @@ export class ReclamoService {
 
   }
 
+  /**
+   *
+   * Tipo de Reclamo
+   *
+   */
   public getTipoReclamo(): Observable<any> {
-    return this.http.get(this.urlBase + 'api/reclamos/tipos-reclamo').pipe(map(res => res));
+    return this.http.get(this.urlBase + 'api/reclamos/tipos-reclamo').pipe(map(res => res));    
   }
+
+  public getTipoReclamoByCodigo(codTipoReclamo: number): Observable<any> {
+    return this.http.get(this.urlBase + 'api/reclamos/tipos-reclamo/' + codTipoReclamo).pipe(map(res => res));
+  }
+
+  public eliminarTipoReclamo(codTipoReclamo: number): Observable<any> {
+    return this.http.delete(this.urlBase + 'api/reclamos/tipos-reclamo/' + codTipoReclamo).pipe(map(res => res));
+  }
+
+  public agregarTipoReclamo(tipoReclamo: any): Observable<any> {
+    return this.http.post(this.urlBase + 'api/reclamos/tipos-reclamo', tipoReclamo).pipe(map(res => res));
+  }
+
+  public modificarTipoReclamo(tipoReclamo: any): Observable<any> {
+    return this.http.put(this.urlBase + 'api/reclamos/tipos-reclamo', tipoReclamo).pipe(map(res => res));
+  }
+
+  /**
+   * 
+   * Reclamo
+   *
+   */
+
   public agregarReclamo(Reclamo: any) {
     var url = this.urlBase + 'api/reclamos';
     return this.http.post(url, Reclamo).pipe(map(res => res));
