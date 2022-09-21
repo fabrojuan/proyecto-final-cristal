@@ -51,7 +51,6 @@
     </div>
     <div class="modal-body">
       Desea eliminar el registro?
-      <p class="mt-1 text-danger">{{ mensajeErrorEliminar }}</p>
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" (click)="cancelarModalEliminar()">Cancelar</button>
@@ -62,3 +61,5 @@
   </ng-template>
 
 </div>
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

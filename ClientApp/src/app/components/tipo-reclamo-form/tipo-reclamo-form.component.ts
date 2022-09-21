@@ -3,6 +3,8 @@ import { ReclamoService } from '../../services/reclamo.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+import { ToastService } from '../../services/toast.service';
+
 @Component({
   selector: 'app-tipo-reclamo-form',
   templateUrl: './tipo-reclamo-form.component.html',
@@ -16,7 +18,8 @@ export class TipoReclamoFormComponent implements OnInit {
   constructor(private _reclamoService: ReclamoService,
     private _activatedRouter: ActivatedRoute,
     private _router: Router,
-    private _fb: FormBuilder) {
+    private _fb: FormBuilder,
+    public _toastService: ToastService  ) {
 
     this.crearFormulario();
 
@@ -85,10 +88,11 @@ export class TipoReclamoFormComponent implements OnInit {
         data => {
         },
         error => {
-          alert(error.error);
+          this._toastService.show(error.error, { classname: 'bg-danger text-light', delay: 5000 });
         },
         () => {
           this.form.reset();
+          this._toastService.show('Registro creado con éxito.', { classname: 'bg-success text-light', delay: 5000 });
           this._router.navigate(['/tipo-reclamo-tabla']);
         }
       );
@@ -99,10 +103,11 @@ export class TipoReclamoFormComponent implements OnInit {
         data => {
         },
         error => {
-          alert(error.error);
+          this._toastService.show(error.error, { classname: 'bg-danger text-light', delay: 5000 });
         },
         () => {
           this.form.reset();
+          this._toastService.show('Registro guardado con éxito.', { classname: 'bg-success text-light', delay: 5000 });
           this._router.navigate(['/tipo-reclamo-tabla']);
         }
       );

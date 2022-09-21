@@ -35,3 +35,20 @@ GO
 
 ALTER TABLE [dbo].[MOBBEX_PAGO] ADD  CONSTRAINT [DF_MOBBEX_PAGO_fecha_alta]  DEFAULT (getdate()) FOR [fecha_alta]
 GO
+
+
+ALTER TABLE M_VPSA_V3.dbo.TIPO_RECLAMO 
+ADD FechaAlta datetime DEFAULT (getdate());  
+
+ALTER TABLE M_VPSA_V3.dbo.TIPO_RECLAMO 
+ADD FechaModificacion datetime DEFAULT (getdate());  
+
+ALTER TABLE M_VPSA_V3.dbo.TIPO_RECLAMO 
+ADD IdUsuarioAlta int; 
+
+ALTER TABLE M_VPSA_V3.dbo.TIPO_RECLAMO 
+ADD IdUsuarioModificacion int; 
+ 
+update M_VPSA_V3.dbo.TIPO_RECLAMO
+  set FechaAlta = GETDATE(),
+  FechaModificacion = GETDATE();

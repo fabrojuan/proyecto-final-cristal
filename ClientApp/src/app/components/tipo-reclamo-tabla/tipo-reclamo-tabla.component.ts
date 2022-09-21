@@ -3,6 +3,8 @@ import { ReclamoService } from '../../services/reclamo.service';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
+import { ToastService } from '../../services/toast.service';
+
 @Component({
   selector: 'app-tipo-reclamo-tabla',
   templateUrl: './tipo-reclamo-tabla.component.html',
@@ -12,13 +14,13 @@ export class TipoReclamoTablaComponent implements OnInit {
 
   tiposReclamo: any[] = [];
   codTipoReclamoEliminar!: number;
-  mensajeErrorEliminar: String = "";
   modalRef: any;
   p: number = 1;
 
   constructor(private _reclamoService: ReclamoService,
     private _router: Router,
-    private _modalService: NgbModal) { }
+    private _modalService: NgbModal,
+    public _toastService: ToastService  ) { }
 
   ngOnInit(): void {
     this._reclamoService.getTipoReclamo().subscribe(
@@ -33,11 +35,12 @@ export class TipoReclamoTablaComponent implements OnInit {
       data => {
       },
       error => {
-        this.mensajeErrorEliminar = error.error;
+        this._toastService.show(error.error, { classname: 'bg-danger text-light', delay: 5000 });
       },
       () => {
         this.modalRef.close();
         this.recargarTabla();
+        this._toastService.show('Registro eliminado con éxito.', { classname: 'bg-success text-light', delay: 5000 });
       }
     );
   }
@@ -51,7 +54,6 @@ export class TipoReclamoTablaComponent implements OnInit {
   }
 
   openModalEliminacion(content: any, codTipoReclamoEliminar: number) {
-    this.mensajeErrorEliminar = "";
     this.codTipoReclamoEliminar = codTipoReclamoEliminar;
     this.modalRef = this._modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
   }

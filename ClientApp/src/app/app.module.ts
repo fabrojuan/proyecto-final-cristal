@@ -74,6 +74,9 @@ import { ImpuestoService } from './services/impuesto.service';
 import { TipoReclamoTablaComponent } from './components/tipo-reclamo-tabla/tipo-reclamo-tabla.component';
 import { TipoReclamoFormComponent } from './components/tipo-reclamo-form/tipo-reclamo-form.component';
 
+import { ToastService } from './services/toast.service';
+import { ToastsContainer } from './components/toasts-container/toasts-container.component';
+
 
 @NgModule({
   declarations: [
@@ -124,7 +127,8 @@ import { TipoReclamoFormComponent } from './components/tipo-reclamo-form/tipo-re
     LoteFormGenerarComponent,
     LoteDetalleComponent,
     TipoReclamoTablaComponent,
-    TipoReclamoFormComponent
+    TipoReclamoFormComponent,
+    ToastsContainer
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -187,7 +191,7 @@ import { TipoReclamoFormComponent } from './components/tipo-reclamo-form/tipo-re
 
     ])
   ],
-  providers: [UsuarioService, DenunciaService, TrabajoService, SeguridadGuard, VecinoService, SeguridadVecinoGuard, PruebaGraficaService, IndicadoresService, ImpuestoService, LoteService],
+  providers: [UsuarioService, DenunciaService, TrabajoService, SeguridadGuard, VecinoService, SeguridadVecinoGuard, PruebaGraficaService, IndicadoresService, ImpuestoService, LoteService, ToastService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
