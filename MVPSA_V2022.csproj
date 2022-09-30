@@ -13,6 +13,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="MailKit" Version="3.3.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.9" />
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="6.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.3" />
@@ -33,7 +34,6 @@
 
   <ItemGroup>
     <Folder Include="ClientApp\src\app\components\guards\" />
-    <Folder Include="ClientApp\src\app\services\" />
     <Folder Include="ClientApp\src\assets\IconsGoogle\1x\" />
   </ItemGroup>
 

@@ -1,23 +1,30 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Net.Http.Headers;
 using MVPSA_V2022.clases;
 using MVPSA_V2022.Exceptions;
 using MVPSA_V2022.Modelos;
 using MVPSA_V2022.Services;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 
 namespace MVPSA_V2022.Controllers
 {
     [Route("api/reclamos")]
+    [Authorize]
     public class ReclamoController : Controller
     {
         private readonly IReclamoService reclamoService;
+        private readonly IUsuarioService _usuarioService;
 
-        public ReclamoController(IReclamoService reclamoService)
+        public ReclamoController(IReclamoService reclamoService, IUsuarioService usuarioService)
         {
             this.reclamoService = reclamoService;
+            this._usuarioService = usuarioService;
         }
 
         public IActionResult Index()
@@ -78,6 +85,14 @@ namespace MVPSA_V2022.Controllers
                     Console.WriteLine(errors);
                     throw new PagoNoValidoException(errors.ToString());
                 }
+
+                var authorization = Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", "");
+                var jwt = new JwtSecurityTokenHandler().ReadJwtToken(authorization);
+                string userId = jwt.Claims.First(c => c.Type == ClaimTypes.Sid).Value;
+
+                UsuarioCLS usuarioCLS = _usuarioService.findUsuarioById(Int32.Parse(userId));
+                tipoReclamoCLS.IdUsuarioAlta = usuarioCLS.IdUsuario;
+                tipoReclamoCLS.IdUsuarioModificacion = usuarioCLS.IdUsuario;
 
                 tipoReclamoCLS = this.reclamoService.guardarTipoReclamo(tipoReclamoCLS);
                 return Ok(tipoReclamoCLS);

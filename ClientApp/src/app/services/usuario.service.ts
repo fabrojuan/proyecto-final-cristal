@@ -5,7 +5,8 @@ import { Injectable, Inject } from '@angular/core';
 //import 'rxjs/add/operator/map';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
-import { Observable, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
+import * as moment from 'moment';
 
 
 @Injectable({
@@ -97,6 +98,7 @@ export class UsuarioService {
 
 
   public ObtenerVariableSession(next: any): Observable<any> {
+
     return this.http.get(this.urlBase + 'api/Usuario/obtenerVariableSession').pipe(map((res: any) => {
 
       var data = res;
@@ -147,12 +149,51 @@ export class UsuarioService {
 
   ////   ************** LOGIN *****************
   public login(usuario: any): Observable<any> {
-    return this.http.post(this.urlBase + "api/Usuario/login/", usuario).pipe(map(res => res));
+    return this.http.post(this.urlBase + "api/Usuario/login/", usuario).pipe(
+      map(res => {
+        this.guardarToken(res);
+        return res;
+      })
+    );
+  }
+
+  private guardarToken(authResult: any) {
+    const expiresAt = moment().add(authResult.expiresAt, 'seconds');
+
+    localStorage.setItem('tokenId', authResult.tokenId);
+    localStorage.setItem("expiresAt", JSON.stringify(expiresAt.valueOf()));
+  }
+
+  private borrarToken() {
+    localStorage.removeItem("tokenId");
+    localStorage.removeItem("expiresAt");
+  }
+
+  public isLoggedIn(): boolean {
+    try {
+      return moment().isBefore(this.getExpiration());
+    } catch (e) {
+      return false;
+    }    
+  }
+
+  isLoggedOut() {
+    return !this.isLoggedIn();
+  }
+
+  getExpiration() {
+    const expiration = localStorage.getItem("expiresAt") || "";
+    const expiresAt = JSON.parse(expiration);
+    return moment(expiresAt);
   }
 
 
   public cerrarSession() {
-    return this.http.get(this.urlBase + "api/Usuario/cerrarSession").pipe(map(res => res));
+    return this.http.get(this.urlBase + "api/Usuario/cerrarSession")
+      .pipe(map(res => {
+        this.borrarToken();
+        return res;
+    }));
   }
 
   //   *************** FIN LOGIN ***************
