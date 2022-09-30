@@ -34,7 +34,7 @@ namespace MVPSA_V2022.Controllers
 
         [HttpGet]
         [Route("tipos-reclamo/{codTipoReclamo}")]
-        public IActionResult ListarTiposReclamo(int codTipoReclamo)
+        public IActionResult consultarTipoReclamo(int codTipoReclamo)
         {
             try
             {
@@ -50,7 +50,7 @@ namespace MVPSA_V2022.Controllers
 
         [HttpGet]
         [Route("tipos-reclamo")]
-        public IEnumerable<TipoReclamoCLS> getTipoReclamo()
+        public IEnumerable<TipoReclamoCLS> getTiposReclamo()
         {
             return reclamoService.listarTiposReclamo();
 
@@ -74,7 +74,9 @@ namespace MVPSA_V2022.Controllers
 
         [HttpPost]
         [Route("tipos-reclamo")]
-        public IActionResult guardarTipoReclamo([FromBody] TipoReclamoCLS tipoReclamoCLS)
+        public IActionResult guardarTipoReclamo(
+            [FromHeader(Name = "id_usuario")] string idUsuario,
+            [FromBody] TipoReclamoCLS tipoReclamoCLS)
         {
             try
             {
@@ -86,15 +88,7 @@ namespace MVPSA_V2022.Controllers
                     throw new PagoNoValidoException(errors.ToString());
                 }
 
-                var authorization = Request.Headers[HeaderNames.Authorization].ToString().Replace("Bearer ", "");
-                var jwt = new JwtSecurityTokenHandler().ReadJwtToken(authorization);
-                string userId = jwt.Claims.First(c => c.Type == ClaimTypes.Sid).Value;
-
-                UsuarioCLS usuarioCLS = _usuarioService.findUsuarioById(Int32.Parse(userId));
-                tipoReclamoCLS.IdUsuarioAlta = usuarioCLS.IdUsuario;
-                tipoReclamoCLS.IdUsuarioModificacion = usuarioCLS.IdUsuario;
-
-                tipoReclamoCLS = this.reclamoService.guardarTipoReclamo(tipoReclamoCLS);
+                tipoReclamoCLS = this.reclamoService.guardarTipoReclamo(tipoReclamoCLS, Int32.Parse(idUsuario));
                 return Ok(tipoReclamoCLS);
             }
             catch (Exception ex)
@@ -106,7 +100,9 @@ namespace MVPSA_V2022.Controllers
 
         [HttpPut]
         [Route("tipos-reclamo")]
-        public IActionResult actualizarTipoReclamo([FromBody] TipoReclamoCLS tipoReclamoCLS)
+        public IActionResult actualizarTipoReclamo(
+            [FromHeader(Name = "id_usuario")] string idUsuario,
+            [FromBody] TipoReclamoCLS tipoReclamoCLS)
         {
             try
             {
@@ -118,7 +114,7 @@ namespace MVPSA_V2022.Controllers
                     throw new PagoNoValidoException(errors.ToString());
                 }
 
-                tipoReclamoCLS = this.reclamoService.modificarTipoReclamo(tipoReclamoCLS);
+                tipoReclamoCLS = this.reclamoService.modificarTipoReclamo(tipoReclamoCLS, Int32.Parse(idUsuario));
                 return Ok(tipoReclamoCLS);
             }
             catch (Exception ex)
