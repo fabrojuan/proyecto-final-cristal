@@ -102,6 +102,8 @@ namespace MVPSA_V2022.Services
             tipoReclamo.Nombre = tipoReclamoDto.nombre;
             tipoReclamo.Descripcion = tipoReclamoDto.descripcion;
             tipoReclamo.TiempoMaxTratamiento = tipoReclamoDto.tiempo_Max_Tratamiento;
+            tipoReclamo.IdUsuarioAlta = tipoReclamoDto.IdUsuarioAlta;
+            tipoReclamo.IdUsuarioModificacion = tipoReclamoDto.IdUsuarioModificacion;
             tipoReclamo.Bhabilitado = 1;
 
             using (M_VPSA_V3Context bd = new M_VPSA_V3Context()) {

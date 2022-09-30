@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using MVPSA_V2022.clases;
 using MVPSA_V2022.Modelos;
+using MVPSA_V2022.Services;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -14,6 +16,13 @@ namespace MVPSA_V2022.Controllers
     //[Route("[controller]")]
     public class UsuarioController : Controller
     {
+
+        private readonly IJwtAuthenticationService _jwtAuthenticationService;
+
+        public UsuarioController(IJwtAuthenticationService jwtAuthenticationService) {
+            _jwtAuthenticationService = jwtAuthenticationService;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -286,7 +295,7 @@ namespace MVPSA_V2022.Controllers
         //Insertar metodo para obtener user.
         [HttpPost]
         [Route("api/Usuario/login")]
-        public UsuarioCLS login([FromBody] UsuarioCLS oUsuarioCLS)
+        public IActionResult login([FromBody] UsuarioCLS oUsuarioCLS)
         {
             UsuarioCLS oUsuario = new UsuarioCLS();
             int rpta = 0;
@@ -301,6 +310,45 @@ namespace MVPSA_V2022.Controllers
                     string claveCifrada = BitConverter.ToString(dataCifrada).Replace("-", "");
 
                     rpta = bd.Usuarios.Where( p => p.NombreUser.ToUpper() == oUsuarioCLS.NombreUser.ToUpper() && p.Contrasenia == claveCifrada).Count();
+                    if (rpta == 1)
+                    {
+                        Usuario oUsuarioRecuerar = bd.Usuarios.Where(p => p.NombreUser.ToUpper() == oUsuarioCLS.NombreUser.ToUpper()
+                        && p.Contrasenia == claveCifrada).First();
+                        HttpContext.Session.SetString("empleado", oUsuarioRecuerar.IdUsuario.ToString());
+                        HttpContext.Session.SetString("tipoEmpleado", oUsuarioRecuerar.IdTipoUsuario.ToString());
+                        oUsuario.IdUsuario = oUsuarioRecuerar.IdUsuario;
+                        oUsuario.NombreUser = oUsuarioRecuerar.NombreUser;
+
+                        return Ok(_jwtAuthenticationService.getToken(oUsuarioRecuerar.IdUsuario));
+                    }
+                    else
+                    {
+                        return Unauthorized();
+                    }
+                }
+            }
+            catch (Exception ex) { Console.WriteLine(ex); }
+
+            return Unauthorized();
+        }
+
+        [HttpPost]
+        [Route("api/Usuario/login2")]
+        public UsuarioCLS login2([FromBody] UsuarioCLS oUsuarioCLS)
+        {
+            UsuarioCLS oUsuario = new UsuarioCLS();
+            int rpta = 0;
+            try
+            {
+                using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
+                {
+
+                    SHA256Managed sha = new SHA256Managed();
+                    byte[] dataNocifrada = Encoding.Default.GetBytes(oUsuarioCLS.Contrasenia);
+                    byte[] dataCifrada = sha.ComputeHash(dataNocifrada);
+                    string claveCifrada = BitConverter.ToString(dataCifrada).Replace("-", "");
+
+                    rpta = bd.Usuarios.Where(p => p.NombreUser.ToUpper() == oUsuarioCLS.NombreUser.ToUpper() && p.Contrasenia == claveCifrada).Count();
                     if (rpta == 1)
                     {
                         Usuario oUsuarioRecuerar = bd.Usuarios.Where(p => p.NombreUser.ToUpper() == oUsuarioCLS.NombreUser.ToUpper()

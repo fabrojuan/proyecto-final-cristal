@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MVPSA_V2022.clases;
 using MVPSA_V2022.Modelos;
@@ -9,6 +10,7 @@ using System.Transactions;
 
 namespace MVPSA_V2022.Controllers
 {
+    [Authorize]
     public class DenunciaController : Controller
     {
         public IActionResult Index()

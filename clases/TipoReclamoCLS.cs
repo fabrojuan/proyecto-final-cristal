@@ -8,6 +8,7 @@
         public int tiempo_Max_Tratamiento { get; set; }
         public DateTime fechaAlta { get; set; }
         public DateTime fechaModificacion { get; set; }
-
+        public int? IdUsuarioAlta { get; set; }
+        public int? IdUsuarioModificacion { get; set; }
     }
 }

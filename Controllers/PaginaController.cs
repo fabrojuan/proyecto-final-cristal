@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MVPSA_V2022.clases;
 using MVPSA_V2022.Modelos;
 using System;
@@ -7,6 +8,7 @@ using System.Linq;
 
 namespace MVPSA_V2022.Controllers
 {
+    [Authorize]
     public class PaginaController : Controller
     {
         public IActionResult Index()
