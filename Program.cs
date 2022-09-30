@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using MVPSA_V2022.Configurations;
+using MVPSA_V2022.Interceptors;
 using MVPSA_V2022.Mappers;
 using MVPSA_V2022.Services;
     
@@ -66,7 +67,7 @@ app.UseCors(cors);
 app.UseSession(); //Habilito el uso de sesiones borraremos si usamos lStorage
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseUserMiddleware();
 
 app.MapControllerRoute(
     name: "default",

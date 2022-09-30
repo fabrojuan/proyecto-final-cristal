@@ -39,7 +39,7 @@
     </div>
 
     <div class="mb-3">
-      
+
 
     </div>
 
@@ -68,6 +68,19 @@
         <label for="exampleInputEmail1" class="form-label">Fecha &Uacute;ltima Modificaci&oacute;n </label>
         <input type="text" class="form-control text-center" formControlName="fechaModificacion"
                [value]="form.get('fechaModificacion')?.value | date: 'dd/MM/yyyy HH:mm'"
+               readonly>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col" *ngIf="esModoEdicion">
+        <label for="exampleInputEmail1" class="form-label">Usuario Alta</label>
+        <input type="text" class="form-control" formControlName="usuarioAlta"
+               readonly>
+      </div>
+      <div class="col" *ngIf="esModoEdicion">
+        <label for="exampleInputEmail1" class="form-label">Usuario &Uacute;ltima Modificaci&oacute;n </label>
+        <input type="text" class="form-control" formControlName="usuarioModificacion"
                readonly>
       </div>
     </div>

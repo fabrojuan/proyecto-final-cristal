@@ -14,9 +14,9 @@ namespace MVPSA_V2022.Services
 
         public void eliminarTipoReclamo(int codTipoReclamoEliminar);
 
-        public TipoReclamoCLS guardarTipoReclamo(TipoReclamoCLS tipoReclamoDto);
+        public TipoReclamoCLS guardarTipoReclamo(TipoReclamoCLS tipoReclamoDto, int idUsuarioAlta);
 
-        public TipoReclamoCLS modificarTipoReclamo(TipoReclamoCLS tipoReclamoDto);
+        public TipoReclamoCLS modificarTipoReclamo(TipoReclamoCLS tipoReclamoDto, int idUsuarioModificacion);
 
     }        
 }
