@@ -8,10 +8,16 @@ namespace MVPSA_V2022.Services
     public class ReclamoService : IReclamoService
     {
         public readonly IMapper _mapper;
+        public readonly IUsuarioService _usuarioService;
 
-        public ReclamoService(IMapper mapper) {
+        public ReclamoService(IMapper mapper, IUsuarioService usuarioService) {
             _mapper = mapper;
+            _usuarioService = usuarioService;
         }
+
+        /**
+         * RECLAMOS
+         */
 
         public int guardarReclamo(ReclamoCLS reclamoCLS)
         {
@@ -80,13 +86,19 @@ namespace MVPSA_V2022.Services
             using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
             {
                 listaTiposReclamo = (from tipoReclamo in bd.TipoReclamos
-                                    where tipoReclamo.Bhabilitado == 1
+                                     join usuarioAlta in bd.Usuarios
+                                       on tipoReclamo.IdUsuarioAlta equals usuarioAlta.IdUsuario
+                                     join usuarioModificacion in bd.Usuarios
+                                       on tipoReclamo.IdUsuarioModificacion equals usuarioModificacion.IdUsuario
+                                     where tipoReclamo.Bhabilitado == 1
                                     select new TipoReclamoCLS
                                     {
                                         cod_Tipo_Reclamo = tipoReclamo.CodTipoReclamo,
                                         nombre = tipoReclamo.Nombre,
                                         descripcion = tipoReclamo.Descripcion,
-                                        tiempo_Max_Tratamiento = tipoReclamo.TiempoMaxTratamiento == null ? 0 :(int) tipoReclamo.TiempoMaxTratamiento
+                                        tiempo_Max_Tratamiento = tipoReclamo.TiempoMaxTratamiento == null ? 0 :(int) tipoReclamo.TiempoMaxTratamiento,
+                                        usuarioAlta = usuarioAlta.NombreUser,
+                                        usuarioModificacion = usuarioModificacion.NombreUser
                                     })
                                     .OrderBy(tr => tr.cod_Tipo_Reclamo)
                                     .ToList();
@@ -94,7 +106,7 @@ namespace MVPSA_V2022.Services
             }
         }
 
-        public TipoReclamoCLS guardarTipoReclamo(TipoReclamoCLS tipoReclamoDto) {
+        public TipoReclamoCLS guardarTipoReclamo(TipoReclamoCLS tipoReclamoDto, int idUsuarioAlta) {
 
             validarTipoReclamo(tipoReclamoDto);
 
@@ -102,25 +114,81 @@ namespace MVPSA_V2022.Services
             tipoReclamo.Nombre = tipoReclamoDto.nombre;
             tipoReclamo.Descripcion = tipoReclamoDto.descripcion;
             tipoReclamo.TiempoMaxTratamiento = tipoReclamoDto.tiempo_Max_Tratamiento;
+            tipoReclamo.IdUsuarioAlta = idUsuarioAlta;
+            tipoReclamo.IdUsuarioModificacion = idUsuarioAlta;
             tipoReclamo.Bhabilitado = 1;
 
             using (M_VPSA_V3Context bd = new M_VPSA_V3Context()) {
                 bd.TipoReclamos.Add(tipoReclamo);
                 bd.SaveChanges();
-            }
 
-            tipoReclamoDto.cod_Tipo_Reclamo = tipoReclamo.CodTipoReclamo;
-            tipoReclamoDto.nombre = tipoReclamo.Nombre;
-            tipoReclamoDto.descripcion = tipoReclamo.Descripcion;
-            tipoReclamoDto.tiempo_Max_Tratamiento = tipoReclamo.TiempoMaxTratamiento == null ? 0 : (int)tipoReclamo.TiempoMaxTratamiento;
+                tipoReclamoDto = (from tipoReclamoQuery in bd.TipoReclamos
+                                     join usuarioAlta in bd.Usuarios
+                                       on tipoReclamoQuery.IdUsuarioAlta equals usuarioAlta.IdUsuario
+                                     join usuarioModificacion in bd.Usuarios
+                                       on tipoReclamoQuery.IdUsuarioModificacion equals usuarioModificacion.IdUsuario
+                                     where tipoReclamoQuery.CodTipoReclamo == tipoReclamo.CodTipoReclamo
+                                  select new TipoReclamoCLS
+                                     {
+                                         cod_Tipo_Reclamo = tipoReclamoQuery.CodTipoReclamo,
+                                         nombre = tipoReclamoQuery.Nombre,
+                                         descripcion = tipoReclamoQuery.Descripcion,
+                                         tiempo_Max_Tratamiento = tipoReclamoQuery.TiempoMaxTratamiento == null ? 0 : (int)tipoReclamo.TiempoMaxTratamiento,
+                                         usuarioAlta = usuarioAlta.NombreUser,
+                                         usuarioModificacion = usuarioModificacion.NombreUser
+                                     })
+                                    .Single();
+            }
 
             return tipoReclamoDto;
 
         }
 
-        private void validarTipoReclamo(TipoReclamoCLS tipoReclamoDto) {
+        
+        public TipoReclamoCLS modificarTipoReclamo(TipoReclamoCLS tipoReclamoDto, int idUsuarioModificacion)
+        {
+            validarTipoReclamo(tipoReclamoDto);
+
+            TipoReclamo tipoReclamo = new TipoReclamo();
+            using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
+            {
+                tipoReclamo =
+                    bd.TipoReclamos.Where(tr => tr.CodTipoReclamo == tipoReclamoDto.cod_Tipo_Reclamo).Single();
+                tipoReclamo.Nombre = tipoReclamoDto.nombre;
+                tipoReclamo.Descripcion = tipoReclamoDto.descripcion;
+                tipoReclamo.TiempoMaxTratamiento = tipoReclamoDto.tiempo_Max_Tratamiento;
+                tipoReclamo.FechaModificacion = DateTime.Now;
+                tipoReclamo.IdUsuarioModificacion = idUsuarioModificacion;
+                bd.SaveChanges();
+
+                tipoReclamoDto = (from tipoReclamoQuery in bd.TipoReclamos
+                                  join usuarioAlta in bd.Usuarios
+                                    on tipoReclamoQuery.IdUsuarioAlta equals usuarioAlta.IdUsuario
+                                  join usuarioModificacion in bd.Usuarios
+                                    on tipoReclamoQuery.IdUsuarioModificacion equals usuarioModificacion.IdUsuario
+                                  where tipoReclamoQuery.CodTipoReclamo == tipoReclamo.CodTipoReclamo
+                                  select new TipoReclamoCLS
+                                  {
+                                      cod_Tipo_Reclamo = tipoReclamoQuery.CodTipoReclamo,
+                                      nombre = tipoReclamoQuery.Nombre,
+                                      descripcion = tipoReclamoQuery.Descripcion,
+                                      tiempo_Max_Tratamiento = tipoReclamoQuery.TiempoMaxTratamiento == null ? 0 : (int)tipoReclamoQuery.TiempoMaxTratamiento,
+                                      fechaAlta = (DateTime)tipoReclamoQuery.FechaAlta,
+                                      fechaModificacion = (DateTime)tipoReclamoQuery.FechaModificacion,
+                                      usuarioAlta = usuarioAlta.NombreUser,
+                                      usuarioModificacion = usuarioModificacion.NombreUser
+                                  })
+                                    .Single();
+            }
+
+            return tipoReclamoDto;
+        }
+
+        private void validarTipoReclamo(TipoReclamoCLS tipoReclamoDto)
+        {
             if (tipoReclamoDto.nombre == null || tipoReclamoDto.nombre.Length == 0
-                || tipoReclamoDto.nombre.Length > 90) {
+                || tipoReclamoDto.nombre.Length > 90)
+            {
                 throw new TipoReclamoNoValidoException("El nombre es requerido y no puede superar los 90 caracteres");
             }
 
@@ -134,31 +202,6 @@ namespace MVPSA_V2022.Services
             {
                 throw new TipoReclamoNoValidoException("El tiempo máximo de tratamiento no puede ser inferior a 0");
             }
-        }
-
-        public TipoReclamoCLS modificarTipoReclamo(TipoReclamoCLS tipoReclamoDto)
-        {
-            validarTipoReclamo(tipoReclamoDto);
-
-            TipoReclamo tipoReclamo = new TipoReclamo();
-            using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
-            {
-                tipoReclamo =
-                    bd.TipoReclamos.Where(tr => tr.CodTipoReclamo == tipoReclamoDto.cod_Tipo_Reclamo).Single();
-                tipoReclamo.Nombre = tipoReclamoDto.nombre;
-                tipoReclamo.Descripcion = tipoReclamoDto.descripcion;
-                tipoReclamo.TiempoMaxTratamiento = tipoReclamoDto.tiempo_Max_Tratamiento;
-                tipoReclamo.FechaModificacion = DateTime.Now;
-
-                bd.SaveChanges();
-            }
-
-            tipoReclamoDto.cod_Tipo_Reclamo = tipoReclamo.CodTipoReclamo;
-            tipoReclamoDto.nombre = tipoReclamo.Nombre;
-            tipoReclamoDto.descripcion = tipoReclamo.Descripcion;
-            tipoReclamoDto.tiempo_Max_Tratamiento = tipoReclamo.TiempoMaxTratamiento == null ? 0 : (int)tipoReclamo.TiempoMaxTratamiento;
-
-            return tipoReclamoDto;
         }
 
         public void eliminarTipoReclamo(int codTipoReclamoEliminar)
@@ -180,27 +223,31 @@ namespace MVPSA_V2022.Services
         }
 
         public TipoReclamoCLS getTipoReclamo(int codTipoReclamo) {
-            TipoReclamo tipoReclamo;
-            using (M_VPSA_V3Context bd = new M_VPSA_V3Context())            {
-                tipoReclamo =
-                    bd.TipoReclamos
-                    .Where(tr => tr.CodTipoReclamo == codTipoReclamo)
-                    .SingleOrDefault();
-                bd.SaveChanges();
+            TipoReclamoCLS tipoReclamoResponse;
+
+            using (M_VPSA_V3Context bd = new M_VPSA_V3Context()) {
+                tipoReclamoResponse = (from tipoReclamoQuery in bd.TipoReclamos
+                                       join usuarioAlta in bd.Usuarios
+                                         on tipoReclamoQuery.IdUsuarioAlta equals usuarioAlta.IdUsuario
+                                       join usuarioModificacion in bd.Usuarios
+                                         on tipoReclamoQuery.IdUsuarioModificacion equals usuarioModificacion.IdUsuario
+                                       where tipoReclamoQuery.CodTipoReclamo == codTipoReclamo
+                                       select new TipoReclamoCLS
+                                       {
+                                           cod_Tipo_Reclamo = tipoReclamoQuery.CodTipoReclamo,
+                                           nombre = tipoReclamoQuery.Nombre,
+                                           descripcion = tipoReclamoQuery.Descripcion,
+                                           tiempo_Max_Tratamiento = tipoReclamoQuery.TiempoMaxTratamiento == null ? 0 : (int)tipoReclamoQuery.TiempoMaxTratamiento,
+                                           fechaAlta = (DateTime)tipoReclamoQuery.FechaAlta,
+                                           fechaModificacion = (DateTime)tipoReclamoQuery.FechaModificacion,
+                                           usuarioAlta = usuarioAlta.NombreUser,
+                                           usuarioModificacion = usuarioModificacion.NombreUser
+                                       }).Single();
             }
 
-            if (tipoReclamo == null) {
+            if (tipoReclamoResponse == null) {
                 throw new TipoReclamoNotFoundException("No se encontro un Tipo de Reclamo con codigo: " + codTipoReclamo);
             }
-
-            // ToDo usar el mapper para esto
-            TipoReclamoCLS tipoReclamoResponse = new TipoReclamoCLS();
-            tipoReclamoResponse.cod_Tipo_Reclamo = tipoReclamo.CodTipoReclamo;
-            tipoReclamoResponse.nombre = tipoReclamo.Nombre;
-            tipoReclamoResponse.descripcion = tipoReclamo.Descripcion;
-            tipoReclamoResponse.tiempo_Max_Tratamiento = tipoReclamo.TiempoMaxTratamiento == null ? 0 : (int)tipoReclamo.TiempoMaxTratamiento;
-            tipoReclamoResponse.fechaAlta = (DateTime)tipoReclamo.FechaAlta;
-            tipoReclamoResponse.fechaModificacion = (DateTime)tipoReclamo.FechaModificacion;
 
             return tipoReclamoResponse;
         }

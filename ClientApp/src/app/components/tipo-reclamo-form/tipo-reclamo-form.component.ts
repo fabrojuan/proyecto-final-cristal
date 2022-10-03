@@ -39,7 +39,9 @@ export class TipoReclamoFormComponent implements OnInit {
             descripcion: data.descripcion,
             tiempoMaxResolucion: data.tiempo_Max_Tratamiento,
             fechaAlta: data.fechaAlta,
-            fechaModificacion: data.fechaModificacion
+            fechaModificacion: data.fechaModificacion,
+            usuarioAlta: data.usuarioAlta,
+            usuarioModificacion : data.usuarioModificacion
           });
         }
       );     
@@ -62,7 +64,9 @@ export class TipoReclamoFormComponent implements OnInit {
       descripcion: ['', [Validators.required, Validators.maxLength(250)]],
       tiempoMaxResolucion: ['0', [Validators.required, Validators.min(0)]],
       fechaAlta: [''],
-      fechaModificacion: ['']
+      fechaModificacion: [''],
+      usuarioAlta: [''],
+      usuarioModificacion: ['']
     });
   }
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MVPSA_V2022.clases;
 using MVPSA_V2022.Modelos;
 using System;
@@ -8,6 +9,7 @@ using System.Transactions;
 
 namespace MVPSA_V2022.Controllers
 {
+    [Authorize]
     public class RolController : Controller
     {
         public IActionResult Index()

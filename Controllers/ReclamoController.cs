@@ -1,23 +1,30 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Net.Http.Headers;
 using MVPSA_V2022.clases;
 using MVPSA_V2022.Exceptions;
 using MVPSA_V2022.Modelos;
 using MVPSA_V2022.Services;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 
 namespace MVPSA_V2022.Controllers
 {
     [Route("api/reclamos")]
+    [Authorize]
     public class ReclamoController : Controller
     {
         private readonly IReclamoService reclamoService;
+        private readonly IUsuarioService _usuarioService;
 
-        public ReclamoController(IReclamoService reclamoService)
+        public ReclamoController(IReclamoService reclamoService, IUsuarioService usuarioService)
         {
             this.reclamoService = reclamoService;
+            this._usuarioService = usuarioService;
         }
 
         public IActionResult Index()
@@ -27,7 +34,7 @@ namespace MVPSA_V2022.Controllers
 
         [HttpGet]
         [Route("tipos-reclamo/{codTipoReclamo}")]
-        public IActionResult ListarTiposReclamo(int codTipoReclamo)
+        public IActionResult consultarTipoReclamo(int codTipoReclamo)
         {
             try
             {
@@ -43,7 +50,7 @@ namespace MVPSA_V2022.Controllers
 
         [HttpGet]
         [Route("tipos-reclamo")]
-        public IEnumerable<TipoReclamoCLS> getTipoReclamo()
+        public IEnumerable<TipoReclamoCLS> getTiposReclamo()
         {
             return reclamoService.listarTiposReclamo();
 
@@ -67,7 +74,9 @@ namespace MVPSA_V2022.Controllers
 
         [HttpPost]
         [Route("tipos-reclamo")]
-        public IActionResult guardarTipoReclamo([FromBody] TipoReclamoCLS tipoReclamoCLS)
+        public IActionResult guardarTipoReclamo(
+            [FromHeader(Name = "id_usuario")] string idUsuario,
+            [FromBody] TipoReclamoCLS tipoReclamoCLS)
         {
             try
             {
@@ -79,7 +88,7 @@ namespace MVPSA_V2022.Controllers
                     throw new PagoNoValidoException(errors.ToString());
                 }
 
-                tipoReclamoCLS = this.reclamoService.guardarTipoReclamo(tipoReclamoCLS);
+                tipoReclamoCLS = this.reclamoService.guardarTipoReclamo(tipoReclamoCLS, Int32.Parse(idUsuario));
                 return Ok(tipoReclamoCLS);
             }
             catch (Exception ex)
@@ -91,7 +100,9 @@ namespace MVPSA_V2022.Controllers
 
         [HttpPut]
         [Route("tipos-reclamo")]
-        public IActionResult actualizarTipoReclamo([FromBody] TipoReclamoCLS tipoReclamoCLS)
+        public IActionResult actualizarTipoReclamo(
+            [FromHeader(Name = "id_usuario")] string idUsuario,
+            [FromBody] TipoReclamoCLS tipoReclamoCLS)
         {
             try
             {
@@ -103,7 +114,7 @@ namespace MVPSA_V2022.Controllers
                     throw new PagoNoValidoException(errors.ToString());
                 }
 
-                tipoReclamoCLS = this.reclamoService.modificarTipoReclamo(tipoReclamoCLS);
+                tipoReclamoCLS = this.reclamoService.modificarTipoReclamo(tipoReclamoCLS, Int32.Parse(idUsuario));
                 return Ok(tipoReclamoCLS);
             }
             catch (Exception ex)

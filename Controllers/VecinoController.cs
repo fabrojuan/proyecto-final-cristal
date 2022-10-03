@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MVPSA_V2022.clases;
@@ -11,6 +12,7 @@ using System.Transactions;
 
 namespace MVPSA_V2022.Controllers
 {
+    [Authorize]
     public class VecinoController : Controller
     {
         public IActionResult Index()
