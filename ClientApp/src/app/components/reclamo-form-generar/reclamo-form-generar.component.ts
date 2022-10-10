@@ -50,8 +50,37 @@ export class ReclamoFormGenerarComponent implements OnInit {
     }
   }
   clickMethod() {
+    if (this.Reclamo.invalid) {
+      Object.values(this.Reclamo.controls).forEach(
+        control => {
+          control.markAsTouched();
+        }
+      );
+      return;
+    }
+
     alert("Su reclamo se ha generada correctamente");
     //Luego de presionar click debe redireccionar al home Iniciar aqui la creacion de un modal. 
+  }
+
+  get codTipoReclamoNoValido() {
+    return this.Reclamo.get('codTipoReclamo')?.invalid && this.Reclamo.get('codTipoReclamo')?.touched;
+  }
+
+  get calleNoValido() {
+    return this.Reclamo.get('Calle')?.invalid && this.Reclamo.get('Calle')?.touched;
+  }
+
+  get alturaNoValido() {
+    return this.Reclamo.get('Altura')?.invalid && this.Reclamo.get('Altura')?.touched;
+  }
+
+  get entreCallesNoValido() {
+    return this.Reclamo.get('entreCalles')?.invalid && this.Reclamo.get('entreCalles')?.touched;
+  }
+
+  get descripcionNoValido() {
+    return this.Reclamo.get('Descripcion')?.invalid && this.Reclamo.get('Descripcion')?.touched;
   }
 
 }
