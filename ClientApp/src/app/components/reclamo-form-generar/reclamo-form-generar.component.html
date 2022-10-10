@@ -48,7 +48,7 @@
     <div class="row mb-3">
       <div class="col">
         <label for="exampleFormControlTextarea1">(*) Descripci&oacute;n</label>
-        <textarea class="form-control" formControlName="Descripcion" id="exampleFormControlTextarea1" rows="3" placeholder="Descripcion del reclamo del servicio, circunstancias que lo generaron puede incluir nombres de personas implicadas para mayor trazabilidad."></textarea>
+        <textarea class="form-control" formControlName="Descripcion" id="exampleFormControlTextarea1" rows="3" placeholder="Descripcion del reclamo del servicio, circunstancias que lo generaron. Puede incluir nombres de personas implicadas para mayor trazabilidad."></textarea>
         <small *ngIf="descripcionNoValido" class="text-danger">
           La descripci&oacute;n es requerida.
         </small>
@@ -57,7 +57,8 @@
 
     <div class="row mb-3">
       <div class="col-md-6">
-        <input type="file" class="form-control" id="customFileLang" lang="es">
+        <input type="file" class="form-control" id="customFileLang" lang="es"
+               accept="image/*">
       </div>
       <div class="col-md-6">
         <input type="file" class="form-control" id="customFileLang2" lang="es">

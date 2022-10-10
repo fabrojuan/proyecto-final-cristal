@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MVPSA_V2022.clases;
 using MVPSA_V2022.Modelos;
+using MVPSA_V2022.Services;
 using System;
 using System.Linq;
 using System.Security.Cryptography;
@@ -15,6 +16,13 @@ namespace MVPSA_V2022.Controllers
     [Authorize]
     public class VecinoController : Controller
     {
+        private readonly IJwtAuthenticationService _jwtAuthenticationService;
+
+        public VecinoController(IJwtAuthenticationService jwtAuthenticationService)
+        {
+            _jwtAuthenticationService = jwtAuthenticationService;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -184,9 +192,10 @@ namespace MVPSA_V2022.Controllers
         }
 
         //Insertar metodo para obtener user.
+        [AllowAnonymous]
         [HttpPost]
         [Route("api/Vecino/login")]
-        public VecinoCLS login([FromBody] VecinoCLS oVecinoCLS)
+        public IActionResult login([FromBody] VecinoCLS oVecinoCLS)
         {
             VecinoCLS oUsuario = new VecinoCLS();
             int rpta = 0;
@@ -210,14 +219,16 @@ namespace MVPSA_V2022.Controllers
                     HttpContext.Session.SetString("nombreVecino", oUsuarioRecuperar.NombreUser.ToString());
                     oUsuario.IdVecino = oUsuarioRecuperar.IdVecino;
                     oUsuario.NombreUser = oUsuarioRecuperar.NombreUser;
+
+                    return Ok(_jwtAuthenticationService.getToken(oUsuario.IdVecino));
                 }
                 else
                 {
                     oUsuario.IdVecino = 0;
                     oUsuario.NombreUser = "";
+                    return Unauthorized();
                 }
             }
-            return oUsuario;
         }
         //*****************FIN LOGIN **************************************
 

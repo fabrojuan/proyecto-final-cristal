@@ -3,6 +3,7 @@ import { Injectable, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import * as moment from 'moment';
 
 
 @Injectable({
@@ -85,13 +86,54 @@ export class VecinoService {
 
   //   ************** LOGIN *****************
   public login(vecino:any): Observable<any> {
-    return this.http.post(this.urlBase + "api/Vecino/login/", vecino).pipe(map(res => res));
+    return this.http.post(this.urlBase + "api/Vecino/login/", vecino).pipe(
+      map(res => {
+        this.guardarToken(res);
+        return res;
+      })
+    );
   }
 
+  private guardarToken(authResult: any) {
+    const expiresAt = moment().add(authResult.expiresAt, 'seconds');
+
+    localStorage.setItem('tokenId', authResult.tokenId);
+    localStorage.setItem("expiresAt", JSON.stringify(expiresAt.valueOf()));
+  }
+
+  private borrarToken() {
+    localStorage.removeItem("tokenId");
+    localStorage.removeItem("expiresAt");
+  }
+
+  public isLoggedIn(): boolean {
+    try {
+      return moment().isBefore(this.getExpiration());
+    } catch (e) {
+      return false;
+    }
+  }
+
+  isLoggedOut() {
+    return !this.isLoggedIn();
+  }
+
+  getExpiration() {
+    const expiration = localStorage.getItem("expiresAt") || "";
+    const expiresAt = JSON.parse(expiration);
+    return moment(expiresAt);
+  }
 
   public cerrarSessionVecino() {
-    return this.http.get(this.urlBase + "api/Vecino/cerrarSessionVecino").pipe(map(res => res));
+    return this.http.get(this.urlBase + "api/Vecino/cerrarSessionVecino").pipe(
+      map(res => {
+        this.borrarToken();
+        return res;
+      })
+    );
   }
+
+
 
 //  //   *************** FIN LOGIN ***************
 }
