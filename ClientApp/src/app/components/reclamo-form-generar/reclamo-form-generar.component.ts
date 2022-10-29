@@ -18,11 +18,10 @@ export class ReclamoFormGenerarComponent implements OnInit {
       {
         "Nro_Reclamo": new FormControl("0"),
         "codTipoReclamo": new FormControl("", [Validators.required]),
-        "Descripcion": new FormControl("", [Validators.required, Validators.maxLength(2500)]),
-        "Calle": new FormControl("", [Validators.required, Validators.maxLength(100)]),
-        "entreCalles": new FormControl("", [Validators.required, Validators.maxLength(100)]),
+        "Descripcion": new FormControl("", [Validators.required, Validators.maxLength(200)]),
+        "Calle": new FormControl("", [Validators.required, Validators.maxLength(50)]),
+        "entreCalles": new FormControl("", [Validators.required, Validators.maxLength(50)]),
         "Altura": new FormControl("", [Validators.required, Validators.maxLength(6)]),
-        "Bhabilitado": new FormControl("1"),
         "idVecino": new FormControl("0"),
         "nombreVecino": new FormControl("")
       }

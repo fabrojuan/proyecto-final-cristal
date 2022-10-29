@@ -26,21 +26,21 @@
         <label for="formGroupExampleInput">(*) Nombre calle</label>
         <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Nombre calle" formControlName="Calle">
         <small *ngIf="calleNoValido" class="text-danger">
-          El nombre de calle es requerido.
+          El nombre de calle es requerido. No puede superar los 50 caracteres.
         </small>
       </div>
       <div class="col-md-4">
         <label for="formGroupExampleInput">(*) Altura aproximada</label>
         <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Altura aproximada" formControlName="Altura">
         <small *ngIf="alturaNoValido" class="text-danger">
-          La altura aproximada es requerida.
+          La altura aproximada es requerida. No puede superar los 6 caracteres.
         </small>
       </div>
       <div class="col-md-4">
         <label for="formGroupExampleInput">(*) Entre calles</label>
         <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Entre calles" formControlName="entreCalles">
         <small *ngIf="entreCallesNoValido" class="text-danger">
-          El dato de entre calles es requerido.
+          El dato de entre calles es requerido. No puede superar los 50 caracteres.
         </small>
       </div>
     </div>
@@ -50,7 +50,7 @@
         <label for="exampleFormControlTextarea1">(*) Descripci&oacute;n</label>
         <textarea class="form-control" formControlName="Descripcion" id="exampleFormControlTextarea1" rows="3" placeholder="Descripcion del reclamo del servicio, circunstancias que lo generaron. Puede incluir nombres de personas implicadas para mayor trazabilidad."></textarea>
         <small *ngIf="descripcionNoValido" class="text-danger">
-          La descripci&oacute;n es requerida.
+          La descripci&oacute;n es requerida. No puede superar los 200 caracteres.
         </small>
       </div>
     </div>
