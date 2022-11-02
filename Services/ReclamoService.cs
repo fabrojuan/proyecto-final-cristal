@@ -19,16 +19,10 @@ namespace MVPSA_V2022.Services
          * RECLAMOS
          */
 
-        public int guardarReclamo(ReclamoCLS reclamoCLS)
+        public ReclamoCLS guardarReclamo(ReclamoCLS reclamoCLS, int idVecinoAlta)
         {
-            int rpta = 0;
             try
             {
-                //Reclamo reclamo = _mapper.Map<Reclamo>(reclamoCLS);
-                //reclamo.CodEstadoReclamo = 1;
-                //reclamo.Bhabilitado = 1;
-                //reclamo.Fecha = null;
-
                 Reclamo reclamo = new Reclamo();
                 reclamo.CodTipoReclamo = reclamoCLS.codTipoReclamo;
                 reclamo.Calle = reclamoCLS.calle;
@@ -37,20 +31,45 @@ namespace MVPSA_V2022.Services
                 reclamo.CodEstadoReclamo = 1;
                 reclamo.Descripcion = reclamoCLS.descripcion;
                 reclamo.Bhabilitado = 1;
-                reclamo.IdVecino = reclamoCLS.idVecino;
+                reclamo.IdVecino = idVecinoAlta;
+                reclamo.Fecha = DateTime.Now;
 
                 using (M_VPSA_V3Context bd = new M_VPSA_V3Context()) {
+
+                    // Guarda la foto 1 si el vecino la cargo
+                    if (reclamoCLS.foto1 != null && reclamoCLS.foto1.Length > 0) {
+                        PruebaGraficaReclamo pruebaGraficaReclamo1 = new PruebaGraficaReclamo();
+                        pruebaGraficaReclamo1.Foto = reclamoCLS.foto1;
+                        pruebaGraficaReclamo1.IdVecino = idVecinoAlta;
+                        pruebaGraficaReclamo1.Bhabilitado = 1;
+
+                        reclamo.PruebaGraficaReclamos.Add(pruebaGraficaReclamo1);
+                    }
+
+                    // Guarda la foto 2 si el vecino la cargo
+                    if (reclamoCLS.foto2 != null && reclamoCLS.foto2.Length > 0)
+                    {
+                        PruebaGraficaReclamo pruebaGraficaReclamo2 = new PruebaGraficaReclamo();
+                        pruebaGraficaReclamo2.Foto = reclamoCLS.foto2;
+                        pruebaGraficaReclamo2.IdVecino = idVecinoAlta;
+                        pruebaGraficaReclamo2.Bhabilitado = 1;
+
+                        reclamo.PruebaGraficaReclamos.Add(pruebaGraficaReclamo2);
+                    }
+
+                    // Guarda el reclamo con las imagenes
                     bd.Reclamos.Add(reclamo);
                     bd.SaveChanges();
+
+                    reclamoCLS.nroReclamo = reclamo.NroReclamo;
                 }
-                rpta = 1;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
-                rpta = 0;
+                throw new Exception("Se produjo un error y no se pudo guardar el Reclamo");
             }
-            return rpta;
+            return reclamoCLS;
         }
 
         public IEnumerable<ReclamoCLS> listarReclamos()

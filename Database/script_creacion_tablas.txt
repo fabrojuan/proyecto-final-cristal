@@ -52,3 +52,5 @@ ADD IdUsuarioModificacion int;
 update M_VPSA_V3.dbo.TIPO_RECLAMO
   set FechaAlta = GETDATE(),
   FechaModificacion = GETDATE();
+
+ALTER TABLE M_VPSA_V3.dbo.PRUEBA_GRAFICA_RECLAMO ADD foto varchar(MAX); 
