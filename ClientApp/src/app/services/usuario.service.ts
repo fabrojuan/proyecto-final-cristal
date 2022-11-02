@@ -159,7 +159,7 @@ export class UsuarioService {
 
   private guardarToken(authResult: any) {
     const expiresAt = moment().add(authResult.expiresAt, 'seconds');
-
+    console.log("Response token!!! ");
     localStorage.setItem('tokenId', authResult.tokenId);
     localStorage.setItem("expiresAt", JSON.stringify(expiresAt.valueOf()));
   }

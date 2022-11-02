@@ -1,0 +1,108 @@
+<div class="container">
+  <h1 class="text-center">Alta/Edici&oacute;n Tipos de Denuncia</h1>
+
+  <form [formGroup]="form" (ngSubmit)="guardar()">
+
+    <div class="row mb-3" *ngIf="esModoEdicion">
+      <div class="col-md-4">
+        <label for="exampleInputEmail1" class="form-label">C&oacute;digo</label>
+        <input class="form-control text-right"
+               type="text"
+               placeholder="C&oacute;digo"
+               formControlName="codigo"
+               readonly>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">(*) Nombre</label>
+      <input class="form-control"
+             type="text"
+             placeholder="Nombre Tipo Denuncia"
+             formControlName="nombre"
+             [class.is-invalid]="nombreNoValido">
+      <small *ngIf="nombreNoValido" class="text-danger">
+        El Nombre es requerido. No puede superar los 90 caracteres.
+      </small>
+    </div>
+
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">(*) Descripci&oacute;n</label>
+      <input class="form-control"
+             type="text"
+             placeholder="Descripci&oacute;n Tipo Denuncia"
+             formControlName="descripcion"
+             [class.is-invalid]="descripcionNoValido">
+      <small *ngIf="descripcionNoValido" class="text-danger">
+        La Descripci&oacute;n es requerida. No puede superar los 250 caracteres.
+      </small>
+    </div>
+
+    <div class="mb-3">
+
+
+    </div>
+
+    <div class="row">
+      <div class="col-md-4">
+        <label for="exampleInputEmail1" class="form-label">(*) Tiempo M&aacute;x. Resoluci&oacute;n </label>
+        <div class="input-group mb-3">
+          <input class="form-control text-right"
+                 type="number"
+                 placeholder="Tiempo M&aacute;x. Resoluci&oacute;n"
+                 formControlName="tiempoMaxResolucion"
+                 [class.is-invalid]="tiempoMaxResolucionNoValido">
+          <span class="input-group-text" id="basic-addon2">dias</span>
+        </div>
+        <small *ngIf="tiempoMaxResolucionNoValido" class="text-danger">
+          El tiempo m&aacute;ximo de resoluci&oacute;n es requerido. Debe ser igual o mayor a 0.
+        </small>
+      </div>
+      <div class="col" *ngIf="esModoEdicion">
+        <label for="exampleInputEmail1" class="form-label">Fecha Alta</label>
+        <input type="text" class="form-control text-center" formControlName="fechaAlta"
+               [value]="form.get('fechaAlta')?.value | date: 'dd/MM/yyyy HH:mm'"
+               readonly>
+      </div>
+      <div class="col" *ngIf="esModoEdicion">
+        <label for="exampleInputEmail1" class="form-label">Fecha &Uacute;ltima Modificaci&oacute;n </label>
+        <input type="text" class="form-control text-center" formControlName="fechaModificacion"
+               [value]="form.get('fechaModificacion')?.value | date: 'dd/MM/yyyy HH:mm'"
+               readonly>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col" *ngIf="esModoEdicion">
+        <label for="exampleInputEmail1" class="form-label">Usuario Alta</label>
+        <input type="text" class="form-control" formControlName="usuarioAlta"
+               readonly>
+      </div>
+      <div class="col" *ngIf="esModoEdicion">
+        <label for="exampleInputEmail1" class="form-label">Usuario &Uacute;ltima Modificaci&oacute;n </label>
+        <input type="text" class="form-control" formControlName="usuarioModificacion"
+               readonly>
+      </div>
+    </div>
+
+    <div class="form-group justify-content-around">
+
+    </div>
+
+    <div class="d-grid gap-4 d-md-flex justify-content-md-center">
+      <input type="submit" value="Guardar" class="btn btn-primary" />
+      <button type="button" class="btn btn-secondary" (click)="volver()">Cancelar</button>
+    </div>
+  </form>
+
+  <!--<hr>
+  <pre>
+    Estado del formulario: {{ form.valid }}
+  <br />
+    Status: {{ form.status }}
+  </pre>
+
+  <pre>
+    {{ form.value | json }}
+  </pre>-->
+</div>
