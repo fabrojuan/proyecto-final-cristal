@@ -669,6 +669,10 @@ namespace MVPSA_V2022.Modelos
 
                 entity.Property(e => e.NroReclamo).HasColumnName("Nro_Reclamo");
 
+                entity.Property(e => e.Foto)
+                    .IsUnicode(false)
+                    .HasColumnName("foto");
+
                 entity.HasOne(d => d.IdUsuarioNavigation)
                     .WithMany(p => p.PruebaGraficaReclamos)
                     .HasForeignKey(d => d.IdUsuario)
