@@ -46,7 +46,7 @@ export class ReclamoService {
    *
    */
 
-  public agregarReclamo(Reclamo: any) {
+  public agregarReclamo(Reclamo: any): Observable<any> {
     var url = this.urlBase + 'api/reclamos';
     return this.http.post(url, Reclamo).pipe(map(res => res));
   }

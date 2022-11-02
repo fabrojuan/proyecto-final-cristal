@@ -4,7 +4,7 @@ namespace MVPSA_V2022.Services
 {
     public interface IReclamoService
     {
-        public int guardarReclamo(ReclamoCLS reclamoCLS);
+        public ReclamoCLS guardarReclamo(ReclamoCLS reclamoCLS, int idVecinoAlta);
 
         public IEnumerable<ReclamoCLS> listarReclamos();
 

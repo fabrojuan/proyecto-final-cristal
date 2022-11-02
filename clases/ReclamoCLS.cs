@@ -20,6 +20,9 @@ namespace MVPSA_V2022.clases
         public string tipoReclamo { get; set; }
         public string nombreYapellido { get; set; }
 
+        public string foto1 { get; set; }
+        public string foto2 { get; set; }
+
 
 
     }
