@@ -77,6 +77,8 @@ import { TipoReclamoFormComponent } from './components/tipo-reclamo-form/tipo-re
 
 import { ToastService } from './services/toast.service';
 import { ToastsContainer } from './components/toasts-container/toasts-container.component';
+import { TipoDenunciaFormComponent } from './components/tipo-denuncia-form/tipo-denuncia-form.component';
+import { TipoDenunciaTablaComponent } from './components/tipo-denuncia-tabla/tipo-denuncia-tabla.component';
 
 
 @NgModule({
@@ -129,7 +131,9 @@ import { ToastsContainer } from './components/toasts-container/toasts-container.
     LoteDetalleComponent,
     TipoReclamoTablaComponent,
     TipoReclamoFormComponent,
-    ToastsContainer
+    ToastsContainer,
+    TipoDenunciaFormComponent,
+    TipoDenunciaTablaComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -186,6 +190,9 @@ import { ToastsContainer } from './components/toasts-container/toasts-container.
       { path: 'tipo-reclamo-tabla', component: TipoReclamoTablaComponent, canActivate: [SeguridadGuard] },
       { path: 'tipo-reclamo-form/:id', component: TipoReclamoFormComponent, canActivate: [SeguridadGuard] },
       { path: 'tipo-reclamo-form', component: TipoReclamoFormComponent, canActivate: [SeguridadGuard] },
+      { path: 'tipo-denuncia-tabla', component: TipoDenunciaTablaComponent, canActivate: [SeguridadGuard] },
+      { path: 'tipo-denuncia-form/:id', component: TipoDenunciaFormComponent/*, canActivate: [SeguridadGuard] */},
+      { path: 'tipo-denuncia-form', component: TipoDenunciaFormComponent/*, canActivate: [SeguridadGuard] */},
 
       { path: '*', redirectTo: '' } //a home
 

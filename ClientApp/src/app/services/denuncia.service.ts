@@ -13,9 +13,25 @@ export class DenunciaService {
     this.urlBase = baseUrl;
 
   }
-  
+
+  public getTipoDenunciaByCodigo(codTipoDenuncia: number): Observable<any> {
+    return this.http.get(this.urlBase + 'api/denuncias/tipos-denuncia/' + codTipoDenuncia).pipe(map(res => res));
+  }
+
+  public agregarTipoDenuncia(tipoDenuncia: any): Observable<any> {
+    return this.http.post(this.urlBase + 'api/denuncias/tipos-denuncia', tipoDenuncia).pipe(map(res => res));
+  }
+
+  public modificarTipoDenuncia(tipoDenuncia: any): Observable<any> {
+    return this.http.put(this.urlBase + 'api/denuncias/tipos-denuncia', tipoDenuncia).pipe(map(res => res));
+  }
+
+  public eliminarTipoDenuncia(codTipoDenuncia: number): Observable<any> {
+    return this.http.delete(this.urlBase + 'api/denuncias/tipos-denuncia/' + codTipoDenuncia).pipe(map(res => res));
+  }
+
   public getTipoDenuncia(): Observable<any> {
-    return this.http.get(this.urlBase + 'api/Denuncia/listarTiposDenuncia').pipe(map(res => res));
+    return this.http.get(this.urlBase + 'api/denuncias/tipos-denuncia').pipe(map(res => res));
   }
 
   public getEstadoDenuncia(): Observable<any> {

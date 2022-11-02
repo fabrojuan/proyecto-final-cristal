@@ -7,7 +7,7 @@ const PROXY_CONFIG = [
   {
     context: [
       "/api/Usuario",
-      "/api/Denuncia",
+      "/api/denuncias",
       "/api/vecino",
       "/api/Rol",
       "/api/Impuestos",

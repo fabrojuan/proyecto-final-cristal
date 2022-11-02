@@ -2,47 +2,37 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MVPSA_V2022.clases;
+using MVPSA_V2022.Exceptions;
 using MVPSA_V2022.Modelos;
+using MVPSA_V2022.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Transactions;
 
 namespace MVPSA_V2022.Controllers
 {
+    [Route("api/denuncias")]
     [Authorize]
     public class DenunciaController : Controller
     {
+
+        private readonly IDenunciaService denunciaService;
+
+        public DenunciaController(IDenunciaService denunciaService, IUsuarioService usuarioService)
+        {
+            this.denunciaService = denunciaService;
+        }
+
         public IActionResult Index()
         {
             return View();
         }
 
+        
         [HttpGet]
-        [Route("api/Denuncia/listarTiposDenuncia")]
-        public IEnumerable<TipoDenunciaCLS> listarTiposDenuncia()
-        {
-            List<TipoDenunciaCLS> listaTipoDenuncia;
-            using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
-            {
-
-                listaTipoDenuncia = (from TipoDenuncia in bd.TipoDenuncia
-                                     where TipoDenuncia.Bhabilitado == 1
-                                     select new TipoDenunciaCLS
-                                     {
-                                         Cod_Tipo_Denuncia = TipoDenuncia.CodTipoDenuncia,
-                                         Nombre = TipoDenuncia.Nombre,
-                                         Tiempo_Max_Tratamiento = (int)TipoDenuncia.TiempoMaxTratamiento,
-                                         Descripcion = TipoDenuncia.Descripcion
-
-                                     }).ToList();
-                return listaTipoDenuncia;
-            }
-
-        }
-
-        [HttpGet]
-        [Route("api/Denuncia/listarEstadosDenuncia")]
+        [Route("listarEstadosDenuncia")]
         public IEnumerable<DenunciaCLS> listarEstadosDenuncia()
         {
             List<DenunciaCLS> listaEstadoDenuncia;
@@ -65,7 +55,7 @@ namespace MVPSA_V2022.Controllers
         }
 
         [HttpGet]
-        [Route("api/Denuncia/listarDenuncias")]
+        [Route("listarDenuncias")]
         public IEnumerable<DenunciaCLS2> listarDenuncias()
         {
             using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
@@ -99,7 +89,7 @@ namespace MVPSA_V2022.Controllers
 
         }
         [HttpPost]
-        [Route("api/Denuncia/guardarDenuncia")] 
+        [Route("guardarDenuncia")] 
         public int guardarDenuncia([FromBody] DenunciaCLS2 oDenunciaCLS2)
         {
             int rpta = 0;
@@ -174,7 +164,7 @@ namespace MVPSA_V2022.Controllers
         }
 
         [HttpPost]
-        [Route("api/Denuncia/DerivaPriorizaDenuncia")]
+        [Route("DerivaPriorizaDenuncia")]
         public int DerivaPriorizaDenuncia([FromBody] DenunciaCLS2 DenunciaCLS2)
         {
             int rpta = 0;
@@ -203,7 +193,7 @@ namespace MVPSA_V2022.Controllers
 
 
         [HttpPost]
-        [Route("api/Denuncia/solucionarDenuncia")]
+        [Route("solucionarDenuncia")]
         public int solucionarDenuncia([FromBody] TrabajoCLS oTrabajoCLS)
         {
             int rpta = 0;
@@ -246,7 +236,7 @@ namespace MVPSA_V2022.Controllers
 
 
         [HttpPost]
-        [Route("api/Denuncia/devolverAMEsa")]  ///{nroDenuncia} [FromBody]{id}
+        [Route("devolverAMEsa")]  ///{nroDenuncia} [FromBody]{id}
         public int devolverAMEsa([FromBody] TrabajoCLS oTrabajoCLS)
         {
             int rpta = 0;
@@ -271,7 +261,7 @@ namespace MVPSA_V2022.Controllers
         }
 
         [HttpGet]
-        [Route("api/Denuncia/DenunciasxEmpleado")]
+        [Route("DenunciasxEmpleado")]
         public ChartDenuncia DenunciasxEmpleado()
         {
             using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
@@ -319,7 +309,97 @@ namespace MVPSA_V2022.Controllers
         }
 
 
+        [HttpGet]
+        [Route("tipos-denuncia/{codTipoDenuncia}")]
+        public IActionResult consultarTipoDenuncia(int codTipoDenuncia)
+        {
+            try
+            {
+                TipoDenunciaCLS tipoDenuncia = this.denunciaService.getTipoDenuncia(codTipoDenuncia);
+                return Ok(tipoDenuncia);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
 
+        }
+
+        [HttpGet]
+        [Route("tipos-denuncia")]
+        public IEnumerable<TipoDenunciaCLS> getTiposDenuncia()
+        {
+            return denunciaService.listarTiposDenuncia();
+
+        }
+
+        [HttpDelete]
+        [Route("tipos-denuncia/{codTipoDenuncia}")]
+        public IActionResult emininarTipoDenuncia(int codTipoDenuncia)
+        {
+            try
+            {
+                this.denunciaService.eliminarTipoDenuncia(codTipoDenuncia);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+        [HttpPost]
+        [Route("tipos-denuncia")]
+        public IActionResult guardarTipoDenuncia(
+            [FromHeader(Name = "id_usuario")] string idUsuario,
+            [FromBody] TipoDenunciaCLS tipoDenunciaCLS)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    StringBuilder errors = new StringBuilder("Errores: ");
+                    ModelState.Keys.ToList().ForEach(key => errors.Append(key.ToString() + ". "));
+                    Console.WriteLine(errors);
+                    throw new PagoNoValidoException(errors.ToString());
+                }
+
+                tipoDenunciaCLS = this.denunciaService.guardarTipoDenuncia(tipoDenunciaCLS, Int32.Parse(idUsuario));
+                return Ok(tipoDenunciaCLS);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+        [HttpPut]
+        [Route("tipos-denuncia")]
+        public IActionResult actualizarTipoReclamo(
+            [FromHeader(Name = "id_usuario")] string idUsuario,
+            [FromBody] TipoDenunciaCLS tipoDenunciaCLS)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    StringBuilder errors = new StringBuilder("Errores: ");
+                    ModelState.Keys.ToList().ForEach(key => errors.Append(key.ToString() + ". "));
+                    Console.WriteLine(errors);
+                    throw new PagoNoValidoException(errors.ToString());
+                }
+
+                tipoDenunciaCLS = this.denunciaService.modificarTipoDenuncia(tipoDenunciaCLS, Int32.Parse(idUsuario));
+                return Ok(tipoDenunciaCLS);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
 
 
 
