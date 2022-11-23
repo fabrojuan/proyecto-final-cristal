@@ -11,8 +11,7 @@ namespace MVPSA_V2022.Modelos
         public int? IdUsuario { get; set; }
         public int? IdVecino { get; set; }
         public int? Bhabilitado { get; set; }
-
-        public string Foto { get; set; }
+        public string? Foto { get; set; }
 
         public virtual Usuario? IdUsuarioNavigation { get; set; }
         public virtual UsuarioVecino? IdVecinoNavigation { get; set; }

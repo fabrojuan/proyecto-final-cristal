@@ -16,6 +16,7 @@ namespace MVPSA_V2022.Modelos
         {
         }
 
+        public virtual DbSet<Alicuotum> Alicuota { get; set; } = null!;
         public virtual DbSet<Boletum> Boleta { get; set; } = null!;
         public virtual DbSet<ControlProceso> ControlProcesos { get; set; } = null!;
         public virtual DbSet<DatosAbierto> DatosAbiertos { get; set; } = null!;
@@ -44,6 +45,7 @@ namespace MVPSA_V2022.Modelos
         public virtual DbSet<Sugerencium> Sugerencia { get; set; } = null!;
         public virtual DbSet<TipoDatoAbierto> TipoDatoAbiertos { get; set; } = null!;
         public virtual DbSet<TipoDenuncium> TipoDenuncia { get; set; } = null!;
+        public virtual DbSet<TipoLote> TipoLotes { get; set; } = null!;
         public virtual DbSet<TipoReclamo> TipoReclamos { get; set; } = null!;
         public virtual DbSet<TipoSolicitud> TipoSolicituds { get; set; } = null!;
         public virtual DbSet<Tipopago> Tipopagos { get; set; } = null!;
@@ -58,13 +60,30 @@ namespace MVPSA_V2022.Modelos
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                //optionsBuilder.UseSqlServer("Data Source=VAIO-ROMAN;Initial Catalog=M_VPSA_V3;Integrated Security=True");
-                optionsBuilder.UseSqlServer("Data Source=localhost\\SQLEXPRESS;Initial Catalog=M_VPSA_V3;Integrated Security=True");
+                optionsBuilder.UseSqlServer("Data Source=VAIO-ROMAN;Initial Catalog=M_VPSA_V3;Integrated Security=True");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Alicuotum>(entity =>
+            {
+                entity.HasKey(e => e.IdAlicuota)
+                    .HasName("PK__ALICUOTA__381F0CC3B10239B1");
+
+                entity.ToTable("ALICUOTA");
+
+                entity.Property(e => e.Descripcion)
+                    .HasMaxLength(1500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.FechaGenerada)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.ImporteBase).HasColumnType("decimal(18, 0)");
+            });
+
             modelBuilder.Entity<Boletum>(entity =>
             {
                 entity.HasKey(e => e.IdBoleta)
@@ -342,16 +361,14 @@ namespace MVPSA_V2022.Modelos
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.EstadoInmueble)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
                 entity.Property(e => e.FechaAlta)
                     .HasColumnType("datetime")
                     .HasColumnName("Fecha_Alta")
                     .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.IdPersona).HasColumnName("idPersona");
+
+                entity.Property(e => e.IdTipoLote).HasColumnName("Id_Tipo_Lote");
 
                 entity.Property(e => e.NomenclaturaCatastral)
                     .HasMaxLength(25)
@@ -361,10 +378,6 @@ namespace MVPSA_V2022.Modelos
 
                 entity.Property(e => e.SupTerreno).HasColumnType("decimal(18, 0)");
 
-                entity.Property(e => e.TipoInmueble)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
                 entity.Property(e => e.ValuacionTotal).HasColumnType("decimal(18, 0)");
 
                 entity.HasOne(d => d.IdPersonaNavigation)
@@ -372,6 +385,11 @@ namespace MVPSA_V2022.Modelos
                     .HasForeignKey(d => d.IdPersona)
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK__LOTE__idPersona__693CA210");
+
+                entity.HasOne(d => d.IdTipoLoteNavigation)
+                    .WithMany(p => p.Lotes)
+                    .HasForeignKey(d => d.IdTipoLote)
+                    .HasConstraintName("FK_TipoFrLote");
             });
 
             modelBuilder.Entity<MobbexPago>(entity =>
@@ -396,6 +414,10 @@ namespace MVPSA_V2022.Modelos
                     .HasMaxLength(30)
                     .IsUnicode(false)
                     .HasColumnName("customer_uid");
+
+                entity.Property(e => e.FechaAlta)
+                    .HasColumnType("datetime")
+                    .HasColumnName("fecha_alta");
 
                 entity.Property(e => e.PaymentCreated)
                     .HasMaxLength(30)
@@ -667,11 +689,11 @@ namespace MVPSA_V2022.Modelos
 
                 entity.Property(e => e.Bhabilitado).HasColumnName("BHabilitado");
 
-                entity.Property(e => e.NroReclamo).HasColumnName("Nro_Reclamo");
-
                 entity.Property(e => e.Foto)
                     .IsUnicode(false)
                     .HasColumnName("foto");
+
+                entity.Property(e => e.NroReclamo).HasColumnName("Nro_Reclamo");
 
                 entity.HasOne(d => d.IdUsuarioNavigation)
                     .WithMany(p => p.PruebaGraficaReclamos)
@@ -921,15 +943,27 @@ namespace MVPSA_V2022.Modelos
                     .HasMaxLength(90)
                     .IsUnicode(false);
 
-                entity.Property(e => e.FechaAlta)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.FechaModificacion)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
-
                 entity.Property(e => e.TiempoMaxTratamiento).HasColumnName("Tiempo_Max_Tratamiento");
+            });
+
+            modelBuilder.Entity<TipoLote>(entity =>
+            {
+                entity.HasKey(e => e.CodTipoLote)
+                    .HasName("PK__TIPO_LOT__B769E6D07A1B2525");
+
+                entity.ToTable("TIPO_LOTE");
+
+                entity.Property(e => e.CodTipoLote).HasColumnName("Cod_Tipo_Lote");
+
+                entity.Property(e => e.Bhabilitado).HasColumnName("BHabilitado");
+
+                entity.Property(e => e.Descripcion)
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Nombre)
+                    .HasMaxLength(90)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<TipoReclamo>(entity =>
@@ -947,10 +981,6 @@ namespace MVPSA_V2022.Modelos
                     .HasMaxLength(250)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Nombre)
-                    .HasMaxLength(90)
-                    .IsUnicode(false);
-
                 entity.Property(e => e.FechaAlta)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
@@ -958,6 +988,10 @@ namespace MVPSA_V2022.Modelos
                 entity.Property(e => e.FechaModificacion)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.Nombre)
+                    .HasMaxLength(90)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.TiempoMaxTratamiento).HasColumnName("Tiempo_Max_Tratamiento");
             });
