@@ -44,7 +44,7 @@ namespace MVPSA_V2022.Services
 
             using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
             {
-                bd.MobbexPagos.Add(mobbexPago);
+             //   bd.MobbexPagos.Add(mobbexPago);
                 bd.Pagos.Add(pago);
                 bd.SaveChanges();
             }
