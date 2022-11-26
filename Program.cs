@@ -28,7 +28,7 @@ builder.Services.AddSession(options =>
 var authenticationKey = "esta es la clave secreta para autenticar usuarios";
 
 builder.Services.AddSingleton<IReclamoService, ReclamoService>();
-//builder.Services.AddSingleton<IDenunciaService, DenunciaService>();
+builder.Services.AddSingleton<IDenunciaService, DenunciaService>();
 builder.Services.AddSingleton<IPagoService, PagoService>();
 builder.Services.AddSingleton<IUsuarioService, UsuarioService>();
 builder.Services.AddSingleton<IJwtAuthenticationService> (new JwtAuthenticationService(authenticationKey));
