@@ -26,7 +26,7 @@ namespace MVPSA_V2022.Modelos
         public int? Bhabilitado { get; set; }
         public int? IdTipoLote { get; set; }
         public bool? Esquina { get; set; }
-        public bool? Principal { get; set; }
+        public bool? Asfaltado { get; set; }
 
         public virtual Persona? IdPersonaNavigation { get; set; }
         public virtual TipoLote? IdTipoLoteNavigation { get; set; }

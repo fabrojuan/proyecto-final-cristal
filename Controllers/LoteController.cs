@@ -132,6 +132,8 @@ namespace MVPSA_V2022.Controllers
                         oLote.SupEdificada = oLoteCLS.SupEdificada;
                         oLote.NomenclaturaCatastral = oLoteCLS.NomenclaturaCatastral;
                         oLote.Bhabilitado = 1;
+                        oLote.Esquina = oLoteCLS.Esquina;
+                        oLote.Asfaltado = oLoteCLS.Asfaltado;
                         //Busca id de persona con el dni que pase por parametro para insertar
                         oPersona = bd.Personas.Where(p => p.Dni == oLoteCLS.DniTitular).First();
                         oLote.IdPersona = oPersona.IdPersona;
@@ -151,12 +153,12 @@ namespace MVPSA_V2022.Controllers
 
                         transaccion.Complete();
 
-                        // oLote = bd.Lote.Where(d => d.NroLote == LoteCLS.NroLote).First();
+                        //oLote = bd.Lote.Where(d => d.NroLote == LoteCLS.NroLote).First();
 
 
                     } //Fin de La Transaccion
                 }
-                rpta = oLoteIdLote.IdLote;
+                //rpta = oLote.IdLote;
             }
             catch (Exception ex)
             {
