@@ -19,6 +19,10 @@
         public decimal? ValuacionTotal { get; set; }
         public int? EstadoDeuda { get; set; }
 
+        public Boolean? Esquina { get; set; }
+
+        public Boolean? Asfaltado { get; set; }
+
         public string? Error { get; internal set; }
         public string? DniTitular { get; set; }
         public int? IdPersona { get; set; }
