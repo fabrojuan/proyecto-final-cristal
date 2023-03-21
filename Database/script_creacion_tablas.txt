@@ -54,3 +54,5 @@ update M_VPSA_V3.dbo.TIPO_RECLAMO
   FechaModificacion = GETDATE();
 
 ALTER TABLE M_VPSA_V3.dbo.PRUEBA_GRAFICA_RECLAMO ADD foto varchar(MAX); 
+
+alter table dbo.RECLAMO add NomApeVecino VARCHAR(100);

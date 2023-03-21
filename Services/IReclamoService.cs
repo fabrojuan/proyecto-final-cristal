@@ -8,6 +8,8 @@ namespace MVPSA_V2022.Services
 
         public IEnumerable<ReclamoCLS> listarReclamos();
 
+        public ReclamoCLS getReclamo(int nroReclamo);
+
         public IEnumerable<TipoReclamoCLS> listarTiposReclamo();
 
         public TipoReclamoCLS getTipoReclamo(int codTipoReclamo);

@@ -141,15 +141,28 @@ namespace MVPSA_V2022.Controllers
         }
 
         [HttpGet]
-        public IActionResult/*IEnumerable<ReclamoCLS>*/ ListarReclamos()
+        public IActionResult ListarReclamos()
         {
             try
             {
                 return Ok(reclamoService.listarReclamos());
             } catch (Exception ex) {
-                return NotFound();
+                return NotFound(ex.Message);
+            }            
+        }
+
+        [HttpGet]
+        [Route("{nroReclamo}")]
+        public IActionResult getReclamo(int nroReclamo)
+        {
+            try
+            {
+                return Ok(reclamoService.getReclamo(nroReclamo));
             }
-            
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
         [HttpGet]

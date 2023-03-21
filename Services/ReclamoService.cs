@@ -28,13 +28,23 @@ namespace MVPSA_V2022.Services
                 reclamo.Calle = reclamoCLS.calle;
                 reclamo.Altura = reclamoCLS.altura;
                 reclamo.EntreCalles = reclamoCLS.entreCalles;
-                reclamo.CodEstadoReclamo = 1;
+                reclamo.CodEstadoReclamo = (int?) EstadoReclamoEnum.NUEVO;
                 reclamo.Descripcion = reclamoCLS.descripcion;
                 reclamo.Bhabilitado = 1;
                 reclamo.IdVecino = idVecinoAlta;
                 reclamo.Fecha = DateTime.Now;
 
                 using (M_VPSA_V3Context bd = new M_VPSA_V3Context()) {
+                    
+                    // Busca el nombre y apellido del vecino
+                    Persona personaVecino = (from usuarioVecino in bd.UsuarioVecinos
+                         join persona in bd.Personas
+                           on usuarioVecino.IdPersona equals persona.IdPersona
+                         where usuarioVecino.IdVecino == idVecinoAlta
+                         select persona
+                         ).Single();
+
+                    reclamo.NomApeVecino = personaVecino.Nombre + " "  + personaVecino.Apellido;
 
                     // Guarda la foto 1 si el vecino la cargo
                     if (reclamoCLS.foto1 != null && reclamoCLS.foto1.Length > 0) {
@@ -86,11 +96,68 @@ namespace MVPSA_V2022.Services
                                                  select new ReclamoCLS
                                                  {
                                                      nroReclamo = reclamo.NroReclamo,
+                                                     descripcion = reclamo.Descripcion,
+                                                     codTipoReclamo = (int)reclamo.CodTipoReclamo,
+                                                     codEstadoReclamo = (int)reclamo.CodEstadoReclamo,
+                                                     Bhabilitado = reclamo.Bhabilitado,
+                                                     calle = reclamo.Calle,
+                                                     altura = reclamo.Altura,
+                                                     entreCalles = reclamo.EntreCalles,
+                                                     idVecino = reclamo.IdVecino,
+                                                     idUsuario = reclamo.IdUsuario,
                                                      Fecha = (DateTime)reclamo.Fecha,
                                                      estadoReclamo = estadoReclamo.Nombre,
                                                      tipoReclamo = tipoReclamo.Nombre,
+                                                     nombreYapellido = reclamo.NomApeVecino
                                                  }).ToList();
                 return listaReclamo;
+            }
+        }
+
+        public ReclamoCLS getReclamo(int nroReclamo)
+        {
+            using (M_VPSA_V3Context bd = new M_VPSA_V3Context())            {
+
+                ReclamoCLS reclamoResponse = (from reclamo in bd.Reclamos
+                                                 join estadoReclamo in bd.EstadoReclamos
+                                                 on reclamo.CodEstadoReclamo equals estadoReclamo.CodEstadoReclamo
+                                                 join tipoReclamo in bd.TipoReclamos
+                                                 on reclamo.CodTipoReclamo equals tipoReclamo.CodTipoReclamo
+                                                 where reclamo.Bhabilitado == 1
+                                                 && reclamo.NroReclamo == nroReclamo
+                                              select new ReclamoCLS
+                                                 {
+                                                     nroReclamo = reclamo.NroReclamo,
+                                                     descripcion = reclamo.Descripcion,
+                                                     codTipoReclamo = (int)reclamo.CodTipoReclamo,
+                                                     codEstadoReclamo = (int)reclamo.CodEstadoReclamo,
+                                                     Bhabilitado = reclamo.Bhabilitado,
+                                                     calle = reclamo.Calle,
+                                                     altura = reclamo.Altura,
+                                                     entreCalles = reclamo.EntreCalles,
+                                                     idVecino = reclamo.IdVecino,
+                                                     idUsuario = reclamo.IdUsuario,
+                                                     Fecha = (DateTime)reclamo.Fecha,
+                                                     estadoReclamo = estadoReclamo.Nombre,
+                                                     tipoReclamo = tipoReclamo.Nombre,
+                                                     nombreYapellido = reclamo.NomApeVecino
+                                                 }).Single();
+
+
+                List<PruebaGraficaReclamo> listaPruebaGraficaReclamo = 
+                    bd.PruebaGraficaReclamos.Where(pgr => pgr.NroReclamo == nroReclamo)
+                    .OrderBy(pgr => pgr.NroImagen)
+                    .ToList();
+
+                if (listaPruebaGraficaReclamo != null && listaPruebaGraficaReclamo.Count != 0) {
+                    reclamoResponse.foto1 = listaPruebaGraficaReclamo.ElementAt(0).Foto;
+
+                    if (listaPruebaGraficaReclamo.Count > 1) {
+                        reclamoResponse.foto2 = listaPruebaGraficaReclamo.ElementAt(1).Foto;
+                    }
+                }
+
+                return reclamoResponse;
             }
         }
 

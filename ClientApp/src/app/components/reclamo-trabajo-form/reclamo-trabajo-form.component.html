@@ -67,21 +67,30 @@
       <div class="col-md-8 order-md-1">
         <form [formGroup]="Trabajo" (ngSubmit)="guardarDatos()">
           <div class="row p-3 my-2 ">
-            <div class="form-group form-inline">
-              <label>Nro Reclamo&nbsp;:&nbsp;</label>
-              <input type="text" class="form-control sin-borde" id="nro_Reclamo" formControlName="nro_Reclamo" placeholder="" value="" readonly>
+            <div class="col-md-3">
+              <label class="form-label">Nro Reclamo</label>
+              <input type="text" class="form-control" id="nro_Reclamo" formControlName="nro_Reclamo" placeholder="" value="" readonly>
             </div>
-            <div class="offset-md-1  form-group form-inline">
-              <label for="firstName">Estado&nbsp;:&nbsp;&nbsp;</label>
-              <input type="text" class="form-control sin-borde" id="estado_Reclamo" formControlName="estado_Reclamo" placeholder="" value="" readonly>
+            <div class="col-md-4">
+              <label class="form-label" for="firstName">Estado</label>
+              <input type="text" class="form-control" id="estado_Reclamo" formControlName="estado_Reclamo" placeholder="" value="" readonly>
             </div>
-            <div class="form-group form-inline">
-              <label for="Id_Vecino">Id Vecino&nbsp;:&nbsp;&nbsp;</label>
-              <input type="text" class="form-control sin-borde" id="Id_Vecino" formControlName="Id_Vecino" placeholder="" value="" readonly>
+            <div class="col-md-5">
+              <label class="form-label" for="firstName">Tipo</label>
+              <input type="text" class="form-control" id="tipoReclamo" formControlName="tipoReclamo" placeholder="" value="" readonly>
             </div>
-            <div class="form-group form-inline">
-              <label for="firstName">Nombre y Apellido del Vecino&nbsp;:&nbsp;</label>
-              <input type="text" class="form-control sin-borde" id="nomApeVecino" formControlName="nomApeVecino" placeholder="" value="" readonly>
+            <!--<div class="col-6">
+    <label class="form-label" for="Id_Vecino">Id Vecino</label>
+    <input type="text" class="form-control" id="Id_Vecino" formControlName="Id_Vecino" placeholder="" value="" readonly>
+  </div>-->
+            <div class="col-12">
+              <label class="form-label" for="firstName">Nombre y Apellido del Vecino</label>
+              <input type="text" class="form-control" id="nomApeVecino" formControlName="nomApeVecino" placeholder="" value="" readonly>
+            </div>
+
+            <div class="col-12">
+              <label class="form-label" for="firstName">Descripci&oacute;n Reclamo</label>
+              <textarea type="text" class="form-control" id="descripcionReclamo" formControlName="descripcionReclamo" placeholder="" value="" readonly rows="3"></textarea>
             </div>
 
 

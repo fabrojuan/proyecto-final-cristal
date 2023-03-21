@@ -50,8 +50,13 @@ export class ReclamoService {
     var url = this.urlBase + 'api/reclamos';
     return this.http.post(url, Reclamo).pipe(map(res => res));
   }
-  public getReclamo(): Observable<any>{
+
+  public getReclamos(): Observable<any>{
     return this.http.get(this.urlBase + 'api/reclamos').pipe(map(res => res));
+  }
+
+  public getReclamo(nroReclamo: number): Observable<any> {
+    return this.http.get(this.urlBase + 'api/reclamos/' + nroReclamo).pipe(map(res => res));
   }
 
   
