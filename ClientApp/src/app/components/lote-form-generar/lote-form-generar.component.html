@@ -7,13 +7,6 @@
       </div>
     </div>
 
-    <!-- Titulo Con Fondo <div class="d-flex align-items-center p-2 my-2  bg-light shadow p-2 mb-5 rounded shadow-sm  fondoTextTitulo">
-      <img src="../../../assets/IconsGoogle/lote_px.png" alt="Lote" width="58" height="58">
-      <div class="tituloFormulario text-center form-group col-md-8 offset-md-1">
-        <p> Formulario de Registro de Lote</p>
-      </div>
-    </div>-->
-
 
     <div class="row">
       <div class="pt-4 col-md-4 offset-md-1">
@@ -58,14 +51,6 @@
         <label class="checkbox-label">Asfaltado/Mejorado</label>
       </div>
 
-      <!--<div class="pt-4 col-md-3 offset-md-1">-->
-      <!--<input class="check" [name]="" (change)="verCheck()" type="checkbox" />-->
-      <!--<input class="check" [name]="esquina" (change)="verCheck()" type="checkbox" />
-    <label>Esquina</label>
-    <input class="checkAsfalto" [name]="asfaltado" (change)="verCheckAsfalto()" type="checkbox" />
-    <label>Asfaltado/Mejorado</label>
-  </div>-->
-
     </div>
     <div class="row pt-4">
       <div class="pt-4 col-md-4 offset-md-1">
@@ -99,8 +84,6 @@
       </div>
     </div>
 
-
-
     <div class="pb-5 mt-5 form-group justify-content-around offset-md-3">
       <input [disabled]="!Lote.valid" type="submit" value="Generar" class="btn btn-success col-md-2 offset-md-1" />
       <button type="button" class="btn btn-light col-md-2 offset-md-1" (click)="volverLoteTabla()">Cancelar</button>
@@ -112,10 +95,7 @@
         <div class="modal-content ">
           <div class="modal-header">
             <h5 class="modal-title">{{tituloModal}}</h5>
-            <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.close()">
-              <span aria-hidden="true">&times;</span>
-            </button>-->
-            <img src="../../../assets/Imagenes/logo-cristal_3.png" width="100" height="100" />
+\            <img src="../../../assets/Imagenes/logo-cristal_3.png" width="100" height="100" />
           </div>
           <div class="modal-body">
             {{resultadoGuardadoModal}}

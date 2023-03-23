@@ -129,7 +129,7 @@
 .tooltiper .tooltiptext {
   /*visibility: hidden;*/
   width: 120px;
-  background-color: navy;
+  background-color: black;
   color: #fff;
   text-align: center;
   border-radius: 6px;
@@ -162,13 +162,7 @@
 .Tipo_Denuncia {
   margin-right: 1.5em;
 }
-.checkbox-tamaño {
-  /*top: .1rem;*/
-  width: 1em;
-  height: 1.5em;
-  margin-right: 0.7rem;
-  vertical-align: middle;
-}
+
 .textoTabla {
   font-family: "Times New Roman", Times, serif;
   font-size: 1.3em;

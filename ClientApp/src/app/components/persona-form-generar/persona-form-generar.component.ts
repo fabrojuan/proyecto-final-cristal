@@ -28,6 +28,7 @@ import { CampoRequeridoComponent } from '../campo-requerido/campo-requerido.comp
 })
 
 export class PersonaFormGenerarComponent implements OnInit, ControlValueAccessor, Validator {
+  
   redirectPersona: number = 0;
   public Persona: FormGroup;
   tituloModal: string = "Registro de Persona";
