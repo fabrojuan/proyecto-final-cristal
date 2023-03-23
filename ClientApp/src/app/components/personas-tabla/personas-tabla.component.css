@@ -4,6 +4,7 @@
   font-weight: 900;
   text-shadow: 6px 8px 10px #555;
 }
+
 .container-fluid {
   background: rgb(81,197,245);
   background: linear-gradient(76deg, rgba(81,197,245,1) 0%, rgba(67,116,237,1) 14%, rgba(150,224,236,1) 100%);

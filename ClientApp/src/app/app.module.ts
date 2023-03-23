@@ -82,6 +82,8 @@ import { ToastService } from './services/toast.service';
 import { ToastsContainer } from './components/toasts-container/toasts-container.component';
 import { TipoDenunciaFormComponent } from './components/tipo-denuncia-form/tipo-denuncia-form.component';
 import { TipoDenunciaTablaComponent } from './components/tipo-denuncia-tabla/tipo-denuncia-tabla.component';
+import { PersonasTablaComponent } from './components/personas-tabla/personas-tabla.component';
+import { TasasImpositivasComponent } from './components/tasas-impositivas/tasas-impositivas.component';
 
 
 @NgModule({
@@ -138,7 +140,9 @@ import { TipoDenunciaTablaComponent } from './components/tipo-denuncia-tabla/tip
     TipoDenunciaFormComponent,
     TipoDenunciaTablaComponent,
     CampoRequeridoComponent,
-    PersonaFormGenerarComponent
+    PersonaFormGenerarComponent,
+    PersonasTablaComponent,
+    TasasImpositivasComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -169,6 +173,7 @@ import { TipoDenunciaTablaComponent } from './components/tipo-denuncia-tabla/tip
       { path: 'pagina-form-generar', component: PaginaFormGenerarComponent, canActivate: [SeguridadGuard] },
       { path: 'pagina-form-generar/:id', component: PaginaFormGenerarComponent, canActivate: [SeguridadGuard] },
       { path: 'persona-form-generar', component: PersonaFormGenerarComponent, canActivate: [SeguridadGuard] }, //, canActivate: [SeguridadGuard]
+      { path: 'personas-tabla', component: PersonasTablaComponent, canActivate: [SeguridadGuard] },
 
       { path: 'pagina-tabla', component: PaginaTablaComponent, canActivate: [SeguridadGuard] },
       { path: 'reclamo-form-generar', component: ReclamoFormGenerarComponent, canActivate: [SeguridadVecinoGuard] },
@@ -178,6 +183,7 @@ import { TipoDenunciaTablaComponent } from './components/tipo-denuncia-tabla/tip
       { path: 'sugerencia-form-generar', component: SugerenciaFormGenerarComponent },
       { path: 'sugerencia-tabla', component: SugerenciaTablaComponent, canActivate: [SeguridadGuard] },
       { path: 'tabla-denuncia', component: TablaDenunciaComponent, canActivate: [SeguridadGuard] },
+      { path: 'tasas-impositivas', component: TasasImpositivasComponent, canActivate: [SeguridadGuard] },
       { path: 'tabla-estado-denuncia', component: TablaEstadoDenunciaComponent, canActivate: [SeguridadGuard] },
       { path: 'tipo-rol-form-generar', component: TipoRolFormGenerarComponent, canActivate: [SeguridadGuard] },  //Una vez que agregue las paginas a la base se asigna guard canActivate: [SeguridadVecinoGuard]
       { path: 'tipo-rol-form-generar/:id', component: TipoRolFormGenerarComponent, canActivate: [SeguridadGuard] },

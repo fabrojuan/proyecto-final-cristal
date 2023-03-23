@@ -44,6 +44,12 @@ export class ImpuestoService {
     return this.http.post(url, FGimpuestos).pipe(map(res => res));
 
   }
+  //Modificacion Base Imponible Impuestos
+  public SP_Valuacion(Valuacion: any): Observable<any> {
+    console.log(Valuacion);
+ return this.http.post(this.urlBase + 'api/Impuestos/SP_Valuacion__Impuestos', Valuacion).pipe(map(res => res));
+  }
+
 
   public obtenerUrlMobbexx(): Observable<any> {
     //return this.http.get(this.urlBase + 'api/Impuesto/obtenerUrlMobbexx').map(res => res.json());
