@@ -15,22 +15,7 @@ namespace MVPSA_V2022.Services
                     "ERROR", "La generacion de Impuestos ya se ha realizado este año");
             }
 
-            try
-            {
-                using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
-                {
-                    bd.Database.ExecuteSqlRaw("GENERACION_IMPUESTOS_LOTES");
-                    bd.SaveChanges();
-                    return new ResultadoEjecucionProcesoCLS("OK");
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error al generar los impuestos para el año " + solicitud.anio 
-                    + ". Error: " + ex.Message);
-                return new ResultadoEjecucionProcesoCLS(
-                    "ERROR", "No se pudieron generar los impuestos para el año " + solicitud.anio);
-            }
+            return generarImpuestoAnual(solicitud);
 
         }
 
@@ -42,6 +27,26 @@ namespace MVPSA_V2022.Services
                 && cp.FechaEjecucion.Year == anio).Count() > 0;
             }
 
+        }
+
+        private ResultadoEjecucionProcesoCLS generarImpuestoAnual(
+            SolicitudGeneracionImpuestosCLS solicitud) {
+            try
+            {
+                using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
+                {
+                    bd.Database.ExecuteSqlRaw("GENERACION_IMPUESTOS_LOTES");
+                    bd.SaveChanges();
+                    return new ResultadoEjecucionProcesoCLS("OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error al generar los impuestos para el año " + solicitud.anio
+                    + ". Error: " + ex.Message);
+                return new ResultadoEjecucionProcesoCLS(
+                    "ERROR", "No se pudieron generar los impuestos para el año " + solicitud.anio);
+            }
         }
     }
 }
