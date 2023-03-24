@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MVPSA_V2022.clases;
 using MVPSA_V2022.Modelos;
+using MVPSA_V2022.Services;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,14 @@ namespace MVPSA_V2022.Controllers
     [Authorize]
     public class ImpuestosController : Controller
     {
+
+        private readonly IImpuestoService impuestoService;
+
+        public ImpuestosController(IImpuestoService impuestoService)
+        {
+            this.impuestoService = impuestoService;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -105,17 +114,11 @@ namespace MVPSA_V2022.Controllers
         }
         //where trabajo.Bhabilitado ==1
         ///SP Generacion Anual de Impuestos
-        [HttpGet]
+        [HttpPost]
         [Route("api/Impuestos/SP_GeneracionImpuestos")]
-        public void getGeneracionImpuestos()
+        public ResultadoEjecucionProcesoCLS generarImpuestos([FromBody] SolicitudGeneracionImpuestosCLS solicitudGeneracionImpuestosCLS)
         {
-            {
-                using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
-                { //bd.Database.ExecuteSqlCommand("GENERACION_IMPUESTOS_LOTES"); Reemplazado por 
-                    bd.Database.ExecuteSqlRaw("GENERACION_IMPUESTOS_LOTES");
-                    bd.SaveChanges();
-                }
-            }
+            return impuestoService.generarImpuestos(solicitudGeneracionImpuestosCLS);
 
         }
         ///SP Generacion Mensual Impuestos
