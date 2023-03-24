@@ -1,7 +1,7 @@
 export class Denuncia {
-  descripcion: string ="" ;
-  Nro_Denuncia: number=0;
-  tipo_Denuncia: number=0;
+  descripcion: string = "";
+  Nro_Denuncia: number = 0;
+  tipo_Denuncia: number = 0;
   calle: string = "";
   altura: string = "";
   entre_Calles: string = "";

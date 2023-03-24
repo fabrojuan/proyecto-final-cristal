@@ -38,20 +38,20 @@ namespace MVPSA_V2022.Services
                 tipoDenunciaResponse = (from tipoDenunciaQuery in bd.TipoDenuncia
                                         join usuarioAlta in bd.Usuarios
                                          on tipoDenunciaQuery.IdUsuarioAlta equals usuarioAlta.IdUsuario
-                                       join usuarioModificacion in bd.Usuarios
-                                         on tipoDenunciaQuery.IdUsuarioModificacion equals usuarioModificacion.IdUsuario
-                                       where tipoDenunciaQuery.CodTipoDenuncia == codTipoDenuncia
+                                        join usuarioModificacion in bd.Usuarios
+                                          on tipoDenunciaQuery.IdUsuarioModificacion equals usuarioModificacion.IdUsuario
+                                        where tipoDenunciaQuery.CodTipoDenuncia == codTipoDenuncia
                                         select new TipoDenunciaCLS
-                                       {
-                                           Cod_Tipo_Denuncia = tipoDenunciaQuery.CodTipoDenuncia,
-                                           Nombre = tipoDenunciaQuery.Nombre,
-                                           Descripcion = tipoDenunciaQuery.Descripcion,
-                                           Tiempo_Max_Tratamiento = tipoDenunciaQuery.TiempoMaxTratamiento == null ? 0 : (int)tipoDenunciaQuery.TiempoMaxTratamiento,
-                                           fechaAlta = (DateTime)tipoDenunciaQuery.FechaAlta,
-                                           fechaModificacion = (DateTime)tipoDenunciaQuery.FechaModificacion,
-                                           usuarioAlta = usuarioAlta.NombreUser,
-                                           usuarioModificacion = usuarioModificacion.NombreUser
-                                       }).Single();
+                                        {
+                                            Cod_Tipo_Denuncia = tipoDenunciaQuery.CodTipoDenuncia,
+                                            Nombre = tipoDenunciaQuery.Nombre,
+                                            Descripcion = tipoDenunciaQuery.Descripcion,
+                                            Tiempo_Max_Tratamiento = tipoDenunciaQuery.TiempoMaxTratamiento == null ? 0 : (int)tipoDenunciaQuery.TiempoMaxTratamiento,
+                                            fechaAlta = (DateTime)tipoDenunciaQuery.FechaAlta,
+                                            fechaModificacion = (DateTime)tipoDenunciaQuery.FechaModificacion,
+                                            usuarioAlta = usuarioAlta.NombreUser,
+                                            usuarioModificacion = usuarioModificacion.NombreUser
+                                        }).Single();
             }
 
             if (tipoDenunciaResponse == null)
@@ -70,8 +70,8 @@ namespace MVPSA_V2022.Services
             tipoDenuncia.Nombre = tipoDenunciaDto.Nombre;
             tipoDenuncia.Descripcion = tipoDenunciaDto.Descripcion;
             tipoDenuncia.TiempoMaxTratamiento = tipoDenunciaDto.Tiempo_Max_Tratamiento;
-            tipoDenuncia.IdUsuarioAlta = idUsuarioAlta;
-            tipoDenuncia.IdUsuarioModificacion = idUsuarioAlta;
+            //para hacer scaffold tipoDenuncia.IdUsuarioAlta = idUsuarioAlta;
+            //para hacer scaffold tipoDenuncia.IdUsuarioModificacion = idUsuarioAlta;
             tipoDenuncia.Bhabilitado = 1;
 
             using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
@@ -80,20 +80,20 @@ namespace MVPSA_V2022.Services
                 bd.SaveChanges();
 
                 tipoDenunciaDto = (from tipoDenunciaQuery in bd.TipoDenuncia
-                                  join usuarioAlta in bd.Usuarios
-                                    on tipoDenunciaQuery.IdUsuarioAlta equals usuarioAlta.IdUsuario
-                                  join usuarioModificacion in bd.Usuarios
-                                    on tipoDenunciaQuery.IdUsuarioModificacion equals usuarioModificacion.IdUsuario
-                                  where tipoDenunciaQuery.CodTipoDenuncia == tipoDenuncia.CodTipoDenuncia
-                                  select new TipoDenunciaCLS
-                                  {
-                                      Cod_Tipo_Denuncia = tipoDenunciaQuery.CodTipoDenuncia,
-                                      Nombre = tipoDenunciaQuery.Nombre,
-                                      Descripcion = tipoDenunciaQuery.Descripcion,
-                                      Tiempo_Max_Tratamiento = tipoDenunciaQuery.TiempoMaxTratamiento == null ? 0 : (int)tipoDenuncia.TiempoMaxTratamiento,
-                                      usuarioAlta = usuarioAlta.NombreUser,
-                                      usuarioModificacion = usuarioModificacion.NombreUser
-                                  })
+                                   join usuarioAlta in bd.Usuarios
+                                     on tipoDenunciaQuery.IdUsuarioAlta equals usuarioAlta.IdUsuario
+                                   join usuarioModificacion in bd.Usuarios
+                                     on tipoDenunciaQuery.IdUsuarioModificacion equals usuarioModificacion.IdUsuario
+                                   where tipoDenunciaQuery.CodTipoDenuncia == tipoDenuncia.CodTipoDenuncia
+                                   select new TipoDenunciaCLS
+                                   {
+                                       Cod_Tipo_Denuncia = tipoDenunciaQuery.CodTipoDenuncia,
+                                       Nombre = tipoDenunciaQuery.Nombre,
+                                       Descripcion = tipoDenunciaQuery.Descripcion,
+                                       Tiempo_Max_Tratamiento = tipoDenunciaQuery.TiempoMaxTratamiento == null ? 0 : (int)tipoDenuncia.TiempoMaxTratamiento,
+                                       usuarioAlta = usuarioAlta.NombreUser,
+                                       usuarioModificacion = usuarioModificacion.NombreUser
+                                   })
                                     .Single();
             }
 
@@ -106,20 +106,20 @@ namespace MVPSA_V2022.Services
             using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
             {
                 listaTiposDenuncia = (from tipoDenuncia in bd.TipoDenuncia
-                                     join usuarioAlta in bd.Usuarios
-                                       on tipoDenuncia.IdUsuarioAlta equals usuarioAlta.IdUsuario
-                                     join usuarioModificacion in bd.Usuarios
-                                       on tipoDenuncia.IdUsuarioModificacion equals usuarioModificacion.IdUsuario
-                                     where tipoDenuncia.Bhabilitado == 1
-                                     select new TipoDenunciaCLS
-                                     {
-                                         Cod_Tipo_Denuncia = tipoDenuncia.CodTipoDenuncia,
-                                         Nombre = tipoDenuncia.Nombre,
-                                         Descripcion = tipoDenuncia.Descripcion,
-                                         Tiempo_Max_Tratamiento = tipoDenuncia.TiempoMaxTratamiento == null ? 0 : (int)tipoDenuncia.TiempoMaxTratamiento,
-                                         usuarioAlta = usuarioAlta.NombreUser,
-                                         usuarioModificacion = usuarioModificacion.NombreUser
-                                     })
+                                      join usuarioAlta in bd.Usuarios
+                                        on tipoDenuncia.IdUsuarioAlta equals usuarioAlta.IdUsuario
+                                      join usuarioModificacion in bd.Usuarios
+                                        on tipoDenuncia.IdUsuarioModificacion equals usuarioModificacion.IdUsuario
+                                      where tipoDenuncia.Bhabilitado == 1
+                                      select new TipoDenunciaCLS
+                                      {
+                                          Cod_Tipo_Denuncia = tipoDenuncia.CodTipoDenuncia,
+                                          Nombre = tipoDenuncia.Nombre,
+                                          Descripcion = tipoDenuncia.Descripcion,
+                                          Tiempo_Max_Tratamiento = tipoDenuncia.TiempoMaxTratamiento == null ? 0 : (int)tipoDenuncia.TiempoMaxTratamiento,
+                                          usuarioAlta = usuarioAlta.NombreUser,
+                                          usuarioModificacion = usuarioModificacion.NombreUser
+                                      })
                                     .OrderBy(tr => tr.Cod_Tipo_Denuncia)
                                     .ToList();
                 return listaTiposDenuncia;
@@ -161,8 +161,8 @@ namespace MVPSA_V2022.Services
                 tipoDenuncia.Nombre = tipoDenunciaDto.Nombre;
                 tipoDenuncia.Descripcion = tipoDenunciaDto.Descripcion;
                 tipoDenuncia.TiempoMaxTratamiento = tipoDenunciaDto.Tiempo_Max_Tratamiento;
-                tipoDenuncia.FechaModificacion = DateTime.Now;
-                tipoDenuncia.IdUsuarioModificacion = idUsuarioModificacion;
+                //   tipoDenuncia.FechaModificacion = DateTime.Now;
+                // tipoDenuncia.IdUsuarioModificacion = idUsuarioModificacion;
                 bd.SaveChanges();
 
                 tipoDenunciaDto = (from tipoDenunciaQuery in bd.TipoDenuncia

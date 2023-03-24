@@ -1,7 +1,9 @@
 {
   "dependencies": {
+    "@angular/cli": "^13.0.3",
     "@angular/localize": "^13.0.1",
     "@ng-bootstrap/ng-bootstrap": "^12.0.0",
+    "g": "^2.0.1",
     "moment": "^2.29.4"
   }
 }

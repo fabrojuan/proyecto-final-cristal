@@ -16,6 +16,7 @@ namespace MVPSA_V2022.Modelos
         {
         }
 
+        public virtual DbSet<Alicuotum> Alicuota { get; set; } = null!;
         public virtual DbSet<Boletum> Boleta { get; set; } = null!;
         public virtual DbSet<ControlProceso> ControlProcesos { get; set; } = null!;
         public virtual DbSet<DatosAbierto> DatosAbiertos { get; set; } = null!;
@@ -44,6 +45,7 @@ namespace MVPSA_V2022.Modelos
         public virtual DbSet<Sugerencium> Sugerencia { get; set; } = null!;
         public virtual DbSet<TipoDatoAbierto> TipoDatoAbiertos { get; set; } = null!;
         public virtual DbSet<TipoDenuncium> TipoDenuncia { get; set; } = null!;
+        public virtual DbSet<TipoLote> TipoLotes { get; set; } = null!;
         public virtual DbSet<TipoReclamo> TipoReclamos { get; set; } = null!;
         public virtual DbSet<TipoSolicitud> TipoSolicituds { get; set; } = null!;
         public virtual DbSet<Tipopago> Tipopagos { get; set; } = null!;
@@ -52,23 +54,41 @@ namespace MVPSA_V2022.Modelos
         public virtual DbSet<TrabajoSolicitud> TrabajoSolicituds { get; set; } = null!;
         public virtual DbSet<Usuario> Usuarios { get; set; } = null!;
         public virtual DbSet<UsuarioVecino> UsuarioVecinos { get; set; } = null!;
+        public virtual DbSet<ValuacionInmobiliario> ValuacionInmobiliarios { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                //optionsBuilder.UseSqlServer("Data Source=VAIO-ROMAN;Initial Catalog=M_VPSA_V3;Integrated Security=True");
-                optionsBuilder.UseSqlServer("Data Source=localhost\\SQLEXPRESS;Initial Catalog=M_VPSA_V3;Integrated Security=True");
+                optionsBuilder.UseSqlServer("Data Source=NB-ROMAN;Initial Catalog=M_VPSA_V3;Integrated Security=True");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Alicuotum>(entity =>
+            {
+                entity.HasKey(e => e.IdAlicuota)
+                    .HasName("PK__ALICUOTA__381F0CC3C7E1784E");
+
+                entity.ToTable("ALICUOTA");
+
+                entity.Property(e => e.Descripcion)
+                    .HasMaxLength(1500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.FechaGenerada)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.ImporteBase).HasColumnType("decimal(18, 0)");
+            });
+
             modelBuilder.Entity<Boletum>(entity =>
             {
                 entity.HasKey(e => e.IdBoleta)
-                    .HasName("PK__BOLETA__362F6EB6E11B1C35");
+                    .HasName("PK__BOLETA__362F6EB6E9872461");
 
                 entity.ToTable("BOLETA");
 
@@ -100,7 +120,7 @@ namespace MVPSA_V2022.Modelos
             modelBuilder.Entity<ControlProceso>(entity =>
             {
                 entity.HasKey(e => e.IdEjecucion)
-                    .HasName("PK__CONTROL___C0B117619D5B87CA");
+                    .HasName("PK__CONTROL___C0B11761FE8020C7");
 
                 entity.ToTable("CONTROL_PROCESOS");
 
@@ -111,13 +131,13 @@ namespace MVPSA_V2022.Modelos
                 entity.HasOne(d => d.IdProcesoNavigation)
                     .WithMany(p => p.ControlProcesos)
                     .HasForeignKey(d => d.IdProceso)
-                    .HasConstraintName("FK__CONTROL_P__IdPro__60A75C0F");
+                    .HasConstraintName("FK__CONTROL_P__IdPro__7E37BEF6");
             });
 
             modelBuilder.Entity<DatosAbierto>(entity =>
             {
                 entity.HasKey(e => e.IdArchivo)
-                    .HasName("PK__DATOS_AB__DF161F50CC05DDD1");
+                    .HasName("PK__DATOS_AB__DF161F50322474FD");
 
                 entity.ToTable("DATOS_ABIERTOS");
 
@@ -146,7 +166,7 @@ namespace MVPSA_V2022.Modelos
             modelBuilder.Entity<Denuncium>(entity =>
             {
                 entity.HasKey(e => e.NroDenuncia)
-                    .HasName("PK__DENUNCIA__D763C1F92D22828A");
+                    .HasName("PK__DENUNCIA__D763C1F90CC4DC99");
 
                 entity.ToTable("DENUNCIA");
 
@@ -205,19 +225,19 @@ namespace MVPSA_V2022.Modelos
                     .WithMany(p => p.Denuncia)
                     .HasForeignKey(d => d.CodEstadoDenuncia)
                     .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK__DENUNCIA__Cod_Es__628FA481");
+                    .HasConstraintName("FK__DENUNCIA__Cod_Es__00200768");
 
                 entity.HasOne(d => d.CodTipoDenunciaNavigation)
                     .WithMany(p => p.Denuncia)
                     .HasForeignKey(d => d.CodTipoDenuncia)
                     .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK__DENUNCIA__Cod_Ti__6383C8BA");
+                    .HasConstraintName("FK__DENUNCIA__Cod_Ti__01142BA1");
 
                 entity.HasOne(d => d.IdUsuarioNavigation)
                     .WithMany(p => p.Denuncia)
                     .HasForeignKey(d => d.IdUsuario)
                     .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK__DENUNCIA__IdUsua__6477ECF3");
+                    .HasConstraintName("FK__DENUNCIA__IdUsua__02084FDA");
 
                 entity.HasOne(d => d.NroPrioridadNavigation)
                     .WithMany(p => p.Denuncia)
@@ -229,7 +249,7 @@ namespace MVPSA_V2022.Modelos
             modelBuilder.Entity<Detalleboletum>(entity =>
             {
                 entity.HasKey(e => e.IdDetalleBoleta)
-                    .HasName("PK__DETALLEB__70845C44B51C5A98");
+                    .HasName("PK__DETALLEB__70845C4412659CFE");
 
                 entity.ToTable("DETALLEBOLETA");
 
@@ -241,7 +261,7 @@ namespace MVPSA_V2022.Modelos
             modelBuilder.Entity<EstadoDenuncium>(entity =>
             {
                 entity.HasKey(e => e.CodEstadoDenuncia)
-                    .HasName("PK__ESTADO_D__FA18336D2B386A00");
+                    .HasName("PK__ESTADO_D__FA18336D4F5CA3C8");
 
                 entity.ToTable("ESTADO_DENUNCIA");
 
@@ -261,7 +281,7 @@ namespace MVPSA_V2022.Modelos
             modelBuilder.Entity<EstadoReclamo>(entity =>
             {
                 entity.HasKey(e => e.CodEstadoReclamo)
-                    .HasName("PK__ESTADO_R__40DB8480C4BF0645");
+                    .HasName("PK__ESTADO_R__40DB848079AAF75B");
 
                 entity.ToTable("ESTADO_RECLAMO");
 
@@ -281,7 +301,7 @@ namespace MVPSA_V2022.Modelos
             modelBuilder.Entity<EstadoSolicitud>(entity =>
             {
                 entity.HasKey(e => e.CodEstadoSolicitud)
-                    .HasName("PK__ESTADO_S__AB5EC4AF312AE36C");
+                    .HasName("PK__ESTADO_S__AB5EC4AF4BD7964B");
 
                 entity.ToTable("ESTADO_SOLICITUD");
 
@@ -301,7 +321,7 @@ namespace MVPSA_V2022.Modelos
             modelBuilder.Entity<Impuestoinmobiliario>(entity =>
             {
                 entity.HasKey(e => e.IdImpuesto)
-                    .HasName("PK__IMPUESTO__A9B88928E23BA076");
+                    .HasName("PK__IMPUESTO__A9B8892834BC6ABF");
 
                 entity.ToTable("IMPUESTOINMOBILIARIO");
 
@@ -311,22 +331,22 @@ namespace MVPSA_V2022.Modelos
 
                 entity.Property(e => e.FechaVencimiento).HasColumnType("datetime");
 
-                entity.Property(e => e.ImporteBase).HasColumnType("decimal(18, 0)");
+                entity.Property(e => e.ImporteBase).HasColumnType("decimal(18, 2)");
 
-                entity.Property(e => e.ImporteFinal).HasColumnType("decimal(18, 0)");
+                entity.Property(e => e.ImporteFinal).HasColumnType("decimal(18, 2)");
 
-                entity.Property(e => e.InteresValor).HasColumnType("decimal(18, 0)");
+                entity.Property(e => e.InteresValor).HasColumnType("decimal(18, 2)");
 
                 entity.HasOne(d => d.IdLoteNavigation)
                     .WithMany(p => p.Impuestoinmobiliarios)
                     .HasForeignKey(d => d.IdLote)
-                    .HasConstraintName("FK__IMPUESTOI__IdLot__68487DD7");
+                    .HasConstraintName("FK__IMPUESTOI__IdLot__03F0984C");
             });
 
             modelBuilder.Entity<Lote>(entity =>
             {
                 entity.HasKey(e => e.IdLote)
-                    .HasName("PK__LOTE__38C4EE90111F60F7");
+                    .HasName("PK__LOTE__38C4EE900269A14C");
 
                 entity.ToTable("LOTE");
 
@@ -334,15 +354,11 @@ namespace MVPSA_V2022.Modelos
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.BaseImponible).HasColumnType("decimal(18, 0)");
+                entity.Property(e => e.BaseImponible).HasColumnType("decimal(18, 2)");
 
                 entity.Property(e => e.Bhabilitado).HasColumnName("BHabilitado");
 
                 entity.Property(e => e.Calle)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.EstadoInmueble)
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
@@ -353,25 +369,28 @@ namespace MVPSA_V2022.Modelos
 
                 entity.Property(e => e.IdPersona).HasColumnName("idPersona");
 
+                entity.Property(e => e.IdTipoLote).HasColumnName("Id_Tipo_Lote");
+
                 entity.Property(e => e.NomenclaturaCatastral)
                     .HasMaxLength(25)
                     .IsUnicode(false);
 
-                entity.Property(e => e.SupEdificada).HasColumnType("decimal(18, 0)");
+                entity.Property(e => e.SupEdificada).HasColumnType("decimal(18, 2)");
 
-                entity.Property(e => e.SupTerreno).HasColumnType("decimal(18, 0)");
+                entity.Property(e => e.SupTerreno).HasColumnType("decimal(18, 2)");
 
-                entity.Property(e => e.TipoInmueble)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.ValuacionTotal).HasColumnType("decimal(18, 0)");
+                entity.Property(e => e.ValuacionTotal).HasColumnType("decimal(18, 2)");
 
                 entity.HasOne(d => d.IdPersonaNavigation)
                     .WithMany(p => p.Lotes)
                     .HasForeignKey(d => d.IdPersona)
                     .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK__LOTE__idPersona__693CA210");
+                    .HasConstraintName("FK__LOTE__idPersona__04E4BC85");
+
+                entity.HasOne(d => d.IdTipoLoteNavigation)
+                    .WithMany(p => p.Lotes)
+                    .HasForeignKey(d => d.IdTipoLote)
+                    .HasConstraintName("FK_TipoFrLote");
             });
 
             modelBuilder.Entity<MobbexPago>(entity =>
@@ -396,6 +415,10 @@ namespace MVPSA_V2022.Modelos
                     .HasMaxLength(30)
                     .IsUnicode(false)
                     .HasColumnName("customer_uid");
+
+                entity.Property(e => e.FechaAlta)
+                    .HasColumnType("datetime")
+                    .HasColumnName("fecha_alta");
 
                 entity.Property(e => e.PaymentCreated)
                     .HasMaxLength(30)
@@ -460,7 +483,7 @@ namespace MVPSA_V2022.Modelos
             modelBuilder.Entity<Pagina>(entity =>
             {
                 entity.HasKey(e => e.IdPagina)
-                    .HasName("PK__PAGINA__034F88B8EE303593");
+                    .HasName("PK__PAGINA__034F88B8E9AC8AFE");
 
                 entity.ToTable("PAGINA");
 
@@ -478,7 +501,7 @@ namespace MVPSA_V2022.Modelos
             modelBuilder.Entity<Paginaxrol>(entity =>
             {
                 entity.HasKey(e => e.IdPaginaxRol)
-                    .HasName("PK__PAGINAXR__6E5913D81EEF3DD6");
+                    .HasName("PK__PAGINAXR__6E5913D8EED581F6");
 
                 entity.ToTable("PAGINAXROL");
 
@@ -490,18 +513,18 @@ namespace MVPSA_V2022.Modelos
                     .WithMany(p => p.Paginaxrols)
                     .HasForeignKey(d => d.IdPagina)
                     .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK__PAGINAXRO__IdPag__6A30C649");
+                    .HasConstraintName("FK__PAGINAXRO__IdPag__06CD04F7");
 
                 entity.HasOne(d => d.IdRolNavigation)
                     .WithMany(p => p.Paginaxrols)
                     .HasForeignKey(d => d.IdRol)
-                    .HasConstraintName("FK__PAGINAXRO__idRol__6B24EA82");
+                    .HasConstraintName("FK__PAGINAXRO__idRol__07C12930");
             });
 
             modelBuilder.Entity<Pago>(entity =>
             {
                 entity.HasKey(e => e.IdPago)
-                    .HasName("PK__PAGO__FC851A3A31452C12");
+                    .HasName("PK__PAGO__FC851A3A1F94A043");
 
                 entity.ToTable("PAGO");
 
@@ -517,13 +540,13 @@ namespace MVPSA_V2022.Modelos
                     .WithMany(p => p.Pagos)
                     .HasForeignKey(d => d.IdTipoPago)
                     .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK__PAGO__IdTipoPago__6C190EBB");
+                    .HasConstraintName("FK__PAGO__IdTipoPago__08B54D69");
             });
 
             modelBuilder.Entity<ParametriaProceso>(entity =>
             {
                 entity.HasKey(e => e.IdProceso)
-                    .HasName("PK__PARAMETR__036D07432C6F70B3");
+                    .HasName("PK__PARAMETR__036D0743B280A207");
 
                 entity.ToTable("PARAMETRIA_PROCESOS");
 
@@ -539,11 +562,11 @@ namespace MVPSA_V2022.Modelos
             modelBuilder.Entity<Persona>(entity =>
             {
                 entity.HasKey(e => e.IdPersona)
-                    .HasName("PK__PERSONA__A4788141F0798936");
+                    .HasName("PK__PERSONA__A478814136C68E02");
 
                 entity.ToTable("PERSONA");
 
-                entity.HasIndex(e => e.Mail, "UQ__PERSONA__2724B2D1235D5192")
+                entity.HasIndex(e => e.Mail, "UQ__PERSONA__2724B2D11427EB9E")
                     .IsUnique();
 
                 entity.Property(e => e.IdPersona).HasColumnName("idPersona");
@@ -590,7 +613,7 @@ namespace MVPSA_V2022.Modelos
             modelBuilder.Entity<Prioridad>(entity =>
             {
                 entity.HasKey(e => e.NroPrioridad)
-                    .HasName("PK__PRIORIDA__07C3E6AEAFFFF578");
+                    .HasName("PK__PRIORIDA__07C3E6AEB947A5B4");
 
                 entity.ToTable("PRIORIDAD");
 
@@ -611,7 +634,7 @@ namespace MVPSA_V2022.Modelos
             modelBuilder.Entity<PrioridadReclamo>(entity =>
             {
                 entity.HasKey(e => e.NroPrioridad)
-                    .HasName("PK__PRIORIDA__07C3E6AEAEF9E805");
+                    .HasName("PK__PRIORIDA__07C3E6AEE643C348");
 
                 entity.ToTable("PRIORIDAD_RECLAMO");
 
@@ -632,7 +655,7 @@ namespace MVPSA_V2022.Modelos
             modelBuilder.Entity<PruebaGraficaDenuncium>(entity =>
             {
                 entity.HasKey(e => e.NroImagen)
-                    .HasName("PK__PRUEBA_G__B8690AD851106176");
+                    .HasName("PK__PRUEBA_G__B8690AD8296390A2");
 
                 entity.ToTable("PRUEBA_GRAFICA_DENUNCIA");
 
@@ -653,13 +676,13 @@ namespace MVPSA_V2022.Modelos
                 entity.HasOne(d => d.IdUsuarioNavigation)
                     .WithMany(p => p.PruebaGraficaDenuncia)
                     .HasForeignKey(d => d.IdUsuario)
-                    .HasConstraintName("FK__PRUEBA_GR__IdUsu__6E01572D");
+                    .HasConstraintName("FK__PRUEBA_GR__IdUsu__09A971A2");
             });
 
             modelBuilder.Entity<PruebaGraficaReclamo>(entity =>
             {
                 entity.HasKey(e => e.NroImagen)
-                    .HasName("PK__PRUEBA_G__B8690AD8C7AD7595");
+                    .HasName("PK__PRUEBA_G__B8690AD8DAB0C528");
 
                 entity.ToTable("PRUEBA_GRAFICA_RECLAMO");
 
@@ -667,33 +690,33 @@ namespace MVPSA_V2022.Modelos
 
                 entity.Property(e => e.Bhabilitado).HasColumnName("BHabilitado");
 
-                entity.Property(e => e.NroReclamo).HasColumnName("Nro_Reclamo");
-
                 entity.Property(e => e.Foto)
                     .IsUnicode(false)
                     .HasColumnName("foto");
 
+                entity.Property(e => e.NroReclamo).HasColumnName("Nro_Reclamo");
+
                 entity.HasOne(d => d.IdUsuarioNavigation)
                     .WithMany(p => p.PruebaGraficaReclamos)
                     .HasForeignKey(d => d.IdUsuario)
-                    .HasConstraintName("FK__PRUEBA_GR__IdUsu__6FE99F9F");
+                    .HasConstraintName("FK__PRUEBA_GR__IdUsu__0A9D95DB");
 
                 entity.HasOne(d => d.IdVecinoNavigation)
                     .WithMany(p => p.PruebaGraficaReclamos)
                     .HasForeignKey(d => d.IdVecino)
-                    .HasConstraintName("FK__PRUEBA_GR__IdVec__70DDC3D8");
+                    .HasConstraintName("FK__PRUEBA_GR__IdVec__0B91BA14");
 
                 entity.HasOne(d => d.NroReclamoNavigation)
                     .WithMany(p => p.PruebaGraficaReclamos)
                     .HasForeignKey(d => d.NroReclamo)
                     .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK__PRUEBA_GR__Nro_R__71D1E811");
+                    .HasConstraintName("FK__PRUEBA_GR__Nro_R__0C85DE4D");
             });
 
             modelBuilder.Entity<Recibo>(entity =>
             {
                 entity.HasKey(e => e.IdRecibo)
-                    .HasName("PK__RECIBO__2FEC473196C1B82F");
+                    .HasName("PK__RECIBO__2FEC473127482371");
 
                 entity.ToTable("RECIBO");
 
@@ -713,13 +736,13 @@ namespace MVPSA_V2022.Modelos
                     .WithMany(p => p.Recibos)
                     .HasForeignKey(d => d.IdBoleta)
                     .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK__RECIBO__IdBoleta__72C60C4A");
+                    .HasConstraintName("FK__RECIBO__IdBoleta__0D7A0286");
             });
 
             modelBuilder.Entity<Reclamo>(entity =>
             {
                 entity.HasKey(e => e.NroReclamo)
-                    .HasName("PK__RECLAMO__2D3C904F19FF3FD7");
+                    .HasName("PK__RECLAMO__2D3C904F677796B5");
 
                 entity.ToTable("RECLAMO");
 
@@ -759,30 +782,30 @@ namespace MVPSA_V2022.Modelos
                     .WithMany(p => p.Reclamos)
                     .HasForeignKey(d => d.CodEstadoReclamo)
                     .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK__RECLAMO__Cod_Est__73BA3083");
+                    .HasConstraintName("FK__RECLAMO__Cod_Est__0E6E26BF");
 
                 entity.HasOne(d => d.CodTipoReclamoNavigation)
                     .WithMany(p => p.Reclamos)
                     .HasForeignKey(d => d.CodTipoReclamo)
                     .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK__RECLAMO__Cod_Tip__74AE54BC");
+                    .HasConstraintName("FK__RECLAMO__Cod_Tip__0F624AF8");
 
                 entity.HasOne(d => d.IdUsuarioNavigation)
                     .WithMany(p => p.Reclamos)
                     .HasForeignKey(d => d.IdUsuario)
-                    .HasConstraintName("FK__RECLAMO__IdUsuar__75A278F5");
+                    .HasConstraintName("FK__RECLAMO__IdUsuar__10566F31");
 
                 entity.HasOne(d => d.IdVecinoNavigation)
                     .WithMany(p => p.Reclamos)
                     .HasForeignKey(d => d.IdVecino)
                     .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK__RECLAMO__IdVecin__76969D2E");
+                    .HasConstraintName("FK__RECLAMO__IdVecin__114A936A");
             });
 
             modelBuilder.Entity<Rol>(entity =>
             {
                 entity.HasKey(e => e.IdRol)
-                    .HasName("PK__ROL__3C872F76A708B3E0");
+                    .HasName("PK__ROL__3C872F76FF689F0E");
 
                 entity.ToTable("ROL");
 
@@ -798,7 +821,7 @@ namespace MVPSA_V2022.Modelos
             modelBuilder.Entity<Sesione>(entity =>
             {
                 entity.HasKey(e => e.IdSesion)
-                    .HasName("PK__SESIONES__22EC535B4C642BA1");
+                    .HasName("PK__SESIONES__22EC535BD8655960");
 
                 entity.ToTable("SESIONES");
 
@@ -820,13 +843,13 @@ namespace MVPSA_V2022.Modelos
                     .WithMany(p => p.Sesiones)
                     .HasForeignKey(d => d.IdUsuario)
                     .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK__SESIONES__idUsua__778AC167");
+                    .HasConstraintName("FK__SESIONES__idUsua__123EB7A3");
             });
 
             modelBuilder.Entity<Solicitud>(entity =>
             {
                 entity.HasKey(e => e.NroSolicitud)
-                    .HasName("PK__SOLICITU__CB3EA8FAC8A7AC0E");
+                    .HasName("PK__SOLICITU__CB3EA8FAE208728C");
 
                 entity.ToTable("SOLICITUD");
 
@@ -848,30 +871,30 @@ namespace MVPSA_V2022.Modelos
                     .WithMany(p => p.Solicituds)
                     .HasForeignKey(d => d.CodEstadoSolicitud)
                     .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK__SOLICITUD__Cod_E__787EE5A0");
+                    .HasConstraintName("FK__SOLICITUD__Cod_E__1332DBDC");
 
                 entity.HasOne(d => d.CodTipoSolicitudNavigation)
                     .WithMany(p => p.Solicituds)
                     .HasForeignKey(d => d.CodTipoSolicitud)
                     .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK__SOLICITUD__Cod_T__797309D9");
+                    .HasConstraintName("FK__SOLICITUD__Cod_T__14270015");
 
                 entity.HasOne(d => d.IdUsuarioNavigation)
                     .WithMany(p => p.Solicituds)
                     .HasForeignKey(d => d.IdUsuario)
-                    .HasConstraintName("FK__SOLICITUD__IdUsu__7A672E12");
+                    .HasConstraintName("FK__SOLICITUD__IdUsu__151B244E");
 
                 entity.HasOne(d => d.IdVecinoNavigation)
                     .WithMany(p => p.Solicituds)
                     .HasForeignKey(d => d.IdVecino)
                     .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK__SOLICITUD__IdVec__7B5B524B");
+                    .HasConstraintName("FK__SOLICITUD__IdVec__160F4887");
             });
 
             modelBuilder.Entity<Sugerencium>(entity =>
             {
                 entity.HasKey(e => e.IdSugerencia)
-                    .HasName("PK__SUGERENC__A4668EAA97E40439");
+                    .HasName("PK__SUGERENC__A4668EAA7BE497BF");
 
                 entity.ToTable("SUGERENCIA");
 
@@ -889,7 +912,7 @@ namespace MVPSA_V2022.Modelos
             modelBuilder.Entity<TipoDatoAbierto>(entity =>
             {
                 entity.HasKey(e => e.IdTipoDato)
-                    .HasName("PK__TIPO_DAT__C8C67CEB1864FDA5");
+                    .HasName("PK__TIPO_DAT__C8C67CEB25E60DC2");
 
                 entity.ToTable("TIPO_DATO_ABIERTO");
 
@@ -909,7 +932,7 @@ namespace MVPSA_V2022.Modelos
             modelBuilder.Entity<TipoDenuncium>(entity =>
             {
                 entity.HasKey(e => e.CodTipoDenuncia)
-                    .HasName("PK__TIPO_DEN__86CD78F6F3296F57");
+                    .HasName("PK__TIPO_DEN__86CD78F657D00AFF");
 
                 entity.ToTable("TIPO_DENUNCIA");
 
@@ -921,25 +944,43 @@ namespace MVPSA_V2022.Modelos
                     .HasMaxLength(250)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Nombre)
-                    .HasMaxLength(90)
-                    .IsUnicode(false);
-
                 entity.Property(e => e.FechaAlta)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.FechaModificacion)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
+                entity.Property(e => e.FechaModificacion).HasColumnType("datetime");
+
+                entity.Property(e => e.Nombre)
+                    .HasMaxLength(90)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.TiempoMaxTratamiento).HasColumnName("Tiempo_Max_Tratamiento");
+            });
+
+            modelBuilder.Entity<TipoLote>(entity =>
+            {
+                entity.HasKey(e => e.CodTipoLote)
+                    .HasName("PK__TIPO_LOT__B769E6D080992895");
+
+                entity.ToTable("TIPO_LOTE");
+
+                entity.Property(e => e.CodTipoLote).HasColumnName("Cod_Tipo_Lote");
+
+                entity.Property(e => e.Bhabilitado).HasColumnName("BHabilitado");
+
+                entity.Property(e => e.Descripcion)
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Nombre)
+                    .HasMaxLength(90)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<TipoReclamo>(entity =>
             {
                 entity.HasKey(e => e.CodTipoReclamo)
-                    .HasName("PK__TIPO_REC__1162323361A3F7AC");
+                    .HasName("PK__TIPO_REC__1162323349DE1CA3");
 
                 entity.ToTable("TIPO_RECLAMO");
 
@@ -951,10 +992,6 @@ namespace MVPSA_V2022.Modelos
                     .HasMaxLength(250)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Nombre)
-                    .HasMaxLength(90)
-                    .IsUnicode(false);
-
                 entity.Property(e => e.FechaAlta)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
@@ -963,13 +1000,17 @@ namespace MVPSA_V2022.Modelos
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
 
+                entity.Property(e => e.Nombre)
+                    .HasMaxLength(90)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.TiempoMaxTratamiento).HasColumnName("Tiempo_Max_Tratamiento");
             });
 
             modelBuilder.Entity<TipoSolicitud>(entity =>
             {
                 entity.HasKey(e => e.CodTipoSolicitud)
-                    .HasName("PK__TIPO_SOL__6B39449589128BFA");
+                    .HasName("PK__TIPO_SOL__6B39449528A82132");
 
                 entity.ToTable("TIPO_SOLICITUD");
 
@@ -991,7 +1032,7 @@ namespace MVPSA_V2022.Modelos
             modelBuilder.Entity<Tipopago>(entity =>
             {
                 entity.HasKey(e => e.IdTipoPago)
-                    .HasName("PK__TIPOPAGO__EB0AA9E73B8030C3");
+                    .HasName("PK__TIPOPAGO__EB0AA9E7F8DB0CC3");
 
                 entity.ToTable("TIPOPAGO");
 
@@ -1005,7 +1046,7 @@ namespace MVPSA_V2022.Modelos
             modelBuilder.Entity<Trabajo>(entity =>
             {
                 entity.HasKey(e => e.NroTrabajo)
-                    .HasName("PK__TRABAJO__878068975E9D6B44");
+                    .HasName("PK__TRABAJO__87806897E9A04110");
 
                 entity.ToTable("TRABAJO");
 
@@ -1026,13 +1067,13 @@ namespace MVPSA_V2022.Modelos
                 entity.HasOne(d => d.IdUsuarioNavigation)
                     .WithMany(p => p.Trabajos)
                     .HasForeignKey(d => d.IdUsuario)
-                    .HasConstraintName("FK__TRABAJO__IdUsuar__7C4F7684");
+                    .HasConstraintName("FK__TRABAJO__IdUsuar__17036CC0");
             });
 
             modelBuilder.Entity<TrabajoReclamo>(entity =>
             {
                 entity.HasKey(e => e.NroTrabajo)
-                    .HasName("PK__TRABAJO___87806897871A21A9");
+                    .HasName("PK__TRABAJO___87806897905044D9");
 
                 entity.ToTable("TRABAJO_RECLAMO");
 
@@ -1053,23 +1094,23 @@ namespace MVPSA_V2022.Modelos
                 entity.HasOne(d => d.IdUsuarioNavigation)
                     .WithMany(p => p.TrabajoReclamos)
                     .HasForeignKey(d => d.IdUsuario)
-                    .HasConstraintName("FK__TRABAJO_R__IdUsu__7E37BEF6");
+                    .HasConstraintName("FK__TRABAJO_R__IdUsu__17F790F9");
 
                 entity.HasOne(d => d.IdVecinoNavigation)
                     .WithMany(p => p.TrabajoReclamos)
                     .HasForeignKey(d => d.IdVecino)
-                    .HasConstraintName("FK__TRABAJO_R__IdVec__7F2BE32F");
+                    .HasConstraintName("FK__TRABAJO_R__IdVec__18EBB532");
 
                 entity.HasOne(d => d.NroReclamoNavigation)
                     .WithMany(p => p.TrabajoReclamos)
                     .HasForeignKey(d => d.NroReclamo)
-                    .HasConstraintName("FK__TRABAJO_R__Nro_R__00200768");
+                    .HasConstraintName("FK__TRABAJO_R__Nro_R__19DFD96B");
             });
 
             modelBuilder.Entity<TrabajoSolicitud>(entity =>
             {
                 entity.HasKey(e => e.NroTrabajo)
-                    .HasName("PK__TRABAJO___878068977FFD4C0E");
+                    .HasName("PK__TRABAJO___87806897B3379044");
 
                 entity.ToTable("TRABAJO_SOLICITUD");
 
@@ -1090,23 +1131,23 @@ namespace MVPSA_V2022.Modelos
                 entity.HasOne(d => d.IdUsuarioNavigation)
                     .WithMany(p => p.TrabajoSolicituds)
                     .HasForeignKey(d => d.IdUsuario)
-                    .HasConstraintName("FK__TRABAJO_S__IdUsu__01142BA1");
+                    .HasConstraintName("FK__TRABAJO_S__IdUsu__1AD3FDA4");
 
                 entity.HasOne(d => d.IdVecinoNavigation)
                     .WithMany(p => p.TrabajoSolicituds)
                     .HasForeignKey(d => d.IdVecino)
-                    .HasConstraintName("FK__TRABAJO_S__IdVec__02084FDA");
+                    .HasConstraintName("FK__TRABAJO_S__IdVec__1BC821DD");
 
                 entity.HasOne(d => d.NroSolicitudNavigation)
                     .WithMany(p => p.TrabajoSolicituds)
                     .HasForeignKey(d => d.NroSolicitud)
-                    .HasConstraintName("FK__TRABAJO_S__Nro_S__02FC7413");
+                    .HasConstraintName("FK__TRABAJO_S__Nro_S__1CBC4616");
             });
 
             modelBuilder.Entity<Usuario>(entity =>
             {
                 entity.HasKey(e => e.IdUsuario)
-                    .HasName("PK__USUARIO__645723A6ED6AFAE4");
+                    .HasName("PK__USUARIO__645723A6CE700A8B");
 
                 entity.ToTable("USUARIO");
 
@@ -1136,18 +1177,18 @@ namespace MVPSA_V2022.Modelos
                     .WithMany(p => p.Usuarios)
                     .HasForeignKey(d => d.IdPersona)
                     .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK__USUARIO__idPerso__03F0984C");
+                    .HasConstraintName("FK__USUARIO__idPerso__1DB06A4F");
 
                 entity.HasOne(d => d.IdTipoUsuarioNavigation)
                     .WithMany(p => p.Usuarios)
                     .HasForeignKey(d => d.IdTipoUsuario)
-                    .HasConstraintName("FK__USUARIO__idTipoU__04E4BC85");
+                    .HasConstraintName("FK__USUARIO__idTipoU__1EA48E88");
             });
 
             modelBuilder.Entity<UsuarioVecino>(entity =>
             {
                 entity.HasKey(e => e.IdVecino)
-                    .HasName("PK__USUARIO___E7C50E692D10F15A");
+                    .HasName("PK__USUARIO___E7C50E69099C5DA1");
 
                 entity.ToTable("USUARIO_VECINO");
 
@@ -1175,7 +1216,29 @@ namespace MVPSA_V2022.Modelos
                     .WithMany(p => p.UsuarioVecinos)
                     .HasForeignKey(d => d.IdPersona)
                     .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK__USUARIO_V__idPer__05D8E0BE");
+                    .HasConstraintName("FK__USUARIO_V__idPer__1F98B2C1");
+            });
+
+            modelBuilder.Entity<ValuacionInmobiliario>(entity =>
+            {
+                entity.HasKey(e => e.Idvaluacion)
+                    .HasName("PK__VALUACIO__5430C5997A89E122");
+
+                entity.ToTable("VALUACION_INMOBILIARIO");
+
+                entity.Property(e => e.Bhabilitado).HasColumnName("BHabilitado");
+
+                entity.Property(e => e.FechaDesde)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.IncrementoAsfalto).HasColumnType("decimal(5, 2)");
+
+                entity.Property(e => e.IncrementoEsquina).HasColumnType("decimal(5, 2)");
+
+                entity.Property(e => e.ValorSupEdificada).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.ValorSupTerreno).HasColumnType("decimal(18, 2)");
             });
 
             OnModelCreatingPartial(modelBuilder);

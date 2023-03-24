@@ -83,6 +83,13 @@ export class VecinoService {
     return this.http.get(this.urlBase + 'api/vecino/obtenerSessionNombreVecino').pipe(map(res => res));
 
   }
+  public GuardarPersona(Persona: any): Observable<any> {
+    var url = this.urlBase + 'api/Persona/GuardarPersona/';
+    return this.http.post(url, Persona).pipe(map(res => res));
+  }
+
+
+
 
   //   ************** LOGIN *****************
   public login(vecino:any): Observable<any> {

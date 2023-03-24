@@ -1,70 +1,62 @@
-<div class="d-flex align-items-center p-3 my-3 bg-purple bg-light shadow p-2 mb-5 rounded shadow-sm">
-  <img src="../../../assets/IconsGoogle/Justicia.svg" alt="" width="58" height="58">
-  <div class="tituloFormulario text-center form-group col-md-8 offset-md-1">
-    <p>Tablero de Gestión de Lotes</p>
+
+<div class="container-fluid">
+
+
+  <div class="d-flex align-items-center p-1 my-1">
+    <img src="../../../assets/Imagenes/construccion_lote.png" alt="" width="150" height="150">
+    <div class="tituloFormulario text-center form-group col-md-8 offset-md-1">
+      <p> Tablero de Gestión de Lotes</p>
+    </div>
   </div>
+
+  <form [formGroup]="form">
+    <div class="row ms-3">
+      <div class="mb-3 col-3 col-md-3 col-lg-3 col-xl-3">
+        <div class="input-group ">
+          <input type="text" class="form-control" placeholder="RNro de Manzana" aria-label="Nro de Manzana" aria-describedby="button-addon2">
+          <button class="btn btn-outline-secondary" type="button" id="button-addon2">Buscar</button>
+        </div>
+      </div>
+    </div>
+
+    <br /><br />
+    <table class="table table-hover" style="padding-bottom: 2.5em">
+      <thead class="thead-dark tituloTabla">
+
+
+        <tr>
+          <th class="text-center" *ngFor="let cabecera of cabeceras ">{{cabecera}} </th>
+          <th class="text-center" *ngIf="isMantenimiento==true">Operaciones</th>
+        </tr>
+      </thead>
+
+      <tbody class="textoTabla">
+        <tr *ngFor="let Lote of Lotes | paginate: { itemsPerPage: 10, currentPage: p }">
+          <td class="text-center">{{Lote.nroLote}}</td>
+          <td class="text-center">{{Lote.calle}}</td>
+          <td class="text-center">{{Lote.manzana}}</td>
+          <td class="text-center">{{Lote.supTerreno}}</td>
+          <td class="text-center">{{Lote.baseImponible}}</td>
+          <td class="text-center">{{Lote.valuacionTotal}} </td>
+          <td class="text-center">{{Lote.estadoDeuda}} </td>
+
+          <td class="text-center" *ngIf="isMantenimiento==true">
+            <button type="button" class="btn " [routerLink]="['/lote-detalle',Lote.nroLote]"><img src="../../../assets/IconsGoogle/Mas_info.svg" alt="" width="24" height="24" title="Mas Info del Lote"></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <pagination-controls previousLabel="Anteriores" nextLabel="Siguientes" (pageChange)="p = $event"></pagination-controls>
+    <div class="row p-3 my-2">
+      <hr class="mb-4">
+      <div class="form-group col-md-12 mb-3 pt-3">
+        <button type="button" value="Nuevo" class="btn btn-success col-md-4 offset-md-1 " [routerLink]="['/lote-form-generar']">  <img src="../../../assets/Imagenes/plus-square.svg" alt="" width="24" height="24" title="Añadir lote a base de lotes">&nbsp;&nbsp;Nuevo Lote</button>
+        <button type="button" class="btn btn-secondary col-md-4 offset-md-1" (click)="volverHome()"><img src="../../../assets/IconsGoogle/arrow-bar-left.svg" alt="" width="24" height="24" title="Volver" />&nbsp;&nbsp; Volver</button>
+
+      </div>
+
+    </div>
+
+
+  </form>
 </div>
-<form [formGroup]="form">
-  <div class="input-group mb-9">
-    <input type="text" class="form-control col-md-3 mb-3" placeholder="Nro de Manzana">
-    <div class="input-group-append">
-      <button class="btn btn-success" type="submit">Buscar</button>
-
-      <!--<select id="Tipo_Denuncia" formControlName="tipoDenuncia" class="offset-md-1 combobox">
-        <option class="combobox" selected value="">Filtrar por.. </option>
-        <option [ngValue]="TipoDenuncia.cod_Tipo_Denuncia"
-                *ngFor="let TipoDenuncia of TiposDenuncia">
-          {{TipoDenuncia.nombre}}
-        </option>
-      </select>-->
-
-
-    </div>
-
-
-  </div>
-
-  <br /><br />
-  <table class="table table-hover" style="padding-bottom: 2.5em">
-    <thead class="thead-dark tituloTabla">
-
-
-      <tr>
-        <th class="text-center" *ngFor="let cabecera of cabeceras ">{{cabecera}} </th>
-        <th class="text-center" *ngIf="isMantenimiento==true">Operaciones</th>
-      </tr>
-    </thead>
-
-    <tbody class="textoTabla">
-      <tr *ngFor="let Lote of Lotes | paginate: { itemsPerPage: 10, currentPage: p }">
-        <td class="text-center">{{Lote.nroLote}}</td>
-        <td class="text-center">{{Lote.calle}}</td>
-        <td class="text-center">{{Lote.manzana}}</td>
-        <td class="text-center">{{Lote.supTerreno}}</td>
-        <td class="text-center">{{Lote.baseImponible}}</td>
-        <td class="text-center">{{Lote.valuacionTotal}} </td>
-        <td class="text-center">{{Lote.estadoDeuda}} </td>
-
-        <td class="text-center" *ngIf="isMantenimiento==true">
-          <!--<button type="button" class="btn btn-light" [routerLink]="['/trabajo-tabla',buscar.nro_Denuncia]"><img src="../../../assets/IconsGoogle/eyeglasses.svg" alt="" width="24" height="24" title="Ver Trabajos"></button>-->
-          <!--<button type="button" class="btn btn-info" [routerLink]="['/lote-form-generar',Denuncia.nro_Denuncia]">-->
-          <!--<img src="../../../assets/IconsGoogle/gear.svg" alt="" width="24" height="24" title="Cargar Trabajo">
-          </button>-->
-          <button type="button" class="btn btn-light" [routerLink]="['/lote-detalle',Lote.nroLote]"><img src="../../../assets/IconsGoogle/Mas_info.svg" alt="" width="24" height="24" title="Mas Info del Lote"></button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <pagination-controls previousLabel="Anteriores" nextLabel="Siguientes" (pageChange)="p = $event"></pagination-controls>
-  <div class="row p-3 my-2">
-    <hr class="mb-4">
-    <div class="form-group col-md-12 mb-3 pt-3">
-      <button type="button" value="Nuevo" class="btn btn-success col-md-4 offset-md-1 " [routerLink]="['/pagina-form-generar']">  <img src="../../../assets/Imagenes/plus-square.svg" alt="" width="24" height="24" title="Añadir lote a base de lotes">&nbsp;&nbsp;Nuevo Lote</button>
-      <button type="button" class="btn btn-secondary col-md-4 offset-md-1" (click)="volverHome()"><img src="../../../assets/IconsGoogle/arrow-bar-left.svg" alt="" width="24" height="24" title="Volver" />&nbsp;&nbsp; Volver</button>
-
-    </div>
-
-  </div>
-
-
-</form>

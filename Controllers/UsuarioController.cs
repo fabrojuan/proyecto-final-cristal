@@ -327,7 +327,9 @@ namespace MVPSA_V2022.Controllers
                     }
                 }
             }
-            catch (Exception ex) { Console.WriteLine(ex); }
+            catch (Exception ex) { 
+                Console.WriteLine(ex); 
+            }
 
             return Unauthorized();
         }

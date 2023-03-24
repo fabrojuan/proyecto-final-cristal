@@ -5,6 +5,16 @@
   border-top-right-radius: 2em;
 }
 
+.tarjeta {
+  flex: 0 0 auto;
+  width: 24%;
+}
+
+.tarjetaSombra {
+  background-color: #240f7d;
+  text-shadow: 5px 7px 9px #555;
+}
+
 .cssDescripcion {
   font-family: "Times New Roman", Times, serif;
   font-size: 1.9em;
@@ -12,9 +22,9 @@
 
 .titulo {
   color: #240f7d;
-  font-size: 2em;
+  font-size: 1.5em;
   font-weight: 900;
-  text-shadow: 6px 8px 10px #555;
+  text-shadow: 5px 7px 9px #555;
 }
 
 .Padding1 {

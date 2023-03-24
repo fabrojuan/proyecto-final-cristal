@@ -21,5 +21,6 @@ namespace MVPSA_V2022.Modelos
         public string? CustomerUid { get; set; }
         public string? CustomerEmail { get; set; }
         public string CheckoutUid { get; set; } = null!;
+        public DateTime? FechaAlta { get; set; }
     }
 }

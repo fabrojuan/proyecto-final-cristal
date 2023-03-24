@@ -49,7 +49,7 @@ namespace MVPSA_V2022.Services
                     // Guarda la foto 1 si el vecino la cargo
                     if (reclamoCLS.foto1 != null && reclamoCLS.foto1.Length > 0) {
                         PruebaGraficaReclamo pruebaGraficaReclamo1 = new PruebaGraficaReclamo();
-                        pruebaGraficaReclamo1.Foto = reclamoCLS.foto1;
+                       // pruebaGraficaReclamo1.Foto = reclamoCLS.foto1;
                         pruebaGraficaReclamo1.IdVecino = idVecinoAlta;
                         pruebaGraficaReclamo1.Bhabilitado = 1;
 
@@ -60,7 +60,7 @@ namespace MVPSA_V2022.Services
                     if (reclamoCLS.foto2 != null && reclamoCLS.foto2.Length > 0)
                     {
                         PruebaGraficaReclamo pruebaGraficaReclamo2 = new PruebaGraficaReclamo();
-                        pruebaGraficaReclamo2.Foto = reclamoCLS.foto2;
+                     //   pruebaGraficaReclamo2.Foto = reclamoCLS.foto2;
                         pruebaGraficaReclamo2.IdVecino = idVecinoAlta;
                         pruebaGraficaReclamo2.Bhabilitado = 1;
 

@@ -1,9 +1,17 @@
 .tituloFormulario {
   color: #240f7d;
-  font-size: 3em;
+  font-size: 1.7em;
   font-weight: 900;
   text-shadow: 6px 8px 10px #555;
 }
+.container-fluid {
+  background: rgb(81,197,245);
+  background: linear-gradient(76deg, rgba(81,197,245,1) 0%, rgba(67,116,237,1) 14%, rgba(150,224,236,1) 100%);
+  /* background-color: #240f7d;*/
+  padding-top: 1.5em;
+  color: skyblue !important;
+}
+
 
 .Tipo_Denuncia {
   margin-right: 1.5em;
@@ -17,7 +25,7 @@
 
 
 .tituloTabla {
-  font-size: 1.3em;
+  font-size: 1.1em;
 }
 
 .combobox {

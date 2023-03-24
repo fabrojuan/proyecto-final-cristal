@@ -148,7 +148,8 @@ namespace MVPSA_V2022.Controllers
                 {
 
                     //SqlParameter idDenuncia = new SqlParameter("@IdDenuncia", oTrabajoCLS.Nro_Denuncia);
-                    //bd.Database.ExecuteSqlCommand("PRUEBADEMAIL");
+                    //bd.Database.
+                    //Command("PRUEBADEMAIL");
                     //Arriba esta lo que migré no se si esto andaba o no luego lo tocaremos por cada laburo.
                     // bd.SaveChanges();
                 }

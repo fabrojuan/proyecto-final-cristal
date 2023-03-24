@@ -7,6 +7,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AuthInterceptor } from './services/AuthInterceptor';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
+import { PersonaFormGenerarComponent } from './components/persona-form-generar/persona-form-generar.component';
+
 //*****Componentes**********
 import { BienvenidaComponent } from './components/bienvenida/bienvenida.component';
 import { LoginComponent } from './components/login/login.component';
@@ -51,6 +53,7 @@ import { LoteTablaComponent } from './components/lote-tabla/lote-tabla.component
 import { LoteFormGenerarComponent } from './components/lote-form-generar/lote-form-generar.component';
 import { LoteService } from './services/lote.service';
 import { LoteDetalleComponent } from './components/lote-detalle/lote-detalle.component';
+import { CampoRequeridoComponent } from './components/campo-requerido/campo-requerido.component';
 
 //*****Errores y librerias Auxiliares**********
 import { ErrorPaginLoginComponent } from './components/error-pagin-login/error-pagin-login.component';
@@ -79,6 +82,8 @@ import { ToastService } from './services/toast.service';
 import { ToastsContainer } from './components/toasts-container/toasts-container.component';
 import { TipoDenunciaFormComponent } from './components/tipo-denuncia-form/tipo-denuncia-form.component';
 import { TipoDenunciaTablaComponent } from './components/tipo-denuncia-tabla/tipo-denuncia-tabla.component';
+import { PersonasTablaComponent } from './components/personas-tabla/personas-tabla.component';
+import { TasasImpositivasComponent } from './components/tasas-impositivas/tasas-impositivas.component';
 
 
 @NgModule({
@@ -133,7 +138,11 @@ import { TipoDenunciaTablaComponent } from './components/tipo-denuncia-tabla/tip
     TipoReclamoFormComponent,
     ToastsContainer,
     TipoDenunciaFormComponent,
-    TipoDenunciaTablaComponent
+    TipoDenunciaTablaComponent,
+    CampoRequeridoComponent,
+    PersonaFormGenerarComponent,
+    PersonasTablaComponent,
+    TasasImpositivasComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -163,6 +172,8 @@ import { TipoDenunciaTablaComponent } from './components/tipo-denuncia-tabla/tip
       { path: 'mapas-cordoba', component: MapasCordobaComponent },
       { path: 'pagina-form-generar', component: PaginaFormGenerarComponent, canActivate: [SeguridadGuard] },
       { path: 'pagina-form-generar/:id', component: PaginaFormGenerarComponent, canActivate: [SeguridadGuard] },
+      { path: 'persona-form-generar', component: PersonaFormGenerarComponent, canActivate: [SeguridadGuard] }, //, canActivate: [SeguridadGuard]
+      { path: 'personas-tabla', component: PersonasTablaComponent, canActivate: [SeguridadGuard] },
 
       { path: 'pagina-tabla', component: PaginaTablaComponent, canActivate: [SeguridadGuard] },
       { path: 'reclamo-form-generar', component: ReclamoFormGenerarComponent, canActivate: [SeguridadVecinoGuard] },
@@ -172,6 +183,7 @@ import { TipoDenunciaTablaComponent } from './components/tipo-denuncia-tabla/tip
       { path: 'sugerencia-form-generar', component: SugerenciaFormGenerarComponent },
       { path: 'sugerencia-tabla', component: SugerenciaTablaComponent, canActivate: [SeguridadGuard] },
       { path: 'tabla-denuncia', component: TablaDenunciaComponent, canActivate: [SeguridadGuard] },
+      { path: 'tasas-impositivas', component: TasasImpositivasComponent, canActivate: [SeguridadGuard] },
       { path: 'tabla-estado-denuncia', component: TablaEstadoDenunciaComponent, canActivate: [SeguridadGuard] },
       { path: 'tipo-rol-form-generar', component: TipoRolFormGenerarComponent, canActivate: [SeguridadGuard] },  //Una vez que agregue las paginas a la base se asigna guard canActivate: [SeguridadVecinoGuard]
       { path: 'tipo-rol-form-generar/:id', component: TipoRolFormGenerarComponent, canActivate: [SeguridadGuard] },
@@ -193,7 +205,8 @@ import { TipoDenunciaTablaComponent } from './components/tipo-denuncia-tabla/tip
       { path: 'tipo-denuncia-tabla', component: TipoDenunciaTablaComponent, canActivate: [SeguridadGuard] },
       { path: 'tipo-denuncia-form/:id', component: TipoDenunciaFormComponent/*, canActivate: [SeguridadGuard] */},
       { path: 'tipo-denuncia-form', component: TipoDenunciaFormComponent/*, canActivate: [SeguridadGuard] */},
-
+      { path: 'lote-form-generar', component: LoteFormGenerarComponent, canActivate: [SeguridadGuard] },
+  
       { path: '*', redirectTo: '' } //a home
 
 
