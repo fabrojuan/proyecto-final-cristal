@@ -16,9 +16,9 @@ export class DatasetFinanzasService {
     this.urlBase = baseUrl;
   }
 
-  public generarDatasetImpuestos() {
+  public generarDatasetImpuestos(): Observable<any>  {
     return this.http.get(this.urlBase + 'api/DatosAbiertos/generaImpuestoInmobiliarioMensual').pipe(map(res => res));
-
+   
   }
 
   public ListarFinancieros() {

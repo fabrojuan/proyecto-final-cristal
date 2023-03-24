@@ -155,6 +155,7 @@ import { TasasImpositivasComponent } from './components/tasas-impositivas/tasas-
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'bienvenida', component: BienvenidaComponent, canActivate: [SeguridadGuard] },  //, canActivate: [SeguridadGuard]
       { path: 'datos-finanzas-economicos', component: DatosFinanzasEconomicosComponent },
+      { path: 'datos-finan-econom-generar', component: DatosFinanEconomGenerarComponent, canActivate: [SeguridadGuard] }, 
       { path: 'denuncia-form-generar', component: DenunciaFormGenerarComponent },
       { path: 'denuncia-detalle', component: DenunciaDetalleComponent }, //, canActivate: [SeguridadGuard] //Veo que hacen falta los dos rutas sino el guard no anda ok
       { path: 'denuncia-detalle/:id', component: DenunciaDetalleComponent ,canActivate: [SeguridadGuard]}, //, canActivate: [SeguridadGuard]  le dio por no funcionar verlo!
