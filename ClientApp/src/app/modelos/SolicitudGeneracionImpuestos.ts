@@ -1,7 +1,7 @@
-export class SolicitudGeneracionImpuestos {
-    anio: number = 0;
-    montoSuperficieTerreno: number = 0;
-    montoSuperficieEdificada: number = 0;
-    coeficienteInteresEsquina: number = 0;
-    coeficienteInteresAsfalto: number = 0;
+export interface SolicitudGeneracionImpuestos {
+    anio: number;
+    montoSuperficieTerreno: number;
+    montoSuperficieEdificada: number;
+    coeficienteInteresEsquina: number;
+    coeficienteInteresAsfalto: number;
 }

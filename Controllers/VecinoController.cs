@@ -2,11 +2,13 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using MVPSA_V2022.clases;
 using MVPSA_V2022.Modelos;
 using MVPSA_V2022.Services;
 using System;
 using System.Linq;
+using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Transactions;
@@ -128,8 +130,34 @@ namespace MVPSA_V2022.Controllers
             return rpta;
         }
         //*********************FIN VALIDAR EMAIL VECINO ******************************************
+        //***************** Listar Personas *************************************
 
+        [HttpGet]
+        [Route("api/Vecino/listarvecinos")]
+        public IEnumerable<PersonaCLS> listarvecinos()
+        {
+            using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
+            {
+                Prioridad oPriorodad = new Prioridad();
+                UsuarioCLS usuarioCLS = new UsuarioCLS();
 
+                List<PersonaCLS> listaPersona = (from persona in bd.Personas
+                                                    where persona.Bhabilitado == 1
+                                                    select new PersonaCLS
+                                                    {
+                                                        Iidpersona=persona.IdPersona,
+                                                      Nombre = !String.IsNullOrEmpty(persona.Nombre) ? persona.Nombre : "No Posee",
+                                                        apellido = !String.IsNullOrEmpty(persona.Apellido)?persona.Apellido : "No Posee",
+                                                        Telefono = !String.IsNullOrEmpty(persona.Telefono) ? persona.Telefono : "No Posee",
+                                                        Mail = !String.IsNullOrEmpty(persona.Mail) ? persona.Mail : "No Posee",
+                                                        Domicilio = !String.IsNullOrEmpty(persona.Domicilio) ? persona.Domicilio : "No Posee",
+                                                        altura = !String.IsNullOrEmpty(persona.Altura) ? persona.Altura : "No Posee"
+                                                     }).ToList();
+                return listaPersona;
+            }
+
+        }
+        //*****************FIN Listar Personas *************************************
 
 
 

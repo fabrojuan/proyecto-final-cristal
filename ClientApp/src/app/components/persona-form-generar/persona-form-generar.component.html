@@ -1,7 +1,7 @@
 <form [formGroup]="Persona" (ngSubmit)="guardarDatos()">
   <div class="container-fluid">
-    <div class="d-flex align-items-center p-2 my-2  bg-light shadow p-2 mb-5 rounded shadow-sm  fondoTextTitulo">
-      <img src="../../../assets/IconsGoogle/lote_px.png" alt="Lote" width="58" height="58">
+    <div class="d-flex align-items-center p-2 my-2 shadow p-2 mb-5 rounded shadow-sm  ">
+      <img src="../../../assets/Imagenes/Digito_pulgar.png" alt="Lote" width="120" height="120">
       <div class="tituloFormulario text-center form-group col-md-8 offset-md-1">
         <p> Formulario de Registro de Persona</p>
       </div>
@@ -56,10 +56,11 @@
         </div>
       </div>
     </section>
-    <section class="mt-2 pb-5">
-      <div class="pb-5 mt-5 form-group justify-content-around offset-md-4">
-        <input [disabled]="!Persona.valid" type="submit" value="Generar" class="btn btn-success col-md-1 offset-md-1" />
-        <button type="button" class="btn btn-light col-md-1 offset-md-1" (click)="volverLoteTabla()">Cancelar</button>
+   <section class="mt-2 pb-5">
+   
+      <div class="pb-5 mt-5 form-group justify-content-around offset-md-3">
+        <input [disabled]="!Persona.valid" type="submit" value="Generar" class="btn btn-success col-md-2 offset-md-1" />
+        <button type="button" class="btn btn-light col-md-2 offset-md-1" (click)="volverLoteTabla()">Cancelar</button>
       </div>
     </section>
 

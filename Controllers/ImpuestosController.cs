@@ -2,11 +2,13 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using MVPSA_V2022.clases;
 using MVPSA_V2022.Modelos;
 using MVPSA_V2022.Services;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -150,6 +152,34 @@ namespace MVPSA_V2022.Controllers
             }
         }
 
+        //Valuacion de impuestos terreno y construcciones ademas Este metodo genera el impuesto Anual.
+        [HttpPost]
+        [Route("api/Impuestos/SP_Valuacion__Impuestos")]
+        public int SP_Valuacion__Impuestos([FromBody] ValuacionCLS oValuacionCLS)
+        {
+            try
+            {
+                using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
+                {
+                    SqlParameter construido = new SqlParameter("@montoSupEdificada", oValuacionCLS.ValorSupEdificada);
+                    SqlParameter importe_sin_contruir = new SqlParameter("@montoSupTerreno", oValuacionCLS.ValorSupTerreno);
+                    SqlParameter interes_esquina = new SqlParameter("@interes_esquina", oValuacionCLS.IncrementoEsquina);
+                    SqlParameter interes_asfalto = new SqlParameter("@interes_asfalto", oValuacionCLS.IncrementoAsfalto);
+                    var llamar = bd.Database.ExecuteSqlRaw("GENERACION_IMPUESTOS_LOTES_2 @montoSupEdificada,@montoSupTerreno, @interes_esquina," +
+                                                  "@interes_asfalto", construido, importe_sin_contruir, interes_esquina, interes_asfalto);
+                          bd.SaveChanges();
+                    return 1;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return 0;
+            }
+        }
+        //Fin Valuacion de Impuestos Terreno y construcciones 
+
+
         [HttpPost]
         [Route("api/Impuestos/guardarBoleta")]
         public async Task<ActionResult> guardarBoleta([FromBody] DetalleBoletaCLS oDetalleBoletaCLS)
@@ -165,7 +195,6 @@ namespace MVPSA_V2022.Controllers
             {
                 using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
                 {
-
                     int idLoteaPagar = int.Parse(HttpContext.Session.GetString("idLoteaPagar"));
 
                     oPersonaCLS = (from Lote in bd.Lotes

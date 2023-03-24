@@ -3,6 +3,8 @@ import { Injectable, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { SolicitudGeneracionImpuestos } from '../modelos/SolicitudGeneracionImpuestos';
+import { ResultadoEjecucionProceso } from '../modelos/ResultadoEjecucionProceso';
 
 
 @Injectable({
@@ -27,8 +29,9 @@ export class ImpuestoService {
     return this.http.get(this.urlBase + 'api/Impuestos/ListarImpuestosAdeudados/' + idLote).pipe(map(res => res));
   }
 
-  public SP_GeneracionImpuestos(): Observable<any> {
-    return this.http.get(this.urlBase + 'api/Impuestos/SP_GeneracionImpuestos')
+  public SP_GeneracionImpuestos(solicitud: SolicitudGeneracionImpuestos): Observable<ResultadoEjecucionProceso> {
+    return this.http.post<ResultadoEjecucionProceso>(this.urlBase + 'api/Impuestos/SP_GeneracionImpuestos',
+                          solicitud)
   }
 
   public SP_GeneracionInteresesMensuales(): Observable<any> {
@@ -44,6 +47,12 @@ export class ImpuestoService {
     return this.http.post(url, FGimpuestos).pipe(map(res => res));
 
   }
+  //Modificacion Base Imponible Impuestos
+  public SP_Valuacion(Valuacion: any): Observable<any> {
+    console.log(Valuacion);
+ return this.http.post(this.urlBase + 'api/Impuestos/SP_Valuacion__Impuestos', Valuacion).pipe(map(res => res));
+  }
+
 
   public obtenerUrlMobbexx(): Observable<any> {
     //return this.http.get(this.urlBase + 'api/Impuesto/obtenerUrlMobbexx').map(res => res.json());

@@ -1,10 +1,14 @@
-<div class="d-flex align-items-center p-3 my-3 bg-purple bg-light shadow p-2 mb-5 rounded shadow-sm">
-  <img src="../../../assets/IconsGoogle/Justicia.svg" alt="" width="58" height="58">
-  <div class="tituloFormulario text-center form-group col-md-8 offset-md-1">
-    <p>Tablero de Gestión de Lotes</p>
-  </div>
-</div>
+
 <div class="container-fluid">
+
+
+  <div class="d-flex align-items-center p-1 my-1">
+    <img src="../../../assets/Imagenes/construccion_lote.png" alt="" width="150" height="150">
+    <div class="tituloFormulario text-center form-group col-md-8 offset-md-1">
+      <p> Tablero de Gestión de Lotes</p>
+    </div>
+  </div>
+
   <form [formGroup]="form">
     <div class="row ms-3">
       <div class="mb-3 col-3 col-md-3 col-lg-3 col-xl-3">
@@ -14,7 +18,7 @@
         </div>
       </div>
     </div>
-  
+
     <br /><br />
     <table class="table table-hover" style="padding-bottom: 2.5em">
       <thead class="thead-dark tituloTabla">
@@ -37,11 +41,7 @@
           <td class="text-center">{{Lote.estadoDeuda}} </td>
 
           <td class="text-center" *ngIf="isMantenimiento==true">
-            <!--<button type="button" class="btn btn-light" [routerLink]="['/trabajo-tabla',buscar.nro_Denuncia]"><img src="../../../assets/IconsGoogle/eyeglasses.svg" alt="" width="24" height="24" title="Ver Trabajos"></button>-->
-            <!--<button type="button" class="btn btn-info" [routerLink]="['/lote-form-generar',Denuncia.nro_Denuncia]">-->
-            <!--<img src="../../../assets/IconsGoogle/gear.svg" alt="" width="24" height="24" title="Cargar Trabajo">
-            </button>-->
-            <button type="button" class="btn btn-light" [routerLink]="['/lote-detalle',Lote.nroLote]"><img src="../../../assets/IconsGoogle/Mas_info.svg" alt="" width="24" height="24" title="Mas Info del Lote"></button>
+            <button type="button" class="btn " [routerLink]="['/lote-detalle',Lote.nroLote]"><img src="../../../assets/IconsGoogle/Mas_info.svg" alt="" width="24" height="24" title="Mas Info del Lote"></button>
           </td>
         </tr>
       </tbody>

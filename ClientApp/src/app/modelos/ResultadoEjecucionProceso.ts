@@ -1,4 +1,4 @@
-export class ResultadoEjecucionProceso {
-    resultado: String = "OK";
+export interface ResultadoEjecucionProceso {
+    resultado: String;
     mensaje?: String;
 }
