@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MVPSA_V2022.clases;
 using MVPSA_V2022.Modelos;
@@ -12,8 +13,8 @@ using System.Text;
 
 namespace MVPSA_V2022.Controllers
 {
-    //[ApiController]
-    //[Route("[controller]")]
+
+    [Authorize]
     public class UsuarioController : Controller
     {
 
@@ -294,6 +295,7 @@ namespace MVPSA_V2022.Controllers
 
         //Insertar metodo para obtener user.
         [HttpPost]
+        [AllowAnonymous]
         [Route("api/Usuario/login")]
         public IActionResult login([FromBody] UsuarioCLS oUsuarioCLS)
         {
