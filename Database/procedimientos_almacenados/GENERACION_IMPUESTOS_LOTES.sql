@@ -1,23 +1,21 @@
---=============================================
--- Author: <Author,,Name>
--- Create date: <Create Date,,>
--- Description: <Description,,>
--- =============================================
 CREATE
 	OR
 
 ALTER PROCEDURE [dbo].[GENERACION_IMPUESTOS_LOTES]
+	-- Add the parameters for the stored procedure here
+	-- <@Param1, sysname, @p1> <Datatype_For_Param1, , int> = <Default_Value_For_Param1, , 0>,
+	-- <@Param2, sysname, @p2> <Datatype_For_Param2, , int> = <Default_Value_For_Param2, , 0>
 	(
-	@montoSupTerreno DECIMAL(15, 2),
-	@montoSupEdificada DECIMAL(15, 2),
-	@interes_esquina DECIMAL(15, 2),
-	@interes_asfalto DECIMAL(15, 2)
+	@montoSupTerreno DECIMAL(18, 2),
+	@montoSupEdificada DECIMAL(18, 2),
+	@interes_esquina DECIMAL(18, 2),
+	@interes_asfalto DECIMAL(18, 2)
 	)
 AS
 BEGIN
 	DECLARE @lote INT,
-		@supTerreno DECIMAL(15, 2),
-		@supEdificada DECIMAL(15, 2)
+		@supTerreno DECIMAL(18, 2),
+		@supEdificada DECIMAL(18, 2)
 
 	-- DECLARACIÓN DEL CURSOR
 	DECLARE CURSOR_LOTE CURSOR
@@ -60,8 +58,8 @@ BEGIN
 	DECLARE @Valuacion DECIMAL(15, 2),
 		@Esquina BIT,
 		@Principal BIT,
-		@TOTAL DECIMAL(15, 2) = 0,
-		@MONTO DECIMAL(15, 2),
+		@TOTAL DECIMAL(18, 2) = 0,
+		@MONTO DECIMAL(18, 2),
 		@anio VARCHAR(4) = YEAR(GetDate()),
 		@FechaInicio DATETIME,
 		@FechaVencimiento DATETIME,

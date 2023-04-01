@@ -1,18 +1,3 @@
-USE [M_VPSA_V3]
-GO
-
-/****** Object:  StoredProcedure [dbo].[GENERACION_INTERESES]    Script Date: 24/3/2023 21:54:48 ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
--- Batch submitted through debugger: SQLQuery2.sql|7|0|C:\Users\roman\AppData\Local\Temp\~vs4668.sql
--- Batch submitted through debugger: SQLQuery2.sql|7|0|C:\Users\roman\AppData\Local\Temp\~vs2493.sql
--- Batch submitted through debugger: SQLQuery2.sql|7|0|C:\Users\roman\AppData\Local\Temp\~vs10C2.sql
--- Batch submitted through debugger: SQLQuery2.sql|7|0|C:\Users\roman\AppData\Local\Temp\~vs4860.sql
--- Batch submitted through debugger: SQLQuery4.sql|9|0|C:\Users\roman\AppData\Local\Temp\~vs825D.sql
 CREATE
 	OR
 

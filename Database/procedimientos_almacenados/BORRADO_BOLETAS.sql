@@ -1,14 +1,3 @@
-USE [M_VPSA_V3]
-GO
-
-/****** Object:  StoredProcedure [dbo].[BORRADO_BOLETAS]    Script Date: 24/3/2023 21:52:43 ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
--- PROCESO DE GENERACION DE INTERESES
 CREATE
 	OR
 

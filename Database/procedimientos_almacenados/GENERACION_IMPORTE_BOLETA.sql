@@ -1,13 +1,3 @@
-USE [M_VPSA_V3]
-GO
-
-/****** Object:  StoredProcedure [dbo].[GENERACION_IMPORTE_BOLETA]    Script Date: 24/3/2023 21:53:05 ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
 CREATE
 	OR
 

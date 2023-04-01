@@ -1,13 +1,3 @@
-USE [M_VPSA_V3]
-GO
-
-/****** Object:  StoredProcedure [dbo].[ACTUALIZACION_DETALLESBOLETA]    Script Date: 24/3/2023 21:52:20 ******/
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
 CREATE
 	OR
 

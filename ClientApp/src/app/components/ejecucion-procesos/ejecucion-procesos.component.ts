@@ -10,6 +10,8 @@ import { Observable, Subscription } from 'rxjs';
 import { ControlValueAccessor, Validator, AbstractControl, ValidationErrors, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
 import { CampoRequeridoComponent } from '../campo-requerido/campo-requerido.component';
 import { __values } from 'tslib';
+import { ResultadoEjecucionProceso } from 'src/app/modelos/ResultadoEjecucionProceso';
+import { SolicitudGeneracionImpuestos } from 'src/app/modelos/SolicitudGeneracionImpuestos';
 
 @Component({
   selector: 'ejecucion-procesos',
@@ -30,6 +32,7 @@ providers: [
 })
 export class EjecucionProcesosComponent implements OnInit, ControlValueAccessor, Validator {
   generacionImpuestos: any;
+  resultadoEjecucionProceso: ResultadoEjecucionProceso | undefined;
   interesMensual: any;
   fechaEjecucion: Date = new Date();
   limpiezaBoleta: any;
@@ -113,56 +116,32 @@ export class EjecucionProcesosComponent implements OnInit, ControlValueAccessor,
 
   //CONFIRMACION DE BOLETAS DIARIAS
   getConfirmacionBoletas() {
-    this.impuestoService.getUltimaFechaBoleta().subscribe(param => this.limpiezaBoleta = param);
-    this.fechaEjecucion = new Date(this.limpiezaBoleta.fechaEjecucion);
-    console.log('dia de ultima ejecucion:' + this.fechaEjecucion.toLocaleString('es-AR', { day: 'numeric' }));
-    this.aniofechaEjeTemp = this.fechaEjecucion.toLocaleString('es-AR', { day: '2-digit' });
-    console.log('dia Actual' + this.fechaHoy.toLocaleString('es-AR', { day: '2-digit' }));
-    this.anioActualTemp = this.fechaHoy.toLocaleString('es-AR', { day: '2-digit' });
-    if (this.anioActualTemp == this.aniofechaEjeTemp) {
-      alert("La confirmacion de boletas ya ha sido realizada previamente");
-      this.router.navigate(["/bienvenida"]);
-    }
-    else {
-      alert("La confirmacion de boletas se realizó exitosamente");
-      this.impuestoService.SP_LimpiezaBoletas().subscribe(param => this.limpiezaBoleta = param);
-    }
+
+    this.impuestoService.confirmarBoletas()
+      .subscribe(response => {
+        this.resultadoEjecucionProceso = response;
+
+        if (this.resultadoEjecucionProceso?.resultado === "OK") {
+          alert("La confirmacion de boletas se realizó exitosamente");
+        } else {
+          alert(this.resultadoEjecucionProceso?.mensaje);
+        }
+      });
   }
 
-  //Generacion Anual de Impuestos
-  getGeneracionImpuestos() {
-    this.impuestoService.getUltimaFechaInteres().subscribe(param => this.generacionImpuestos = param);
-    this.fechaEjecucion = new Date(this.generacionImpuestos.fechaEjecucion);
-    // console.log('AÑO de ultima ejecucion:' + this.fechaEjecucion.toLocaleString('es-AR', { year: 'numeric' }));
-    this.aniofechaEjeTemp = this.fechaEjecucion.toLocaleString('es-AR', { year: 'numeric' });
-    // console.log('AÑO Actual' + this.fechaHoy.toLocaleString('es-AR', { year: 'numeric' }));
-    this.anioActualTemp = this.fechaHoy.toLocaleString('es-AR', { year: 'numeric' });
-    if (this.anioActualTemp == this.aniofechaEjeTemp) {
-      alert("La generacion de Impuestos ya se ha realizado este año");
-      this.router.navigate(["/bienvenida"]);
-    }
-    else {
-      alert("La generacion de Impuestos se realizó exitosamente");
-      this.impuestoService.SP_GeneracionImpuestos().subscribe(param => this.generacionImpuestos = param);
-    }
-  }
   //Generacion de Interes Mensual.
   getinteresMensual() {
-    this.impuestoService.getUltimaFechaInteres().subscribe(param => this.interesMensual = param);
-    this.fechaEjecucion = new Date(this.interesMensual.fechaEjecucion);
-    console.log('Mes ultima ejecucion:' + this.fechaEjecucion.toLocaleString('en-us', { month: 'long' }));
-    this.MesfechaEjeTemp = this.fechaEjecucion.toLocaleString('en-us', { month: 'long' });
-    console.log('Mes Actual' + this.fechaHoy.toLocaleString('en-us', { month: 'long' }));
-    this.MesActualTemp = this.fechaHoy.toLocaleString('en-us', { month: 'long' });
-    if (this.MesActualTemp == this.MesfechaEjeTemp) {
-      alert("El INTERES MENSUAL ya ha sido ejecutado anteriormente");
-      this.router.navigate(["/bienvenida"]);
-    }
-    else {
-      alert("El INTERES ha sido ejecutado exitosamente");
-      this.impuestoService.SP_GeneracionInteresesMensuales().subscribe(param => this.generacionImpuestos = param);
 
-    }
+    this.impuestoService.generarInteresesMensuales()
+      .subscribe(response => {
+        this.resultadoEjecucionProceso = response;
+
+        if (this.resultadoEjecucionProceso?.resultado === "OK") {
+          alert("La generación de Intereses Mensuales se realizó exitosamente");
+        } else {
+          alert(this.resultadoEjecucionProceso?.mensaje);
+        }
+      });
   }
 
   volverHome() {
@@ -172,6 +151,7 @@ export class EjecucionProcesosComponent implements OnInit, ControlValueAccessor,
     
     this.modalService.open(this.myModalInfo);
   }
+
   //Este guardar datos pertenece al impuesto inmobiliario y hay que hace el procesamiento alli.
   //Valuacion Impuestos. y generacion impuesto Anual.
   guardarDatos() {
@@ -179,27 +159,28 @@ export class EjecucionProcesosComponent implements OnInit, ControlValueAccessor,
 
     if (this.Valuacion.valid == true) {
       this.InfoModalOkRedirect = 1;
-      //A partir de aca llamar al guardar
-       //console.log(this.Valuacion.value); para verificar si los datos llegan ok al modulo de angular
     
       //this.Valuacion.reset(); estaba reseteandolo aca tengo que resetear despues.......ver estt 13/03/23
       this.modalService.dismissAll(this.Valuacion.value);
-      this.impuestoService.SP_Valuacion(this.Valuacion.value).subscribe(data => {
-        if (data) {
-          console.log(data);
 
-          this.resultadoGuardadoModal = "El Impuesto Anual Se genero de Manera Correcta.";
-   //       this.redirectPersona = 1;
-          this.modalService.open(this.myModalInfo2);
-        }
-        else
-          this.resultadoGuardadoModal = "El El proceso de Registro tuvo algun fallo.";
-     //   this.redirectPersona = 1;
-      });
-
-
-     // this.modalService.open(this.myModalInfo);
-     // this.router.navigate(["/ejecucion-procesos"]);
+      const solicitud: SolicitudGeneracionImpuestos = {
+        anio: new Date().getFullYear(),
+        montoSuperficieTerreno: this.Valuacion.get("ValorSupTerreno")?.value,
+        montoSuperficieEdificada: this.Valuacion.get("ValorSupEdificada")?.value,
+        coeficienteInteresEsquina: this.Valuacion.get("IncrementoEsquina")?.value,
+        coeficienteInteresAsfalto: this.Valuacion.get("IncrementoAsfalto")?.value
+      };
+  
+      this.impuestoService.generarImpuestos(solicitud)
+        .subscribe(response => {
+          this.resultadoEjecucionProceso = response;
+  
+          if (this.resultadoEjecucionProceso?.resultado === "OK") {
+            alert("La generacion de Impuestos se realizó exitosamente");
+          } else {
+            alert(this.resultadoEjecucionProceso?.mensaje);
+          }
+        });
     }
   }
 
