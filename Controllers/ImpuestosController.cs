@@ -126,59 +126,19 @@ namespace MVPSA_V2022.Controllers
         ///SP Generacion Mensual Impuestos
         [HttpGet]
         [Route("api/Impuestos/SP_GeneracionInteresesMensuales")]
-        public void SP_GeneracionInteresesMensuales()
+        public ResultadoEjecucionProcesoCLS SP_GeneracionInteresesMensuales()
         {
-            {
-                using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
-                {//    bd.Database.ExecuteSqlCommand("GENERACION_INTERESES"); Reemplazado por
-                    bd.Database.ExecuteSqlRaw("GENERACION_INTERESES");
-                    bd.SaveChanges();
-                }
-            }
+            return impuestoService.generarIntesesMensuales();
 
 
         }
         // Procedimiento almacenado [BORRADO_BOLETAS]
         [HttpGet]
         [Route("api/Impuestos/SP_LimpiezaBoletas")]
-        public void SP_LimpiezaBoletas()
+        public ResultadoEjecucionProcesoCLS SP_LimpiezaBoletas()
         {
-            {
-                using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
-                {
-                    bd.Database.ExecuteSqlRaw("BORRADO_BOLETAS");
-                    bd.SaveChanges();
-                }
-            }
+            return impuestoService.confirmarBoletas();
         }
-
-        //Valuacion de impuestos terreno y construcciones ademas Este metodo genera el impuesto Anual.
-        [HttpPost]
-        [Route("api/Impuestos/SP_Valuacion__Impuestos")]
-        public int SP_Valuacion__Impuestos([FromBody] ValuacionCLS oValuacionCLS)
-        {
-            try
-            {
-                using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
-                {
-                    SqlParameter construido = new SqlParameter("@montoSupEdificada", oValuacionCLS.ValorSupEdificada);
-                    SqlParameter importe_sin_contruir = new SqlParameter("@montoSupTerreno", oValuacionCLS.ValorSupTerreno);
-                    SqlParameter interes_esquina = new SqlParameter("@interes_esquina", oValuacionCLS.IncrementoEsquina);
-                    SqlParameter interes_asfalto = new SqlParameter("@interes_asfalto", oValuacionCLS.IncrementoAsfalto);
-                    var llamar = bd.Database.ExecuteSqlRaw("GENERACION_IMPUESTOS_LOTES_2 @montoSupEdificada,@montoSupTerreno, @interes_esquina," +
-                                                  "@interes_asfalto", construido, importe_sin_contruir, interes_esquina, interes_asfalto);
-                          bd.SaveChanges();
-                    return 1;
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-                return 0;
-            }
-        }
-        //Fin Valuacion de Impuestos Terreno y construcciones 
-
 
         [HttpPost]
         [Route("api/Impuestos/guardarBoleta")]

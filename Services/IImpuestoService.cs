@@ -7,5 +7,9 @@ namespace MVPSA_V2022.Services
 
         public ResultadoEjecucionProcesoCLS generarImpuestos(SolicitudGeneracionImpuestosCLS solicitud);
 
+        public ResultadoEjecucionProcesoCLS generarIntesesMensuales();
+
+        public ResultadoEjecucionProcesoCLS confirmarBoletas();
+
     }
 }

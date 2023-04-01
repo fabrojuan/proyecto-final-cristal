@@ -41,7 +41,7 @@ export class TasasImpositivasComponent implements OnInit {
     }
     else {
       alert("La confirmacion de boletas se realizó exitosamente");
-      this.impuestoService.SP_LimpiezaBoletas().subscribe(param => this.limpiezaBoleta = param);
+      //this.impuestoService.SP_LimpiezaBoletas().subscribe(param => this.limpiezaBoleta = param);
     }
   }
 
@@ -78,7 +78,7 @@ export class TasasImpositivasComponent implements OnInit {
     }
     else {
       alert("El INTERES ha sido ejecutado exitosamente");
-      this.impuestoService.SP_GeneracionInteresesMensuales().subscribe(param => this.generacionImpuestos = param);
+      //this.impuestoService.SP_GeneracionInteresesMensuales().subscribe(param => this.generacionImpuestos = param);
 
     }
   }

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using MVPSA_V2022.clases;
 using MVPSA_V2022.Modelos;
 
@@ -19,6 +20,58 @@ namespace MVPSA_V2022.Services
 
         }
 
+        public ResultadoEjecucionProcesoCLS generarIntesesMensuales() {
+
+            int anio = DateTime.Now.Year;
+            int mes = DateTime.Now.Month;
+
+            if (estaProcesoEjecutadoParaAnioYMes(2, anio, mes))
+            {
+                return new ResultadoEjecucionProcesoCLS(
+                    "ERROR", "El interés para este mes ya ha sido generado");
+            }
+
+            try {
+                using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
+                {
+                    bd.Database.ExecuteSqlRaw("GENERACION_INTERESES");
+                    bd.SaveChanges();
+                    return new ResultadoEjecucionProcesoCLS("OK");
+                }
+            } catch (Exception ex) {
+                Console.WriteLine("Error al generar los intereses para el año " + anio
+                    + " y mes " + mes + ". Error: " + ex.Message);
+                return new ResultadoEjecucionProcesoCLS(
+                    "ERROR", "No se pudieron generar los intereses para el año " + anio
+                    + " y mes " + mes);
+            }
+        }
+
+        public ResultadoEjecucionProcesoCLS confirmarBoletas() {
+            int anio = DateTime.Now.Year;
+
+            if (estaProcesoEjecutadoParaAnio(3, anio)) {
+                return new ResultadoEjecucionProcesoCLS(
+                    "ERROR", "La confirmación de boletas ya ha sido realizada previamente");
+            }
+
+            try
+            {
+                using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
+                {
+                    bd.Database.ExecuteSqlRaw("BORRADO_BOLETAS");
+                    bd.SaveChanges();
+                    return new ResultadoEjecucionProcesoCLS("OK");
+                }
+            }
+            catch (Exception ex) {
+                Console.WriteLine("Error al confirmar las boletas para el año " + anio
+                    + ". Error: " + ex.Message);
+                return new ResultadoEjecucionProcesoCLS(
+                    "ERROR", "No se pudieron confirmar las boletas para el año " + anio);
+            }
+        }
+
         private Boolean estaProcesoEjecutadoParaAnio(int idProceso, int anio) {
 
             using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
@@ -29,15 +82,32 @@ namespace MVPSA_V2022.Services
 
         }
 
+        private Boolean estaProcesoEjecutadoParaAnioYMes(int idProceso, int anio, int mes)
+        {
+
+            using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
+            {
+                return bd.ControlProcesos.Where(cp => cp.IdProceso == idProceso
+                && cp.FechaEjecucion.Year == anio && cp.FechaEjecucion.Month == mes).Count() > 0;
+            }
+
+        }
+
         private ResultadoEjecucionProcesoCLS generarImpuestoAnual(
             SolicitudGeneracionImpuestosCLS solicitud) {
             try
             {
                 using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
                 {
-                    bd.Database.ExecuteSqlRaw("GENERACION_IMPUESTOS_LOTES");
+                    SqlParameter construido = new SqlParameter("@montoSupEdificada", solicitud.montoSuperficieEdificada);
+                    SqlParameter importe_sin_contruir = new SqlParameter("@montoSupTerreno", solicitud.montoSuperficieTerreno);
+                    SqlParameter interes_esquina = new SqlParameter("@interes_esquina", solicitud.coeficienteInteresEsquina);
+                    SqlParameter interes_asfalto = new SqlParameter("@interes_asfalto", solicitud.coeficienteInteresAsfalto);
+                    bd.Database.ExecuteSqlRaw("GENERACION_IMPUESTOS_LOTES_2 @montoSupEdificada,@montoSupTerreno, @interes_esquina," +
+                                                  "@interes_asfalto", construido, importe_sin_contruir, interes_esquina, interes_asfalto);
                     bd.SaveChanges();
                     return new ResultadoEjecucionProcesoCLS("OK");
+
                 }
             }
             catch (Exception ex)
@@ -49,4 +119,5 @@ namespace MVPSA_V2022.Services
             }
         }
     }
+      
 }
