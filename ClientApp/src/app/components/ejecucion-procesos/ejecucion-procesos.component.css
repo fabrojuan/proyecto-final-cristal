@@ -1,42 +1,42 @@
 .btn {
-  color: #f00;
-  background-color: #240f7d;
-  /*background:Transparent;*/
-  font-family: 'Amaranth', sans-serif;
-  font-size: 1.3em;
-  font-weight: 400;
-  font-style: italic;
-  text-transform: capitalize;
-  padding: 3px 15px;
-  border-radius: 0;
-  border: 2px solid rgba(255,255,255,0.2);
-  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.4), 8px 8px 0 rgba(255, 255, 255, 0.2);
-  position: relative;
-  z-index: 1;
-  transition: all 0.4s ease 0.1s;
+    color: #f00;
+    background-color: #240f7d;
+    /*background:Transparent;*/
+    font-family: 'Amaranth', sans-serif;
+    font-size: 1.3em;
+    font-weight: 400;
+    font-style: italic;
+    text-transform: capitalize;
+    padding: 3px 15px;
+    border-radius: 0;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.4), 8px 8px 0 rgba(255, 255, 255, 0.2);
+    position: relative;
+    z-index: 1;
+    transition: all 0.4s ease 0.1s;
 }
 
 .titulo {
-  font-family: "Times New Roman", Times, serif;
-  font-size: 3.5em;
-  color: #240f7d;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 3.5em;
+    color: #240f7d;
 }
 
 .btn:hover {
-  color: rgba(67,116,237,1);
-  box-shadow: 0 0 10px -3px rgb(183, 193, 163, 0,40);
-  border-color: white;
-  transform: scale(1.1);
+    color: rgba(67, 116, 237, 1);
+    box-shadow: 0 0 10px -3px rgb(183, 193, 163, 0, 40);
+    border-color: white;
+    transform: scale(1.1);
 }
 
 .btn span {
-  display: block;
+    display: block;
 }
 
-  .btn:before,
-  .btn:after,
-  .btn span:before,
-  .btn span:after {
+.btn:before,
+.btn:after,
+.btn span:before,
+.btn span:after {
     content: '';
     background-color: #240f7d;
     width: 50%;
@@ -47,141 +47,139 @@
     left: 25%;
     top: -2px;
     transition: all 0.5s ease 0s;
-  }
+}
 
 .btn:after {
-  top: auto;
-  bottom: -2px;
+    top: auto;
+    bottom: -2px;
 }
 
 .btn span:before,
 .btn span:after {
-  height: 50%;
-  width: 2px;
-  top: 25%;
-  left: -2px;
+    height: 50%;
+    width: 2px;
+    top: 25%;
+    left: -2px;
 }
 
 .btn span:after {
-  left: auto;
-  right: -2px;
+    left: auto;
+    right: -2px;
 }
 
 .btn:hover:before,
 .btn:hover:after,
 .btn:hover span:before,
 .btn:hover span:after {
-  opacity: 1;
-  visibility: visible;
+    opacity: 1;
+    visibility: visible;
 }
 
 .btn:hover:before {
-  left: 0;
+    left: 0;
 }
 
 .btn:hover:after {
-  left: 50%;
+    left: 50%;
 }
 
 .btn:hover span:before {
-  top: 50%;
+    top: 50%;
 }
 
 .btn:hover span:after {
-  top: 0;
+    top: 0;
 }
 
 @media only screen and (max-width: 767px) {
-  .btn {
-    margin-bottom: 20px;
-  }
+    .btn {
+        margin-bottom: 20px;
+    }
 }
 
 .texto-blanco {
-  color: white;
-  font-size: 1.12em;
+    color: white;
+    font-size: 1.12em;
 }
 
 .colorBody {
-  background-color: #240f7d;
+    background-color: #240f7d;
 }
 
-
 .tituloFormulario {
-  color: #240f7d;
-  font-size: 3em;
-  font-weight: 900;
-  text-shadow: 6px 8px 10px #555;
+    color: #240f7d;
+    font-size: 3em;
+    font-weight: 900;
+    text-shadow: 6px 8px 10px #555;
 }
 
 .subtitulo {
-  font-family: "Times New Roman", Times, serif;
-  font-size: 2.5em;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 2.5em;
 }
 
-
 .tooltip {
-  position: relative;
-  display: inline-block;
-  border-bottom: 1px dotted black;
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
 }
 
 .tooltiper .tooltiptext {
-  /*visibility: hidden;*/
-  width: 120px;
-  background-color: navy;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px 0;
-  /* Position the tooltip */
-  position: absolute;
-  z-index: 1;
+    /*visibility: hidden;*/
+    width: 120px;
+    background-color: navy;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
 }
 
 .tooltip:hover .tooltiptext {
-  visibility: visible;
+    visibility: visible;
 }
 
 .tituloFormulario {
-  color: #240f7d;
-  font-size: 1.7em;
-  font-weight: 900;
-  text-shadow: 6px 8px 10px #555;
+    color: #240f7d;
+    font-size: 1.7em;
+    font-weight: 900;
+    text-shadow: 6px 8px 10px #555;
 }
 
-.container-fluid {
-  background: rgb(81,197,245);
-  background: linear-gradient(76deg, rgba(81,197,245,1) 0%, rgba(67,116,237,1) 14%, rgba(150,224,236,1) 100%);
-  /* background-color: #240f7d;*/
-  padding-top: 1.5em;
-  color: skyblue !important;
+.container {
+    background: rgb(81, 197, 245);
+    background: linear-gradient(76deg, rgba(81, 197, 245, 1) 0%, rgba(67, 116, 237, 1) 14%, rgba(150, 224, 236, 1) 100%);
+    /* background-color: #240f7d;*/
+    padding-top: 1.5em;
+    color: skyblue !important;
 }
-
 
 .Tipo_Denuncia {
-  margin-right: 1.5em;
-}
-.checkbox-tamaño {
-  /*top: .1rem;*/
-  width: 1em;
-  height: 1.5em;
-  margin-right: 0.7rem;
-  vertical-align: middle;
-}
-.textoTabla {
-  font-family: "Times New Roman", Times, serif;
-  font-size: 1.3em;
-  color: #000000;
+    margin-right: 1.5em;
 }
 
+.checkbox-tamaño {
+    /*top: .1rem;*/
+    width: 1em;
+    height: 1.5em;
+    margin-right: 0.7rem;
+    vertical-align: middle;
+}
+
+.textoTabla {
+    font-family: "Times New Roman", Times, serif;
+    font-size: 1.3em;
+    color: #000000;
+}
 
 .tituloTabla {
-  font-size: 1.1em;
+    font-size: 1.1em;
 }
 
 .combobox {
-  font-family: "Times New Roman", Times, serif;
-  font-size: 1.3em;
-  color: #240f7d;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 1.3em;
+    color: #240f7d;
 }

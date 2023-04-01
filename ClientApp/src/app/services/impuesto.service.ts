@@ -3,6 +3,8 @@ import { Injectable, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { SolicitudGeneracionImpuestos } from '../modelos/SolicitudGeneracionImpuestos';
+import { ResultadoEjecucionProceso } from '../modelos/ResultadoEjecucionProceso';
 
 
 @Injectable({
@@ -27,29 +29,25 @@ export class ImpuestoService {
     return this.http.get(this.urlBase + 'api/Impuestos/ListarImpuestosAdeudados/' + idLote).pipe(map(res => res));
   }
 
-  public SP_GeneracionImpuestos(): Observable<any> {
-    return this.http.get(this.urlBase + 'api/Impuestos/SP_GeneracionImpuestos')
+  public generarImpuestos(solicitud: SolicitudGeneracionImpuestos): Observable<ResultadoEjecucionProceso> {
+    return this.http.post<ResultadoEjecucionProceso>(this.urlBase + 'api/Impuestos/SP_GeneracionImpuestos',
+                          solicitud)
   }
 
-  public SP_GeneracionInteresesMensuales(): Observable<any> {
-    return this.http.get(this.urlBase + 'api/Impuestos/SP_GeneracionInteresesMensuales')
+  public generarInteresesMensuales(): Observable<ResultadoEjecucionProceso> {
+    return this.http.get<ResultadoEjecucionProceso>(this.urlBase + 'api/Impuestos/SP_GeneracionInteresesMensuales')
 
   }
-  public SP_LimpiezaBoletas(): Observable<any> {
-    return this.http.get(this.urlBase + 'api/Impuestos/SP_LimpiezaBoletas')
 
-  }
+  public confirmarBoletas(): Observable<ResultadoEjecucionProceso> {
+    return this.http.get<ResultadoEjecucionProceso>(this.urlBase + 'api/Impuestos/SP_LimpiezaBoletas')
+  } 
+
   public guardarBoleta(FGimpuestos :any): Observable<any> {
     var url = this.urlBase + 'api/Impuestos/guardarBoleta/';
     return this.http.post(url, FGimpuestos).pipe(map(res => res));
 
   }
-  //Modificacion Base Imponible Impuestos
-  public SP_Valuacion(Valuacion: any): Observable<any> {
-    console.log(Valuacion);
- return this.http.post(this.urlBase + 'api/Impuestos/SP_Valuacion__Impuestos', Valuacion).pipe(map(res => res));
-  }
-
 
   public obtenerUrlMobbexx(): Observable<any> {
     //return this.http.get(this.urlBase + 'api/Impuesto/obtenerUrlMobbexx').map(res => res.json());

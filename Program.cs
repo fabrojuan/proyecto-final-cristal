@@ -31,6 +31,7 @@ builder.Services.AddSingleton<IReclamoService, ReclamoService>();
 //builder.Services.AddSingleton<IDenunciaService, DenunciaService>();
 builder.Services.AddSingleton<IPagoService, PagoService>();
 builder.Services.AddSingleton<IUsuarioService, UsuarioService>();
+builder.Services.AddSingleton<IImpuestoService, ImpuestoService>();
 builder.Services.AddSingleton<IJwtAuthenticationService> (new JwtAuthenticationService(authenticationKey));
 builder.Services.AddTransient<IMailService, MailService>();
 
