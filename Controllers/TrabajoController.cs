@@ -313,11 +313,11 @@ namespace MVPSA_V2022.Controllers
 
         [HttpGet]
         [Route("api/Trabajo/RecuperarReclamo/{idReclamo}")]
-        public ReclamoCLS RecuperarReclamo(int idReclamo)
+        public ReclamoDto RecuperarReclamo(int idReclamo)
         {
             using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
             {
-                ReclamoCLS oReclamoCLS = (from reclamo in bd.Reclamos
+                ReclamoDto oReclamoCLS = (from reclamo in bd.Reclamos
                                           join estadoReclamo in bd.EstadoReclamos
                                           on reclamo.CodEstadoReclamo equals estadoReclamo.CodEstadoReclamo
                                           join usuarioVecino in bd.UsuarioVecinos on reclamo.IdVecino equals
@@ -326,7 +326,7 @@ namespace MVPSA_V2022.Controllers
                                           where reclamo.Bhabilitado == 1
                                           && reclamo.NroReclamo == idReclamo && reclamo.IdVecino == usuarioVecino.IdVecino
                                           && usuarioVecino.IdPersona == persona.IdPersona
-                                          select new ReclamoCLS
+                                          select new ReclamoDto
                                           {
                                               nroReclamo = (int)reclamo.NroReclamo,
                                               idUsuario = (int)((reclamo.IdUsuario > 0) ? reclamo.IdUsuario : 7),

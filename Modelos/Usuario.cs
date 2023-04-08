@@ -38,5 +38,7 @@ namespace MVPSA_V2022.Modelos
         public virtual ICollection<TrabajoReclamo> TrabajoReclamos { get; set; }
         public virtual ICollection<TrabajoSolicitud> TrabajoSolicituds { get; set; }
         public virtual ICollection<Trabajo> Trabajos { get; set; }
+        public virtual ICollection<TipoReclamo> TiposReclamoAlta { get; set; }
+        public virtual ICollection<TipoReclamo> TiposReclamoModificados { get; set; }
     }
 }

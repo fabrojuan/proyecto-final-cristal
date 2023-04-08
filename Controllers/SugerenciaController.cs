@@ -18,15 +18,15 @@ namespace MVPSA_V2022.Controllers
         }
         [HttpGet]
         [Route("api/Sugerencia/ListarTiposReclamo")]
-        public IEnumerable<TipoReclamoCLS> ListarTiposReclamo()
+        public IEnumerable<TipoReclamoDto> ListarTiposReclamo()
         {
-            List<TipoReclamoCLS> listaTipoReclamo;
+            List<TipoReclamoDto> listaTipoReclamo;
             using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
             {
 
                 listaTipoReclamo = (from tipoReclamo in bd.TipoReclamos
                                     where tipoReclamo.Bhabilitado == 1
-                                    select new TipoReclamoCLS
+                                    select new TipoReclamoDto
                                     {
                                         cod_Tipo_Reclamo = tipoReclamo.CodTipoReclamo,
                                         nombre = tipoReclamo.Nombre,

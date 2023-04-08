@@ -651,6 +651,8 @@ namespace MVPSA_V2022.Modelos
                     .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("Nombre_Prioridad");
+
+                entity.Property(e => e.TiempoMaxTratamiento).HasColumnName("Tiempo_Max_Tratamiento");
             });
 
             modelBuilder.Entity<PruebaGraficaDenuncium>(entity =>
@@ -771,9 +773,15 @@ namespace MVPSA_V2022.Modelos
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
+                entity.Property(e => e.NomApeVecino)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.Fecha)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.NroPrioridad).HasColumnName("Nro_Prioridad");
 
                 entity.HasOne(d => d.CodEstadoReclamoNavigation)
                     .WithMany(p => p.Reclamos)
@@ -1002,6 +1010,7 @@ namespace MVPSA_V2022.Modelos
                     .IsUnicode(false);
 
                 entity.Property(e => e.TiempoMaxTratamiento).HasColumnName("Tiempo_Max_Tratamiento");
+
             });
 
             modelBuilder.Entity<TipoSolicitud>(entity =>
@@ -1180,6 +1189,16 @@ namespace MVPSA_V2022.Modelos
                     .WithMany(p => p.Usuarios)
                     .HasForeignKey(d => d.IdTipoUsuario)
                     .HasConstraintName("FK__USUARIO__idTipoU__1EA48E88");
+
+                entity.HasMany(e => e.TiposReclamoAlta)
+                    .WithOne(e => e.UsuarioAlta)
+                    .HasForeignKey(e => e.IdUsuarioAlta)
+                    .HasPrincipalKey(e => e.IdUsuario);
+
+                entity.HasMany(e => e.TiposReclamoModificados)
+                    .WithOne(e => e.UsuarioModificacion)
+                    .HasForeignKey(e => e.IdUsuarioModificacion)
+                    .HasPrincipalKey(e => e.IdUsuario);
             });
 
             modelBuilder.Entity<UsuarioVecino>(entity =>

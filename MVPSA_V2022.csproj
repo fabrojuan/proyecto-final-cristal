@@ -35,7 +35,6 @@
   <ItemGroup>
     <Folder Include="ClientApp\src\app\components\guards\" />
     <Folder Include="ClientApp\src\assets\IconsGoogle\1x\" />
-    <Folder Include="Database\ProcedimientosAlmacenados\" />
   </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

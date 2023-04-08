@@ -84,6 +84,8 @@ import { TipoDenunciaFormComponent } from './components/tipo-denuncia-form/tipo-
 import { TipoDenunciaTablaComponent } from './components/tipo-denuncia-tabla/tipo-denuncia-tabla.component';
 import { PersonasTablaComponent } from './components/personas-tabla/personas-tabla.component';
 import { TasasImpositivasComponent } from './components/tasas-impositivas/tasas-impositivas.component';
+import { ReclamoCabeceraComponent } from './components/reclamo-cabecera/reclamo-cabecera.component';
+import { ReclamoCambiarPrioridadComponent } from './components/reclamo-cambiar-prioridad/reclamo-cambiar-prioridad.component';
 
 
 @NgModule({
@@ -142,7 +144,9 @@ import { TasasImpositivasComponent } from './components/tasas-impositivas/tasas-
     CampoRequeridoComponent,
     PersonaFormGenerarComponent,
     PersonasTablaComponent,
-    TasasImpositivasComponent
+    TasasImpositivasComponent,
+    ReclamoCabeceraComponent,
+    ReclamoCambiarPrioridadComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -200,12 +204,13 @@ import { TasasImpositivasComponent } from './components/tasas-impositivas/tasas-
       { path: 'lote-detalle', component: LoteDetalleComponent, canActivate: [SeguridadGuard]}, //, canActivate: [SeguridadGuard] //Veo que hacen falta los dos rutas sino el guard no anda ok
       { path: 'lote-detalle/:id', component: LoteDetalleComponent }, //, canActivate: [SeguridadGuard]  le dio por no funcionar verlo!
       { path: 'tipo-reclamo-tabla', component: TipoReclamoTablaComponent, canActivate: [SeguridadGuard] },
-      { path: 'tipo-reclamo-form/:id', component: TipoReclamoFormComponent, canActivate: [SeguridadGuard] },
+      { path: 'tipo-reclamo-form/:id', component: TipoReclamoFormComponent/*, canActivate: [SeguridadGuard]*/ },
       { path: 'tipo-reclamo-form', component: TipoReclamoFormComponent, canActivate: [SeguridadGuard] },
       { path: 'tipo-denuncia-tabla', component: TipoDenunciaTablaComponent, canActivate: [SeguridadGuard] },
       { path: 'tipo-denuncia-form/:id', component: TipoDenunciaFormComponent/*, canActivate: [SeguridadGuard] */},
       { path: 'tipo-denuncia-form', component: TipoDenunciaFormComponent/*, canActivate: [SeguridadGuard] */},
       { path: 'lote-form-generar', component: LoteFormGenerarComponent, canActivate: [SeguridadGuard] },
+      { path: 'reclamo-cambiar-prioridad/:id', component: ReclamoCambiarPrioridadComponent },
   
       { path: '*', redirectTo: '' } //a home
 

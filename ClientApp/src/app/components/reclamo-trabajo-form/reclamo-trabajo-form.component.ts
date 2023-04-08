@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { TrabajoService } from '../../services/trabajo.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UsuarioService } from '../../services/usuario.service';
+import { ReclamoService } from '../../services/reclamo.service';
 
 @Component({
   selector: 'reclamo-trabajo-form',
@@ -17,7 +18,8 @@ export class ReclamoTrabajoFormComponent implements OnInit {
   NroReclamo: any;
   idEmpleado: any;
 
-  constructor(private TrabajoService: TrabajoService, private usuarioService: UsuarioService, private router: Router, private activatedRoute: ActivatedRoute) {
+  constructor(private TrabajoService: TrabajoService, private usuarioService: UsuarioService, private router: Router,
+              private activatedRoute: ActivatedRoute, private reclamoService: ReclamoService) {
     this.activatedRoute.params.subscribe(parametro => {
       this.parametro = parametro["id"];
       if (this.parametro >= 1) {
@@ -31,9 +33,11 @@ export class ReclamoTrabajoFormComponent implements OnInit {
       {
         "Id_Usuario": new FormControl("0"),
         "Id_Vecino": new FormControl("0"),
+        "descripcionReclamo": new FormControl(""),
         "Descripcion": new FormControl("", [Validators.required, Validators.minLength(50), Validators.maxLength(2500)]),
         "Nro_Prioridad": new FormControl("3"),
         "estado_Reclamo": new FormControl(""),
+        "tipoReclamo": new FormControl(""),
         "nro_Reclamo": new FormControl("0"),
         "legajoActual": new FormControl("0"),
         "nomApeVecino": new FormControl("")
@@ -53,12 +57,20 @@ export class ReclamoTrabajoFormComponent implements OnInit {
     });
     if (this.parametro >= 1) {
       this.TrabajoService.RecuperarReclamo(this.parametro).subscribe(param => {
-        this.Trabajo.controls["Id_Usuario"].setValue(this.idEmpleado);  //este es el empleado que tiene gnada la denuncia.
-        this.Trabajo.controls["estado_Reclamo"].setValue(param.estadoReclamo);
-        this.Trabajo.controls["nro_Reclamo"].setValue(param.nroReclamo);
-        this.Trabajo.controls["Id_Vecino"].setValue(param.idVecino);
-        this.Trabajo.controls["nomApeVecino"].setValue(param.nombreYapellido);
+        
+        
 
+      });
+
+      this.reclamoService.getReclamo(this.parametro).subscribe(data => {
+        this.Trabajo.controls["nro_Reclamo"].setValue(data.nroReclamo);
+        this.Trabajo.controls["estado_Reclamo"].setValue(data.estadoReclamo);
+        this.Trabajo.controls["descripcionReclamo"].setValue(data.descripcion);
+        this.Trabajo.controls["tipoReclamo"].setValue(data.tipoReclamo);
+        this.Trabajo.controls["nomApeVecino"].setValue(data.nombreYapellido);
+
+        this.Trabajo.controls["Id_Usuario"].setValue(this.idEmpleado);  //este es el empleado que tiene gnada la denuncia.
+        this.Trabajo.controls["Id_Vecino"].setValue(data.idVecino);
       });
     } else {
     }
