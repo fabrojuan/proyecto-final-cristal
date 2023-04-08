@@ -14,23 +14,24 @@ using System.Text;
 
 namespace MVPSA_V2022.Controllers
 {
-    [Route("api/reclamos")]
+    [ApiController]
+    [Route("api/[controller]")]
     [Authorize]
-    public class ReclamoController : Controller
+    public class ReclamosController : ControllerBase
     {
         private readonly IReclamoService reclamoService;
-        private readonly IUsuarioService _usuarioService;
+        private readonly IUsuarioService usuarioService;
 
-        public ReclamoController(IReclamoService reclamoService, IUsuarioService usuarioService)
+        public ReclamosController(IReclamoService reclamoService, IUsuarioService usuarioService)
         {
             this.reclamoService = reclamoService;
-            this._usuarioService = usuarioService;
+            this.usuarioService = usuarioService;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+        //public IActionResult Index()
+        //{
+            //return View();
+        //}
 
         [HttpGet]
         [Route("tipos-reclamo/{codTipoReclamo}")]
@@ -38,8 +39,7 @@ namespace MVPSA_V2022.Controllers
         {
             try
             {
-                TipoReclamoCLS tipoReclamo = this.reclamoService.getTipoReclamo(codTipoReclamo);
-                return Ok(tipoReclamo);
+                return Ok(this.reclamoService.getTipoReclamo(codTipoReclamo));
             }
             catch (TipoReclamoNotFoundException ex)
             {
@@ -50,7 +50,7 @@ namespace MVPSA_V2022.Controllers
 
         [HttpGet]
         [Route("tipos-reclamo")]
-        public IEnumerable<TipoReclamoCLS> getTiposReclamo()
+        public IEnumerable<TipoReclamoDto> getTiposReclamo()
         {
             return reclamoService.listarTiposReclamo();
 
@@ -76,7 +76,7 @@ namespace MVPSA_V2022.Controllers
         [Route("tipos-reclamo")]
         public IActionResult guardarTipoReclamo(
             [FromHeader(Name = "id_usuario")] string idUsuario,
-            [FromBody] TipoReclamoCLS tipoReclamoCLS)
+            [FromBody] TipoReclamoDto tipoReclamoCLS)
         {
             try
             {
@@ -102,7 +102,7 @@ namespace MVPSA_V2022.Controllers
         [Route("tipos-reclamo")]
         public IActionResult actualizarTipoReclamo(
             [FromHeader(Name = "id_usuario")] string idUsuario,
-            [FromBody] TipoReclamoCLS tipoReclamoCLS)
+            [FromBody] TipoReclamoDto tipoReclamoCLS)
         {
             try
             {
@@ -128,7 +128,7 @@ namespace MVPSA_V2022.Controllers
 
         [HttpPost]
         public IActionResult guardarReclamo([FromHeader(Name = "id_usuario")] string idVecinoAlta,
-                                  [FromBody] ReclamoCLS reclamoCLS)
+                                  [FromBody] CrearReclamoRequestDto reclamoCLS)
         {
             try
             {
@@ -166,11 +166,18 @@ namespace MVPSA_V2022.Controllers
         }
 
         [HttpGet]
-        [Route("otros")]
-        public IEnumerable<ReclamoCLS> ListarOtrosReclamos()
+        [Route("prioridades")]
+        public IActionResult getPrioridades()
         {
-            return reclamoService.listarReclamos();
+            try
+            {
+                    return Ok(reclamoService.getPrioridades());
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
-    }
+     }
 }

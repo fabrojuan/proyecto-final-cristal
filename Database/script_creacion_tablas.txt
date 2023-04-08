@@ -56,3 +56,42 @@ update M_VPSA_V3.dbo.TIPO_RECLAMO
 ALTER TABLE M_VPSA_V3.dbo.PRUEBA_GRAFICA_RECLAMO ADD foto varchar(MAX); 
 
 alter table dbo.RECLAMO add NomApeVecino VARCHAR(100);
+
+alter table reclamo add column Nro_Prioridad int;
+
+update RECLAMO SET Nro_Prioridad = 4;
+
+ DELETE FROM PRIORIDAD_RECLAMO;
+
+  SET IDENTITY_INSERT PRIORIDAD_RECLAMO ON;
+
+  ALTER TABLE PRIORIDAD_RECLAMO ADD Tiempo_Max_Tratamiento int NOT NULL;
+
+  INSERT INTO PRIORIDAD_RECLAMO (Nro_Prioridad, Nombre_Prioridad, BHabilitado, Descripcion, Tiempo_Max_Tratamiento)
+  values(1, 'Alta', 1, '', 1);
+
+  INSERT INTO PRIORIDAD_RECLAMO (Nro_Prioridad, Nombre_Prioridad, BHabilitado, Descripcion, Tiempo_Max_Tratamiento)
+  values(2, 'Media', 1, '', 2);
+
+  INSERT INTO PRIORIDAD_RECLAMO (Nro_Prioridad, Nombre_Prioridad, BHabilitado, Descripcion, Tiempo_Max_Tratamiento)
+  values(3, 'Baja', 1, '', 7);
+
+  SET IDENTITY_INSERT PRIORIDAD_RECLAMO OFF;
+
+  ALTER TABLE DBO.TIPO_RECLAMO
+   ADD CONSTRAINT FK__TIPO_RECLAMO__USUARIO_ALTA FOREIGN KEY (IdUsuarioAlta)
+      REFERENCES DBO.USUARIO (idUsuario)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION;
+
+ALTER TABLE DBO.TIPO_RECLAMO
+   ADD CONSTRAINT FK__TIPO_RECLAMO__USUARIO_MODIFICACION FOREIGN KEY (IdUsuarioModificacion)
+      REFERENCES DBO.USUARIO (idUsuario)
+      ON DELETE  NO ACTION
+      ON UPDATE  NO ACTION;
+
+update TIPO_RECLAMO
+   set Tiempo_Max_Tratamiento = 100
+ where Tiempo_Max_Tratamiento is null;
+
+ALTER TABLE TIPO_RECLAMO ALTER COLUMN Tiempo_Max_Tratamiento int NOT NULL;

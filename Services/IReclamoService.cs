@@ -4,21 +4,23 @@ namespace MVPSA_V2022.Services
 {
     public interface IReclamoService
     {
-        public ReclamoCLS guardarReclamo(ReclamoCLS reclamoCLS, int idVecinoAlta);
+        public ReclamoDto guardarReclamo(CrearReclamoRequestDto reclamoCLS, int idVecinoAlta);
 
-        public IEnumerable<ReclamoCLS> listarReclamos();
+        public IEnumerable<ReclamoDto> listarReclamos();
 
-        public ReclamoCLS getReclamo(int nroReclamo);
+        public ReclamoDto getReclamo(int nroReclamo);
 
-        public IEnumerable<TipoReclamoCLS> listarTiposReclamo();
+        public IEnumerable<TipoReclamoDto> listarTiposReclamo();
 
-        public TipoReclamoCLS getTipoReclamo(int codTipoReclamo);
+        public TipoReclamoDto getTipoReclamo(int codTipoReclamo);
 
         public void eliminarTipoReclamo(int codTipoReclamoEliminar);
 
-        public TipoReclamoCLS guardarTipoReclamo(TipoReclamoCLS tipoReclamoDto, int idUsuarioAlta);
+        public TipoReclamoDto guardarTipoReclamo(TipoReclamoDto tipoReclamoDto, int idUsuarioAlta);
 
-        public TipoReclamoCLS modificarTipoReclamo(TipoReclamoCLS tipoReclamoDto, int idUsuarioModificacion);
+        public TipoReclamoDto modificarTipoReclamo(TipoReclamoDto tipoReclamoDto, int idUsuarioModificacion);
+
+        public IEnumerable<PrioridadReclamoDto> getPrioridades();
 
     }        
 }

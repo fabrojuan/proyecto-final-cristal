@@ -2,6 +2,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { Injectable, Inject } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { Prioridad } from '../modelos_Interfaces/Prioridad';
 
 //import { r } from '@angular/core/src/render3';
   
@@ -59,7 +60,9 @@ export class ReclamoService {
     return this.http.get(this.urlBase + 'api/reclamos/' + nroReclamo).pipe(map(res => res));
   }
 
-  
+  public getPrioridades(): Observable<Array<Prioridad>> {
+    return this.http.get<Array<Prioridad>>(this.urlBase + 'api/reclamos/prioridades').pipe(map(res => res));
+  }
 
 }
 

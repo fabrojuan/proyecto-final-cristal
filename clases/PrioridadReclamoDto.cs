@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace MVPSA_V2022.Modelos
+﻿namespace MVPSA_V2022.clases
 {
-    public partial class PrioridadReclamo
+    public class PrioridadReclamoDto
     {
         public int NroPrioridad { get; set; }
         public string? NombrePrioridad { get; set; }

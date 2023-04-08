@@ -1,0 +1,29 @@
+<div class="row p-3 my-2 ">
+    <div class="col-md-3">
+        <label class="form-label">Nro Reclamo</label>
+        <input type="text" class="form-control" id="nro_Reclamo" value="{{reclamo.nroReclamo}}" readonly>
+    </div>
+    <div class="col-md-4">
+        <label class="form-label" for="firstName">Estado</label>
+        <input type="text" class="form-control" id="estado_Reclamo" value="{{reclamo.estadoReclamo}}" readonly>
+    </div>
+    <div class="col-md-5">
+        <label class="form-label" for="firstName">Tipo</label>
+        <input type="text" class="form-control" id="tipoReclamo" value="{{reclamo.tipoReclamo}}" readonly>
+    </div>
+    <!--<div class="col-6">
+<label class="form-label" for="Id_Vecino">Id Vecino</label>
+<input type="text" class="form-control" id="Id_Vecino" formControlName="Id_Vecino" placeholder="" value="" readonly>
+</div>-->
+    <div class="col-12">
+        <label class="form-label" for="firstName">Nombre y Apellido del Vecino</label>
+        <input type="text" class="form-control" id="nomApeVecino" value="{{reclamo.nombreYapellido}}" readonly>
+    </div>
+
+    <div class="col-12">
+        <label class="form-label" for="firstName">Descripci&oacute;n Reclamo</label>
+        <textarea type="text" class="form-control" id="descripcionReclamo" value="{{reclamo.descripcion}}" readonly rows="3"></textarea>
+    </div>
+
+
+</div>

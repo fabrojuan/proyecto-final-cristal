@@ -2,7 +2,7 @@
 
 namespace MVPSA_V2022.clases
 {
-    public class ReclamoCLS
+    public class ReclamoDto
     {
         public int? nroReclamo { get; set; }
         public string descripcion { get; set; }
@@ -22,6 +22,7 @@ namespace MVPSA_V2022.clases
 
         public string foto1 { get; set; }
         public string foto2 { get; set; }
+        public int nroPrioridad { get; set; }
 
 
 
