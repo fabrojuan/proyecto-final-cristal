@@ -86,6 +86,7 @@ import { PersonasTablaComponent } from './components/personas-tabla/personas-tab
 import { TasasImpositivasComponent } from './components/tasas-impositivas/tasas-impositivas.component';
 import { ReclamoCabeceraComponent } from './components/reclamo-cabecera/reclamo-cabecera.component';
 import { ReclamoCambiarPrioridadComponent } from './components/reclamo-cambiar-prioridad/reclamo-cambiar-prioridad.component';
+import { ReclamoDerivarComponent } from './components/reclamo-derivar/reclamo-derivar.component';
 
 
 @NgModule({
@@ -146,7 +147,8 @@ import { ReclamoCambiarPrioridadComponent } from './components/reclamo-cambiar-p
     PersonasTablaComponent,
     TasasImpositivasComponent,
     ReclamoCabeceraComponent,
-    ReclamoCambiarPrioridadComponent
+    ReclamoCambiarPrioridadComponent,
+    ReclamoDerivarComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -211,6 +213,7 @@ import { ReclamoCambiarPrioridadComponent } from './components/reclamo-cambiar-p
       { path: 'tipo-denuncia-form', component: TipoDenunciaFormComponent/*, canActivate: [SeguridadGuard] */},
       { path: 'lote-form-generar', component: LoteFormGenerarComponent, canActivate: [SeguridadGuard] },
       { path: 'reclamo-cambiar-prioridad/:id', component: ReclamoCambiarPrioridadComponent },
+      { path: 'reclamo-derivar/:id', component: ReclamoDerivarComponent },
   
       { path: '*', redirectTo: '' } //a home
 

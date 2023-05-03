@@ -90,18 +90,14 @@ namespace MVPSA_V2022.Services
         {
             using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
             {
-                List<ReclamoDto> listaReclamo = (from reclamo in bd.Reclamos
-                                                 join estadoReclamo in bd.EstadoReclamos
-                                                 on reclamo.CodEstadoReclamo equals estadoReclamo.CodEstadoReclamo
-                                                 join tipoReclamo in bd.TipoReclamos
-                                                 on reclamo.CodTipoReclamo equals tipoReclamo.CodTipoReclamo
+                List<ReclamoDto> listaReclamo = (from reclamo in bd.ReclamosVw
                                                  where reclamo.Bhabilitado == 1
                                                  select new ReclamoDto
                                                  {
                                                      nroReclamo = reclamo.NroReclamo,
                                                      descripcion = reclamo.Descripcion,
-                                                     codTipoReclamo = (int)reclamo.CodTipoReclamo,
-                                                     codEstadoReclamo = (int)reclamo.CodEstadoReclamo,
+                                                     codTipoReclamo = reclamo.CodTipoReclamo,
+                                                     codEstadoReclamo = reclamo.CodEstadoReclamo,
                                                      Bhabilitado = reclamo.Bhabilitado,
                                                      calle = reclamo.Calle,
                                                      altura = reclamo.Altura,
@@ -109,10 +105,13 @@ namespace MVPSA_V2022.Services
                                                      idVecino = reclamo.IdVecino,
                                                      idUsuario = reclamo.IdUsuario,
                                                      Fecha = (DateTime)reclamo.Fecha,
-                                                     estadoReclamo = estadoReclamo.Nombre,
-                                                     tipoReclamo = tipoReclamo.Nombre,
+                                                     estadoReclamo = reclamo.EstadoReclamo,
+                                                     tipoReclamo = reclamo.TipoReclamo,
                                                      nombreYapellido = reclamo.NomApeVecino,
-                                                     nroPrioridad = reclamo.NroPrioridad
+                                                     nroPrioridad = reclamo.NroPrioridad,
+                                                     usuarioAsignado = reclamo.Usuario,
+                                                     empleadoAsignado = reclamo.Empleado,
+                                                     prioridad = reclamo.PrioridadReclamo
                                                  }).ToList();
 
                 return listaReclamo;
@@ -123,31 +122,30 @@ namespace MVPSA_V2022.Services
         {
             using (M_VPSA_V3Context bd = new M_VPSA_V3Context())            {
 
-                ReclamoDto reclamoResponse = (from reclamo in bd.Reclamos
-                                                 join estadoReclamo in bd.EstadoReclamos
-                                                 on reclamo.CodEstadoReclamo equals estadoReclamo.CodEstadoReclamo
-                                                 join tipoReclamo in bd.TipoReclamos
-                                                 on reclamo.CodTipoReclamo equals tipoReclamo.CodTipoReclamo
+                ReclamoDto reclamoResponse = (from reclamo in bd.ReclamosVw
                                                  where reclamo.Bhabilitado == 1
                                                  && reclamo.NroReclamo == nroReclamo
                                               select new ReclamoDto
                                                  {
-                                                     nroReclamo = reclamo.NroReclamo,
-                                                     descripcion = reclamo.Descripcion,
-                                                     codTipoReclamo = (int)reclamo.CodTipoReclamo,
-                                                     codEstadoReclamo = (int)reclamo.CodEstadoReclamo,
-                                                     Bhabilitado = reclamo.Bhabilitado,
-                                                     calle = reclamo.Calle,
-                                                     altura = reclamo.Altura,
-                                                     entreCalles = reclamo.EntreCalles,
-                                                     idVecino = reclamo.IdVecino,
-                                                     idUsuario = reclamo.IdUsuario,
-                                                     Fecha = (DateTime)reclamo.Fecha,
-                                                     estadoReclamo = estadoReclamo.Nombre,
-                                                     tipoReclamo = tipoReclamo.Nombre,
-                                                     nombreYapellido = reclamo.NomApeVecino,
-                                                     nroPrioridad = reclamo.NroPrioridad
-                                                 }).Single();
+                                                  nroReclamo = reclamo.NroReclamo,
+                                                  descripcion = reclamo.Descripcion,
+                                                  codTipoReclamo = reclamo.CodTipoReclamo,
+                                                  codEstadoReclamo = reclamo.CodEstadoReclamo,
+                                                  Bhabilitado = reclamo.Bhabilitado,
+                                                  calle = reclamo.Calle,
+                                                  altura = reclamo.Altura,
+                                                  entreCalles = reclamo.EntreCalles,
+                                                  idVecino = reclamo.IdVecino,
+                                                  idUsuario = reclamo.IdUsuario,
+                                                  Fecha = (DateTime)reclamo.Fecha,
+                                                  estadoReclamo = reclamo.EstadoReclamo,
+                                                  tipoReclamo = reclamo.TipoReclamo,
+                                                  nombreYapellido = reclamo.NomApeVecino,
+                                                  nroPrioridad = reclamo.NroPrioridad,
+                                                  usuarioAsignado = reclamo.Usuario,
+                                                  empleadoAsignado = reclamo.Empleado,
+                                                  prioridad = reclamo.PrioridadReclamo
+                                              }).Single();
 
 
                 List<PruebaGraficaReclamo> listaPruebaGraficaReclamo = 
@@ -390,5 +388,26 @@ namespace MVPSA_V2022.Services
             return prioridadReclamo.NroPrioridad;
         }
 
+        public ReclamoDto modificarReclamo(int nroReclamo, ModificarReclamoRequestDto reclamoDto)
+        {
+            Reclamo reclamo =
+                dbContext.Reclamos
+                .Where(rec => rec.NroReclamo == nroReclamo)
+                .FirstOrDefault();
+
+            if (reclamo != null) {
+
+                if (reclamoDto.idUsuarioAsignado != null) {
+                    reclamo.IdUsuario = reclamoDto.idUsuarioAsignado;
+                }
+                
+                dbContext.Reclamos.Update(reclamo);
+                dbContext.SaveChanges();
+                return getReclamo(nroReclamo);
+            }
+
+            return new ReclamoDto();
+
+        }
     }
 }
