@@ -30,7 +30,7 @@ namespace MVPSA_V2022.Controllers
 
         //public IActionResult Index()
         //{
-            //return View();
+        //return View();
         //}
 
         [HttpGet]
@@ -148,7 +148,7 @@ namespace MVPSA_V2022.Controllers
                 return Ok(reclamoService.listarReclamos());
             } catch (Exception ex) {
                 return NotFound(ex.Message);
-            }            
+            }
         }
 
         [HttpGet]
@@ -163,6 +163,15 @@ namespace MVPSA_V2022.Controllers
             {
                 return NotFound(ex.Message);
             }
+        }
+
+        [HttpPut]
+        [Route("{nroReclamo}")]
+        public IActionResult modificarReclamo(int nroReclamo,
+                                           [FromBody] ModificarReclamoRequestDto reclamoDto) {
+            
+            return Ok(reclamoService.modificarReclamo(nroReclamo, reclamoDto));
+
         }
 
         [HttpGet]

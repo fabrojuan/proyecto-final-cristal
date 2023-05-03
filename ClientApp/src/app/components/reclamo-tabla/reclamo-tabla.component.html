@@ -6,14 +6,14 @@
         </div>
     </div>
 
-    <div class="row">
+    <!-- <div class="row">
         <div class="col col-md-4">
             <label for="exampleFormControlInput1" class="form-label">Prioridad</label>
             <select class="form-select" aria-label="Seleccione una prioridad" name="selectPrioridades" [(ngModel)]="prioridadSeleccionada" (change)="filtrarPrioridad()">
                 <option [ngValue]="prioridad" *ngFor="let prioridad of listaPrioridades">{{prioridad.valor}}</option>
             </select>
         </div>
-    </div>
+    </div> -->
 
     <div class="row">
         <table class="table table-bordered table-sm">
@@ -29,8 +29,8 @@
                     <td class="text-center">{{reclamo.fecha | date: 'dd/MM/yyyy HH:mm' }}</td>
                     <td class="text-center">{{reclamo.estadoReclamo}}</td>
                     <td class="text-center">{{reclamo.tipoReclamo}}</td>
-                    <td class="text-center">{{reclamo.nroPrioridad}}</td>
-                    <td class="text-center">Sin Asignar</td>
+                    <td class="text-center">{{reclamo.prioridad}}</td>
+                    <td class="text-center">{{reclamo.empleadoAsignado}}</td>
                     <td class="text-center" *ngIf="isMantenimiento==true">
                         <!-- <button type="button" class="btn btn-light" [routerLink]="['/reclamo-trabajo-tabla',reclamo.nroReclamo]"><img src="../../../assets/IconsGoogle/eyeglasses.svg" alt="" width="24" height="24" title="Ver Trabajos"></button>
                         <button type="button" class="btn btn-outline-primary">  <img src="../../../assets/IconsGoogle/hand-index-thumb.svg" alt="" width="24" height="24" title="Tomar Reclamo"></button>
@@ -47,7 +47,7 @@
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                 <li><a class="dropdown-item" [routerLink]="['/reclamo-trabajo-tabla',reclamo.nroReclamo]" role="button">Ver Trabajos</a></li>
                                 <li><a class="dropdown-item" href="#">Tomar Reclamo</a></li>
-                                <li><a class="dropdown-item" href="#">Derivar Reclamo</a></li>
+                                <li><a class="dropdown-item" [routerLink]="['/reclamo-derivar', reclamo.nroReclamo]">Derivar Reclamo</a></li>
                                 <li><a class="dropdown-item" [routerLink]="['/reclamo-trabajo-form' ,reclamo.nroReclamo]">Cargar Trabajo</a></li>
                                 <li><a class="dropdown-item" href="#">Suspender</a></li>
                                 <li><a class="dropdown-item" [routerLink]="['/reclamo-cambiar-prioridad', reclamo.nroReclamo]">Cambiar Prioridad</a></li>

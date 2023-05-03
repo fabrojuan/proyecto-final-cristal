@@ -55,6 +55,7 @@ namespace MVPSA_V2022.Modelos
         public virtual DbSet<Usuario> Usuarios { get; set; } = null!;
         public virtual DbSet<UsuarioVecino> UsuarioVecinos { get; set; } = null!;
         public virtual DbSet<ValuacionInmobiliario> ValuacionInmobiliarios { get; set; } = null!;
+        public virtual DbSet<ReclamoVw> ReclamosVw { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -1256,6 +1257,10 @@ namespace MVPSA_V2022.Modelos
 
                 entity.Property(e => e.ValorSupTerreno).HasColumnType("decimal(18, 2)");
             });
+
+            modelBuilder.Entity<ReclamoVw>()
+                .ToView("vw_reclamo")
+                .HasKey(t => t.NroReclamo);
 
             OnModelCreatingPartial(modelBuilder);
         }
