@@ -84,6 +84,8 @@ import { TipoDenunciaFormComponent } from './components/tipo-denuncia-form/tipo-
 import { TipoDenunciaTablaComponent } from './components/tipo-denuncia-tabla/tipo-denuncia-tabla.component';
 import { PersonasTablaComponent } from './components/personas-tabla/personas-tabla.component';
 import { TasasImpositivasComponent } from './components/tasas-impositivas/tasas-impositivas.component';
+import { GeneracionDatasetsComponent } from './components/generacion-datasets/generacion-datasets.component';
+import { DatosFinanzasEconomicosBorradoComponent } from './components/datos-finanzas-economicos-borrado/datos-finanzas-economicos-borrado.component';
 
 
 @NgModule({
@@ -142,7 +144,9 @@ import { TasasImpositivasComponent } from './components/tasas-impositivas/tasas-
     CampoRequeridoComponent,
     PersonaFormGenerarComponent,
     PersonasTablaComponent,
-    TasasImpositivasComponent
+    TasasImpositivasComponent,
+    GeneracionDatasetsComponent,
+    DatosFinanzasEconomicosBorradoComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -207,7 +211,10 @@ import { TasasImpositivasComponent } from './components/tasas-impositivas/tasas-
       { path: 'tipo-denuncia-form/:id', component: TipoDenunciaFormComponent/*, canActivate: [SeguridadGuard] */},
       { path: 'tipo-denuncia-form', component: TipoDenunciaFormComponent/*, canActivate: [SeguridadGuard] */},
       { path: 'lote-form-generar', component: LoteFormGenerarComponent, canActivate: [SeguridadGuard] },
-  
+      { path: 'generacion-datasets', component: GeneracionDatasetsComponent, canActivate: [SeguridadGuard] },
+      { path: 'datos-finanzas-economicos-borrado', component: DatosFinanzasEconomicosBorradoComponent, canActivate: [SeguridadGuard] },
+      { path: 'datos-finanzas-economicos-borrado/:id', component: DatosFinanzasEconomicosBorradoComponent, canActivate: [SeguridadGuard] },
+      
       { path: '*', redirectTo: '' } //a home
 
 

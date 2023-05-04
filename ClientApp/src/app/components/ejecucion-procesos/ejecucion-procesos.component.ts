@@ -179,10 +179,6 @@ export class EjecucionProcesosComponent implements OnInit, ControlValueAccessor,
 
     if (this.Valuacion.valid == true) {
       this.InfoModalOkRedirect = 1;
-      //A partir de aca llamar al guardar
-       //console.log(this.Valuacion.value); para verificar si los datos llegan ok al modulo de angular
-    
-      //this.Valuacion.reset(); estaba reseteandolo aca tengo que resetear despues.......ver estt 13/03/23
       this.modalService.dismissAll(this.Valuacion.value);
       this.impuestoService.SP_Valuacion(this.Valuacion.value).subscribe(data => {
         if (data) {

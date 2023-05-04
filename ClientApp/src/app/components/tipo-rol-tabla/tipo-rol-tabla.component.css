@@ -1,22 +1,89 @@
+.texto-blanco {
+  color: white;
+  font-size: 1.12em;
+}
+
 .tituloFormulario {
   color: #240f7d;
-  font-size: 3em;
+  font-size: 1.7em;
   font-weight: 900;
   text-shadow: 6px 8px 10px #555;
 }
 
-.Tipo_Denuncia {
-  margin-right: 1.5em;
+.tituloPrincipalCarousel {
+  color: #240f7d;
+  font-size: 2.3em;
+  font-weight: 900;
+  text-shadow: 6px 8px 10px #555;
 }
 
-.textoTabla {
+.combobox {
   font-family: "Times New Roman", Times, serif;
   font-size: 1.3em;
-  color: #ffffff;
+  color: #240f7d;
+}
+
+
+.subtitulo {
+  color: #240f7d;
+  background-color: skyblue;
+  /*align-content: center;*/
+}
+
+.fondoTextTitulo {
+  background-color: skyblue;
+}
+
+.subtitulo {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 2.5em;
+}
+
+.checkbox-tamaño {
+  /*top: .1rem;*/
+  width: 1em;
+  height: 1.5em;
+  margin-right: 0.7rem;
+  vertical-align: middle;
+}
+
+.checkbox-label {
+  padding-top: .2rem;
+  color: white;
 }
 
 
 
-.tituloTabla {
-  font-size: 1.3em;
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.container-fluid {
+  background: rgb(81,197,245);
+  background: linear-gradient(76deg, rgba(81,197,245,1) 0%, rgba(67,116,237,1) 14%, rgba(150,224,236,1) 100%);
+  /* background-color: #240f7d;*/
+  padding-top: 1.5em;
+  color: skyblue !important;
+}
+
+
+
+.tooltiper .tooltiptext {
+  /*visibility: hidden;*/
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
 }

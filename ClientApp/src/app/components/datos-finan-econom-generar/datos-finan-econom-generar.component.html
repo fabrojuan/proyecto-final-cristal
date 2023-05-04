@@ -1,22 +1,51 @@
-<div class="cardcss">
-  <div class="card text-center sombras">
-    <div class="card-header tituloTabla">
-      Generación de Datasets Financieros
-    </div>
-    <div class="card-body">
-
-
-      <div class="col-md-5 offset-1 ">
-        <button class="btn btn-primary" (click)="generarDatasetImpuestos()">Impuestos Inmobiliarios </button>
-      </div>
-      <div class="col-md-5 offset-1">
-        <button type="button" class="btn btn-secondary col-md-4 offset-md-1" (click)="volver()">Volver</button>
-      </div>
-
-    </div>
-    <div class="card-footer text-muted">
-      <img src="../../../assets/Imagenes/openData.png" alt="" width="150" height="150">
+<div class="container-fluid">
+  <div class="d-flex align-items-center p-2 my-2">
+    <img src="../../../assets/Imagenes/openData.png" alt="" width="95" height="95">
+    <div class="tituloFormulario text-center form-group col-md-8 offset-md-1">
+      <p> Generacion Datasets Economicos</p>
     </div>
   </div>
-</div>
+
+  <div class="row">
+    <div class="row p-2 mt-3 row-cols-1 row-cols-md-2 g-4 ">
+      <!--Primer card-->
+      <div class="offset-1 card bg-transparent w-25">
+        <img src="../../../assets/Imagenes/DatasetEconomico.svg" class="card-img" alt="Imagen Open Data Economico" title="Este datase genera el listado completo de impuestos por lote">
+        <div class="card-footer">
+          <button class="btn btn-primary" (click)="generarDatasetImpuestos()">  <img src="../../../assets/IconsGoogle/arrow-up-circle.svg" width="20" height="20">&nbsp;&nbsp;Impuestos Inmobiliarios</button>
+        </div>
+      </div>
+    </div>
+    <!--Cierre grupo de Cards-->
+  </div>
+
+  <!-- <h4 class="card-title titulo">Impuestos Inmobiliario</h4>-->
+  <!--Este es para borrado de datasets-->
+  <div class="row">
+    <div class="row p-2 mt-3 row-cols-1 row-cols-md-2 g-4 ">
+      <!--Primer card-->
+      <div class="offset-1 card bg-transparent w-25">
+        <img src="../../../assets/Imagenes/Historicos.svg" class="card-img" alt="Imagen Open Data Economico" title="Tablero de Eliminacion Datasets Antiguos o mal Generados">
+        <div class="card-footer">
+          <!--(click)="generarDatasetImpuestos()"-->
+          <button class="btn btn-primary" [routerLink]="['/datos-finanzas-economicos-borrado']">  <img src="../../../assets/IconsGoogle/Delete_Gris.svg" width="20" height="20">&nbsp;&nbsp;Impuestos Inmobiliarios</button>
+        </div>
+      </div>
+    </div>
+    <!--Cierre grupo de Cards-->
+  </div>
+
+  <section class="my-4">
+    <div class="col-md-5 offset-1">
+      <button type="button" class="btn btn-secondary col-md-4 offset-md-1" (click)="volver()">Volver</button>
+      <button type="button" class="btn btn-info col-md-4 offset-md-1" (click)="ExportarExcel()">Prueba Excel</button>
+      <button type="button" class="btn btn-info col-md-4 offset-md-1" (click)="ExportarPDF()">Prueba PDF</button>
+
+    </div>
+    <div class="col-md-5 offset-1">
+    </div>
+
+  </section>
+  <br><br><br>
+
 
