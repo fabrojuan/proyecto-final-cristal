@@ -95,3 +95,19 @@ update TIPO_RECLAMO
  where Tiempo_Max_Tratamiento is null;
 
 ALTER TABLE TIPO_RECLAMO ALTER COLUMN Tiempo_Max_Tratamiento int NOT NULL;
+
+create view dbo.vw_reclamo as
+select rec.*, 
+       tre.Nombre tipo_reclamo, 
+	   est.Nombre estado_reclamo, 
+	   pre.Nombre_Prioridad prioridad_reclamo,
+	   usu.NombreUser usuario, 
+	   case 
+		when usu.NombreUser is null then 'Sin Asignar' 
+		else concat(per.Apellido, ', ', per.Nombre) 
+	   end  empleado
+from M_VPSA_V3.dbo.RECLAMO rec join M_VPSA_V3.dbo.TIPO_RECLAMO tre on tre.Cod_Tipo_Reclamo = rec.Cod_Tipo_Reclamo
+join M_VPSA_V3.dbo.ESTADO_RECLAMO est on est.Cod_Estado_Reclamo = rec.Cod_Estado_Reclamo
+join M_VPSA_V3.dbo.PRIORIDAD_RECLAMO pre on pre.Nro_Prioridad = rec.Nro_Prioridad
+left outer join M_VPSA_V3.dbo.USUARIO usu on usu.idUsuario = rec.IdUsuario
+left outer join M_VPSA_V3.dbo.PERSONA per on per.idPersona = usu.idPersona;

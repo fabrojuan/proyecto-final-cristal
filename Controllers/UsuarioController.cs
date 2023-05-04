@@ -40,12 +40,15 @@ namespace MVPSA_V2022.Controllers
                 listaUsuario = (from usuario in bd.Usuarios
                                 join rol in bd.Rols
                                 on usuario.IdTipoUsuario equals rol.IdRol
+                                join persona in bd.Personas
+                                on usuario.IdPersona equals persona.IdPersona
                                 where usuario.Bhabilitado == 1
                                 select new UsuarioCLS
                                 {
                                     IdUsuario = usuario.IdUsuario,
                                     NombreUser = usuario.NombreUser!,
                                     NombreTipoUsuario = rol.NombreRol!,
+                                    NombreCompleto = persona.Apellido + ", " + persona.Nombre,
                                     FechaAlta = (DateTime)usuario.FechaAlta
                                 }).ToList();
                 

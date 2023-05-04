@@ -10,21 +10,14 @@ namespace MVPSA_V2022.Services
     public class PagoService : IPagoService
     {
         public readonly IMapper _mapper;
-        public readonly IMailService _mailService;
 
-        public PagoService(IMapper mapper, IMailService mailService)
+        public PagoService(IMapper mapper)
         {
             _mapper = mapper;
-            _mailService = mailService;
         }
 
         public void registrarPagoMobbex(PagoCLS pagoDto)
         {
-            generarPago(pagoDto);                           
-        }
-
-        private void generarPago(PagoCLS pagoDto) {
-
             try
             {
                 MobbexPago mobbexPago = _mapper.Map<MobbexPago>(pagoDto);
@@ -35,7 +28,7 @@ namespace MVPSA_V2022.Services
 
                     int boletaId = Int32.Parse(mobbexPago.PaymentReference);
                     string email = mobbexPago.CustomerEmail;
-                    decimal fechaPago = Convert.ToDecimal(mobbexPago.PaymentCreated);
+                    DateTime fechaPago = DateTime.Parse(mobbexPago.PaymentCreated);
 
                     SqlParameter parameterBoletaId = new SqlParameter("@IdBoleta_par", boletaId);
                     SqlParameter parameterEmail = new SqlParameter("@mail", email);
@@ -46,14 +39,14 @@ namespace MVPSA_V2022.Services
                     bd.SaveChanges();
                 }
             }
-            catch (Exception ex) {
-                Console.WriteLine("Error al registrar un pago de mobex con Checkout UID " 
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error al registrar un pago de mobex con Checkout UID "
                     + pagoDto.data.checkout.uid + ". Error: " + ex.Message);
-                throw new PagoNoValidoException("Ha ocurrido un error al registrar el pago con Checkout UID " 
+                throw new PagoNoValidoException("Ha ocurrido un error al registrar el pago con Checkout UID "
                     + pagoDto.data.checkout.uid);
-            }            
-
-        }                
+            }
+        }
 
     }
 }

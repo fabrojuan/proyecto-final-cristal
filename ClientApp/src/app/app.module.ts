@@ -84,8 +84,11 @@ import { TipoDenunciaFormComponent } from './components/tipo-denuncia-form/tipo-
 import { TipoDenunciaTablaComponent } from './components/tipo-denuncia-tabla/tipo-denuncia-tabla.component';
 import { PersonasTablaComponent } from './components/personas-tabla/personas-tabla.component';
 import { TasasImpositivasComponent } from './components/tasas-impositivas/tasas-impositivas.component';
+import { GeneracionDatasetsComponent } from './components/generacion-datasets/generacion-datasets.component';
+import { DatosFinanzasEconomicosBorradoComponent } from './components/datos-finanzas-economicos-borrado/datos-finanzas-economicos-borrado.component';
 import { ReclamoCabeceraComponent } from './components/reclamo-cabecera/reclamo-cabecera.component';
 import { ReclamoCambiarPrioridadComponent } from './components/reclamo-cambiar-prioridad/reclamo-cambiar-prioridad.component';
+import { ReclamoDerivarComponent } from './components/reclamo-derivar/reclamo-derivar.component';
 
 
 @NgModule({
@@ -145,8 +148,11 @@ import { ReclamoCambiarPrioridadComponent } from './components/reclamo-cambiar-p
     PersonaFormGenerarComponent,
     PersonasTablaComponent,
     TasasImpositivasComponent,
+    GeneracionDatasetsComponent,
+    DatosFinanzasEconomicosBorradoComponent,
     ReclamoCabeceraComponent,
-    ReclamoCambiarPrioridadComponent
+    ReclamoCambiarPrioridadComponent,
+    ReclamoDerivarComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -159,6 +165,7 @@ import { ReclamoCambiarPrioridadComponent } from './components/reclamo-cambiar-p
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'bienvenida', component: BienvenidaComponent, canActivate: [SeguridadGuard] },  //, canActivate: [SeguridadGuard]
       { path: 'datos-finanzas-economicos', component: DatosFinanzasEconomicosComponent },
+      { path: 'datos-finan-econom-generar', component: DatosFinanEconomGenerarComponent, canActivate: [SeguridadGuard] }, 
       { path: 'denuncia-form-generar', component: DenunciaFormGenerarComponent },
       { path: 'denuncia-detalle', component: DenunciaDetalleComponent }, //, canActivate: [SeguridadGuard] //Veo que hacen falta los dos rutas sino el guard no anda ok
       { path: 'denuncia-detalle/:id', component: DenunciaDetalleComponent ,canActivate: [SeguridadGuard]}, //, canActivate: [SeguridadGuard]  le dio por no funcionar verlo!
@@ -210,8 +217,11 @@ import { ReclamoCambiarPrioridadComponent } from './components/reclamo-cambiar-p
       { path: 'tipo-denuncia-form/:id', component: TipoDenunciaFormComponent/*, canActivate: [SeguridadGuard] */},
       { path: 'tipo-denuncia-form', component: TipoDenunciaFormComponent/*, canActivate: [SeguridadGuard] */},
       { path: 'lote-form-generar', component: LoteFormGenerarComponent, canActivate: [SeguridadGuard] },
+      { path: 'generacion-datasets', component: GeneracionDatasetsComponent, canActivate: [SeguridadGuard] },
+      { path: 'datos-finanzas-economicos-borrado', component: DatosFinanzasEconomicosBorradoComponent, canActivate: [SeguridadGuard] },
+      { path: 'datos-finanzas-economicos-borrado/:id', component: DatosFinanzasEconomicosBorradoComponent, canActivate: [SeguridadGuard] },
       { path: 'reclamo-cambiar-prioridad/:id', component: ReclamoCambiarPrioridadComponent },
-  
+      { path: 'reclamo-derivar/:id', component: ReclamoDerivarComponent },
       { path: '*', redirectTo: '' } //a home
 
 

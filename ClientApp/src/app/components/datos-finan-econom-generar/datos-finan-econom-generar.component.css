@@ -1,17 +1,89 @@
+.texto-blanco {
+  color: white;
+  font-size: 1.12em;
+}
 
-.tituloTabla {
+.tituloFormulario {
+  color: #240f7d;
+  font-size: 1.7em;
+  font-weight: 900;
+  text-shadow: 6px 8px 10px #555;
+}
+
+.tituloPrincipalCarousel {
+  color: #240f7d;
   font-size: 2.3em;
-  text-shadow: 1px 1px 2px #000, 0 0 25px #00f, 0 0 5px #00008b;
-  border-bottom: thin solid;
-  border-color: grey;
-  padding-bottom: .1em;
-  margin-bottom: .5em;
+  font-weight: 900;
+  text-shadow: 6px 8px 10px #555;
 }
 
-.sombras {
-  box-shadow: 0 4px 8px 0 rgb(255 255 255), 0 6px 20px 0 rgb(128 128 128);
+.combobox {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 1.3em;
+  color: #240f7d;
 }
 
-.cardcss {
-  padding-top: 11em;
+
+.subtitulo {
+  color: #240f7d;
+  background-color: skyblue;
+  /*align-content: center;*/
+}
+
+.fondoTextTitulo {
+  background-color: skyblue;
+}
+
+.subtitulo {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 2.5em;
+}
+
+.checkbox-tamaño {
+  /*top: .1rem;*/
+  width: 1em;
+  height: 1.5em;
+  margin-right: 0.7rem;
+  vertical-align: middle;
+}
+
+.checkbox-label {
+  padding-top: .2rem;
+  color: white;
+}
+
+
+
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.container-fluid {
+  background: rgb(81,197,245);
+  background: linear-gradient(76deg, rgba(81,197,245,1) 0%, rgba(67,116,237,1) 14%, rgba(150,224,236,1) 100%);
+  /* background-color: #240f7d;*/
+  padding-top: 1.5em;
+  color: skyblue !important;
+}
+
+
+
+.tooltiper .tooltiptext {
+  /*visibility: hidden;*/
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
 }

@@ -1,29 +1,45 @@
-<div class="d-flex align-items-center p-3 my-3 bg-purple bg-light shadow p-2 mb-5 rounded shadow-sm">
-  <img src="../../../assets/IconsGoogle/trabajador.svg" alt="" width="80" height="80">
-  <div class="tituloSombra text-center form-group col-md-8 offset-md-1">
-    <p>Empleados Municipales</p>
-  </div>
-</div>
-<table class="table table-hover">
-  <thead class="thead-dark">
-    <tr>
-      <th *ngFor="let cabecera of cabeceras">{{cabecera}} </th>
-      <th class="text-center" *ngIf="isMantenimiento==true">Operaciones con usuario</th>
-    </tr>
-  </thead>
-  <tbody class="textoTabla">
-    <tr *ngFor="let usuario of usuarios">
-      <td>{{usuario.idUsuario}}</td>
-      <td>{{usuario.nombreUser}}</td>
-      <td>{{usuario.fechaAlta| date: 'dd/MM/yyyy'}}</td>
-      <td>{{usuario.nombreTipoUsuario}}</td>
-      <td class="text-center" *ngIf="isMantenimiento==true">
-        <button type="button" class="btn btn-outline-success" [routerLink]="['/form-usuario-generar',usuario.idUsuario]"><img src="../../../assets/IconsGoogle/pencil-square.svg" alt="" width="24" height="24" title="Editar Usuario"></button>
-        <button type="button" class="btn btn-outline-secondary" [routerLink]="['/trabajo-form-generar']">
-          <img src="../../../assets/IconsGoogle/trash.svg" alt="" width="24" height="24" title="Eliminar Usuario">
-        </button>
-      </td>
-    </tr>
-  </tbody>
-</table>
 
+<div class="container-fluid">
+
+
+  <div class="d-flex align-items-center ">
+    <img class="ms-3 " src="../../../assets/IconsGoogle/trabajador.svg" alt="" width="120" height="120">
+    <div class="tituloFormulario text-center form-group col-md-7 offset-md-1">
+      <p> Gestion Empleados Municipales</p>
+    </div>
+  </div>
+
+
+
+  <table class="table table-hover">
+    <thead class="thead-dark">
+      <tr>
+        <th *ngFor="let cabecera of cabeceras" class="text-center">{{cabecera}} </th>
+        <th class="text-center" *ngIf="isMantenimiento==true">Operaciones con usuario</th>
+      </tr>
+    </thead>
+    <tbody class="textoTabla">
+      <tr *ngFor="let usuario of usuarios | paginate: { itemsPerPage: 10, currentPage: p }">
+        <td class="text-center">{{usuario.idUsuario}}</td>
+        <td class="text-center">{{usuario.nombreUser}}</td>
+        <td class="text-center">{{usuario.fechaAlta| date: 'dd/MM/yyyy'}}</td>
+        <td class="text-center">{{usuario.nombreTipoUsuario}}</td>
+        <td class="text-center" *ngIf="isMantenimiento==true">
+          <button type="button" class="btn btn-outline-success" [routerLink]="['/form-usuario-generar',usuario.idUsuario]"><img src="../../../assets/IconsGoogle/pencil-square.svg" alt="" width="24" height="24" title="Editar Usuario"></button>
+          <button type="button" class="btn btn-outline-secondary" [routerLink]="['/trabajo-form-generar']">
+            <img src="../../../assets/IconsGoogle/trash.svg" alt="" width="24" height="24" title="Eliminar Usuario">
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <pagination-controls previousLabel="Anteriores" nextLabel="Siguientes" (pageChange)="p = $event"></pagination-controls>
+  <div class="row p-3 my-2">
+    <hr class="mb-4">
+    <div class="form-group col-md-12 mb-3 pt-3">
+      <button type="button" value="Nuevo" class="btn btn-success col-md-4 offset-md-1 " [routerLink]="['/persona-form-generar']">  <img src="../../../assets/Imagenes/plus-square.svg" alt="" width="24" height="24" title="Añadir Persona a base de Personas">&nbsp;&nbsp;Añadir Persona</button>
+      <button type="button" class="btn btn-secondary col-md-4 offset-md-1" (click)="volverHome()"><img src="../../../assets/IconsGoogle/arrow-bar-left.svg" alt="" width="24" height="24" title="Volver" />&nbsp;&nbsp; Volver</button>
+
+    </div>
+
+  </div>

@@ -65,7 +65,7 @@ export class UsuarioService {
   public eliminarRol(idRol:any ): Observable<any> {
     return this.http.get(this.urlBase + 'api/Rol/eliminarRol/' + idRol).pipe(map(res => res));
   }
-  public getUsuario(): Observable<any> {
+  public getUsuarios(): Observable<any> {
     return this.http.get(this.urlBase + 'api/Usuario/listarUsuarios')
       .pipe(map(res => res));
   }

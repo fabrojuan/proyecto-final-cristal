@@ -10,6 +10,8 @@ namespace MVPSA_V2022.Services
 
         public ReclamoDto getReclamo(int nroReclamo);
 
+        public ReclamoDto modificarReclamo(int nroReclamo, ModificarReclamoRequestDto reclamoDto);
+
         public IEnumerable<TipoReclamoDto> listarTiposReclamo();
 
         public TipoReclamoDto getTipoReclamo(int codTipoReclamo);
