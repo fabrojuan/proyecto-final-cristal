@@ -1,49 +1,36 @@
-CREATE
-	OR
+USE [M_VPSA_V3]
+GO
+/****** Object:  StoredProcedure [dbo].[ACTUALIZACION_DETALLES_E_IMPUESTOS]    Script Date: 30/4/2023 17:11:55 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- PROCESO DE ACTUALIZACION DE ESTADO DE DETALLES E IMPUESTOS
+ALTER
+	
 
-ALTER PROCEDURE [dbo].[ACTUALIZACION_DETALLES_E_IMPUESTOS]
+ PROCEDURE [dbo].[ACTUALIZACION_DETALLES_E_IMPUESTOS]
 	-- DECLARACIÓN DE VARIABLES DE TRABAJO
 	(
 	@IdBoleta_par INT,
-	@mail VARCHAR(50)
+	@mail VARCHAR(50),
+	@FechaPago DATETIME
 	)
 AS
 BEGIN
 	DECLARE @IdBoleta INT
 	DECLARE @Importe DECIMAL
-	DECLARE @FechaPago VARCHAR(8)
-
-	SET @FechaPago = GetDate()
-
-	DECLARE CURSOR_BOLETA CURSOR
-	FOR
-	SELECT IdBoleta,
-		importe
-	FROM BOLETA
+-------------------- verifico la existencia de la boleta ------------------
+	IF NOT EXISTS
+		(SELECT IdBoleta
+	     FROM BOLETA
+	     WHERE IdBoleta = @IdBoleta_par)
+		 THROW 50000, 'No existe la Boleta', 1
+-------------------- actualizo la tabla boleta ------------------
+	UPDATE BOLETA
+	SET FechaPago = @FechaPago
 	WHERE IdBoleta = @IdBoleta_par
-
-	-- APERTURA DEL CURSOR
-	OPEN CURSOR_BOLETA
-
-	FETCH NEXT
-	FROM CURSOR_BOLETA
-	INTO @IdBoleta;
-
-	WHILE @@FETCH_STATUS = 0
-	BEGIN
-		UPDATE BOLETA
-		SET FechaPago = @FechaPago
-		WHERE IdBoleta = @IdBoleta
-
-		FETCH NEXT
-		FROM CURSOR_BOLETA
-		INTO @IdBoleta;
-	END
-
-	CLOSE CURSOR_BOLETA
-
-	DEALLOCATE CURSOR_BOLETA
-
+-------------------- actualizo las tablas IMPUESTOINMOBILIARIO Y DETALLEBOLETA ------------------
 	DECLARE @IdDetalleBoleta INT
 	DECLARE @IdImpuesto INT
 
@@ -64,7 +51,7 @@ BEGIN
 	INTO @IdDetalleBoleta,
 		@IdImpuesto;
 
-	-- RECORRER EL CURSOS MIENTRAS HAYAN REGISTROS
+	-- RECORRER EL CURSOR MIENTRAS HAYAN REGISTROS
 	WHILE @@FETCH_STATUS = 0
 	BEGIN
 		UPDATE DETALLEBOLETA
@@ -85,35 +72,39 @@ BEGIN
 
 	-- LIBERAR EL RECURSO
 	DEALLOCATE MI_CURSOR;
-
+	
+-------------------- nuevo registro en tabla RECIBO ------------------
+	DECLARE @IdRecibo INT
+	
 	INSERT INTO RECIBO (
+		Fechapago,
 		BHabilitado,
 		IdBoleta,
 		Importe,
 		Mail
 		)
 	VALUES (
+	    @FechaPago,
 		1,
 		@IdBoleta_par,
 		@Importe,
 		@Mail
 		);
 
+-------------------- envio de mail al vecino ------------------
+
+	SET @IdRecibo = @@IDENTITY
 	-- DECLARACIÓN DEL CURSOR
 	DECLARE @body_1 VARCHAR
-	DECLARE @IdRecibo INT
-
-	SET @IdRecibo = (
-			SELECT IdRecibo
-			FROM RECIBO
-			WHERE IdBoleta = @IdBoleta_par
-			)
-	SET @body_1 = N'<body><p>Estimado vecino, se ha emitido el recibo </p><p>correspondiente a la boleta </p></body>'
+			
+	SET @body_1 = N'<body><p>Estimado vecino, se ha emitido el recibo </p>'
 	SET @body_1 = @body_1 + CAST(@IdRecibo AS VARCHAR(50))
+	SET @body_1 = @body_1 + N'<p>correspondiente a la boleta </p></body>'
+	SET @body_1 = @body_1 + CAST(@IdBoleta_par AS VARCHAR(50))
 
-	EXEC msdb.dbo.sp_send_dbmail @profile_name = 'MVPSA',
-		@recipients = @mail,
-		@subject = 'Recibo de Pago Realizado',
-		@body = @body_1,
-		@body_format = 'HTML';
+ 	EXEC msdb.dbo.sp_send_dbmail @profile_name = 'MVPSA',
+ 		@recipients = @mail,
+ 		@subject = 'Recibo de Pago Realizado',
+ 		@body = @body_1,
+ 		@body_format = 'HTML';
 END
