@@ -28,7 +28,7 @@ export class TablaDenunciaComponent implements OnInit {
 
     this.denunciaservice.getDenuncia().subscribe(data => this.Denuncias = data);
     this.denunciaservice.getTipoDenuncia().subscribe(data => this.TiposDenuncia = data);
-    this.usuarioService.getUsuario().subscribe(data => this.Usuarios = data);
+    this.usuarioService.getUsuarios().subscribe(data => this.Usuarios = data);
     this.form = this.formBuilder.group({
       descripcion: '',
       tipoDenuncia: 0

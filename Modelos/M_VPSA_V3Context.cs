@@ -55,13 +55,15 @@ namespace MVPSA_V2022.Modelos
         public virtual DbSet<Usuario> Usuarios { get; set; } = null!;
         public virtual DbSet<UsuarioVecino> UsuarioVecinos { get; set; } = null!;
         public virtual DbSet<ValuacionInmobiliario> ValuacionInmobiliarios { get; set; } = null!;
+        public virtual DbSet<ReclamoVw> ReclamosVw { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Data Source=NB-ROMAN;Initial Catalog=M_VPSA_V3;Integrated Security=True");
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                //optionsBuilder.UseSqlServer("Data Source=VAIO-ROMAN;Initial Catalog=M_VPSA_V3;Integrated Security=True");
+                optionsBuilder.UseSqlServer("Data Source=localhost\\SQLEXPRESS;Initial Catalog=M_VPSA_V3;Integrated Security=True");
             }
         }
 
@@ -650,6 +652,8 @@ namespace MVPSA_V2022.Modelos
                     .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("Nombre_Prioridad");
+
+                entity.Property(e => e.TiempoMaxTratamiento).HasColumnName("Tiempo_Max_Tratamiento");
             });
 
             modelBuilder.Entity<PruebaGraficaDenuncium>(entity =>
@@ -770,9 +774,15 @@ namespace MVPSA_V2022.Modelos
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
+                entity.Property(e => e.NomApeVecino)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.Fecha)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.NroPrioridad).HasColumnName("Nro_Prioridad");
 
                 entity.HasOne(d => d.CodEstadoReclamoNavigation)
                     .WithMany(p => p.Reclamos)
@@ -1001,6 +1011,7 @@ namespace MVPSA_V2022.Modelos
                     .IsUnicode(false);
 
                 entity.Property(e => e.TiempoMaxTratamiento).HasColumnName("Tiempo_Max_Tratamiento");
+
             });
 
             modelBuilder.Entity<TipoSolicitud>(entity =>
@@ -1179,6 +1190,16 @@ namespace MVPSA_V2022.Modelos
                     .WithMany(p => p.Usuarios)
                     .HasForeignKey(d => d.IdTipoUsuario)
                     .HasConstraintName("FK__USUARIO__idTipoU__1EA48E88");
+
+                entity.HasMany(e => e.TiposReclamoAlta)
+                    .WithOne(e => e.UsuarioAlta)
+                    .HasForeignKey(e => e.IdUsuarioAlta)
+                    .HasPrincipalKey(e => e.IdUsuario);
+
+                entity.HasMany(e => e.TiposReclamoModificados)
+                    .WithOne(e => e.UsuarioModificacion)
+                    .HasForeignKey(e => e.IdUsuarioModificacion)
+                    .HasPrincipalKey(e => e.IdUsuario);
             });
 
             modelBuilder.Entity<UsuarioVecino>(entity =>
@@ -1236,6 +1257,10 @@ namespace MVPSA_V2022.Modelos
 
                 entity.Property(e => e.ValorSupTerreno).HasColumnType("decimal(18, 2)");
             });
+
+            modelBuilder.Entity<ReclamoVw>()
+                .ToView("vw_reclamo")
+                .HasKey(t => t.NroReclamo);
 
             OnModelCreatingPartial(modelBuilder);
         }

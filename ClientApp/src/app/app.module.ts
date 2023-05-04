@@ -86,6 +86,9 @@ import { PersonasTablaComponent } from './components/personas-tabla/personas-tab
 import { TasasImpositivasComponent } from './components/tasas-impositivas/tasas-impositivas.component';
 import { GeneracionDatasetsComponent } from './components/generacion-datasets/generacion-datasets.component';
 import { DatosFinanzasEconomicosBorradoComponent } from './components/datos-finanzas-economicos-borrado/datos-finanzas-economicos-borrado.component';
+import { ReclamoCabeceraComponent } from './components/reclamo-cabecera/reclamo-cabecera.component';
+import { ReclamoCambiarPrioridadComponent } from './components/reclamo-cambiar-prioridad/reclamo-cambiar-prioridad.component';
+import { ReclamoDerivarComponent } from './components/reclamo-derivar/reclamo-derivar.component';
 
 
 @NgModule({
@@ -146,7 +149,10 @@ import { DatosFinanzasEconomicosBorradoComponent } from './components/datos-fina
     PersonasTablaComponent,
     TasasImpositivasComponent,
     GeneracionDatasetsComponent,
-    DatosFinanzasEconomicosBorradoComponent
+    DatosFinanzasEconomicosBorradoComponent,
+    ReclamoCabeceraComponent,
+    ReclamoCambiarPrioridadComponent,
+    ReclamoDerivarComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -205,7 +211,7 @@ import { DatosFinanzasEconomicosBorradoComponent } from './components/datos-fina
       { path: 'lote-detalle', component: LoteDetalleComponent, canActivate: [SeguridadGuard]}, //, canActivate: [SeguridadGuard] //Veo que hacen falta los dos rutas sino el guard no anda ok
       { path: 'lote-detalle/:id', component: LoteDetalleComponent }, //, canActivate: [SeguridadGuard]  le dio por no funcionar verlo!
       { path: 'tipo-reclamo-tabla', component: TipoReclamoTablaComponent, canActivate: [SeguridadGuard] },
-      { path: 'tipo-reclamo-form/:id', component: TipoReclamoFormComponent, canActivate: [SeguridadGuard] },
+      { path: 'tipo-reclamo-form/:id', component: TipoReclamoFormComponent/*, canActivate: [SeguridadGuard]*/ },
       { path: 'tipo-reclamo-form', component: TipoReclamoFormComponent, canActivate: [SeguridadGuard] },
       { path: 'tipo-denuncia-tabla', component: TipoDenunciaTablaComponent, canActivate: [SeguridadGuard] },
       { path: 'tipo-denuncia-form/:id', component: TipoDenunciaFormComponent/*, canActivate: [SeguridadGuard] */},
@@ -214,7 +220,8 @@ import { DatosFinanzasEconomicosBorradoComponent } from './components/datos-fina
       { path: 'generacion-datasets', component: GeneracionDatasetsComponent, canActivate: [SeguridadGuard] },
       { path: 'datos-finanzas-economicos-borrado', component: DatosFinanzasEconomicosBorradoComponent, canActivate: [SeguridadGuard] },
       { path: 'datos-finanzas-economicos-borrado/:id', component: DatosFinanzasEconomicosBorradoComponent, canActivate: [SeguridadGuard] },
-      
+      { path: 'reclamo-cambiar-prioridad/:id', component: ReclamoCambiarPrioridadComponent },
+      { path: 'reclamo-derivar/:id', component: ReclamoDerivarComponent },
       { path: '*', redirectTo: '' } //a home
 
 

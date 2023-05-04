@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using MVPSA_V2022.Configurations;
 using MVPSA_V2022.Interceptors;
 using MVPSA_V2022.Mappers;
+using MVPSA_V2022.Modelos;
 using MVPSA_V2022.Services;
     
 var builder = WebApplication.CreateBuilder(args);
@@ -27,14 +29,24 @@ builder.Services.AddSession(options =>
 
 var authenticationKey = "esta es la clave secreta para autenticar usuarios";
 
-builder.Services.AddSingleton<IReclamoService, ReclamoService>();
+Console.WriteLine("###### VPSAConnectionString ######");
+Console.WriteLine(builder.Configuration.GetConnectionString("VPSAConnectionString"));
+
+//builder.Services.AddDbContext<M_VPSA_V3Context>(options
+//        => options.UseSqlServer(builder.Configuration.GetConnectionString("VPSAConnectionString")));
+
+builder.Services.AddDbContext<M_VPSA_V3Context>(options
+        => options.UseSqlServer("Data Source=localhost\\SQLEXPRESS;Initial Catalog=M_VPSA_V3;Integrated Security=True"));
+
+builder.Services.AddScoped<IReclamoService, ReclamoService>();
 //builder.Services.AddSingleton<IDenunciaService, DenunciaService>();
 builder.Services.AddSingleton<IPagoService, PagoService>();
 builder.Services.AddSingleton<IUsuarioService, UsuarioService>();
+builder.Services.AddSingleton<IImpuestoService, ImpuestoService>();
 builder.Services.AddSingleton<IJwtAuthenticationService> (new JwtAuthenticationService(authenticationKey));
 builder.Services.AddTransient<IMailService, MailService>();
 
-builder.Services.AddAutoMapper(typeof(ReclamoProfile));
+builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 builder.Services.AddAutoMapper(typeof(MobbexPagoProfile));
 
 builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));

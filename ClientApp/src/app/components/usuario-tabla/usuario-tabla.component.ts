@@ -18,7 +18,7 @@ export class UsuarioTablaComponent implements OnInit {
 
 
   ngOnInit() {
-    this.usuarioservice.getUsuario().subscribe(data => this.usuarios = data);
+    this.usuarioservice.getUsuarios().subscribe(data => this.usuarios = data);
     //console.log(this.usuarios);
   }
   volverHome() {

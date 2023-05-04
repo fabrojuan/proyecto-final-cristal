@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MVPSA_V2022.clases;
 using MVPSA_V2022.Modelos;
@@ -12,8 +13,8 @@ using System.Text;
 
 namespace MVPSA_V2022.Controllers
 {
-    //[ApiController]
-    //[Route("[controller]")]
+
+    [Authorize]
     public class UsuarioController : Controller
     {
 
@@ -39,12 +40,15 @@ namespace MVPSA_V2022.Controllers
                 listaUsuario = (from usuario in bd.Usuarios
                                 join rol in bd.Rols
                                 on usuario.IdTipoUsuario equals rol.IdRol
+                                join persona in bd.Personas
+                                on usuario.IdPersona equals persona.IdPersona
                                 where usuario.Bhabilitado == 1
                                 select new UsuarioCLS
                                 {
                                     IdUsuario = usuario.IdUsuario,
                                     NombreUser = usuario.NombreUser!,
                                     NombreTipoUsuario = rol.NombreRol!,
+                                    NombreCompleto = persona.Apellido + ", " + persona.Nombre,
                                     FechaAlta = (DateTime)usuario.FechaAlta
                                 }).ToList();
                 
@@ -294,6 +298,7 @@ namespace MVPSA_V2022.Controllers
 
         //Insertar metodo para obtener user.
         [HttpPost]
+        [AllowAnonymous]
         [Route("api/Usuario/login")]
         public IActionResult login([FromBody] UsuarioCLS oUsuarioCLS)
         {

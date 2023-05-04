@@ -1,6 +1,6 @@
 ﻿namespace MVPSA_V2022.clases
 {
-    public class TipoReclamoCLS
+    public class TipoReclamoDto
     {
         public int cod_Tipo_Reclamo { get; set; }
         public string nombre { get; set; }

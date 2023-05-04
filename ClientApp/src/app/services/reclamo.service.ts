@@ -2,6 +2,8 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { Injectable, Inject } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { Prioridad } from '../modelos_Interfaces/Prioridad';
+import { ModificarReclamoRequest } from '../modelos_Interfaces/ModificarReclamoRequest';
 
 //import { r } from '@angular/core/src/render3';
   
@@ -50,11 +52,22 @@ export class ReclamoService {
     var url = this.urlBase + 'api/reclamos';
     return this.http.post(url, Reclamo).pipe(map(res => res));
   }
-  public getReclamo(): Observable<any>{
+
+  public getReclamos(): Observable<any>{
     return this.http.get(this.urlBase + 'api/reclamos').pipe(map(res => res));
   }
 
-  
+  public getReclamo(nroReclamo: number): Observable<any> {
+    return this.http.get(this.urlBase + 'api/reclamos/' + nroReclamo).pipe(map(res => res));
+  }
+
+  public modificarReclamo(nroReclamo: number, reclamo: ModificarReclamoRequest): Observable<any> {
+    return this.http.put(this.urlBase + 'api/reclamos/' + nroReclamo, reclamo).pipe(map(res => res));
+  }
+
+  public getPrioridades(): Observable<Array<Prioridad>> {
+    return this.http.get<Array<Prioridad>>(this.urlBase + 'api/reclamos/prioridades').pipe(map(res => res));
+  }
 
 }
 
