@@ -16,16 +16,35 @@ export class DatasetFinanzasService {
     this.urlBase = baseUrl;
   }
 
-  public generarDatasetImpuestos() {
+  public generarDatasetImpuestos(): Observable<any>  {
     return this.http.get(this.urlBase + 'api/DatosAbiertos/generaImpuestoInmobiliarioMensual').pipe(map(res => res));
-
+   
   }
 
   public ListarFinancieros() {
     return this.http.get(this.urlBase + 'api/DatosAbiertos/ListarFinancieros').pipe(map(res => res));
   }
 
-
+  eliminarDataset(idArchivo: any): Observable<any> {
+    return this.http.get(this.urlBase + 'api/DatosAbiertos/eliminarDataset/' + idArchivo).pipe(map(res => res));
+  }
+  //aca va el mime type del excel
+  ExportarExcel() {
+    this.http.get(this.urlBase + 'api/DatosAbiertos/generarregistrosImpuestosDeben', { responseType: 'text' }).subscribe(data => {
+      var a = document.createElement("a");
+      a.href = "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," + data;
+      a.click();
+    });
+  }
+  ExportarPDF() {
+    this.http.get(this.urlBase + 'api/DatosAbiertos/generarregistrosImpuestosDebenPDF', { responseType: 'text' }).subscribe(data => {
+      var a = document.createElement("a");
+      a.href = "data:application / pdf; base64," + data;
+      a.download = "ImpuestosAdeudados.pdf";
+      a.click();
+    });
+  }
+  
 
 }
 

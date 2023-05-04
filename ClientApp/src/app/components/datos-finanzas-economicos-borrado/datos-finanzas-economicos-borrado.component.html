@@ -2,9 +2,9 @@
 
 
   <div class="d-flex align-items-center ">
-    <img class="ms-3 " src="../../../assets/Imagenes/opendataFinance.png" alt="" width="120" height="120">
+    <img class="ms-3 " src="../../../assets/Imagenes/Cleaner2.png" alt="" width="120" height="120">
     <div class="tituloFormulario text-center form-group col-md-7 offset-md-1">
-      <p> Descarga de Datos Abiertos Financieros</p>
+      <p> Borrado de Datasets Inmobiliarios</p>
     </div>
   </div>
 
@@ -30,13 +30,23 @@
         <!-- <td class="text-center textoTabla"><a href={{financiero.ubicacion}}{{financiero.nombreArchivo}} target="_blank" rel="noopener noreferrer">Descargar</a></td>-->
 
         <td class="text-center" *ngIf="isMantenimiento==true">
-          <button type="button" class="btn btn-light">
-            <a href={{financiero.ubicacion}}{{financiero.nombreArchivo}} target="_blank" rel="noopener noreferrer">Descargar</a>
-            <img src="../../../assets/IconsGoogle/download.svg" alt="" width="24" height="24" title="Marcar como Irrelevante">
-          </button>
+          <button type="button" class="btn bg-transparent" (click)="borrarDatosAbiertos(financiero.idArchivo)">
+         <!--  <a href={{financiero.ubicacion}}{{financiero.nombreArchivo}} target="" rel="noopener noreferrer">Borrar</a>-->
+            <img src="../../../assets/IconsGoogle/Delete.svg" alt="" width="24" height="24" title="Marcar como Irrelevante">
+         Borrar </button>
         </td>
       </tr>
     </tbody>
   </table>
   <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  <br>
+  <br>
+
+  <section class="my-4">
+    <div class="col-md-5 offset-1">
+      <button type="button" class="btn btn-secondary col-md-4 offset-md-1" (click)="volver()">Volver</button>
+    </div>
+  </section>
+  <br>
 </div>
+

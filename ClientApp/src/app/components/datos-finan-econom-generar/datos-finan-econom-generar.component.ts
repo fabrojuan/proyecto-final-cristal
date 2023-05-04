@@ -31,4 +31,19 @@ export class DatosFinanEconomGenerarComponent implements OnInit {
   ngOnInit() {
   }
 
+  ExportarExcel() {
+    this.datasetImpuestoService.ExportarExcel();
+     }
+
+  ExportarPDF()
+  {
+  this.datasetImpuestoService.ExportarPDF();
+}
+
+
+
+
+
+
+
 }
