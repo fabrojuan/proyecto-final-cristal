@@ -21,9 +21,6 @@ export class UsuarioService {
 
   }
 
-  public getRol(): Observable<any> {
-    return this.http.get(this.urlBase + 'api/Usuario/listarRol').pipe(map(res => res));
-  }
   //Modificacion de Roles
   public listarRoles(): Observable<any> {
     return this.http.get(this.urlBase + 'api/Rol/listarRoles').pipe(map(res => res));
@@ -66,19 +63,19 @@ export class UsuarioService {
     return this.http.get(this.urlBase + 'api/Rol/eliminarRol/' + idRol).pipe(map(res => res));
   }
   public getUsuarios(): Observable<any> {
-    return this.http.get(this.urlBase + 'api/Usuario/listarUsuarios')
+    return this.http.get(this.urlBase + 'api/usuarios')
       .pipe(map(res => res));
   }
   public getFiltrarUsuarioPorTipo(idTipo:any): Observable<any> {
-    return this.http.get(this.urlBase + 'api/Usuario/filtrarUsuarioPorTipo/' + idTipo);
+    return this.http.get(this.urlBase + 'api/usuarios/filtrarUsuarioPorTipo/' + idTipo);
   }
 
   public RecuperarUsuario(idUsuario:any): Observable<any> {
-    return this.http.get(this.urlBase + 'api/Usuario/recuperarUsuario/' + idUsuario).pipe(map(res => res));//.catch(this.errorHandler);
+    return this.http.get(this.urlBase + 'api/usuarios/' + idUsuario).pipe(map(res => res));//.catch(this.errorHandler);
   }
 
   public GuardarUsuario(Usuario:any) {
-    var url = this.urlBase + 'api/Usuario/guardarUsuario/';
+    var url = this.urlBase + 'api/usuarios';
     return this.http.post(url, Usuario).pipe(map(res => res));
   }
 
@@ -92,46 +89,37 @@ export class UsuarioService {
   }
 
   public listarPaginas(): Observable<any> {
-    return this.http.get(this.urlBase + 'api/Usuario/listarPaginas')
+    return this.http.get(this.urlBase + 'api/usuarios/paginas')
       .pipe(map(res => res));
   }
 
 
   public ObtenerVariableSession(next: any): Observable<any> {
 
-    return this.http.get(this.urlBase + 'api/Usuario/obtenerVariableSession').pipe(map((res: any) => {
+    return this.http.get(this.urlBase + 'api/usuarios/paginas').pipe(map((res: any) => {
 
       var data = res;
-      var inf = data.valor;
-      if (inf == "") {
-        this.router.navigate(["/error-pagina-login"]);
-        return false;
-      }
-      else {
 
-        //Aca trajimos el parametro next para que tomemos la ruta de la base continuar mañana.
-        var pagina = next["url"][0].path;
-        if (data.lista != null) {
-          var paginas = data.lista.map((pagina: { accion: any; }) => pagina.accion); //Estaba llamando mal la accion de esta forma funca
-          //var paginas = data.lista.pipe(map((pagina: any) => pagina.accion));
-          if (paginas.indexOf(pagina) > -1 && pagina != "Login") {
-            return true;
-          }
-          else {
-            this.router.navigate(["/error-pagina-login"]);
-            return false;
-          }
+      //Aca trajimos el parametro next para que tomemos la ruta de la base continuar mañana.
+      var pagina = next["url"][0].path;
+      if (data != null && data != "") {
+        var paginas = data.map((pagina: { accion: any; }) => pagina.accion); //Estaba llamando mal la accion de esta forma funca
+        //var paginas = data.lista.pipe(map((pagina: any) => pagina.accion));
+        if (paginas.indexOf(pagina) > -1 && pagina != "Login") {
+          return true;
         }
-       return false;        // si algo falla aca falta un return true
+        else {
+          this.router.navigate(["/error-pagina-login"]);
+          return false;
+        }
       }
+      return false;        // si algo falla aca falta un return true
 
     }));
   }
-  public obtenerSessionidEmpleado(): Observable<any> {
-    return this.http.get(this.urlBase + 'api/Usuario/obtenerVariableSessionID').pipe(map(res => res));
-  }
+
   public ObtenerSession() {
-    return this.http.get(this.urlBase + 'api/Usuario/obtenerVariableSession').pipe(map((res: any) => {
+    return this.http.get(this.urlBase + 'api/usuarios/obtenerVariableSession').pipe(map((res: any) => {
       var data = res;
       var inf = data.valor;
       if (inf == "") {
@@ -149,7 +137,7 @@ export class UsuarioService {
 
   ////   ************** LOGIN *****************
   public login(usuario: any): Observable<any> {
-    return this.http.post(this.urlBase + "api/Usuario/login/", usuario).pipe(
+    return this.http.post(this.urlBase + "api/usuarios/login/", usuario).pipe(
       map(res => {
         this.guardarToken(res);
         return res;
@@ -159,7 +147,6 @@ export class UsuarioService {
 
   private guardarToken(authResult: any) {
     const expiresAt = moment().add(authResult.expiresAt, 'seconds');
-    console.log("Response token!!! ");
     localStorage.setItem('tokenId', authResult.tokenId);
     localStorage.setItem("expiresAt", JSON.stringify(expiresAt.valueOf()));
   }
@@ -189,11 +176,8 @@ export class UsuarioService {
 
 
   public cerrarSession() {
-    return this.http.get(this.urlBase + "api/Usuario/cerrarSession")
-      .pipe(map(res => {
-        this.borrarToken();
-        return res;
-    }));
+    this.borrarToken();
+    return true;
   }
 
   //   *************** FIN LOGIN ***************

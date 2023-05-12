@@ -64,7 +64,8 @@ export class NavMenuComponent implements OnInit {
   }
   //No Reparado
   cerrarSession() {
-    this.usuarioService.cerrarSession().subscribe((res: any) => {
+    this.login = false;
+    /* this.usuarioService.cerrarSession().subscribe((res: any) => {
       if (res.valor == "OK") {
         this.login = false;
       }
@@ -74,7 +75,7 @@ export class NavMenuComponent implements OnInit {
       }
 
 
-    });
+    }); */
   }
   //No reparado
   cerrarSessionVecino() {

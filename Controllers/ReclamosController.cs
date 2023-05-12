@@ -28,11 +28,6 @@ namespace MVPSA_V2022.Controllers
             this.usuarioService = usuarioService;
         }
 
-        //public IActionResult Index()
-        //{
-        //return View();
-        //}
-
         [HttpGet]
         [Route("tipos-reclamo/{codTipoReclamo}")]
         public IActionResult consultarTipoReclamo(int codTipoReclamo)

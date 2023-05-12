@@ -1,0 +1,100 @@
+<div class="container">
+
+    <form [formGroup]="Reclamo" (ngSubmit)="guardarDatos()">
+        <div class="d-flex align-items-center p-2 my-2 bg-purple bg-light shadow p-2 mb-3 rounded shadow-sm">
+            <img src="../../../assets/Imagenes/Reclamo.svg" alt="" width="58" height="58">
+            <div class="tituloFormulario text-center form-group col-md-8 offset-md-1">
+                <p> Formulario de Reclamo</p>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-5">
+                <label for="exampleInputEmail1" class="form-label">(*) Tipo de Reclamo</label>
+                <select id="Tipo_Reclamo" formControlName="codTipoReclamo" class="form-select">
+            <option value="">--Seleccione Opción--</option>
+            <option [ngValue]="TipoReclamo.cod_Tipo_Reclamo" *ngFor="let TipoReclamo of TiposReclamo">{{TipoReclamo.nombre}}</option>
+          </select>
+                <small *ngIf="codTipoReclamoNoValido" class="text-danger">
+            El Tipo de Reclamo es requerido.
+          </small>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label for="formGroupExampleInput">(*) Nombre calle</label>
+                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Nombre calle" formControlName="calle">
+                <small *ngIf="calleNoValido" class="text-danger">
+            El nombre de calle es requerido. No puede superar los 50 caracteres.
+          </small>
+            </div>
+            <div class="col-md-4">
+                <label for="formGroupExampleInput">(*) Altura aproximada</label>
+                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Altura aproximada" formControlName="altura">
+                <small *ngIf="alturaNoValido" class="text-danger">
+            La altura aproximada es requerida. No puede superar los 6 caracteres.
+          </small>
+            </div>
+            <div class="col-md-4">
+                <label for="formGroupExampleInput">(*) Entre calles</label>
+                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Entre calles" formControlName="entreCalles">
+                <small *ngIf="entreCallesNoValido" class="text-danger">
+            El dato de entre calles es requerido. No puede superar los 50 caracteres.
+          </small>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label for="formGroupExampleInput">(*) Nombre y Apellido vecino</label>
+                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Nombre y Apellido del vecino" formControlName="nombreYapellido">
+                <small *ngIf="calleNoValido" class="text-danger">
+                    El nombre de calle es requerido. No puede superar los 50 caracteres.
+                </small>
+            </div>
+            <div class="col-md-4">
+                <label for="formGroupExampleInput">(*) Mail vecino</label>
+                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Mail vecino" formControlName="mailVecino">
+                <small *ngIf="alturaNoValido" class="text-danger">
+                    La altura aproximada es requerida. No puede superar los 6 caracteres.
+                </small>
+            </div>
+            <div class="col-md-4">
+                <label for="formGroupExampleInput">(*) Teléfono vecino</label>
+                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Teléfono vecino" formControlName="telefonoVecino">
+                <small *ngIf="entreCallesNoValido" class="text-danger">
+                    El dato de entre calles es requerido. No puede superar los 50 caracteres.
+                </small>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col">
+                <label for="exampleFormControlTextarea1">(*) Descripci&oacute;n</label>
+                <textarea class="form-control" formControlName="descripcion" id="exampleFormControlTextarea1" rows="3" placeholder="Descripcion del reclamo del servicio, circunstancias que lo generaron. Puede incluir nombres de personas implicadas para mayor trazabilidad."></textarea>
+                <small *ngIf="descripcionNoValido" class="text-danger">
+            La descripci&oacute;n es requerida. No puede superar los 200 caracteres.
+          </small>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <input type="file" class="form-control" id="fotoUploader1" lang="es" #fileUploader1 (change)="changeFoto1($event)" accept="image/*">
+            </div>
+            <div class="col-md-6">
+                <input type="file" class="form-control" id="fotoUploader2" lang="es" #fileUploader2 (change)="changeFoto2($event)" accept="image/*">
+            </div>
+        </div>
+
+        <div class="d-grid gap-4 d-md-flex justify-content-md-center">
+            <input type="submit" value="Generar" class="btn btn-success" />
+            <button type="button" class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
+        </div>
+
+    </form>
+
+    <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
+
+</div>
