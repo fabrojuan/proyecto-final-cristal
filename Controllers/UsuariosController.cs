@@ -180,7 +180,7 @@ namespace MVPSA_V2022.Controllers
                                select new PaginaCLS
                                {
                                    idPagina = pagina.IdPagina,
-                                   Accion = pagina.Accion,
+                                   Accion = pagina.Accion.Substring(1),
                                    Mensaje = pagina.Mensaje,
                                    Bhabilitado = (int)pagina.Bhabilitado
                                }).ToList();
