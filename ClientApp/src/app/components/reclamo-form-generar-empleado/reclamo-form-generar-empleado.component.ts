@@ -29,9 +29,9 @@ export class ReclamoFormGenerarEmpleadoComponent implements OnInit {
         "altura": new FormControl("", [Validators.required, Validators.maxLength(6)]),
         "foto1": new FormControl(""),
         "foto2": new FormControl(""),
-        "nombreYapellido": new FormControl("", [Validators.required, Validators.maxLength(100)]),
-        "mailVecino": new FormControl("", [Validators.required, Validators.maxLength(100)]),
-        "telefonoVecino": new FormControl("", [Validators.required, Validators.maxLength(12)])
+        "nomApeVecino": new FormControl("", [Validators.required, Validators.maxLength(100)]),
+        "mailVecino": new FormControl("", [Validators.required, Validators.maxLength(100), Validators.pattern("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")]),
+        "telefonoVecino": new FormControl("", [Validators.required, Validators.maxLength(50)])
       }
     );
   }
@@ -139,6 +139,18 @@ export class ReclamoFormGenerarEmpleadoComponent implements OnInit {
 
   get descripcionNoValido() {
     return this.Reclamo.get('descripcion')?.invalid && this.Reclamo.get('descripcion')?.touched;
+  }
+
+  get nomApeVecinoNoValido() {
+    return this.Reclamo.get('nomApeVecino')?.invalid && this.Reclamo.get('nomApeVecino')?.touched;
+  }
+
+  get mailVecinoNoValido() {
+    return this.Reclamo.get('mailVecino')?.invalid && this.Reclamo.get('mailVecino')?.touched;
+  }
+
+  get telefonoVecinoNoValido() {
+    return this.Reclamo.get('telefonoVecino')?.invalid && this.Reclamo.get('telefonoVecino')?.touched;
   }
 
 }

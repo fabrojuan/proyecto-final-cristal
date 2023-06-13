@@ -26,6 +26,8 @@ namespace MVPSA_V2022.Modelos
         public string? MailVecino { get; set; }
         public string? TelefonoVecino { get; set; }
         public int NroPrioridad { get; set; }
+
+
         
         public virtual EstadoReclamo? CodEstadoReclamoNavigation { get; set; }
         public virtual TipoReclamo? CodTipoReclamoNavigation { get; set; }

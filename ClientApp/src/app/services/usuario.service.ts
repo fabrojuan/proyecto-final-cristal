@@ -119,7 +119,7 @@ export class UsuarioService {
   }
 
   public ObtenerSession() {
-    return this.http.get(this.urlBase + 'api/usuarios/obtenerVariableSession').pipe(map((res: any) => {
+    return this.http.get(this.urlBase + 'api/usuarios/paginas').pipe(map((res: any) => {
       var data = res;
       var inf = data.valor;
       if (inf == "") {

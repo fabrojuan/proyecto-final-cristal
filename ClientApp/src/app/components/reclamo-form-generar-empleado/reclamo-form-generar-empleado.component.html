@@ -48,23 +48,23 @@
         <div class="row mb-3">
             <div class="col-md-4">
                 <label for="formGroupExampleInput">(*) Nombre y Apellido vecino</label>
-                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Nombre y Apellido del vecino" formControlName="nombreYapellido">
-                <small *ngIf="calleNoValido" class="text-danger">
-                    El nombre de calle es requerido. No puede superar los 50 caracteres.
+                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Nombre y Apellido del vecino" formControlName="nomApeVecino">
+                <small *ngIf="nomApeVecinoNoValido" class="text-danger">
+                    El nombre del vecino es requerido. No puede superar los 100 caracteres.
                 </small>
             </div>
             <div class="col-md-4">
                 <label for="formGroupExampleInput">(*) Mail vecino</label>
                 <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Mail vecino" formControlName="mailVecino">
-                <small *ngIf="alturaNoValido" class="text-danger">
-                    La altura aproximada es requerida. No puede superar los 6 caracteres.
+                <small *ngIf="mailVecinoNoValido" class="text-danger">
+                    El mail del vecino es requerido. No puede superar los 100 caracteres. Debe tener un formato válido.
                 </small>
             </div>
             <div class="col-md-4">
                 <label for="formGroupExampleInput">(*) Teléfono vecino</label>
                 <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Teléfono vecino" formControlName="telefonoVecino">
-                <small *ngIf="entreCallesNoValido" class="text-danger">
-                    El dato de entre calles es requerido. No puede superar los 50 caracteres.
+                <small *ngIf="telefonoVecinoNoValido" class="text-danger">
+                    El teléfono del vecino es requerido. No puede superar los 50 caracteres.
                 </small>
             </div>
         </div>

@@ -65,19 +65,10 @@ export class NavMenuComponent implements OnInit {
   //No Reparado
   cerrarSession() {
     this.login = false;
-    /* this.usuarioService.cerrarSession().subscribe((res: any) => {
-      if (res.valor == "OK") {
-        this.login = false;
-      }
-      else {
-        this.login = true;
-
-      }
-
-
-    }); */
+    this.usuarioService.cerrarSession();
   }
   //No reparado
+
   cerrarSessionVecino() {
     this.vecinoService.cerrarSessionVecino().subscribe((res: any) => {
       if (res.valor == "OK") {

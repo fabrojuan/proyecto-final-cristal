@@ -122,12 +122,12 @@ namespace MVPSA_V2022.Controllers
         //   Agregaro porque por ahora es todo nu,l!!! tiempo_Max_Tratamiento = (int)tipoReclamo.TiempoMaxTratamiento,
 
         [HttpPost]
-        public IActionResult guardarReclamo([FromHeader(Name = "id_usuario")] string idVecinoAlta,
+        public IActionResult guardarReclamo([FromHeader(Name = "id_usuario")] string idUsuarioAlta,
                                   [FromBody] CrearReclamoRequestDto reclamoCLS)
         {
             try
             {
-                return Ok(reclamoService.guardarReclamo(reclamoCLS, Int32.Parse(idVecinoAlta)));
+                return Ok(reclamoService.guardarReclamo(reclamoCLS, Int32.Parse(idUsuarioAlta)));
             }
             catch (Exception ex)
             {
