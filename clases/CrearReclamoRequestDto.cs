@@ -7,7 +7,9 @@
         public string calle { get; set; }
         public string altura { get; set; }
         public string entreCalles { get; set; }
-        public string? nombreYapellido { get; set; }
+        public string? NomApeVecino { get; set; }
+        public string? MailVecino { get; set; }
+        public string? TelefonoVecino { get; set; }
         public string foto1 { get; set; }
         public string foto2 { get; set; }
     }

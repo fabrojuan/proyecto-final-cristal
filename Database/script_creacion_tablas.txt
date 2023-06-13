@@ -111,3 +111,17 @@ join M_VPSA_V3.dbo.ESTADO_RECLAMO est on est.Cod_Estado_Reclamo = rec.Cod_Estado
 join M_VPSA_V3.dbo.PRIORIDAD_RECLAMO pre on pre.Nro_Prioridad = rec.Nro_Prioridad
 left outer join M_VPSA_V3.dbo.USUARIO usu on usu.idUsuario = rec.IdUsuario
 left outer join M_VPSA_V3.dbo.PERSONA per on per.idPersona = usu.idPersona;
+
+ALTER TABLE [M_VPSA_V3].[dbo].[RECLAMO]
+ADD MailVecino VARCHAR(100) NULL;
+
+ALTER TABLE [M_VPSA_V3].[dbo].[RECLAMO]
+ADD TelefonoVecino VARCHAR(50) NULL;
+
+
+
+SET IDENTITY_INSERT [M_VPSA_V3].[dbo].[ROL] ON;
+
+insert into [M_VPSA_V3].[dbo].[ROL] (idRol, NombreRol, BHabilitado) values (2000, 'Vecino', 1);
+
+SET IDENTITY_INSERT [M_VPSA_V3].[dbo].[ROL] OFF;

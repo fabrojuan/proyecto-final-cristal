@@ -23,7 +23,7 @@ namespace MVPSA_V2022.Services
          * RECLAMOS
          */
 
-        public ReclamoDto guardarReclamo(CrearReclamoRequestDto reclamoCLS, int idVecinoAlta)
+        public ReclamoDto guardarReclamo(CrearReclamoRequestDto reclamoCLS, int idUsuarioAlta)
         {
             ReclamoDto respuesta = new ReclamoDto();
             Reclamo reclamo = new Reclamo();
@@ -33,28 +33,23 @@ namespace MVPSA_V2022.Services
                 reclamo = mapper.Map<Reclamo>(reclamoCLS);
                 reclamo.CodEstadoReclamo = (int?) EstadoReclamoEnum.NUEVO;
                 reclamo.Bhabilitado = 1;
-                reclamo.IdVecino = idVecinoAlta;
+                reclamo.IdUsuario = idUsuarioAlta;
                 reclamo.NroPrioridad = getPrioridadReclamoSegunTipoReclamo(reclamoCLS.codTipoReclamo);
                 reclamo.Fecha = DateTime.Now;
-                
+
+                Usuario usuarioAlta = dbContext.Usuarios.Where(usr => usr.IdUsuario == idUsuarioAlta).FirstOrDefault();
+
+                if (usuarioAlta.IdTipoUsuario == 2000) {
+                    // Si es un usuario vecino
+                    reclamo.IdVecino = idUsuarioAlta;
+                }
 
                 using (M_VPSA_V3Context bd = new M_VPSA_V3Context()) {
                     
-                    // Busca el nombre y apellido del vecino
-                    Persona personaVecino = (from usuarioVecino in bd.UsuarioVecinos
-                         join persona in bd.Personas
-                           on usuarioVecino.IdPersona equals persona.IdPersona
-                         where usuarioVecino.IdVecino == idVecinoAlta
-                         select persona
-                         ).Single();
-
-                    reclamo.NomApeVecino = personaVecino.Nombre + " "  + personaVecino.Apellido;
-
                     // Guarda la foto 1 si el vecino la cargo
                     if (reclamoCLS.foto1 != null && reclamoCLS.foto1.Length > 0) {
                         PruebaGraficaReclamo pruebaGraficaReclamo1 = new PruebaGraficaReclamo();
-                       // pruebaGraficaReclamo1.Foto = reclamoCLS.foto1;
-                        pruebaGraficaReclamo1.IdVecino = idVecinoAlta;
+                        pruebaGraficaReclamo1.IdVecino = idUsuarioAlta;
                         pruebaGraficaReclamo1.Bhabilitado = 1;
 
                         reclamo.PruebaGraficaReclamos.Add(pruebaGraficaReclamo1);
@@ -64,8 +59,7 @@ namespace MVPSA_V2022.Services
                     if (reclamoCLS.foto2 != null && reclamoCLS.foto2.Length > 0)
                     {
                         PruebaGraficaReclamo pruebaGraficaReclamo2 = new PruebaGraficaReclamo();
-                     //   pruebaGraficaReclamo2.Foto = reclamoCLS.foto2;
-                        pruebaGraficaReclamo2.IdVecino = idVecinoAlta;
+                        pruebaGraficaReclamo2.IdVecino = idUsuarioAlta;
                         pruebaGraficaReclamo2.Bhabilitado = 1;
 
                         reclamo.PruebaGraficaReclamos.Add(pruebaGraficaReclamo2);

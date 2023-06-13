@@ -51,10 +51,10 @@ export class ReclamoTrabajoFormComponent implements OnInit {
     this.TrabajoService.getUsuario().subscribe(data => this.Empleados = data);
     this.TrabajoService.getPrioridad().subscribe(data => this.Prioridades = data);
     //LLamamos AL SERVICIO que me traiga el id de sesion para cargarle el trabajo al usuario actual logueado. 
-    this.usuarioService.obtenerSessionidEmpleado().subscribe(empleado => {
-      // this.Reclamo.controls["idVecino"].setValue(idvecino.valor);
-      this.idEmpleado = empleado.valor;
-    });
+    // this.usuarioService.obtenerSessionidEmpleado().subscribe(empleado => {
+    //   // this.Reclamo.controls["idVecino"].setValue(idvecino.valor);
+    //   this.idEmpleado = empleado.valor;
+    // });
     if (this.parametro >= 1) {
       this.TrabajoService.RecuperarReclamo(this.parametro).subscribe(param => {
         
