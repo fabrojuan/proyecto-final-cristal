@@ -1,56 +1,128 @@
-<head>
-  <title>Ingresar a Cristal</title>
-  <style>
-    .bd-placeholder-img {
-      font-size: 1.125rem;
-      text-anchor: middle;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-    }
+<div class="container">
 
-    @media (min-width: 768px) {
-      .bd-placeholder-img-lg {
-        font-size: 3.5rem;
-      }
-    }
-  </style>
+    <section class="section register d-flex flex-column align-items-center justify-content-center py-4">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 col-md-6 d-flex flex-column align-items-center justify-content-center">
+
+                    <div class="d-flex justify-content-center py-4">
+                        <a href="index.html" class="logo d-flex align-items-center w-auto">
+                            <img src="../../../assets/img/logo-cristal_3.png" alt="">
+                            <span class="d-none d-lg-block">VPSA</span>
+                        </a>
+                    </div>
+                    <!-- End Logo -->
+
+                    <div class="card mb-3">
+
+                        <div class="card-body">
+
+                            <div class="pt-4 pb-2">
+                                <h5 class="card-title text-center pb-0 fs-4"><i class="bi bi-people"></i> Ingreso Empleado</h5>
+                                <p class="text-center small">Por favor ingrese sus credenciales</p>
+                            </div>
+
+                            <form class="row g-3 needs-validation" [formGroup]="usuario" (ngSubmit)="login()" novalidate>
+
+                                <div class="col-12">
+                                    <label for="inputEmail" class="form-label">Email</label>
+                                    <div class="input-group has-validation">
+                                        <input type="email" class="form-control" id="inputEmail" formControlName="NombreUser" placeholder="correo electrónico" autofocus>
+                                        <div class="invalid-feedback" *ngIf="usuario.controls['NombreUser'].errors?.required">El email es requerido</div>
+                                        <!-- <div style="color:red" *ngIf="vecino.controls['NombreUser'].errors?.required">El nombre de vecino es requerido</div> -->
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <label for="inputPassword" class="form-label">Contraseña</label>
+                                    <input type="password" class="form-control" id="inputPassword" formControlName="Contrasenia" placeholder="Contraseña" required>
+                                    <div class="invalid-feedback">La contraseña de vecino es requerida</div>
+                                    <!-- <div style="color:red" *ngIf="vecino.controls['Contrasenia'].errors?.required">La contraseña de vecino es requerida</div> -->
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="remember" value="true" id="rememberMe">
+                                        <label class="form-check-label" for="rememberMe">Recuérdeme</label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <button class="btn btn-primary w-100" type="submit">Ingresar</button>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+
+                    <div class="credits">
+                        &copy; Cristal
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+</div>
+
+
+
+
+<head>
+    <title>Ingresar a Cristal</title>
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
 
 </head>
+
 <body class="text-center">
 
-  <form class="form-signin align-content-md-center " [formGroup]="usuario" (ngSubmit)="login()">
-    <div class="form-group group ">
-      <img class="mb-4" src="../../../assets/Imagenes/file-person-fill.svg" alt="" width="72" height="72">
-      <h1 class="h3 mb-3 font-weight-normal">Por favor ingrese sus credenciales</h1>
-      <label for="inputEmail" class="sr-only">Email</label>
-      <input type="email" id="inputEmail" class="form-control" formControlName="NombreUser" placeholder="Nombre de Usuario" required autofocus>
-      <div style="color:red" *ngIf="usuario.controls['NombreUser'].errors?.required">El nombre de usuario es requerido</div>
-    </div>
-    <div class="form-group group ">
-      <label for="inputPassword" class="sr-only">Contraseña</label>
-      <input type="password" id="inputPassword" class="form-control" formControlName="Contrasenia" placeholder="Contraseña" required>
-      <div style="color:red" *ngIf="usuario.controls['Contrasenia'].errors?.required">La contraseña de usuario es requerida</div>
-      <div class="checkbox mb-3">
-        <label>
+    <form class="form-signin align-content-md-center " [formGroup]="usuario" (ngSubmit)="login()">
+        <div class="form-group group ">
+            <img class="mb-4" src="../../../assets/Imagenes/file-person-fill.svg" alt="" width="72" height="72">
+            <h1 class="h3 mb-3 font-weight-normal">Por favor ingrese sus credenciales</h1>
+            <label for="inputEmail" class="sr-only">Email</label>
+            <input type="email" id="inputEmail" class="form-control" formControlName="NombreUser" placeholder="Nombre de Usuario" required autofocus>
+            <div style="color:red" *ngIf="usuario.controls['NombreUser'].errors?.required">El nombre de usuario es requerido</div>
+        </div>
+        <div class="form-group group ">
+            <label for="inputPassword" class="sr-only">Contraseña</label>
+            <input type="password" id="inputPassword" class="form-control" formControlName="Contrasenia" placeholder="Contraseña" required>
+            <div style="color:red" *ngIf="usuario.controls['Contrasenia'].errors?.required">La contraseña de usuario es requerida</div>
+            <div class="checkbox mb-3">
+                <label>
           <input type="checkbox" value="remember-me"> Recuerdame
         </label>
-      </div>
-      <div class="mb-3">
+            </div>
+            <div class="mb-3">
 
-        <a href="#">Olvidé mi contraseña</a>
+                <a href="#">Olvidé mi contraseña</a>
 
-      </div>
-    </div>
-    <button class="btn btn-lg btn-primary btn-block" [disabled]="!usuario.valid" type="submit">Ingresar</button>
-    <p class="mt-5 mb-3 text-muted">&copy; Cristal 2020-2021 </p>
-    <div class="form-group group">
-      <div style="color:red" *ngIf="error==true">El nombre de usuario o la contraseña es incorrecto</div>
-    </div>
+            </div>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" [disabled]="!usuario.valid" type="submit">Ingresar</button>
+        <p class="mt-5 mb-3 text-muted">&copy; Cristal 2020-2021 </p>
+        <div class="form-group group">
+            <div style="color:red" *ngIf="error==true">El nombre de usuario o la contraseña es incorrecto</div>
+        </div>
 
 
-  </form>
+    </form>
 
 
 </body>

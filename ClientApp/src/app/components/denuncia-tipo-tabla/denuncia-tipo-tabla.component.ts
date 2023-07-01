@@ -9,7 +9,8 @@ import { DenunciaService } from '../../services/denuncia.service';
 export class DenunciaTipoTablaComponent implements OnInit {
 
   TiposDenuncia: any;
-  cabeceras: string[] = ["Id Tipo", "Nombre Tipo", "Tiempo Maximo Tratamiento en Hs", "Descripción"];
+  cabeceras: string[] = ["Cód.", "Nombre", "Tiempo Máx. Tratamiento en Hs", "Descripción"];
+  p: number = 1;
   constructor(private denunciaservice: DenunciaService) {
   }
 

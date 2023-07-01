@@ -12,7 +12,7 @@ export class TipoRolTablaComponent implements OnInit {
   @Input() isMantenimiento = true; //A ESTO DEBO DARLE EVENTO DE CLICK PARA GESTION
   roles: any;
   p: number = 1;
-  cabeceras: string[] = ["Id Rol", "Nombre Rol", "Habilitado"];
+  cabeceras: string[] = ["Cód.", "Nombre", "Habilitado"];
   constructor(private usuarioservice: UsuarioService, private router: Router) {
   }
 

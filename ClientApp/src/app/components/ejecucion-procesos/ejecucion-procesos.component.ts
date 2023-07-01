@@ -60,6 +60,10 @@ export class EjecucionProcesosComponent implements OnInit, ControlValueAccessor,
   esquina: any = 0;
   asfaltado: any = 0;
   DatosRegistrados: any;
+  procesoYaFueEjecutado= false;
+  mensajeWarning:String|undefined = "";
+  procesoEjecutadoOk:boolean = false;
+  mensajeOk:String = "";
 
   constructor(private impuestoService: ImpuestoService, private router: Router, @Inject('BASE_URL') baseUrl: string, private modalService: NgbModal, private formBuilder: FormBuilder)
   {
@@ -117,14 +121,21 @@ export class EjecucionProcesosComponent implements OnInit, ControlValueAccessor,
   //CONFIRMACION DE BOLETAS DIARIAS
   getConfirmacionBoletas() {
 
+    this.procesoYaFueEjecutado = false;
+    this.procesoEjecutadoOk = false;
+
     this.impuestoService.confirmarBoletas()
       .subscribe(response => {
         this.resultadoEjecucionProceso = response;
 
         if (this.resultadoEjecucionProceso?.resultado === "OK") {
-          alert("La confirmacion de boletas se realizó exitosamente");
+          this.procesoEjecutadoOk = true;
+          this.mensajeOk = "La confirmacion de boletas se realizó exitosamente";
+          //alert("La confirmacion de boletas se realizó exitosamente");
         } else {
-          alert(this.resultadoEjecucionProceso?.mensaje);
+          this.procesoYaFueEjecutado = true;
+          this.mensajeWarning = this.resultadoEjecucionProceso?.mensaje;
+          //alert(this.resultadoEjecucionProceso?.mensaje);
         }
       });
   }
@@ -132,14 +143,21 @@ export class EjecucionProcesosComponent implements OnInit, ControlValueAccessor,
   //Generacion de Interes Mensual.
   getinteresMensual() {
 
+    this.procesoYaFueEjecutado = false;
+    this.procesoEjecutadoOk = false;
+
     this.impuestoService.generarInteresesMensuales()
       .subscribe(response => {
         this.resultadoEjecucionProceso = response;
 
         if (this.resultadoEjecucionProceso?.resultado === "OK") {
-          alert("La generación de Intereses Mensuales se realizó exitosamente");
+          this.procesoEjecutadoOk = true;
+          this.mensajeOk = "La generación de Intereses Mensuales se realizó exitosamente";
+          //alert("La generación de Intereses Mensuales se realizó exitosamente");
         } else {
-          alert(this.resultadoEjecucionProceso?.mensaje);
+          this.procesoYaFueEjecutado = true;
+          this.mensajeWarning = this.resultadoEjecucionProceso?.mensaje;
+          //alert(this.resultadoEjecucionProceso?.mensaje);
         }
       });
   }

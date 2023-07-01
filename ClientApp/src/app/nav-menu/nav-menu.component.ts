@@ -69,6 +69,11 @@ export class NavMenuComponent implements OnInit {
   }
   //No reparado
 
+  mostrarUOcultarMenuLateral() {
+    const body = document.getElementsByTagName("body")[0];
+    body.classList.toggle('toggle-sidebar');
+  }
+
   cerrarSessionVecino() {
     this.vecinoService.cerrarSessionVecino().subscribe((res: any) => {
       if (res.valor == "OK") {

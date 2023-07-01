@@ -1,18 +1,45 @@
-<p>denuncia-tipo-tabla works!</p>
+<div class="container">
+    <section class="section">
+        <div class="row">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Tipos de Denuncia</h5>
+
+                    <!-- Table with stripped rows -->
+                    <table class="table table-striped table-sm">
+                        <thead>
+                            <tr>
+                                <th class="text-center" *ngFor="let cabecera of cabeceras">{{cabecera}} </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let TipoDenuncia of TiposDenuncia | paginate: { itemsPerPage: 5, currentPage: p }">
+                                <td>{{TipoDenuncia.cod_Tipo_Denuncia}}</td>
+                                <td>{{TipoDenuncia.nombre}}</td>
+                                <td>{{TipoDenuncia.tiempo_Max_Tratamiento}}</td>
+                                <td>{{TipoDenuncia.descripcion}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- End Table with stripped rows -->
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
 
 <table class="table table-hover">
-  <thead class="thead-dark">
-    <tr>
-      <th class="text-center" *ngFor="let cabecera of cabeceras">{{cabecera}} </th>
-    </tr>
-  </thead>
-  <tbody class="textoTabla">
-    <tr *ngFor="let TipoDenuncia of TiposDenuncia">
-      <td>{{TipoDenuncia.cod_Tipo_Denuncia}}</td>
-      <td class="text-center">{{TipoDenuncia.nombre}}</td>
-      <td class="text-center">{{TipoDenuncia.tiempo_Max_Tratamiento}}</td>
-      <td class="text-center">{{TipoDenuncia.descripcion}}</td>
-    </tr>
-  </tbody>
+    <thead class="thead-dark">
+        <tr>
+            <th class="text-center" *ngFor="let cabecera of cabeceras">{{cabecera}} </th>
+        </tr>
+    </thead>
+    <tbody class="textoTabla">
+        <tr *ngFor="let TipoDenuncia of TiposDenuncia">
+            <td>{{TipoDenuncia.cod_Tipo_Denuncia}}</td>
+            <td class="text-center">{{TipoDenuncia.nombre}}</td>
+            <td class="text-center">{{TipoDenuncia.tiempo_Max_Tratamiento}}</td>
+            <td class="text-center">{{TipoDenuncia.descripcion}}</td>
+        </tr>
+    </tbody>
 </table>
-
