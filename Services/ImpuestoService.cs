@@ -1,7 +1,9 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using MVPSA_V2022.clases;
 using MVPSA_V2022.Modelos;
+
 
 namespace MVPSA_V2022.Services
 {
@@ -73,22 +75,24 @@ namespace MVPSA_V2022.Services
         }
 
         private Boolean estaProcesoEjecutadoParaAnio(int idProceso, int anio) {
-
             using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
-            {
+            {   
+                
                 return bd.ControlProcesos.Where(cp => cp.IdProceso == idProceso
                 && cp.FechaEjecucion.Year == anio).Count() > 0;
-            }
+               
 
+
+            }
         }
 
         private Boolean estaProcesoEjecutadoParaAnioYMes(int idProceso, int anio, int mes)
         {
-
             using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
             {
                 return bd.ControlProcesos.Where(cp => cp.IdProceso == idProceso
                 && cp.FechaEjecucion.Year == anio && cp.FechaEjecucion.Month == mes).Count() > 0;
+               
             }
 
         }

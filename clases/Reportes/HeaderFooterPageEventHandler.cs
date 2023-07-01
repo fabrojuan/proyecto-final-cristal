@@ -28,9 +28,30 @@ namespace MVPSA_V2022.clases.Reportes
             Rectangle pageSize = page.GetPageSize();
             Color colorGris = new DeviceRgb(192, 192, 192);
             PdfDocument pdf = docEvent.GetDocument();
+
+            //PdfCanvas pdfCanvas = new(page.GetLastContentStream(), page.GetResources(), pdf);
+            ///if (pdf.GetPageNumber(page) == 1)
+            //{
+            //    //i want the logo just on page 1
+            //    pdfCanvas.AddImageAt(logo, pageSize.GetWidth() - logo.GetWidth() - 480, pageSize.GetHeight() - logo.GetHeight() - 15, true);
+            //    _ = new Canvas(pdfCanvas, pageSize);
+            //}
+            //else
+            //{
+            //    _ = new Canvas(pdfCanvas, pageSize);
+            //}
+
+
+
             PdfCanvas pdfCanvas = new(page.GetLastContentStream(), page.GetResources(), pdf);
-         pdfCanvas.AddImageAt(logo, pageSize.GetWidth() - logo.GetWidth() - 20, pageSize.GetHeight() - logo.GetHeight() +10, true);
-          _ = new Canvas(pdfCanvas, pageSize);
+            if (pdf.GetPageNumber(page) == 1)
+            { _ = new Canvas(pdfCanvas, pageSize); }
+            else
+            {
+                 pdfCanvas.AddImageAt(logo, pageSize.GetWidth() - logo.GetWidth() - 20, pageSize.GetHeight() - logo.GetHeight() + 10, true);
+                _ = new Canvas(pdfCanvas, pageSize);
+            }
+                
             // Encabezado
             //definimos el andho de las dos columnas
             List<float> anchosColumna = new List<float> { 35, 65 };
@@ -38,14 +59,15 @@ namespace MVPSA_V2022.clases.Reportes
              otable = new iText.Layout.Element.Table(UnitValue.CreatePercentArray(anchosColumna.ToArray())); 
             otable.SetWidth(UnitValue.CreatePercentValue(100)); //hacemos que la tabla ocupe todo el ancho
             otable.SetMarginBottom(10); //margin bottom
-           
-            Cell ocellText = new Cell();
+            if (pdf.GetPageNumber(page) > 1) { 
+                Cell ocellText = new Cell();
             Paragraph oParagraph = new Paragraph("Municipalidad de Villa Parque Santa Ana");
             oParagraph.SetFontSize(12);
             ocellText.SetBorder(Border.NO_BORDER);
             ocellText.Add(oParagraph);
+                
             //En estas lineas se adjunta la imagen del encabezado 
-           // Cell ocellImagen = new Cell();
+            // Cell ocellImagen = new Cell();
             //Image oimagen = new Image(ImageDataFactory.Create("C:\\Users\\roman\\source\\repos\\romansad\\Proyecto_Cristal_2022\\ClientApp\\src\\assets\\Imagenes\\Arcoiris.png"));
             //oimagen.SetWidth(UnitValue.CreatePointValue(50));
             //oimagen.SetHeight(UnitValue.CreatePointValue(50));
@@ -62,6 +84,7 @@ namespace MVPSA_V2022.clases.Reportes
               
                .ShowText("Municipalidad de Villa Parque Santa Ana")
                 .EndText();
+            
             // Pie de página
             pdfCanvas.BeginText()
                 .SetFontAndSize(PdfFontFactory.CreateFont(StandardFonts.HELVETICA), 12)
@@ -69,6 +92,7 @@ namespace MVPSA_V2022.clases.Reportes
                 .ShowText("Cristal Datos Abiertos")
                 .EndText();
            pdfCanvas.Release();
+            }
         }
     }
 }

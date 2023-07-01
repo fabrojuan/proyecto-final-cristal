@@ -55,15 +55,14 @@ namespace MVPSA_V2022.Modelos
         public virtual DbSet<Usuario> Usuarios { get; set; } = null!;
         public virtual DbSet<UsuarioVecino> UsuarioVecinos { get; set; } = null!;
         public virtual DbSet<ValuacionInmobiliario> ValuacionInmobiliarios { get; set; } = null!;
-        public virtual DbSet<ReclamoVw> ReclamosVw { get; set; }
+        public virtual DbSet<VwReclamo> VwReclamos { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                //optionsBuilder.UseSqlServer("Data Source=VAIO-ROMAN;Initial Catalog=M_VPSA_V3;Integrated Security=True");
-                optionsBuilder.UseSqlServer("Data Source=localhost\\SQLEXPRESS;Initial Catalog=M_VPSA_V3;Integrated Security=True");
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Data Source=NB-ROMAN;Initial Catalog=M_VPSA_V3;Integrated Security=True");
             }
         }
 
@@ -122,7 +121,7 @@ namespace MVPSA_V2022.Modelos
             modelBuilder.Entity<ControlProceso>(entity =>
             {
                 entity.HasKey(e => e.IdEjecucion)
-                    .HasName("PK__CONTROL___C0B11761FE8020C7");
+                    .HasName("PK__CONTROL___C0B1176152C37836");
 
                 entity.ToTable("CONTROL_PROCESOS");
 
@@ -133,7 +132,7 @@ namespace MVPSA_V2022.Modelos
                 entity.HasOne(d => d.IdProcesoNavigation)
                     .WithMany(p => p.ControlProcesos)
                     .HasForeignKey(d => d.IdProceso)
-                    .HasConstraintName("FK__CONTROL_P__IdPro__7E37BEF6");
+                    .HasConstraintName("FK__CONTROL_P__IdPro__214BF109");
             });
 
             modelBuilder.Entity<DatosAbierto>(entity =>
@@ -258,6 +257,16 @@ namespace MVPSA_V2022.Modelos
                 entity.Property(e => e.Bhabilitado).HasColumnName("BHabilitado");
 
                 entity.Property(e => e.Importe).HasColumnType("decimal(18, 0)");
+
+                entity.HasOne(d => d.IdBoletaNavigation)
+                    .WithMany(p => p.Detalleboleta)
+                    .HasForeignKey(d => d.IdBoleta)
+                    .HasConstraintName("FK__DETALLEBO__IdBol__793DFFAF");
+
+                entity.HasOne(d => d.IdImpuestoNavigation)
+                    .WithMany(p => p.Detalleboleta)
+                    .HasForeignKey(d => d.IdImpuesto)
+                    .HasConstraintName("FK__DETALLEBO__IdImp__7849DB76");
             });
 
             modelBuilder.Entity<EstadoDenuncium>(entity =>
@@ -548,7 +557,7 @@ namespace MVPSA_V2022.Modelos
             modelBuilder.Entity<ParametriaProceso>(entity =>
             {
                 entity.HasKey(e => e.IdProceso)
-                    .HasName("PK__PARAMETR__036D0743B280A207");
+                    .HasName("PK__PARAMETR__036D0743A544AFB5");
 
                 entity.ToTable("PARAMETRIA_PROCESOS");
 
@@ -772,10 +781,6 @@ namespace MVPSA_V2022.Modelos
 
                 entity.Property(e => e.EntreCalles)
                     .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.NomApeVecino)
-                    .HasMaxLength(100)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Fecha)
@@ -1012,6 +1017,15 @@ namespace MVPSA_V2022.Modelos
 
                 entity.Property(e => e.TiempoMaxTratamiento).HasColumnName("Tiempo_Max_Tratamiento");
 
+                entity.HasOne(d => d.IdUsuarioAltaNavigation)
+                    .WithMany(p => p.TipoReclamoIdUsuarioAltaNavigations)
+                    .HasForeignKey(d => d.IdUsuarioAlta)
+                    .HasConstraintName("FK_TIPO_RECLAMO_USUARIO_ALTA");
+
+                entity.HasOne(d => d.IdUsuarioModificacionNavigation)
+                    .WithMany(p => p.TipoReclamoIdUsuarioModificacionNavigations)
+                    .HasForeignKey(d => d.IdUsuarioModificacion)
+                    .HasConstraintName("FK_TIPO_RECLAMO_USUARIO_MODIFICACION");
             });
 
             modelBuilder.Entity<TipoSolicitud>(entity =>
@@ -1190,16 +1204,6 @@ namespace MVPSA_V2022.Modelos
                     .WithMany(p => p.Usuarios)
                     .HasForeignKey(d => d.IdTipoUsuario)
                     .HasConstraintName("FK__USUARIO__idTipoU__1EA48E88");
-
-                entity.HasMany(e => e.TiposReclamoAlta)
-                    .WithOne(e => e.UsuarioAlta)
-                    .HasForeignKey(e => e.IdUsuarioAlta)
-                    .HasPrincipalKey(e => e.IdUsuario);
-
-                entity.HasMany(e => e.TiposReclamoModificados)
-                    .WithOne(e => e.UsuarioModificacion)
-                    .HasForeignKey(e => e.IdUsuarioModificacion)
-                    .HasPrincipalKey(e => e.IdUsuario);
             });
 
             modelBuilder.Entity<UsuarioVecino>(entity =>
@@ -1258,9 +1262,65 @@ namespace MVPSA_V2022.Modelos
                 entity.Property(e => e.ValorSupTerreno).HasColumnType("decimal(18, 2)");
             });
 
-            modelBuilder.Entity<ReclamoVw>()
-                .ToView("vw_reclamo")
-                .HasKey(t => t.NroReclamo);
+            modelBuilder.Entity<VwReclamo>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("vw_reclamo");
+
+                entity.Property(e => e.Altura)
+                    .HasMaxLength(5)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Bhabilitado).HasColumnName("BHabilitado");
+
+                entity.Property(e => e.Calle)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CodEstadoReclamo).HasColumnName("Cod_Estado_Reclamo");
+
+                entity.Property(e => e.CodTipoReclamo).HasColumnName("Cod_Tipo_Reclamo");
+
+                entity.Property(e => e.Descripcion)
+                    .HasMaxLength(2500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Empleado)
+                    .HasMaxLength(252)
+                    .IsUnicode(false)
+                    .HasColumnName("empleado");
+
+                entity.Property(e => e.EntreCalles)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.EstadoReclamo)
+                    .HasMaxLength(80)
+                    .IsUnicode(false)
+                    .HasColumnName("estado_reclamo");
+
+                entity.Property(e => e.Fecha).HasColumnType("datetime");
+
+                entity.Property(e => e.NroPrioridad).HasColumnName("Nro_Prioridad");
+
+                entity.Property(e => e.NroReclamo).HasColumnName("Nro_Reclamo");
+
+                entity.Property(e => e.PrioridadReclamo)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("prioridad_reclamo");
+
+                entity.Property(e => e.TipoReclamo)
+                    .HasMaxLength(90)
+                    .IsUnicode(false)
+                    .HasColumnName("tipo_reclamo");
+
+                entity.Property(e => e.Usuario)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("usuario");
+            });
 
             OnModelCreatingPartial(modelBuilder);
         }

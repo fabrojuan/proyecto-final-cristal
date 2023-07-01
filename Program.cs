@@ -35,11 +35,14 @@ Console.WriteLine(builder.Configuration.GetConnectionString("VPSAConnectionStrin
 //builder.Services.AddDbContext<M_VPSA_V3Context>(options
 //        => options.UseSqlServer(builder.Configuration.GetConnectionString("VPSAConnectionString")));
 
+//builder.Services.AddDbContext<M_VPSA_V3Context>(options
+//        => options.UseSqlServer("Data Source=localhost\\SQLEXPRESS;Initial Catalog=M_VPSA_V3;Integrated Security=True"));
 builder.Services.AddDbContext<M_VPSA_V3Context>(options
-        => options.UseSqlServer("Data Source=localhost\\SQLEXPRESS;Initial Catalog=M_VPSA_V3;Integrated Security=True"));
+        => options.UseSqlServer("Data Source=NB-ROMAN;Initial Cataog=M_VPSA_V3;User ID=sa;Password=9a99c3d7"));
 
-builder.Services.AddScoped<IReclamoService, ReclamoService>();
-//builder.Services.AddSingleton<IDenunciaService, DenunciaService>();
+
+// restaurar builder.Services.AddScoped<IReclamoService, ReclamoService>();
+builder.Services.AddSingleton<IDenunciaService, DenunciaService>();
 builder.Services.AddSingleton<IPagoService, PagoService>();
 builder.Services.AddSingleton<IUsuarioService, UsuarioService>();
 builder.Services.AddSingleton<IImpuestoService, ImpuestoService>();

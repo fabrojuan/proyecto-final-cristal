@@ -11,5 +11,8 @@ namespace MVPSA_V2022.Modelos
         public int? Bhabilitado { get; set; }
         public decimal? Importe { get; set; }
         public int? Estado { get; set; }
+
+        public virtual Boletum IdBoletaNavigation { get; set; } = null!;
+        public virtual Impuestoinmobiliario IdImpuestoNavigation { get; set; } = null!;
     }
 }

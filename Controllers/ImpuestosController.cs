@@ -93,25 +93,38 @@ namespace MVPSA_V2022.Controllers
             List<ImpuestoInmobiliarioCLS> listaImpuestos;
             using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
             {
-                listaImpuestos = (from impuestoinmobiliario in bd.Impuestoinmobiliarios
-                                  where impuestoinmobiliario.IdLote == idLote
-                                  select new ImpuestoInmobiliarioCLS
-
-                                  {
-
-                                      idImpuesto = (int)impuestoinmobiliario.IdImpuesto,
-                                      mes = (int)impuestoinmobiliario.Mes,
-                                      anio = (int)impuestoinmobiliario.Año,
-                                      importeBase = (decimal)impuestoinmobiliario.ImporteBase,
-                                      interesValor = (decimal)impuestoinmobiliario.InteresValor,
-                                      importeFinal = (decimal)impuestoinmobiliario.ImporteFinal
-                                  }).ToList();
-                if (listaImpuestos != null && listaImpuestos.Count > 0)
+                try
                 {
-                    //Seteo de ID de Lote seleccionado para traer el correo de la persona cuando pague la boleta.
-                    HttpContext.Session.SetString("idLoteaPagar", idLote.ToString());
+                    int ellote = idLote;
+                    listaImpuestos = (from impuestoinmobiliario in bd.Impuestoinmobiliarios
+                                     where impuestoinmobiliario.IdLote == ellote
+                                      select new ImpuestoInmobiliarioCLS
+
+                                      {
+
+                                          idImpuesto = (int)impuestoinmobiliario.IdImpuesto,
+                                          mes = (int)impuestoinmobiliario.Mes,
+                                          anio = (int)impuestoinmobiliario.Año,
+                                          importeBase = (decimal)impuestoinmobiliario.ImporteBase,
+                                          //      interesValor = !interesValor = impuestoinmobiliario.InteresValor.HasValue ? impuestoinmobiliario.InteresValor.Value : 0.0m,
+                                          interesValor = impuestoinmobiliario.InteresValor.HasValue ? impuestoinmobiliario.InteresValor.Value : 0.0m,
+
+                    importeFinal = (decimal)impuestoinmobiliario.ImporteFinal
+                                      }).ToList();
+                    if (listaImpuestos != null && listaImpuestos.Count > 0)
+                    {
+                        //Seteo de ID de Lote seleccionado para traer el correo de la persona cuando pague la boleta.
+                        HttpContext.Session.SetString("idLoteaPagar", idLote.ToString());
+                    }
+                    return listaImpuestos;
                 }
-                return listaImpuestos;
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    return listaImpuestos = new List<ImpuestoInmobiliarioCLS> { };
+
+                }
+
             }
         }
         //where trabajo.Bhabilitado ==1

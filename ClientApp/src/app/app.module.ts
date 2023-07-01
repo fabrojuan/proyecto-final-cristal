@@ -89,6 +89,7 @@ import { DatosFinanzasEconomicosBorradoComponent } from './components/datos-fina
 import { ReclamoCabeceraComponent } from './components/reclamo-cabecera/reclamo-cabecera.component';
 import { ReclamoCambiarPrioridadComponent } from './components/reclamo-cambiar-prioridad/reclamo-cambiar-prioridad.component';
 import { ReclamoDerivarComponent } from './components/reclamo-derivar/reclamo-derivar.component';
+import { GestionPersonasComponent } from './components/gestion-personas/gestion-personas.component';
 
 
 @NgModule({
@@ -152,7 +153,8 @@ import { ReclamoDerivarComponent } from './components/reclamo-derivar/reclamo-de
     DatosFinanzasEconomicosBorradoComponent,
     ReclamoCabeceraComponent,
     ReclamoCambiarPrioridadComponent,
-    ReclamoDerivarComponent
+    ReclamoDerivarComponent,
+    GestionPersonasComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -173,6 +175,8 @@ import { ReclamoDerivarComponent } from './components/reclamo-derivar/reclamo-de
       { path: 'ejecucion-procesos', component: EjecucionProcesosComponent, canActivate: [SeguridadGuard] },
       { path: 'error-pagina-login', component: ErrorPaginLoginComponent },
       { path: 'form-usuario-generar', component: FormUsuarioGenerarComponent, canActivate: [SeguridadGuard] },
+      { path: 'gestion-personas', component: GestionPersonasComponent, canActivate: [SeguridadGuard] },
+
       { path: 'impuesto-pago-send', component: ImpuestoPagoSendComponent },
       { path: 'impuestos-vecino-adeuda-tabla', component: ImpuestosVecinoAdeudaTablaComponent },
       { path: 'impuestos-vecino-adeuda-tabla/:id', component: ImpuestosVecinoAdeudaTablaComponent },

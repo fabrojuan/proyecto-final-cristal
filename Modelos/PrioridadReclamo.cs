@@ -7,9 +7,8 @@ namespace MVPSA_V2022.Modelos
     {
         public int NroPrioridad { get; set; }
         public string? NombrePrioridad { get; set; }
-        public int Bhabilitado { get; set; }
+        public int? Bhabilitado { get; set; }
         public string? Descripcion { get; set; }
-
         public int TiempoMaxTratamiento { get; set; }
     }
 }

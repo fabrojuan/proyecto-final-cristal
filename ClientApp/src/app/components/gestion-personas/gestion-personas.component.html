@@ -1,0 +1,85 @@
+<div class="container-fluid">
+  <!--Denuncias-Reclamos-Solicitudes-sugerencias-->
+  <div class="row  mt-3 row-cols-1 row-cols-md-2 g-4">
+
+
+
+  </div>
+
+
+  <!-- Generacion de SET DE DATOS ABIERTOS-->
+  <div class="row p-2 mt-3 row-cols-1 row-cols-md-2 g-4 ">
+    <div class="col tarjeta">
+      <div class="card sin-borde shadow-lg">
+        <div class="card-block text-center">
+          <h4 class="card-title titulo">Registro Unico Personas</h4>
+          <img src="../../../assets/IconsGoogle/Finanzas.png" alt="" width="95" height="95" [routerLink]="['/personas-tabla']" title="Click aquí para generar dataset financieros.">
+        </div>
+        <div class="row p-1 no-gutters">
+          <div class="col-12 text-center">
+            <div class="card card-block text-info redondeoInterno border-left-0 border-top-o border-bottom-0 bg-dark">
+              <h3>{{totalDenuncias}}</h3>
+              <span class="small text-uppercase">Total Activas</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col tarjeta">
+      <div class="card sin-borde shadow-lg">
+        <div class="card-block text-center">
+          <h4 class="card-title titulo">Registro de Empleados Municipales</h4>
+          <img src="../../../assets/IconsGoogle/sociedad.png" alt="" width="95" height="95" [routerLink]="['/usuario-tabla']" title="Click aquí para gestionar las denuncias.">
+        </div>
+        <div class="row p-1 no-gutters">
+          <div class="col-12 text-center">
+            <div class="card card-block text-info redondeoInterno border-left-0 border-top-o border-bottom-0 bg-dark">
+              <h3>{{totalDenuncias}}</h3>
+              <span class="small text-uppercase">Total Activas</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col tarjeta ">
+      <div class="card sin-borde shadow-lg">
+        <div class="card-block text-center">
+          <h4 class="card-title titulo">Gestion de Roles y Responsabilidades</h4>
+          <img src="../../../assets/Imagenes/rolesYresponsabilidades.png" alt="" width="95" height="95" [routerLink]="['/tipo-rol-tabla']" title="Click aquí para gestionar las denuncias.">
+        </div>
+        <div class="row p-1 no-gutters">
+          <div class="col-12 text-center">
+            <div class="card card-block text-info redondeoInterno border-left-0 border-top-o border-bottom-0 bg-dark">
+              <h3>{{totalDenuncias}}</h3>
+              <span class="small text-uppercase">Total Activas</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col tarjeta">
+      <div class="card sin-borde shadow-lg">
+        <div class="card-block text-center">
+          <h4 class="card-title titulo">Gestion de Componentes HTML</h4>
+          <img src="../../../assets/IconsGoogle/salud.png" alt="" width="95" height="95" [routerLink]="['/pagina-tabla']" title="Click aquí para gestionar las denuncias.">
+        </div>
+        <div class="row p-1 no-gutters">
+          <div class="col-12 text-center">
+            <div class="card card-block text-info redondeoInterno border-left-0 border-top-o border-bottom-0 bg-dark">
+              <h3>{{totalDenuncias}}</h3>
+              <span class="small text-uppercase">Total Activas</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+
+
+</div>

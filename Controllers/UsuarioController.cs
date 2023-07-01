@@ -299,6 +299,7 @@ namespace MVPSA_V2022.Controllers
         //Insertar metodo para obtener user.
         [HttpPost]
         [AllowAnonymous]
+        [Authorize]
         [Route("api/Usuario/login")]
         public IActionResult login([FromBody] UsuarioCLS oUsuarioCLS)
         {

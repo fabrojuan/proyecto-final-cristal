@@ -20,9 +20,8 @@ namespace MVPSA_V2022.Modelos
         public int? IdUsuarioAlta { get; set; }
         public int? IdUsuarioModificacion { get; set; }
 
+        public virtual Usuario? IdUsuarioAltaNavigation { get; set; }
+        public virtual Usuario? IdUsuarioModificacionNavigation { get; set; }
         public virtual ICollection<Reclamo> Reclamos { get; set; }
-
-        public virtual Usuario? UsuarioAlta { get; set; }
-        public virtual Usuario? UsuarioModificacion { get; set; }
     }
 }
