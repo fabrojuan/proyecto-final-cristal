@@ -22,8 +22,12 @@ namespace MVPSA_V2022.Modelos
         public string? EntreCalles { get; set; }
         public int? IdVecino { get; set; }
         public int? IdUsuario { get; set; }
-        public int? NroPrioridad { get; set; }
+        public string? NomApeVecino { get; set; }
+        public string? MailVecino { get; set; }
+        public string? TelefonoVecino { get; set; }
+        public int NroPrioridad { get; set; }
 
+        
         public virtual EstadoReclamo? CodEstadoReclamoNavigation { get; set; }
         public virtual TipoReclamo? CodTipoReclamoNavigation { get; set; }
         public virtual Usuario? IdUsuarioNavigation { get; set; }

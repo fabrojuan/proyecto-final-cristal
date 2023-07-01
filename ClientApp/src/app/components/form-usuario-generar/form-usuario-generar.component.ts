@@ -45,7 +45,7 @@ export class FormUsuarioGenerarComponent implements OnInit {
   ngOnInit() {
     //Aqui recuperamos la info para luego editarla.
     // DEbo traer el combo de a quien derivar...
-    this.usuarioService.getRol().subscribe(data => this.TiposRol = data);
+    this.usuarioService.listarRoles().subscribe(data => this.TiposRol = data);
     if (this.parametro >= 1) {
       this.usuarioService.RecuperarUsuario(this.parametro).subscribe(param => {
 

@@ -90,6 +90,7 @@ import { ReclamoCabeceraComponent } from './components/reclamo-cabecera/reclamo-
 import { ReclamoCambiarPrioridadComponent } from './components/reclamo-cambiar-prioridad/reclamo-cambiar-prioridad.component';
 import { ReclamoDerivarComponent } from './components/reclamo-derivar/reclamo-derivar.component';
 import { GestionPersonasComponent } from './components/gestion-personas/gestion-personas.component';
+import { ReclamoFormGenerarEmpleadoComponent } from './components/reclamo-form-generar-empleado/reclamo-form-generar-empleado.component';
 
 
 @NgModule({
@@ -154,7 +155,8 @@ import { GestionPersonasComponent } from './components/gestion-personas/gestion-
     ReclamoCabeceraComponent,
     ReclamoCambiarPrioridadComponent,
     ReclamoDerivarComponent,
-    GestionPersonasComponent
+    GestionPersonasComponent,
+    ReclamoFormGenerarEmpleadoComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -226,6 +228,7 @@ import { GestionPersonasComponent } from './components/gestion-personas/gestion-
       { path: 'datos-finanzas-economicos-borrado/:id', component: DatosFinanzasEconomicosBorradoComponent, canActivate: [SeguridadGuard] },
       { path: 'reclamo-cambiar-prioridad/:id', component: ReclamoCambiarPrioridadComponent },
       { path: 'reclamo-derivar/:id', component: ReclamoDerivarComponent },
+      { path: 'reclamo-form-generar-empleado', component: ReclamoFormGenerarEmpleadoComponent },
       { path: '*', redirectTo: '' } //a home
 
 
