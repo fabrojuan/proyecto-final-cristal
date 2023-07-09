@@ -224,7 +224,8 @@ import { ReclamoFormGenerarEmpleadoComponent } from './components/reclamo-form-g
       { path: 'datos-finanzas-economicos-borrado/:id', component: DatosFinanzasEconomicosBorradoComponent, canActivate: [SeguridadGuard] },
       { path: 'reclamo-cambiar-prioridad/:id', component: ReclamoCambiarPrioridadComponent },
       { path: 'reclamo-derivar/:id', component: ReclamoDerivarComponent },
-      { path: 'reclamo-form-generar-empleado', component: ReclamoFormGenerarEmpleadoComponent },
+      { path: 'reclamo-form-generar-empleado', component: ReclamoFormGenerarEmpleadoComponent, canActivate: [SeguridadGuard] },
+      { path: 'pagina-form-generar', component: PaginaFormGenerarComponent, canActivate: [SeguridadGuard] },
       { path: '*', redirectTo: '' } //a home
 
 

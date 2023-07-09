@@ -53,6 +53,7 @@ export class EjecucionProcesosComponent implements OnInit, ControlValueAccessor,
   onChange: (value: any) => void = () => { };
   subscriptions: Subscription;
   InfoModalOkRedirect: number = 0;
+  isFormSubmitted: boolean=false;
   @ViewChild("myModalInfo", { static: false }) myModalInfo: TemplateRef<any> | undefined;
   @ViewChild("myModalInfo2", { static: false }) myModalInfo2: TemplateRef<any> | undefined;
 
@@ -174,6 +175,7 @@ export class EjecucionProcesosComponent implements OnInit, ControlValueAccessor,
   //Valuacion Impuestos. y generacion impuesto Anual.
   guardarDatos() {
     this.DatosRegistrados = this.Valuacion.value;
+    this.isFormSubmitted = true;
 
     if (this.Valuacion.valid == true) {
       this.InfoModalOkRedirect = 1;
@@ -206,6 +208,22 @@ export class EjecucionProcesosComponent implements OnInit, ControlValueAccessor,
     this.modalService.dismissAll(this.myModalInfo);
     if (this.InfoModalOkRedirect > 0)
       this.router.navigate(["/ejecucion-procesos"]);
+  }
+
+  get valorSupTerrenoNoValido() {
+    return this.isFormSubmitted && this.Valuacion.controls.ValorSupTerreno.errors;
+  }
+
+  get incrementoEsquinaNoValido() {
+    return this.isFormSubmitted && this.Valuacion.controls.IncrementoEsquina.errors;
+  }
+
+  get valorSupEdificadaNoValido() {
+    return this.isFormSubmitted && this.Valuacion.controls.ValorSupEdificada.errors;
+  }
+
+  get incrementoAsfaltoNoValido() {
+    return this.isFormSubmitted && this.Valuacion.controls.IncrementoAsfalto.errors;
   }
 
 }

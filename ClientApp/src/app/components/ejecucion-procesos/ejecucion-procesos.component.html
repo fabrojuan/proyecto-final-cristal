@@ -69,7 +69,7 @@
 <div class="row">
     <hr class="mb-4">
     <div class="form-group col-md-12">
-        <button type="button" value="Nuevo" class="btn btn-success col-md-4 offset-md-1 " [routerLink]="['/persona-form-generar']">Ir a Historicos</button>
+        <!-- <button type="button" value="Nuevo" class="btn btn-success col-md-4 offset-md-1 " [routerLink]="['/persona-form-generar']">Ir a Historicos</button> -->
         <button type="button" class="btn btn-secondary col-md-4 offset-md-1" (click)="volverHome()">Volver</button>
 
     </div>
@@ -81,48 +81,73 @@
             <div class="modal-content ">
                 <div class="modal-header">
                     <h3 class="modal-title">{{tituloModal}}</h3>
-                    <img src="../../../assets/Imagenes/logo-cristal_3.png" width="100" height="100" />
+                    <!-- <img src="../../../assets/Imagenes/logo-cristal_3.png" width="100" height="100" /> -->
                 </div>
                 <div class="modal-body">
-                    <section class="mt-3 pb-5">
-                        <div class="container">
-                            <div class="row mt-2 ms-3">
-                                <div class="col-5">
-                                    <label>(*) Valor en $ M2 sin Construir&nbsp;</label>
-                                    <campo-requerido formControlName="ValorSupTerreno" placeholder=" Valor metro cuadrado en pesos" (blur)="onTouched()"></campo-requerido>
-                                </div>
-                                <div class="col-5 offset-md-1">
-                                    <label> Indice Lote Esquina&nbsp;&nbsp;&nbsp;</label>
-                                    <campo-requerido formControlName="IncrementoEsquina" placeholder=" % esquina" (blur)="onTouched()"></campo-requerido>
-                                </div>
 
-                            </div>
-                            <div class="row mt-2 ms-3 pt-4">
-                                <div class="col-5">
-                                    <label>(*) Valor en $ M2 construido&nbsp;</label>
-                                    <campo-requerido formControlName="ValorSupEdificada" placeholder="Valor metro cuadrado en pesos" (blur)="onTouched()"></campo-requerido>
-                                </div>
-                                <div class="col-5 offset-md-1">
-                                    <label>Indice  Lote asfaltado&nbsp;&nbsp;&nbsp;</label>
+                    <form [formGroup]="Valuacion" (ngSubmit)="guardarDatos()" class="row g-3">
 
-                                    <campo-requerido data-placement="bottom" title="Expresar el porcentaje de incidencia en el impuesto por ejemplo un 5%" formControlName="IncrementoAsfalto" placeholder="% Asfalto" (blur)="onTouched()"></campo-requerido>
-                                </div>
+                        <div class="col-md-6">
+                            <label for="ValorSupTerreno" class="form-label">(*) Valor en $ M2 sin Construir</label>
+                            <input type="text" class="form-control" [ngClass]="{'is-invalid' : valorSupTerrenoNoValido}" id="ValorSupTerreno" formControlName="ValorSupTerreno" value="" placeholder="Valor metro cuadrado en pesos">
+
+                            <div class="invalid-feedback" *ngIf="valorSupTerrenoNoValido">
+                                Valor metro cuadrado en pesos es requerido. No puede superar los 10 caracteres y debe tener un formato válido.
                             </div>
                         </div>
-                    </section>
+
+                        <div class="col-md-6">
+                            <label for="IncrementoEsquina" class="form-label">(*) Indice Lote Esquina</label>
+                            <input type="text" class="form-control" [ngClass]="{'is-invalid' : incrementoEsquinaNoValido}" id="IncrementoEsquina" formControlName="IncrementoEsquina" value="" placeholder="% esquina">
+
+                            <div class="invalid-feedback" *ngIf="incrementoEsquinaNoValido">
+                                Incremento esquina es requerido. No puede superar los 10 caracteres y debe tener un formato válido.
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="ValorSupEdificada" class="form-label">(*) Valor en $ M2 construido</label>
+                            <input type="text" class="form-control" [ngClass]="{'is-invalid' : valorSupEdificadaNoValido}" id="ValorSupEdificada" formControlName="ValorSupEdificada" value="" placeholder="Valor metro cuadrado edificado, en pesos">
+
+                            <div class="invalid-feedback" *ngIf="valorSupEdificadaNoValido">
+                                El valor del metro edificado es requerido. No puede superar los 10 caracteres y debe tener un formato válido.
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="IncrementoAsfalto" class="form-label">(*) Indice  Lote asfaltado</label>
+                            <input type="text" class="form-control" [ngClass]="{'is-invalid' : incrementoAsfaltoNoValido}" id="IncrementoAsfalto" formControlName="IncrementoAsfalto" value="" placeholder="% Asfalto">
+
+                            <div class="invalid-feedback" *ngIf="incrementoAsfaltoNoValido">
+                                El índice es requerido. No puede superar los 10 caracteres y debe tener un formato válido.
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 order-md-1">
+
+                            <div class="row">
+                                <hr class="mb-4">
+                                <div class="form-group col-md-12 mb-3 pt-3">
+                                    <input type="submit" value="Generar" class="btn btn-primary col-md-4 offset-md-1 " />
+                                    <button type="button" class="btn btn-secondary col-md-4 offset-md-1" (click)="cerrarmodal()">Cancelar</button>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </form>
+
                     <h5>
                         <p>{{resultadoGuardadoModal}}</p>
                     </h5>
                 </div>
-                <div class="modal-footer">
-                    <!--modal.close('Close click')-->
-                    <input id="btns" [disabled]="!Valuacion.valid" type="submit" (click)="guardarDatos()" value="Guardar" class="btn-success col-5 offset-md-2" />
-                    <button type="button" class="btn-outline-dark col-5" (click)="cerrarmodal()">Cerrar</button>
-                </div>
+
             </div>
         </div>
     </div>
 </ng-template>
+
 <ng-template #myModalInfo let-modal>
     <div class="modal bg-secondary" tabindex="-1" style="display:block;" role="dialog">
         <div class="modal-dialog modal-dialog-scrollable modal-lg">
@@ -144,6 +169,7 @@
 
     </div>
 </ng-template>
+
 <ng-template #myModalInfo2 let-modal>
     <div class="modal bg-secondary" tabindex="-1" style="display:block;" role="dialog">
         <div class="modal-dialog modal-dialog-scrollable modal-lg">

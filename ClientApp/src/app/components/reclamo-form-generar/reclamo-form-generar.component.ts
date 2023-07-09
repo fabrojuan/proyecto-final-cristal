@@ -13,6 +13,7 @@ export class ReclamoFormGenerarComponent implements OnInit {
   TiposReclamo: any;
   foto1: any;
   foto2: any;
+  isFormSubmitted: boolean=false;
   Reclamo: FormGroup;
   @ViewChild('fileUploader1') fileUploader1: ElementRef | undefined;
   @ViewChild('fileUploader2') fileUploader2: ElementRef | undefined;
@@ -41,6 +42,8 @@ export class ReclamoFormGenerarComponent implements OnInit {
   }
 
   guardarDatos() {
+
+    this.isFormSubmitted = true;
 
     if (this.Reclamo.invalid) {
       Object.values(this.Reclamo.controls).forEach(
@@ -119,23 +122,23 @@ export class ReclamoFormGenerarComponent implements OnInit {
   }
 
   get codTipoReclamoNoValido() {
-    return this.Reclamo.get('codTipoReclamo')?.invalid && this.Reclamo.get('codTipoReclamo')?.touched;
+    return this.isFormSubmitted && this.Reclamo.get('codTipoReclamo')?.invalid;
   }
 
   get calleNoValido() {
-    return this.Reclamo.get('Calle')?.invalid && this.Reclamo.get('Calle')?.touched;
+    return this.isFormSubmitted && this.Reclamo.get('Calle')?.invalid;
   }
 
   get alturaNoValido() {
-    return this.Reclamo.get('Altura')?.invalid && this.Reclamo.get('Altura')?.touched;
+    return this.isFormSubmitted && this.Reclamo.get('Altura')?.invalid;
   }
 
   get entreCallesNoValido() {
-    return this.Reclamo.get('entreCalles')?.invalid && this.Reclamo.get('entreCalles')?.touched;
+    return this.isFormSubmitted && this.Reclamo.get('entreCalles')?.invalid;
   }
 
   get descripcionNoValido() {
-    return this.Reclamo.get('Descripcion')?.invalid && this.Reclamo.get('Descripcion')?.touched;
+    return this.isFormSubmitted && this.Reclamo.get('Descripcion')?.invalid;
   }
 
 }
