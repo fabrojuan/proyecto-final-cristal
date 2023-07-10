@@ -1,5 +1,14 @@
 <div class="container">
     <section class="section">
+        <div class="alert alert-warning bg-warning border-0 alert-dismissible fade show" role="alert" *ngIf="procesoEjecutadoNoOk">
+            <i class="bi bi-exclamation-triangle me-1"></i> {{ mensajeWarning }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" role="alert" *ngIf="procesoEjecutadoOk">
+            <i class="bi bi-check-circle me-1"></i> {{ mensajeOk }}
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Tipos de Reclamo</h5>
@@ -68,5 +77,3 @@
 
 
 </div>
-
-<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

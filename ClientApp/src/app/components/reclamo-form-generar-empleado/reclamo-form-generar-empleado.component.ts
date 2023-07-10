@@ -72,6 +72,7 @@ export class ReclamoFormGenerarEmpleadoComponent implements OnInit {
       },
       () => {
         this.limpiarFormulario();
+        this.isFormSubmitted = false;
         this._toastService.show(`Se registró con éxito el reclamo nro: ${nroReclamoGenerado}`, { classname: 'bg-success text-light', delay: 5000 });
       }
     );
