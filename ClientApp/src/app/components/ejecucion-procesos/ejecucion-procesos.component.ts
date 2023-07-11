@@ -30,7 +30,7 @@ providers: [
     },
   ]
 })
-export class EjecucionProcesosComponent implements OnInit, ControlValueAccessor, Validator {
+export class EjecucionProcesosComponent implements OnInit /*, ControlValueAccessor, Validator*/ {
   generacionImpuestos: any;
   resultadoEjecucionProceso: ResultadoEjecucionProceso | undefined;
   interesMensual: any;
@@ -49,9 +49,9 @@ export class EjecucionProcesosComponent implements OnInit, ControlValueAccessor,
   numRegex = /^-?\d{3,9}[.,]?\d{0,2}$/;
   numRegexPorcentual = /^-?\d{1,2}[.,]?\d{0,2}$/;
   //a mostrar en modal
-  onTouched: () => void = () => { };
-  onChange: (value: any) => void = () => { };
-  subscriptions: Subscription;
+  //onTouched: () => void = () => { };
+  //onChange: (value: any) => void = () => { };
+  //subscriptions: Subscription;
   InfoModalOkRedirect: number = 0;
   isFormSubmitted: boolean=false;
   @ViewChild("myModalInfo", { static: false }) myModalInfo: TemplateRef<any> | undefined;
@@ -69,7 +69,7 @@ export class EjecucionProcesosComponent implements OnInit, ControlValueAccessor,
   constructor(private impuestoService: ImpuestoService, private router: Router, @Inject('BASE_URL') baseUrl: string, private modalService: NgbModal, private formBuilder: FormBuilder)
   {
     
-    this.subscriptions = new Subscription();
+    //this.subscriptions = new Subscription();
     this.Valuacion = this.formBuilder.group(
       {
         "ValorSupTerreno": new FormControl("", [Validators.required, Validators.maxLength(10), Validators.pattern(this.numRegex)]),
@@ -84,11 +84,11 @@ export class EjecucionProcesosComponent implements OnInit, ControlValueAccessor,
     );
   }//fin constructor
   ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
+    //this.subscriptions.unsubscribe();
   }
-  validate(control: AbstractControl): ValidationErrors | null {
+  /*validate(control: AbstractControl): ValidationErrors | null {
     return this.todoslosCamposRequeridos(control);
-  }
+  }*/
 
   todoslosCamposRequeridos(control: AbstractControl): ValidationErrors | null {
     const controlValue = control.value;
@@ -103,13 +103,13 @@ export class EjecucionProcesosComponent implements OnInit, ControlValueAccessor,
     value && this.Valuacion.setValue(value, { emitEvent: false });
   }
 
-  registerOnChange(onChange: (value: any) => void): void {
+  /*registerOnChange(onChange: (value: any) => void): void {
     this.subscriptions.add(this.Valuacion.valueChanges.subscribe(onChange));
   }
 
   registerOnTouched(onTouched: () => void): void {
     this.onTouched = onTouched;
-  }
+  }*/
 
   setDisabledState(disabled: boolean): void {
     disabled ? this.Valuacion.disable() : this.Valuacion.enable();
@@ -174,6 +174,10 @@ export class EjecucionProcesosComponent implements OnInit, ControlValueAccessor,
   //Este guardar datos pertenece al impuesto inmobiliario y hay que hace el procesamiento alli.
   //Valuacion Impuestos. y generacion impuesto Anual.
   guardarDatos() {
+
+    this.procesoYaFueEjecutado = false;
+    this.procesoEjecutadoOk = false;
+
     this.DatosRegistrados = this.Valuacion.value;
     this.isFormSubmitted = true;
 
@@ -196,9 +200,13 @@ export class EjecucionProcesosComponent implements OnInit, ControlValueAccessor,
           this.resultadoEjecucionProceso = response;
   
           if (this.resultadoEjecucionProceso?.resultado === "OK") {
-            alert("La generacion de Impuestos se realizó exitosamente");
+            this.procesoEjecutadoOk = true;
+            this.mensajeOk = "La generacion de Impuestos se realizó exitosamente";
+            //alert("La generacion de Impuestos se realizó exitosamente");
           } else {
-            alert(this.resultadoEjecucionProceso?.mensaje);
+            this.procesoYaFueEjecutado = true;
+            this.mensajeWarning = this.resultadoEjecucionProceso?.mensaje;
+            //alert(this.resultadoEjecucionProceso?.mensaje);
           }
         });
     }

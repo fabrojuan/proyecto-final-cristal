@@ -66,6 +66,8 @@ export class NavMenuComponent implements OnInit {
   cerrarSession() {
     this.login = false;
     this.usuarioService.cerrarSession();
+    sessionStorage.clear();
+    this.router.navigate(["/"]);
   }
   //No reparado
 
@@ -78,6 +80,7 @@ export class NavMenuComponent implements OnInit {
     this.vecinoService.cerrarSessionVecino().subscribe((res: any) => {
       if (res.valor == "OK") {
         this.loginVecino = false;
+        this.router.navigate(["/"]);
 
       }
       else {
