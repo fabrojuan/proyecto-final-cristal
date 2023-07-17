@@ -17,6 +17,7 @@ export class ReclamoFormGenerarEmpleadoComponent implements OnInit {
   Reclamo: FormGroup;
   @ViewChild('fileUploader1') fileUploader1: ElementRef | undefined;
   @ViewChild('fileUploader2') fileUploader2: ElementRef | undefined;
+  isFormSubmitted: boolean=false
 
   constructor(private reclamoservice: ReclamoService, private vecinoService: VecinoService,
               public _toastService: ToastService  ) {
@@ -45,6 +46,8 @@ export class ReclamoFormGenerarEmpleadoComponent implements OnInit {
 
   guardarDatos() {
 
+    this.isFormSubmitted = true;
+
     if (this.Reclamo.invalid) {
       Object.values(this.Reclamo.controls).forEach(
         control => {
@@ -69,6 +72,7 @@ export class ReclamoFormGenerarEmpleadoComponent implements OnInit {
       },
       () => {
         this.limpiarFormulario();
+        this.isFormSubmitted = false;
         this._toastService.show(`Se registró con éxito el reclamo nro: ${nroReclamoGenerado}`, { classname: 'bg-success text-light', delay: 5000 });
       }
     );
@@ -122,35 +126,36 @@ export class ReclamoFormGenerarEmpleadoComponent implements OnInit {
   }
 
   get codTipoReclamoNoValido() {
-    return this.Reclamo.get('codTipoReclamo')?.invalid && this.Reclamo.get('codTipoReclamo')?.touched;
+    return this.isFormSubmitted && this.Reclamo.controls.codTipoReclamo.errors;
+    //return this.Reclamo.get('codTipoReclamo')?.invalid && this.Reclamo.get('codTipoReclamo')?.touched;
   }
 
   get calleNoValido() {
-    return this.Reclamo.get('calle')?.invalid && this.Reclamo.get('calle')?.touched;
+    return this.isFormSubmitted &&  this.Reclamo.controls.calle.errors;
   }
 
   get alturaNoValido() {
-    return this.Reclamo.get('altura')?.invalid && this.Reclamo.get('altura')?.touched;
+    return this.isFormSubmitted &&  this.Reclamo.controls.altura.errors;
   }
 
   get entreCallesNoValido() {
-    return this.Reclamo.get('entreCalles')?.invalid && this.Reclamo.get('entreCalles')?.touched;
+    return this.isFormSubmitted &&  this.Reclamo.controls.entreCalles.errors;
   }
 
   get descripcionNoValido() {
-    return this.Reclamo.get('descripcion')?.invalid && this.Reclamo.get('descripcion')?.touched;
+    return this.isFormSubmitted && this.Reclamo.controls.descripcion.errors;
   }
 
   get nomApeVecinoNoValido() {
-    return this.Reclamo.get('nomApeVecino')?.invalid && this.Reclamo.get('nomApeVecino')?.touched;
+    return this.isFormSubmitted &&  this.Reclamo.controls.nomApeVecino.errors;
   }
 
   get mailVecinoNoValido() {
-    return this.Reclamo.get('mailVecino')?.invalid && this.Reclamo.get('mailVecino')?.touched;
+    return this.isFormSubmitted &&  this.Reclamo.controls.mailVecino.errors;
   }
 
   get telefonoVecinoNoValido() {
-    return this.Reclamo.get('telefonoVecino')?.invalid && this.Reclamo.get('telefonoVecino')?.touched;
+    return this.isFormSubmitted && this.Reclamo.controls.telefonoVecino.errors;
   }
 
 }

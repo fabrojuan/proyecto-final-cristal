@@ -66,13 +66,21 @@ export class NavMenuComponent implements OnInit {
   cerrarSession() {
     this.login = false;
     this.usuarioService.cerrarSession();
+    sessionStorage.clear();
+    this.router.navigate(["/"]);
   }
   //No reparado
+
+  mostrarUOcultarMenuLateral() {
+    const body = document.getElementsByTagName("body")[0];
+    body.classList.toggle('toggle-sidebar');
+  }
 
   cerrarSessionVecino() {
     this.vecinoService.cerrarSessionVecino().subscribe((res: any) => {
       if (res.valor == "OK") {
         this.loginVecino = false;
+        this.router.navigate(["/"]);
 
       }
       else {

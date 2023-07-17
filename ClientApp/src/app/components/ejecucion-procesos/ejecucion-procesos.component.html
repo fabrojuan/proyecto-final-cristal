@@ -1,4 +1,206 @@
-<form [formGroup]="Valuacion" (ngSubmit)="guardarDatos()">
+<div class="pagetitle">
+    <h1>Gestión de Procesos Masivos</h1>
+</div>
+<!-- End Page Title -->
+
+<section class="section">
+    <div class="row align-items-top">
+
+        <div class="alert alert-warning bg-warning border-0 alert-dismissible fade show" role="alert" *ngIf="procesoYaFueEjecutado">
+            <i class="bi bi-exclamation-triangle me-1"></i> {{ mensajeWarning }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show" role="alert" *ngIf="procesoEjecutadoOk">
+            <i class="bi bi-check-circle me-1"></i> {{ mensajeOk }}
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <div class="col-md-4">
+            <!-- Card with titles, buttons, and links -->
+            <div class="card">
+                <img src="assets/img/card-intereses.jpg" class="card-img-top" alt="..." style="height: 220px;">
+                <div class="card-body">
+                    <h5 class="card-title">Interés Mensual</h5>
+                    <h6 class="card-subtitle mb-2 text-muted"></h6>
+                    <p class="card-text"></p>
+                    <p class="card-text"><a (click)="getinteresMensual()" class="btn btn-primary">Generar</a></p>
+                    <!-- <a href="#" class="card-link">Card link</a>
+                    <a href="#" class="card-link">Another link</a> -->
+                </div>
+            </div>
+            <!-- End Card with titles, buttons, and links -->
+        </div>
+
+        <div class="col-md-4">
+            <!-- Card with titles, buttons, and links -->
+            <div class="card">
+                <img src="assets/img/card-boletas.jpg" class="card-img-top" alt="..." style="height: 220px;">
+                <div class="card-body">
+                    <h5 class="card-title">Confirmación de Boletas</h5>
+                    <h6 class="card-subtitle mb-2 text-muted"></h6>
+                    <p class="card-text"></p>
+                    <p class="card-text"><a (click)="getConfirmacionBoletas()" class="btn btn-primary">Generar</a></p>
+                    <!-- <a href="#" class="card-link">Card link</a>
+                    <a href="#" class="card-link">Another link</a> -->
+                </div>
+            </div>
+            <!-- End Card with titles, buttons, and links -->
+        </div>
+
+        <div class="col-md-4">
+            <!-- Card with titles, buttons, and links -->
+            <div class="card">
+                <img src="assets/img/card-inmobiliario.jpg" class="card-img-top" alt="..." style="height: 220px;">
+                <div class="card-body">
+                    <h5 class="card-title">Impuesto Inmobiliario</h5>
+                    <h6 class="card-subtitle mb-2 text-muted"></h6>
+                    <p class="card-text"></p>
+                    <p class="card-text"><a (click)="LanzarModal()" class="btn btn-primary">Generar</a></p>
+                    <!-- <a href="#" class="card-link">Card link</a>
+                    <a href="#" class="card-link">Another link</a> -->
+                </div>
+            </div>
+            <!-- End Card with titles, buttons, and links -->
+        </div>
+    </div>
+</section>
+
+<div class="row">
+    <hr class="mb-4">
+    <div class="form-group col-md-12">
+        <!-- <button type="button" value="Nuevo" class="btn btn-success col-md-4 offset-md-1 " [routerLink]="['/persona-form-generar']">Ir a Historicos</button> -->
+        <button type="button" class="btn btn-secondary col-md-4 offset-md-7" (click)="volverHome()">Volver</button>
+
+    </div>
+</div>
+
+<ng-template #myModalInfo let-modal>
+    <div class="modal bg-secondary" tabindex="-1" style="display:block;" role="dialog">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <h3 class="modal-title">{{tituloModal}}</h3>
+                    <!-- <img src="../../../assets/Imagenes/logo-cristal_3.png" width="100" height="100" /> -->
+                </div>
+                <div class="modal-body">
+
+                    <form [formGroup]="Valuacion" (ngSubmit)="guardarDatos()" class="row g-3">
+
+                        <div class="col-md-6">
+                            <label for="ValorSupTerreno" class="form-label">(*) Valor en $ M2 sin Construir</label>
+                            <input type="text" class="form-control" [ngClass]="{'is-invalid' : valorSupTerrenoNoValido}" id="ValorSupTerreno" formControlName="ValorSupTerreno" value="" placeholder="Valor metro cuadrado en pesos">
+
+                            <div class="invalid-feedback" *ngIf="valorSupTerrenoNoValido">
+                                Valor metro cuadrado en pesos es requerido. No puede superar los 10 caracteres y debe tener un formato válido.
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="IncrementoEsquina" class="form-label">(*) Indice Lote Esquina</label>
+                            <input type="text" class="form-control" [ngClass]="{'is-invalid' : incrementoEsquinaNoValido}" id="IncrementoEsquina" formControlName="IncrementoEsquina" value="" placeholder="% esquina">
+
+                            <div class="invalid-feedback" *ngIf="incrementoEsquinaNoValido">
+                                Incremento esquina es requerido. No puede superar los 10 caracteres y debe tener un formato válido.
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="ValorSupEdificada" class="form-label">(*) Valor en $ M2 construido</label>
+                            <input type="text" class="form-control" [ngClass]="{'is-invalid' : valorSupEdificadaNoValido}" id="ValorSupEdificada" formControlName="ValorSupEdificada" value="" placeholder="Valor metro cuadrado edificado, en pesos">
+
+                            <div class="invalid-feedback" *ngIf="valorSupEdificadaNoValido">
+                                El valor del metro edificado es requerido. No puede superar los 10 caracteres y debe tener un formato válido.
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="IncrementoAsfalto" class="form-label">(*) Indice  Lote asfaltado</label>
+                            <input type="text" class="form-control" [ngClass]="{'is-invalid' : incrementoAsfaltoNoValido}" id="IncrementoAsfalto" formControlName="IncrementoAsfalto" value="" placeholder="% Asfalto">
+
+                            <div class="invalid-feedback" *ngIf="incrementoAsfaltoNoValido">
+                                El índice es requerido. No puede superar los 10 caracteres y debe tener un formato válido.
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 order-md-1">
+
+                            <div class="row">
+                                <hr class="mb-4">
+                                <div class="form-group col-md-12 mb-3 pt-3">
+                                    <input type="submit" value="Generar" class="btn btn-primary col-md-4 offset-md-1 " />
+                                    <button type="button" class="btn btn-secondary col-md-4 offset-md-1" (click)="cerrarmodal()">Cancelar</button>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </form>
+
+                    <h5>
+                        <p>{{resultadoGuardadoModal}}</p>
+                    </h5>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #myModalInfo let-modal>
+    <div class="modal bg-secondary" tabindex="-1" style="display:block;" role="dialog">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{tituloModal}}</h5>
+                    \ <img src="../../../assets/Imagenes/logo-cristal_3.png" width="100" height="100" />
+                </div>
+                <div class="modal-body">
+                    {{resultadoGuardadoModal}}
+                </div>
+                <div class="modal-footer">
+                    <!--modal.close('Close click')-->
+                    <button type="button" class="btn btn-outline-dark" (click)="cerrarmodal()">Cerrar</button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</ng-template>
+
+<ng-template #myModalInfo2 let-modal>
+    <div class="modal bg-secondary" tabindex="-1" style="display:block;" role="dialog">
+        <div class="modal-dialog modal-dialog-scrollable modal-lg">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <h3 class="modal-title">Actualizacion anual de Impuesto Inmobiliario</h3>
+                    <img src="../../../assets/Imagenes/logo-cristal_3.png" width="100" height="100" />
+                </div>
+                <div class="modal-body">
+                    <h4 class="modal-title">
+                        <p>El Impuesto anual se ha guardado correctamente ,Los valores que usted ingreso son los siguientes</p>
+                    </h4>
+
+                    <h5><label class="col-md-12 offset-md-1" style="color: #240f7d;">Superficie de terreno :&nbsp;{{DatosRegistrados.ValorSupTerreno}}</label></h5>
+                    <h5><label class="col-md-12 offset-md-1" style="color: #240f7d;">Superficie Edificada :&nbsp; {{DatosRegistrados.ValorSupEdificada}}</label></h5>
+                    <h5><label class="col-md-12 offset-md-1" style="color: #240f7d;">Porcentual Esquina :&nbsp;{{DatosRegistrados.IncrementoEsquina}}</label></h5>
+                    <h5><label class="col-md-12 offset-md-1" style="color: #240f7d;">Porcentual Asfalto :&nbsp;{{DatosRegistrados.IncrementoAsfalto}}</label></h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="col-md-3 offset-md-2 btn-outline-dark" (click)="cerrarmodal()">Cerrar</button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</ng-template>
+
+
+
+<!-- <form [formGroup]="Valuacion" (ngSubmit)="guardarDatos()">
     <div class="container">
         <div class="d-flex align-items-center ">
             <img class="ms-3 " src="../../../assets/Imagenes/finanzas.png" alt="" width="120" height="120">
@@ -78,7 +280,7 @@
                             </h5>
                         </div>
                         <div class="modal-footer">
-                            <!--modal.close('Close click')-->
+
                             <input id="btns" [disabled]="!Valuacion.valid" type="submit" (click)="guardarDatos()" value="Guardar" class="btn-success col-5 offset-md-2" />
                             <button type="button" class="btn-outline-dark col-5" (click)="cerrarmodal()">Cerrar</button>
                         </div>
@@ -98,7 +300,7 @@
                             {{resultadoGuardadoModal}}
                         </div>
                         <div class="modal-footer">
-                            <!--modal.close('Close click')-->
+
                             <button type="button" class="btn btn-outline-dark" (click)="cerrarmodal()">Cerrar</button>
                         </div>
                     </div>
@@ -136,4 +338,4 @@
         </ng-template>
 
     </div>
-</form>
+</form> -->
