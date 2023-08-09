@@ -4,6 +4,6 @@ namespace MVPSA_V2022.Services
 {
     public interface IJwtAuthenticationService
     {
-        public LoginResponseCLS getToken(int idUsuario);
+        public LoginResponseCLS getToken(int idUsuario, int idRol);
     }
 }

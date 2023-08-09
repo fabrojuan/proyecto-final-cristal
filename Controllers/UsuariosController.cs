@@ -230,30 +230,46 @@ namespace MVPSA_V2022.Controllers
             return oSeguridadCLS;
         }
 
-        [HttpPost]
+        
         [AllowAnonymous]
+        [HttpPost]
         [Route("api/usuarios/login")]
-        public IActionResult login([FromBody] UsuarioCLS oUsuarioCLS)
+        public IActionResult loginNuevo([FromBody] SolicitudLoginDto solicitudLoginDto)
         {
             int rpta = 0;
             try
             {
+
+                SHA256Managed sha = new SHA256Managed();
+                byte[] dataNocifrada = Encoding.Default.GetBytes(solicitudLoginDto.usuarioContrasenia);
+                byte[] dataCifrada = sha.ComputeHash(dataNocifrada);
+                string claveCifrada = BitConverter.ToString(dataCifrada).Replace("-", "");
+
+
                 using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
                 {
 
-                    SHA256Managed sha = new SHA256Managed();
-                    byte[] dataNocifrada = Encoding.Default.GetBytes(oUsuarioCLS.Contrasenia);
-                    byte[] dataCifrada = sha.ComputeHash(dataNocifrada);
-                    string claveCifrada = BitConverter.ToString(dataCifrada).Replace("-", "");
+                    TokenUsuarioDto tokenUsuarioDto = (from usuarios in bd.Usuarios
+                                       join roles in bd.Rols
+                                       on usuarios.IdTipoUsuario equals roles.IdRol
+                                       where usuarios.Bhabilitado == 1
+                                       && usuarios.NombreUser == solicitudLoginDto.usuarioNombre.ToUpper()
+                                       && usuarios.Contrasenia == claveCifrada
+                                       //&& roles.tipoRol == "EMPLEADO"
+                                       select new TokenUsuarioDto
+                                       {
+                                           idUsuario = usuarios.IdUsuario,
+                                           usuarioNombre = usuarios.NombreUser,
+                                           idRol = roles.IdRol//,
+                                           //tipoRol = roles.tipoRol
 
-                    rpta = bd.Usuarios.Where( p => p.NombreUser.ToUpper() == oUsuarioCLS.NombreUser.ToUpper() && p.Contrasenia == claveCifrada).Count();
-                    if (rpta == 1)
+                                       }
+                     ).FirstOrDefault(new TokenUsuarioDto());
+
+
+                    if (tokenUsuarioDto.idUsuario != null)
                     {
-                        Usuario oUsuarioRecuperado = bd.Usuarios
-                            .Where(p => p.NombreUser.ToUpper() == oUsuarioCLS.NombreUser.ToUpper()
-                                        && p.Contrasenia == claveCifrada).First();
-
-                        return Ok(_jwtAuthenticationService.getToken(oUsuarioRecuperado.IdUsuario));
+                        return Ok(_jwtAuthenticationService.getToken(tokenUsuarioDto.idUsuario, tokenUsuarioDto.idRol));
                     }
                     else
                     {
@@ -261,8 +277,9 @@ namespace MVPSA_V2022.Controllers
                     }
                 }
             }
-            catch (Exception ex) { 
-                Console.WriteLine(ex); 
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
             }
 
             return Unauthorized();

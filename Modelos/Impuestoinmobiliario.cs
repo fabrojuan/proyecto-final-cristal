@@ -5,6 +5,11 @@ namespace MVPSA_V2022.Modelos
 {
     public partial class Impuestoinmobiliario
     {
+        public Impuestoinmobiliario()
+        {
+            Detalleboleta = new HashSet<Detalleboletum>();
+        }
+
         public int IdImpuesto { get; set; }
         public int? Mes { get; set; }
         public int? Año { get; set; }
@@ -18,5 +23,6 @@ namespace MVPSA_V2022.Modelos
         public int IdLote { get; set; }
 
         public virtual Lote IdLoteNavigation { get; set; } = null!;
+        public virtual ICollection<Detalleboletum> Detalleboleta { get; set; }
     }
 }

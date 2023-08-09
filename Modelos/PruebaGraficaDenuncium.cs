@@ -14,5 +14,7 @@ namespace MVPSA_V2022.Modelos
         public int? NroTrabajo { get; set; }
 
         public virtual Usuario? IdUsuarioNavigation { get; set; }
+        public virtual Denuncium? NroDenunciaNavigation { get; set; }
+        public virtual Trabajo? NroTrabajoNavigation { get; set; }
     }
 }

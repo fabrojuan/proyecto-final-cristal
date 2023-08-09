@@ -248,7 +248,7 @@ namespace MVPSA_V2022.Controllers
                     oUsuario.IdVecino = oUsuarioRecuperar.IdVecino;
                     oUsuario.NombreUser = oUsuarioRecuperar.NombreUser;
 
-                    return Ok(_jwtAuthenticationService.getToken(oUsuario.IdVecino));
+                    return Ok(_jwtAuthenticationService.getToken(oUsuario.IdVecino, 1500));
                 }
                 else
                 {

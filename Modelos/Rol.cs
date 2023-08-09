@@ -14,6 +14,7 @@ namespace MVPSA_V2022.Modelos
         public int IdRol { get; set; }
         public string? NombreRol { get; set; }
         public int? Bhabilitado { get; set; }
+        public string TipoRol { get; set; } = null!;
 
         public virtual ICollection<Paginaxrol> Paginaxrols { get; set; }
         public virtual ICollection<Usuario> Usuarios { get; set; }

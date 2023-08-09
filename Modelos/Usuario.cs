@@ -13,6 +13,8 @@ namespace MVPSA_V2022.Modelos
             Reclamos = new HashSet<Reclamo>();
             Sesiones = new HashSet<Sesione>();
             Solicituds = new HashSet<Solicitud>();
+            TipoReclamoIdUsuarioAltaNavigations = new HashSet<TipoReclamo>();
+            TipoReclamoIdUsuarioModificacionNavigations = new HashSet<TipoReclamo>();
             TrabajoReclamos = new HashSet<TrabajoReclamo>();
             TrabajoSolicituds = new HashSet<TrabajoSolicitud>();
             Trabajos = new HashSet<Trabajo>();
@@ -35,10 +37,10 @@ namespace MVPSA_V2022.Modelos
         public virtual ICollection<Reclamo> Reclamos { get; set; }
         public virtual ICollection<Sesione> Sesiones { get; set; }
         public virtual ICollection<Solicitud> Solicituds { get; set; }
+        public virtual ICollection<TipoReclamo> TipoReclamoIdUsuarioAltaNavigations { get; set; }
+        public virtual ICollection<TipoReclamo> TipoReclamoIdUsuarioModificacionNavigations { get; set; }
         public virtual ICollection<TrabajoReclamo> TrabajoReclamos { get; set; }
         public virtual ICollection<TrabajoSolicitud> TrabajoSolicituds { get; set; }
         public virtual ICollection<Trabajo> Trabajos { get; set; }
-        public virtual ICollection<TipoReclamo> TiposReclamoAlta { get; set; }
-        public virtual ICollection<TipoReclamo> TiposReclamoModificados { get; set; }
     }
 }

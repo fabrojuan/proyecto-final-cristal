@@ -3,14 +3,8 @@ using System.Collections.Generic;
 
 namespace MVPSA_V2022.Modelos
 {
-    public partial class Reclamo
+    public partial class VwReclamo
     {
-        public Reclamo()
-        {
-            PruebaGraficaReclamos = new HashSet<PruebaGraficaReclamo>();
-            TrabajoReclamos = new HashSet<TrabajoReclamo>();
-        }
-
         public int NroReclamo { get; set; }
         public DateTime? Fecha { get; set; }
         public string? Descripcion { get; set; }
@@ -26,12 +20,10 @@ namespace MVPSA_V2022.Modelos
         public int? NroPrioridad { get; set; }
         public string? MailVecino { get; set; }
         public string? TelefonoVecino { get; set; }
-
-        public virtual EstadoReclamo? CodEstadoReclamoNavigation { get; set; }
-        public virtual TipoReclamo? CodTipoReclamoNavigation { get; set; }
-        public virtual Usuario? IdUsuarioNavigation { get; set; }
-        public virtual UsuarioVecino? IdVecinoNavigation { get; set; }
-        public virtual ICollection<PruebaGraficaReclamo> PruebaGraficaReclamos { get; set; }
-        public virtual ICollection<TrabajoReclamo> TrabajoReclamos { get; set; }
+        public string? TipoReclamo { get; set; }
+        public string? EstadoReclamo { get; set; }
+        public string? PrioridadReclamo { get; set; }
+        public string? Usuario { get; set; }
+        public string Empleado { get; set; } = null!;
     }
 }

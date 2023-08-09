@@ -7,6 +7,7 @@ namespace MVPSA_V2022.Modelos
     {
         public Boletum()
         {
+            Detalleboleta = new HashSet<Detalleboletum>();
             Recibos = new HashSet<Recibo>();
         }
 
@@ -20,6 +21,7 @@ namespace MVPSA_V2022.Modelos
         public decimal? Importe { get; set; }
         public DateTime? FechaVencimiento { get; set; }
 
+        public virtual ICollection<Detalleboletum> Detalleboleta { get; set; }
         public virtual ICollection<Recibo> Recibos { get; set; }
     }
 }

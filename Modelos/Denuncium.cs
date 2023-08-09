@@ -5,6 +5,12 @@ namespace MVPSA_V2022.Modelos
 {
     public partial class Denuncium
     {
+        public Denuncium()
+        {
+            PruebaGraficaDenuncia = new HashSet<PruebaGraficaDenuncium>();
+            Trabajos = new HashSet<Trabajo>();
+        }
+
         public int NroDenuncia { get; set; }
         public DateTime? Fecha { get; set; }
         public string? Descripcion { get; set; }
@@ -25,5 +31,7 @@ namespace MVPSA_V2022.Modelos
         public virtual TipoDenuncium? CodTipoDenunciaNavigation { get; set; }
         public virtual Usuario? IdUsuarioNavigation { get; set; }
         public virtual Prioridad? NroPrioridadNavigation { get; set; }
+        public virtual ICollection<PruebaGraficaDenuncium> PruebaGraficaDenuncia { get; set; }
+        public virtual ICollection<Trabajo> Trabajos { get; set; }
     }
 }
