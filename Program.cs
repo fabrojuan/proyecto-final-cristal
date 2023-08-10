@@ -38,7 +38,7 @@ Console.WriteLine(builder.Configuration.GetConnectionString("VPSAConnectionStrin
 //        => options.UseSqlServer(builder.Configuration.GetConnectionString("VPSAConnectionString")));
 
 builder.Services.AddDbContext<M_VPSA_V3Context>(options
-        => options.UseSqlServer("Data Source=localhost\\SQLEXPRESS;Initial Catalog=M_VPSA_V3;Integrated Security=True"));
+        => options.UseSqlServer("Server=tcp:cristal-sql.database.windows.net;Initial Catalog=M_VPSA_V3;Persist Security Info=False;User ID=cristal;Password=AAaa!!11;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"));
 
 builder.Services.AddScoped<IReclamoService, ReclamoService>();
 //builder.Services.AddSingleton<IDenunciaService, DenunciaService>();
