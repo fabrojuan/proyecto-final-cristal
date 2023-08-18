@@ -27,15 +27,15 @@
                                 <div class="col-12">
                                     <label for="inputEmail" class="form-label">Email</label>
                                     <div class="input-group has-validation">
-                                        <input type="email" class="form-control" id="inputEmail" formControlName="NombreUser" placeholder="correo electrónico" autofocus>
-                                        <div class="invalid-feedback" *ngIf="usuario.controls['NombreUser'].errors?.required">El email es requerido</div>
+                                        <input type="email" class="form-control" id="inputEmail" formControlName="usuarioNombre" placeholder="correo electrónico" autofocus>
+                                        <div class="invalid-feedback" *ngIf="usuario.controls['usuarioNombre'].errors?.required">El email es requerido</div>
                                         <!-- <div style="color:red" *ngIf="vecino.controls['NombreUser'].errors?.required">El nombre de vecino es requerido</div> -->
                                     </div>
                                 </div>
 
                                 <div class="col-12">
                                     <label for="inputPassword" class="form-label">Contraseña</label>
-                                    <input type="password" class="form-control" id="inputPassword" formControlName="Contrasenia" placeholder="Contraseña" required>
+                                    <input type="password" class="form-control" id="inputPassword" formControlName="usuarioContrasenia" placeholder="Contraseña" required>
                                     <div class="invalid-feedback">La contraseña de vecino es requerida</div>
                                     <!-- <div style="color:red" *ngIf="vecino.controls['Contrasenia'].errors?.required">La contraseña de vecino es requerida</div> -->
                                 </div>

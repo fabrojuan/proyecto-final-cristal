@@ -13,8 +13,8 @@ namespace MVPSA_V2022.Mappers
 
             CreateMap<TipoReclamoDto, TipoReclamo>()
                 .ReverseMap()
-                .ForMember(dest => dest.usuarioAlta, act => act.MapFrom(src => src.UsuarioAlta.NombreUser))
-                .ForMember(dest => dest.usuarioModificacion, act => act.MapFrom(src => src.UsuarioModificacion.NombreUser));
+                .ForMember(dest => dest.usuarioAlta, act => act.MapFrom(src => src.IdUsuarioAltaNavigation.NombreUser))
+                .ForMember(dest => dest.usuarioModificacion, act => act.MapFrom(src => src.IdUsuarioModificacionNavigation.NombreUser));
 
             CreateMap<UsuarioCLS, Usuario>().ReverseMap();
         }

@@ -14,7 +14,7 @@ namespace MVPSA_V2022.Services
             _key = key;
         }
 
-        public LoginResponseCLS getToken(int idUsuario)
+        public LoginResponseCLS getToken(int idUsuario, string codRol)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var tokenKey = Encoding.ASCII.GetBytes(_key);
@@ -23,6 +23,7 @@ namespace MVPSA_V2022.Services
                         new Claim[]
                         {
                             new Claim(ClaimTypes.Sid, idUsuario.ToString()),
+                            new Claim(ClaimTypes.Role, codRol),
                             new Claim(ClaimTypes.Expiration, 3600.ToString())
                         }
                     ),

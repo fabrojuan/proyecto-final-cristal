@@ -54,11 +54,11 @@ namespace MVPSA_V2022.Controllers
         [Route("api/Lote/listarTiposLote")]
         public IEnumerable<TipoLoteCLS> listarTiposLote()
         {
-            List<TipoLoteCLS> listaTipoLote;
+            List<TipoLoteCLS> listaTipoLote = null;
             using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
             {
 
-                listaTipoLote = (from TipoLote in bd.TipoLotes
+                /*listaTipoLote = (from TipoLote in bd.TipoLote
                                  where TipoLote.Bhabilitado == 1
                                  select new TipoLoteCLS
                                  {
@@ -66,7 +66,7 @@ namespace MVPSA_V2022.Controllers
                                      Nombre = TipoLote.Nombre,
                                      Descripcion = TipoLote.Descripcion
 
-                                 }).ToList();
+                                 }).ToList();*/
                 return listaTipoLote;
             }
 

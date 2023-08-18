@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MVPSA_V2022.clases;
+using MVPSA_V2022.Enums;
 using MVPSA_V2022.Exceptions;
 using MVPSA_V2022.Modelos;
 using System.Linq;
@@ -84,14 +85,14 @@ namespace MVPSA_V2022.Services
         {
             using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
             {
-                List<ReclamoDto> listaReclamo = (from reclamo in bd.ReclamosVw
+                List<ReclamoDto> listaReclamo = (from reclamo in bd.VwReclamos
                                                  where reclamo.Bhabilitado == 1
                                                  select new ReclamoDto
                                                  {
                                                      nroReclamo = reclamo.NroReclamo,
                                                      descripcion = reclamo.Descripcion,
-                                                     codTipoReclamo = reclamo.CodTipoReclamo,
-                                                     codEstadoReclamo = reclamo.CodEstadoReclamo,
+                                                     codTipoReclamo = (int)reclamo.CodTipoReclamo,
+                                                     codEstadoReclamo = (int)reclamo.CodEstadoReclamo,
                                                      Bhabilitado = reclamo.Bhabilitado,
                                                      calle = reclamo.Calle,
                                                      altura = reclamo.Altura,
@@ -102,7 +103,7 @@ namespace MVPSA_V2022.Services
                                                      estadoReclamo = reclamo.EstadoReclamo,
                                                      tipoReclamo = reclamo.TipoReclamo,
                                                      nombreYapellido = reclamo.NomApeVecino,
-                                                     nroPrioridad = reclamo.NroPrioridad,
+                                                     nroPrioridad = (int)reclamo.NroPrioridad,
                                                      usuarioAsignado = reclamo.Usuario,
                                                      empleadoAsignado = reclamo.Empleado,
                                                      prioridad = reclamo.PrioridadReclamo
@@ -116,15 +117,15 @@ namespace MVPSA_V2022.Services
         {
             using (M_VPSA_V3Context bd = new M_VPSA_V3Context())            {
 
-                ReclamoDto reclamoResponse = (from reclamo in bd.ReclamosVw
+                ReclamoDto reclamoResponse = (from reclamo in bd.VwReclamos
                                                  where reclamo.Bhabilitado == 1
                                                  && reclamo.NroReclamo == nroReclamo
                                               select new ReclamoDto
                                                  {
                                                   nroReclamo = reclamo.NroReclamo,
                                                   descripcion = reclamo.Descripcion,
-                                                  codTipoReclamo = reclamo.CodTipoReclamo,
-                                                  codEstadoReclamo = reclamo.CodEstadoReclamo,
+                                                  codTipoReclamo = (int)reclamo.CodTipoReclamo,
+                                                  codEstadoReclamo = (int)reclamo.CodEstadoReclamo,
                                                   Bhabilitado = reclamo.Bhabilitado,
                                                   calle = reclamo.Calle,
                                                   altura = reclamo.Altura,
@@ -135,7 +136,7 @@ namespace MVPSA_V2022.Services
                                                   estadoReclamo = reclamo.EstadoReclamo,
                                                   tipoReclamo = reclamo.TipoReclamo,
                                                   nombreYapellido = reclamo.NomApeVecino,
-                                                  nroPrioridad = reclamo.NroPrioridad,
+                                                  nroPrioridad = (int)reclamo.NroPrioridad,
                                                   usuarioAsignado = reclamo.Usuario,
                                                   empleadoAsignado = reclamo.Empleado,
                                                   prioridad = reclamo.PrioridadReclamo
@@ -318,8 +319,8 @@ namespace MVPSA_V2022.Services
             // Esto es para que me traiga datos de las entidades relacionadas.
             // por ahora no encontre otra forma de hacerlo. En teoria existe
             // un metodo include() que permite hacerlo pero no aparece como disponible.
-            dbContext.Entry(tipoReclamoDomain).Reference(s => s.UsuarioAlta).Load();
-            dbContext.Entry(tipoReclamoDomain).Reference(s => s.UsuarioModificacion).Load();
+            dbContext.Entry(tipoReclamoDomain).Reference(s => s.IdUsuarioAltaNavigation).Load();
+            dbContext.Entry(tipoReclamoDomain).Reference(s => s.IdUsuarioModificacionNavigation).Load();
 
             return mapper.Map<TipoReclamoDto>(tipoReclamoDomain);
 

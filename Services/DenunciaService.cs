@@ -31,11 +31,11 @@ namespace MVPSA_V2022.Services
 
         TipoDenunciaCLS IDenunciaService.getTipoDenuncia(int codTipoDenuncia)
         {
-            TipoDenunciaCLS tipoDenunciaResponse;
+            TipoDenunciaCLS tipoDenunciaResponse = null;
 
             using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
             {
-                tipoDenunciaResponse = (from tipoDenunciaQuery in bd.TipoDenuncia
+                /*tipoDenunciaResponse = (from tipoDenunciaQuery in bd.TipoDenuncia
                                         join usuarioAlta in bd.Usuarios
                                          on tipoDenunciaQuery.IdUsuarioAlta equals usuarioAlta.IdUsuario
                                         join usuarioModificacion in bd.Usuarios
@@ -51,7 +51,7 @@ namespace MVPSA_V2022.Services
                                             fechaModificacion = (DateTime)tipoDenunciaQuery.FechaModificacion,
                                             usuarioAlta = usuarioAlta.NombreUser,
                                             usuarioModificacion = usuarioModificacion.NombreUser
-                                        }).Single();
+                                        }).Single();*/
             }
 
             if (tipoDenunciaResponse == null)
@@ -79,7 +79,7 @@ namespace MVPSA_V2022.Services
                 bd.TipoDenuncia.Add(tipoDenuncia);
                 bd.SaveChanges();
 
-                tipoDenunciaDto = (from tipoDenunciaQuery in bd.TipoDenuncia
+                /*tipoDenunciaDto = (from tipoDenunciaQuery in bd.TipoDenuncia
                                    join usuarioAlta in bd.Usuarios
                                      on tipoDenunciaQuery.IdUsuarioAlta equals usuarioAlta.IdUsuario
                                    join usuarioModificacion in bd.Usuarios
@@ -94,7 +94,7 @@ namespace MVPSA_V2022.Services
                                        usuarioAlta = usuarioAlta.NombreUser,
                                        usuarioModificacion = usuarioModificacion.NombreUser
                                    })
-                                    .Single();
+                                    .Single();*/
             }
 
             return tipoDenunciaDto;
@@ -102,10 +102,10 @@ namespace MVPSA_V2022.Services
 
         IEnumerable<TipoDenunciaCLS> IDenunciaService.listarTiposDenuncia()
         {
-            List<TipoDenunciaCLS> listaTiposDenuncia;
+            List<TipoDenunciaCLS> listaTiposDenuncia = null;
             using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
             {
-                listaTiposDenuncia = (from tipoDenuncia in bd.TipoDenuncia
+                /*listaTiposDenuncia = (from tipoDenuncia in bd.TipoDenuncia
                                       join usuarioAlta in bd.Usuarios
                                         on tipoDenuncia.IdUsuarioAlta equals usuarioAlta.IdUsuario
                                       join usuarioModificacion in bd.Usuarios
@@ -121,7 +121,7 @@ namespace MVPSA_V2022.Services
                                           usuarioModificacion = usuarioModificacion.NombreUser
                                       })
                                     .OrderBy(tr => tr.Cod_Tipo_Denuncia)
-                                    .ToList();
+                                    .ToList();*/
                 return listaTiposDenuncia;
             }
 
@@ -165,7 +165,7 @@ namespace MVPSA_V2022.Services
                 // tipoDenuncia.IdUsuarioModificacion = idUsuarioModificacion;
                 bd.SaveChanges();
 
-                tipoDenunciaDto = (from tipoDenunciaQuery in bd.TipoDenuncia
+                /*tipoDenunciaDto = (from tipoDenunciaQuery in bd.TipoDenuncia
                                    join usuarioAlta in bd.Usuarios
                                     on tipoDenunciaQuery.IdUsuarioAlta equals usuarioAlta.IdUsuario
                                    join usuarioModificacion in bd.Usuarios
@@ -182,7 +182,7 @@ namespace MVPSA_V2022.Services
                                        usuarioAlta = usuarioAlta.NombreUser,
                                        usuarioModificacion = usuarioModificacion.NombreUser
                                    })
-                                    .Single();
+                                    .Single();*/
             }
 
             return tipoDenunciaDto;
