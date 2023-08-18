@@ -253,23 +253,25 @@ namespace MVPSA_V2022.Controllers
                                        join roles in bd.Rols
                                        on usuarios.IdTipoUsuario equals roles.IdRol
                                        where usuarios.Bhabilitado == 1
-                                       && usuarios.NombreUser == solicitudLoginDto.usuarioNombre.ToUpper()
+                                       &&
+                                       usuarios.NombreUser == solicitudLoginDto.usuarioNombre.ToUpper()
                                        && usuarios.Contrasenia == claveCifrada
-                                       //&& roles.tipoRol == "EMPLEADO"
+                                       && roles.TipoRol == "EMPLEADO"
                                        select new TokenUsuarioDto
                                        {
                                            idUsuario = usuarios.IdUsuario,
                                            usuarioNombre = usuarios.NombreUser,
-                                           idRol = roles.IdRol//,
-                                           //tipoRol = roles.tipoRol
+                                           idRol = roles.IdRol,
+                                           codRol = roles.CodRol,
+                                           tipoRol = roles.TipoRol
 
                                        }
-                     ).FirstOrDefault(new TokenUsuarioDto());
+                     ).FirstOrDefault();
 
 
-                    if (tokenUsuarioDto.idUsuario != null)
+                    if (tokenUsuarioDto != null)
                     {
-                        return Ok(_jwtAuthenticationService.getToken(tokenUsuarioDto.idUsuario, tokenUsuarioDto.idRol));
+                        return Ok(_jwtAuthenticationService.getToken(tokenUsuarioDto.idUsuario, tokenUsuarioDto.codRol));
                     }
                     else
                     {

@@ -1,20 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MVPSA_V2022.Modelos
+namespace MVPSA_V2022.Modelos;
+
+public partial class TipoLote
 {
-    public partial class TipoLote
-    {
-        public TipoLote()
-        {
-            Lotes = new HashSet<Lote>();
-        }
+    public int CodTipoLote { get; set; }
 
-        public int CodTipoLote { get; set; }
-        public string? Nombre { get; set; }
-        public string? Descripcion { get; set; }
-        public int? Bhabilitado { get; set; }
+    public string? Nombre { get; set; }
 
-        public virtual ICollection<Lote> Lotes { get; set; }
-    }
+    public string? Descripcion { get; set; }
+
+    public int? Bhabilitado { get; set; }
+
+    public virtual ICollection<Lote> Lotes { get; set; } = new List<Lote>();
 }

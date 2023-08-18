@@ -70,7 +70,7 @@ namespace MVPSA_V2022.Controllers
         [HttpPost]
         [Route("tipos-reclamo")]
         public IActionResult guardarTipoReclamo(
-            [FromHeader(Name = "id_usuario")] string idUsuario,
+            [FromHeader(Name = "id_usuario")] string idUsuarioAlta,
             [FromBody] TipoReclamoDto tipoReclamoCLS)
         {
             try
@@ -83,7 +83,7 @@ namespace MVPSA_V2022.Controllers
                     throw new PagoNoValidoException(errors.ToString());
                 }
 
-                tipoReclamoCLS = this.reclamoService.guardarTipoReclamo(tipoReclamoCLS, Int32.Parse(idUsuario));
+                tipoReclamoCLS = this.reclamoService.guardarTipoReclamo(tipoReclamoCLS, Int32.Parse(idUsuarioAlta));
                 return Ok(tipoReclamoCLS);
             }
             catch (Exception ex)
@@ -96,7 +96,7 @@ namespace MVPSA_V2022.Controllers
         [HttpPut]
         [Route("tipos-reclamo")]
         public IActionResult actualizarTipoReclamo(
-            [FromHeader(Name = "id_usuario")] string idUsuario,
+            [FromHeader(Name = "id_usuario")] string idUsuarioModificacion,
             [FromBody] TipoReclamoDto tipoReclamoCLS)
         {
             try
@@ -109,7 +109,7 @@ namespace MVPSA_V2022.Controllers
                     throw new PagoNoValidoException(errors.ToString());
                 }
 
-                tipoReclamoCLS = this.reclamoService.modificarTipoReclamo(tipoReclamoCLS, Int32.Parse(idUsuario));
+                tipoReclamoCLS = this.reclamoService.modificarTipoReclamo(tipoReclamoCLS, Int32.Parse(idUsuarioModificacion));
                 return Ok(tipoReclamoCLS);
             }
             catch (Exception ex)

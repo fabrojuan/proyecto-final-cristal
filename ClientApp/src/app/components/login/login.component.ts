@@ -19,8 +19,8 @@ export class LoginComponent implements OnInit {
     this.urlBase = baseUrl;
     this.usuario = new FormGroup({
       //Por ahora desojo el validators required solo para pass luego agregar en el usuario  Validators.required
-      'NombreUser': new FormControl("", Validators.required),
-      'Contrasenia': new FormControl("", Validators.required)
+      'usuarioNombre': new FormControl("", Validators.required),
+      'usuarioContrasenia': new FormControl("", Validators.required)
     });
   }
 

@@ -1,28 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MVPSA_V2022.Modelos
+namespace MVPSA_V2022.Modelos;
+
+public partial class Impuestoinmobiliario
 {
-    public partial class Impuestoinmobiliario
-    {
-        public Impuestoinmobiliario()
-        {
-            Detalleboleta = new HashSet<Detalleboletum>();
-        }
+    public int IdImpuesto { get; set; }
 
-        public int IdImpuesto { get; set; }
-        public int? Mes { get; set; }
-        public int? Año { get; set; }
-        public DateTime? FechaEmision { get; set; }
-        public DateTime? FechaVencimiento { get; set; }
-        public int? Estado { get; set; }
-        public decimal? ImporteBase { get; set; }
-        public decimal? InteresValor { get; set; }
-        public decimal? ImporteFinal { get; set; }
-        public int? Bhabilitado { get; set; }
-        public int IdLote { get; set; }
+    public int? Mes { get; set; }
 
-        public virtual Lote IdLoteNavigation { get; set; } = null!;
-        public virtual ICollection<Detalleboletum> Detalleboleta { get; set; }
-    }
+    public int? Año { get; set; }
+
+    public DateTime? FechaEmision { get; set; }
+
+    public DateTime? FechaVencimiento { get; set; }
+
+    public int? Estado { get; set; }
+
+    public decimal? ImporteBase { get; set; }
+
+    public decimal? InteresValor { get; set; }
+
+    public decimal? ImporteFinal { get; set; }
+
+    public int? Bhabilitado { get; set; }
+
+    public int IdLote { get; set; }
+
+    public virtual Lote IdLoteNavigation { get; set; } = null!;
 }

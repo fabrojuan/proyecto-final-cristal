@@ -225,35 +225,38 @@ namespace MVPSA_V2022.Controllers
         [Route("api/Vecino/login")]
         public IActionResult login([FromBody] VecinoCLS oVecinoCLS)
         {
-            VecinoCLS oUsuario = new VecinoCLS();
-            int rpta = 0;
+            SHA256Managed sha = new SHA256Managed();
+            byte[] dataNocifrada = Encoding.Default.GetBytes(oVecinoCLS.Contrasenia);
+            byte[] dataCifrada = sha.ComputeHash(dataNocifrada);
+            string claveCifrada = BitConverter.ToString(dataCifrada).Replace("-", "");
+
             using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
             {
 
-                SHA256Managed sha = new SHA256Managed();
-                byte[] dataNocifrada = Encoding.Default.GetBytes(oVecinoCLS.Contrasenia);
-                byte[] dataCifrada = sha.ComputeHash(dataNocifrada);
-                string claveCifrada = BitConverter.ToString(dataCifrada).Replace("-", "");
+                TokenUsuarioDto tokenUsuarioDto = (from usuarios in bd.Usuarios
+                                                   join roles in bd.Rols
+                                                   on usuarios.IdTipoUsuario equals roles.IdRol
+                                                   where usuarios.Bhabilitado == 1
+                                                   && usuarios.NombreUser == oVecinoCLS.NombreUser.ToUpper()
+                                                   && usuarios.Contrasenia == claveCifrada
+                                                   && roles.TipoRol == "VECINO"
+                                                   select new TokenUsuarioDto
+                                                   {
+                                                       idUsuario = usuarios.IdUsuario,
+                                                       usuarioNombre = usuarios.NombreUser,
+                                                       idRol = roles.IdRol,
+                                                       codRol = roles.CodRol,
+                                                       tipoRol = roles.TipoRol
 
-                rpta = bd.UsuarioVecinos.Where(p => p.NombreUser.ToUpper() == oVecinoCLS.NombreUser.ToUpper() && p.Contrasenia == claveCifrada).Count();
-                if (rpta == 1)
+                                                   }
+                     ).FirstOrDefault();
+
+                if (tokenUsuarioDto != null)
                 {
-                    UsuarioVecino oUsuarioRecuperar = bd.UsuarioVecinos.Where(p => p.NombreUser.ToUpper() == oVecinoCLS.NombreUser.ToUpper()
-                    && p.Contrasenia == claveCifrada).First();
-
-                    // Seteamos en la Sesion el Id de Vecino
-                    HttpContext.Session.SetString("vecino", oUsuarioRecuperar.IdVecino.ToString());
-                    // Seteamos en la Sesion el nombre del vecino
-                    HttpContext.Session.SetString("nombreVecino", oUsuarioRecuperar.NombreUser.ToString());
-                    oUsuario.IdVecino = oUsuarioRecuperar.IdVecino;
-                    oUsuario.NombreUser = oUsuarioRecuperar.NombreUser;
-
-                    return Ok(_jwtAuthenticationService.getToken(oUsuario.IdVecino, 1500));
+                    return Ok(_jwtAuthenticationService.getToken(tokenUsuarioDto.idUsuario, tokenUsuarioDto.codRol));
                 }
                 else
                 {
-                    oUsuario.IdVecino = 0;
-                    oUsuario.NombreUser = "";
                     return Unauthorized();
                 }
             }

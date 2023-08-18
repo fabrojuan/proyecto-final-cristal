@@ -37,31 +37,37 @@ ALTER TABLE [dbo].[MOBBEX_PAGO] ADD  CONSTRAINT [DF_MOBBEX_PAGO_fecha_alta]  DEF
 GO
 
 
-ALTER TABLE M_VPSA_V3.dbo.TIPO_RECLAMO 
+ALTER TABLE dbo.TIPO_RECLAMO 
 ADD FechaAlta datetime DEFAULT (getdate());  
 
-ALTER TABLE M_VPSA_V3.dbo.TIPO_RECLAMO 
+ALTER TABLE dbo.TIPO_RECLAMO 
 ADD FechaModificacion datetime DEFAULT (getdate());  
 
-ALTER TABLE M_VPSA_V3.dbo.TIPO_RECLAMO 
+ALTER TABLE dbo.TIPO_RECLAMO 
 ADD IdUsuarioAlta int; 
 
-ALTER TABLE M_VPSA_V3.dbo.TIPO_RECLAMO 
+ALTER TABLE dbo.TIPO_RECLAMO 
 ADD IdUsuarioModificacion int; 
  
-update M_VPSA_V3.dbo.TIPO_RECLAMO
+update dbo.TIPO_RECLAMO
   set FechaAlta = GETDATE(),
   FechaModificacion = GETDATE();
 
-ALTER TABLE M_VPSA_V3.dbo.PRUEBA_GRAFICA_RECLAMO ADD foto varchar(MAX); 
+ALTER TABLE dbo.PRUEBA_GRAFICA_RECLAMO ADD foto varchar(MAX); 
+
+alter TABLE dbo.CONTROL_PROCESOS alter COLUMN FechaEjecucion DATETIME not null;
+
+alter TABLE dbo.lote alter COLUMN Bhabilitado int not null;
 
 alter table dbo.RECLAMO add NomApeVecino VARCHAR(100);
 
-alter table reclamo add column Nro_Prioridad int;
+alter table dbo.reclamo add Nro_Prioridad int;
 
-update RECLAMO SET Nro_Prioridad = 4;
+update dbo.RECLAMO SET Nro_Prioridad = 4;
 
- DELETE FROM PRIORIDAD_RECLAMO;
+
+
+DELETE FROM PRIORIDAD_RECLAMO;
 
   SET IDENTITY_INSERT PRIORIDAD_RECLAMO ON;
 
@@ -78,6 +84,8 @@ update RECLAMO SET Nro_Prioridad = 4;
 
   SET IDENTITY_INSERT PRIORIDAD_RECLAMO OFF;
 
+
+
   ALTER TABLE DBO.TIPO_RECLAMO
    ADD CONSTRAINT FK__TIPO_RECLAMO__USUARIO_ALTA FOREIGN KEY (IdUsuarioAlta)
       REFERENCES DBO.USUARIO (idUsuario)
@@ -89,6 +97,7 @@ ALTER TABLE DBO.TIPO_RECLAMO
       REFERENCES DBO.USUARIO (idUsuario)
       ON DELETE  NO ACTION
       ON UPDATE  NO ACTION;
+
 
 update TIPO_RECLAMO
    set Tiempo_Max_Tratamiento = 100
@@ -106,27 +115,32 @@ select rec.*,
 		when usu.NombreUser is null then 'Sin Asignar' 
 		else concat(per.Apellido, ', ', per.Nombre) 
 	   end  empleado
-from M_VPSA_V3.dbo.RECLAMO rec join M_VPSA_V3.dbo.TIPO_RECLAMO tre on tre.Cod_Tipo_Reclamo = rec.Cod_Tipo_Reclamo
-join M_VPSA_V3.dbo.ESTADO_RECLAMO est on est.Cod_Estado_Reclamo = rec.Cod_Estado_Reclamo
-join M_VPSA_V3.dbo.PRIORIDAD_RECLAMO pre on pre.Nro_Prioridad = rec.Nro_Prioridad
-left outer join M_VPSA_V3.dbo.USUARIO usu on usu.idUsuario = rec.IdUsuario
-left outer join M_VPSA_V3.dbo.PERSONA per on per.idPersona = usu.idPersona;
+from dbo.RECLAMO rec join M_VPSA_V3.dbo.TIPO_RECLAMO tre on tre.Cod_Tipo_Reclamo = rec.Cod_Tipo_Reclamo
+join dbo.ESTADO_RECLAMO est on est.Cod_Estado_Reclamo = rec.Cod_Estado_Reclamo
+join dbo.PRIORIDAD_RECLAMO pre on pre.Nro_Prioridad = rec.Nro_Prioridad
+left outer join dbo.USUARIO usu on usu.idUsuario = rec.IdUsuario
+left outer join dbo.PERSONA per on per.idPersona = usu.idPersona;
 
-ALTER TABLE [M_VPSA_V3].[dbo].[RECLAMO]
+
+
+
+
+
+ALTER TABLE [dbo].[RECLAMO]
 ADD MailVecino VARCHAR(100) NULL;
 
-ALTER TABLE [M_VPSA_V3].[dbo].[RECLAMO]
+ALTER TABLE [dbo].[RECLAMO]
 ADD TelefonoVecino VARCHAR(50) NULL;
 
 
 
-SET IDENTITY_INSERT [M_VPSA_V3].[dbo].[ROL] ON;
+SET IDENTITY_INSERT [dbo].[ROL] ON;
 
-insert into [M_VPSA_V3].[dbo].[ROL] (idRol, NombreRol, BHabilitado) values (2000, 'Vecino', 1);
+insert into [dbo].[ROL] (idRol, NombreRol, BHabilitado) values (2000, 'Vecino', 1);
 
-SET IDENTITY_INSERT [M_VPSA_V3].[dbo].[ROL] OFF;
+SET IDENTITY_INSERT [dbo].[ROL] OFF;
 
-DROP VIEW IF EXISTS dbo.vw_reclamo;
+DROP VIEW IF EXISTS vw_reclamo;
 
 
 create view dbo.vw_reclamo as SELECT        rec.Nro_Reclamo, 
@@ -156,9 +170,44 @@ FROM            dbo.RECLAMO AS rec INNER JOIN
                          dbo.USUARIO AS usu ON usu.idUsuario = rec.IdUsuario LEFT OUTER JOIN
                          dbo.PERSONA AS per ON per.idPersona = usu.idPersona;
 
-alter table [M_VPSA_V3].[dbo].[ROL]
+
+
+alter table [dbo].[ROL]
   add tipoRol VARCHAR(15) not null default 'EMPLEADO'; 
 
-UPDATE [M_VPSA_V3].[dbo].[ROL] 
-	set tipoRol = 'EXTERNO'
+UPDATE [dbo].[ROL] 
+	set tipoRol = 'VECINO'
 	WHERE idRol = 2000;
+
+ALTER TABLE [dbo].[TRABAJO]  WITH CHECK ADD FOREIGN KEY([Nro_Denuncia])
+REFERENCES [dbo].[DENUNCIA] ([Nro_Denuncia]);
+
+ALTER TABLE [dbo].[Rol]
+ADD codRol VARCHAR(15) not NULL default 'NULL';
+
+update [dbo].[Rol]
+set codRol = 'OPT'
+where NombreRol = 'Operador Tecnico';
+
+update [dbo].[Rol]
+set codRol = 'MDE'
+where NombreRol = 'Mesa de Entrada';
+
+update [dbo].[Rol]
+set codRol = 'TDC'
+where NombreRol = 'TribunalDeCuentas';
+
+update [dbo].[Rol]
+set codRol = 'INT'
+where NombreRol = 'Intendente';
+
+delete from [dbo].[Rol]
+where NombreRol in ('SecretarioDeGobierno', 'Inspector');
+
+update [dbo].[Rol]
+set codRol = 'ADS'
+where NombreRol = 'AdministradorDeSistema';
+
+update [dbo].[Rol]
+set codRol = 'VEC'
+where NombreRol = 'Vecino';
