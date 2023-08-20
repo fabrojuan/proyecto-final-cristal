@@ -64,8 +64,6 @@ namespace MVPSA_V2022.Modelos
 
         public virtual DbSet<Rol> Rols { get; set; }
 
-        public virtual DbSet<Sesione> Sesiones { get; set; }
-
         public virtual DbSet<Solicitud> Solicituds { get; set; }
 
         public virtual DbSet<Sugerencium> Sugerencia { get; set; }
@@ -714,28 +712,6 @@ namespace MVPSA_V2022.Modelos
                     .IsUnicode(false)
                     .HasDefaultValueSql("('EMPLEADO')")
                     .HasColumnName("tipoRol");
-            });
-
-            modelBuilder.Entity<Sesione>(entity =>
-            {
-                entity.HasKey(e => e.IdSesion).HasName("PK__SESIONES__22EC535B75CF6083");
-
-                entity.ToTable("SESIONES");
-
-                entity.Property(e => e.IdSesion)
-                    .HasMaxLength(25)
-                    .IsUnicode(false);
-                entity.Property(e => e.FechaFin).HasColumnType("datetime");
-                entity.Property(e => e.FechaInicio).HasColumnType("datetime");
-                entity.Property(e => e.IdUsuario).HasColumnName("idUsuario");
-                entity.Property(e => e.Maquina)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.Sesiones)
-                    .HasForeignKey(d => d.IdUsuario)
-                    .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK__SESIONES__idUsua__4E53A1AA");
             });
 
             modelBuilder.Entity<Solicitud>(entity =>

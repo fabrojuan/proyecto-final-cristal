@@ -191,42 +191,29 @@ namespace MVPSA_V2022.Controllers
         //OBTENER VARIABLE DE SESSION DE EMPLEADO
         [HttpGet]
         [Route("api/usuarios/obtenerVariableSession")]
-        public SeguridadCLS obtenerVariableSession()
+        public SeguridadCLS obtenerVariableSession([FromHeader(Name = "id_usuario")] int idUsuario)
         {
             SeguridadCLS oSeguridadCLS = new SeguridadCLS();
-            var variableSession = HttpContext.Session.GetString("empleado");
-            if (variableSession == null)
-            {
-                oSeguridadCLS.valor = "";
+            oSeguridadCLS.valor = idUsuario.ToString();
+
+            using (M_VPSA_V3Context bd = new M_VPSA_V3Context()) {
+                oSeguridadCLS.lista =
+                                (from usuario in bd.Usuarios
+                                  join rol in bd.Rols
+                                  on usuario.IdTipoUsuario equals rol.IdRol
+                                  join paginaxrol in bd.Paginaxrols
+                                  on usuario.IdTipoUsuario equals paginaxrol.IdRol
+                                  join pagina in bd.Paginas
+                                  on paginaxrol.IdPagina equals pagina.IdPagina
+                                  where usuario.IdUsuario == idUsuario
+                                  && rol.TipoRol == "EMPLEADO"
+                                  select new PaginaCLS
+                                  {
+                                      //con substring contamo a partir del primer caracter o sea que la url irá sin el / para no redundar y no tener dobe //
+                                      Accion = pagina.Accion.Substring(1),
+                                  }).ToList();
             }
-            else
-            {
-                oSeguridadCLS.valor = variableSession;
-                List<PaginaCLS> listaPaginaCLS = new List<PaginaCLS>();
-                int idUsuario = int.Parse(HttpContext.Session.GetString("empleado"));
-                int idTipoRol = int.Parse(HttpContext.Session.GetString("tipoEmpleado"));
 
-                using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
-                {
-                    listaPaginaCLS = (from empleado in bd.Usuarios
-                                      join rol in bd.Rols
-                                      on empleado.IdTipoUsuario equals rol.IdRol
-                                      join paginaxrol in bd.Paginaxrols
-                                      on empleado.IdTipoUsuario equals paginaxrol.IdRol
-                                      join pagina in bd.Paginas
-                                      on paginaxrol.IdPagina equals pagina.IdPagina
-                                      where empleado.IdUsuario == idUsuario && empleado.IdTipoUsuario == idTipoRol
-                                      select new PaginaCLS
-                                      {
-                                          //con substring contamo a partir del primer caracter o sea que la url irá sin el / para no redundar y no tener dobe //
-                                          Accion = pagina.Accion.Substring(1),
-
-                                      }).ToList();
-                    oSeguridadCLS.lista = listaPaginaCLS;
-                }
-
-
-            }
             return oSeguridadCLS;
         }
 

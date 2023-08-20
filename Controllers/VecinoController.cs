@@ -172,8 +172,6 @@ namespace MVPSA_V2022.Controllers
             SeguridadCLS oSeguridadCLS = new SeguridadCLS();
             try
             {
-                HttpContext.Session.Remove("vecino");
-                HttpContext.Session.Remove("nombreVecino");
                 oSeguridadCLS.valor = "OK";
 
             }
