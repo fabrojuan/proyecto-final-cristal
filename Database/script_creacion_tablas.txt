@@ -211,3 +211,5 @@ where NombreRol = 'AdministradorDeSistema';
 update [dbo].[Rol]
 set codRol = 'VEC'
 where NombreRol = 'Vecino';
+
+drop TABLE [dbo].[SESIONES]

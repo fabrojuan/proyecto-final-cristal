@@ -33,8 +33,6 @@ public partial class Usuario
 
     public virtual ICollection<Reclamo> Reclamos { get; set; } = new List<Reclamo>();
 
-    public virtual ICollection<Sesione> Sesiones { get; set; } = new List<Sesione>();
-
     public virtual ICollection<Solicitud> Solicituds { get; set; } = new List<Solicitud>();
 
     public virtual ICollection<TipoReclamo> TipoReclamoIdUsuarioAltaNavigations { get; set; } = new List<TipoReclamo>();
