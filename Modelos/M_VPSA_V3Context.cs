@@ -88,8 +88,6 @@ namespace MVPSA_V2022.Modelos
 
         public virtual DbSet<Usuario> Usuarios { get; set; }
 
-        public virtual DbSet<UsuarioVecino> UsuarioVecinos { get; set; }
-
         public virtual DbSet<ValuacionInmobiliario> ValuacionInmobiliarios { get; set; }
 
         public virtual DbSet<VwReclamo> VwReclamos { get; set; }
@@ -604,10 +602,6 @@ namespace MVPSA_V2022.Modelos
                     .HasForeignKey(d => d.IdUsuario)
                     .HasConstraintName("FK__PRUEBA_GR__IdUsu__46B27FE2");
 
-                entity.HasOne(d => d.IdVecinoNavigation).WithMany(p => p.PruebaGraficaReclamos)
-                    .HasForeignKey(d => d.IdVecino)
-                    .HasConstraintName("FK__PRUEBA_GR__IdVec__47A6A41B");
-
                 entity.HasOne(d => d.NroReclamoNavigation).WithMany(p => p.PruebaGraficaReclamos)
                     .HasForeignKey(d => d.NroReclamo)
                     .OnDelete(DeleteBehavior.Cascade)
@@ -681,14 +675,14 @@ namespace MVPSA_V2022.Modelos
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK__RECLAMO__Cod_Tip__4B7734FF");
 
-                entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.Reclamos)
+                entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.ReclamoIdUsuarioNavigations)
                     .HasForeignKey(d => d.IdUsuario)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__RECLAMO__IdUsuar__4C6B5938");
 
-                entity.HasOne(d => d.IdVecinoNavigation).WithMany(p => p.Reclamos)
+                entity.HasOne(d => d.IdVecinoNavigation).WithMany(p => p.ReclamoIdVecinoNavigations)
                     .HasForeignKey(d => d.IdVecino)
-                    .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK__RECLAMO__IdVecin__4D5F7D71");
+                    .HasConstraintName("FK__RECLAMO__IdVecin__2610A626");
             });
 
             modelBuilder.Entity<Rol>(entity =>
@@ -739,14 +733,13 @@ namespace MVPSA_V2022.Modelos
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK__SOLICITUD__Cod_T__503BEA1C");
 
-                entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.Solicituds)
+                entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.SolicitudIdUsuarioNavigations)
                     .HasForeignKey(d => d.IdUsuario)
                     .HasConstraintName("FK__SOLICITUD__IdUsu__51300E55");
 
-                entity.HasOne(d => d.IdVecinoNavigation).WithMany(p => p.Solicituds)
+                entity.HasOne(d => d.IdVecinoNavigation).WithMany(p => p.SolicitudIdVecinoNavigations)
                     .HasForeignKey(d => d.IdVecino)
-                    .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK__SOLICITUD__IdVec__5224328E");
+                    .HasConstraintName("FK__SOLICITUD__IdVec__2704CA5F");
             });
 
             modelBuilder.Entity<Sugerencium>(entity =>
@@ -841,10 +834,12 @@ namespace MVPSA_V2022.Modelos
 
                 entity.HasOne(d => d.IdUsuarioAltaNavigation).WithMany(p => p.TipoReclamoIdUsuarioAltaNavigations)
                     .HasForeignKey(d => d.IdUsuarioAlta)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__TIPO_RECLAMO__USUARIO_ALTA");
 
                 entity.HasOne(d => d.IdUsuarioModificacionNavigation).WithMany(p => p.TipoReclamoIdUsuarioModificacionNavigations)
                     .HasForeignKey(d => d.IdUsuarioModificacion)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__TIPO_RECLAMO__USUARIO_MODIFICACION");
             });
 
@@ -919,13 +914,13 @@ namespace MVPSA_V2022.Modelos
                     .HasColumnType("datetime");
                 entity.Property(e => e.NroReclamo).HasColumnName("Nro_Reclamo");
 
-                entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.TrabajoReclamos)
+                entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.TrabajoReclamoIdUsuarioNavigations)
                     .HasForeignKey(d => d.IdUsuario)
                     .HasConstraintName("FK__TRABAJO_R__IdUsu__540C7B00");
 
-                entity.HasOne(d => d.IdVecinoNavigation).WithMany(p => p.TrabajoReclamos)
+                entity.HasOne(d => d.IdVecinoNavigation).WithMany(p => p.TrabajoReclamoIdVecinoNavigations)
                     .HasForeignKey(d => d.IdVecino)
-                    .HasConstraintName("FK__TRABAJO_R__IdVec__55009F39");
+                    .HasConstraintName("FK__TRABAJO_R__IdVec__27F8EE98");
 
                 entity.HasOne(d => d.NroReclamoNavigation).WithMany(p => p.TrabajoReclamos)
                     .HasForeignKey(d => d.NroReclamo)
@@ -948,13 +943,13 @@ namespace MVPSA_V2022.Modelos
                     .HasColumnType("datetime");
                 entity.Property(e => e.NroSolicitud).HasColumnName("Nro_Solicitud");
 
-                entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.TrabajoSolicituds)
+                entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.TrabajoSolicitudIdUsuarioNavigations)
                     .HasForeignKey(d => d.IdUsuario)
                     .HasConstraintName("FK__TRABAJO_S__IdUsu__56E8E7AB");
 
-                entity.HasOne(d => d.IdVecinoNavigation).WithMany(p => p.TrabajoSolicituds)
+                entity.HasOne(d => d.IdVecinoNavigation).WithMany(p => p.TrabajoSolicitudIdVecinoNavigations)
                     .HasForeignKey(d => d.IdVecino)
-                    .HasConstraintName("FK__TRABAJO_S__IdVec__57DD0BE4");
+                    .HasConstraintName("FK__TRABAJO_S__IdVec__28ED12D1");
 
                 entity.HasOne(d => d.NroSolicitudNavigation).WithMany(p => p.TrabajoSolicituds)
                     .HasForeignKey(d => d.NroSolicitud)
@@ -990,32 +985,6 @@ namespace MVPSA_V2022.Modelos
                 entity.HasOne(d => d.IdTipoUsuarioNavigation).WithMany(p => p.Usuarios)
                     .HasForeignKey(d => d.IdTipoUsuario)
                     .HasConstraintName("FK__USUARIO__idTipoU__5AB9788F");
-            });
-
-            modelBuilder.Entity<UsuarioVecino>(entity =>
-            {
-                entity.HasKey(e => e.IdVecino).HasName("PK__USUARIO___E7C50E6911FCE4D1");
-
-                entity.ToTable("USUARIO_VECINO");
-
-                entity.Property(e => e.IdVecino).HasColumnName("idVecino");
-                entity.Property(e => e.Bhabilitado).HasColumnName("BHabilitado");
-                entity.Property(e => e.Contrasenia)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-                entity.Property(e => e.FechaAlta)
-                    .HasDefaultValueSql("(getdate())")
-                    .HasColumnType("date");
-                entity.Property(e => e.FechaBaja).HasColumnType("date");
-                entity.Property(e => e.IdPersona).HasColumnName("idPersona");
-                entity.Property(e => e.NombreUser)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.HasOne(d => d.IdPersonaNavigation).WithMany(p => p.UsuarioVecinos)
-                    .HasForeignKey(d => d.IdPersona)
-                    .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK__USUARIO_V__idPer__5BAD9CC8");
             });
 
             modelBuilder.Entity<ValuacionInmobiliario>(entity =>

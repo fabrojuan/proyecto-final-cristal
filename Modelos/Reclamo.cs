@@ -25,7 +25,7 @@ public partial class Reclamo
 
     public int? IdVecino { get; set; }
 
-    public int? IdUsuario { get; set; }
+    public int IdUsuario { get; set; }
 
     public string? NomApeVecino { get; set; }
 
@@ -39,9 +39,9 @@ public partial class Reclamo
 
     public virtual TipoReclamo? CodTipoReclamoNavigation { get; set; }
 
-    public virtual Usuario? IdUsuarioNavigation { get; set; }
+    public virtual Usuario IdUsuarioNavigation { get; set; } = null!;
 
-    public virtual UsuarioVecino? IdVecinoNavigation { get; set; }
+    public virtual Usuario? IdVecinoNavigation { get; set; }
 
     public virtual ICollection<PruebaGraficaReclamo> PruebaGraficaReclamos { get; set; } = new List<PruebaGraficaReclamo>();
 

@@ -166,6 +166,7 @@ import { ReclamoFormGenerarEmpleadoComponent } from './components/reclamo-form-g
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'bienvenida', component: BienvenidaComponent, canActivate: [SeguridadGuard] },  //, canActivate: [SeguridadGuard]
+      { path: 'bienvenida-vecino', component: BienvenidaVecinoComponent, canActivate: [SeguridadVecinoGuard] }, 
       { path: 'datos-finanzas-economicos', component: DatosFinanzasEconomicosComponent },
       { path: 'datos-finan-econom-generar', component: DatosFinanEconomGenerarComponent, canActivate: [SeguridadGuard] }, 
       { path: 'denuncia-form-generar', component: DenunciaFormGenerarComponent },

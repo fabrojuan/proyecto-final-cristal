@@ -176,7 +176,7 @@ namespace MVPSA_V2022.Controllers
                                on paginaRol.IdRol equals usuario.IdTipoUsuario
                                where paginaRol.Bhabilitado == 1
                                && usuario.IdUsuario == idUsuario
-                               && pagina.Bvisible == 1
+                               //&& pagina.Bvisible == 1
                                select new PaginaCLS
                                {
                                    idPagina = pagina.IdPagina,

@@ -38,11 +38,15 @@ namespace MVPSA_V2022.Services
                 reclamo.NroPrioridad = getPrioridadReclamoSegunTipoReclamo(reclamoCLS.codTipoReclamo);
                 reclamo.Fecha = DateTime.Now;
 
-                Usuario usuarioAlta = dbContext.Usuarios.Where(usr => usr.IdUsuario == idUsuarioAlta).FirstOrDefault();
+                Usuario usuarioAlta = dbContext.Usuarios
+                    .Where(usr => usr.IdUsuario == idUsuarioAlta).FirstOrDefault();
 
-                if (usuarioAlta.IdTipoUsuario == 2000) {
-                    // Si es un usuario vecino
+                if ("VEC".Equals(usuarioAlta.IdTipoUsuarioNavigation.CodRol)) {
                     reclamo.IdVecino = idUsuarioAlta;
+                    Persona personaVecino = usuarioAlta.IdPersonaNavigation;
+                    reclamo.NomApeVecino = personaVecino.Nombre + ", " + personaVecino.Apellido;
+                    reclamo.MailVecino = personaVecino.Mail;
+                    reclamo.TelefonoVecino = personaVecino.Telefono;
                 }
 
                 using (M_VPSA_V3Context bd = new M_VPSA_V3Context()) {
@@ -50,9 +54,8 @@ namespace MVPSA_V2022.Services
                     // Guarda la foto 1 si el vecino la cargo
                     if (reclamoCLS.foto1 != null && reclamoCLS.foto1.Length > 0) {
                         PruebaGraficaReclamo pruebaGraficaReclamo1 = new PruebaGraficaReclamo();
-                        pruebaGraficaReclamo1.IdVecino = idUsuarioAlta;
+                        pruebaGraficaReclamo1.IdUsuario = idUsuarioAlta;
                         pruebaGraficaReclamo1.Bhabilitado = 1;
-
                         reclamo.PruebaGraficaReclamos.Add(pruebaGraficaReclamo1);
                     }
 
@@ -60,9 +63,8 @@ namespace MVPSA_V2022.Services
                     if (reclamoCLS.foto2 != null && reclamoCLS.foto2.Length > 0)
                     {
                         PruebaGraficaReclamo pruebaGraficaReclamo2 = new PruebaGraficaReclamo();
-                        pruebaGraficaReclamo2.IdVecino = idUsuarioAlta;
+                        pruebaGraficaReclamo2.IdUsuario = idUsuarioAlta;
                         pruebaGraficaReclamo2.Bhabilitado = 1;
-
                         reclamo.PruebaGraficaReclamos.Add(pruebaGraficaReclamo2);
                     }
 
@@ -385,7 +387,7 @@ namespace MVPSA_V2022.Services
 
         public ReclamoDto modificarReclamo(int nroReclamo, ModificarReclamoRequestDto reclamoDto)
         {
-            Reclamo reclamo =
+            /*Reclamo reclamo =
                 dbContext.Reclamos
                 .Where(rec => rec.NroReclamo == nroReclamo)
                 .FirstOrDefault();
@@ -399,7 +401,7 @@ namespace MVPSA_V2022.Services
                 dbContext.Reclamos.Update(reclamo);
                 dbContext.SaveChanges();
                 return getReclamo(nroReclamo);
-            }
+            }*/
 
             return new ReclamoDto();
 

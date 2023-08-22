@@ -15,17 +15,20 @@ using System.Text;
 namespace MVPSA_V2022.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/reclamos")]
     [Authorize]
-    public class ReclamosController : ControllerBase
+    public class ReclamosController : Controller
     {
         private readonly IReclamoService reclamoService;
-        private readonly IUsuarioService usuarioService;
 
-        public ReclamosController(IReclamoService reclamoService, IUsuarioService usuarioService)
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        public ReclamosController(IReclamoService reclamoService)
         {
             this.reclamoService = reclamoService;
-            this.usuarioService = usuarioService;
         }
 
         [HttpGet]
@@ -45,10 +48,9 @@ namespace MVPSA_V2022.Controllers
 
         [HttpGet]
         [Route("tipos-reclamo")]
-        public IEnumerable<TipoReclamoDto> getTiposReclamo()
+        public IActionResult getTiposReclamo()
         {
-            return reclamoService.listarTiposReclamo();
-
+            return Ok(reclamoService.listarTiposReclamo());
         }
 
         [HttpDelete]
