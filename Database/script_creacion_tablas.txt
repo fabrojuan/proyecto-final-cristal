@@ -213,3 +213,44 @@ set codRol = 'VEC'
 where NombreRol = 'Vecino';
 
 drop TABLE [dbo].[SESIONES]
+
+Alter table [dbo].[PRUEBA_GRAFICA_RECLAMO]
+drop constraint FK__PRUEBA_GR__IdVec__47A6A41B;
+
+ALTER TABLE [dbo].[PRUEBA_GRAFICA_RECLAMO]
+DROP COLUMN idVecino;
+
+Alter table [dbo].[RECLAMO]
+drop constraint FK__RECLAMO__IdVecin__4D5F7D71;
+
+ALTER TABLE [dbo].[RECLAMO]
+   ADD FOREIGN KEY (idVecino)
+      REFERENCES [dbo].[USUARIO] (idUsuario);
+
+Alter table [dbo].[SOLICITUD]
+drop constraint FK__SOLICITUD__IdVec__5224328E;
+
+ALTER TABLE [dbo].[SOLICITUD]
+   ADD FOREIGN KEY (idVecino)
+      REFERENCES [dbo].[USUARIO] (idUsuario);
+
+Alter table [dbo].[TRABAJO_RECLAMO]
+drop constraint FK__TRABAJO_R__IdVec__55009F39;
+
+ALTER TABLE [dbo].[TRABAJO_RECLAMO]
+   ADD FOREIGN KEY (idVecino)
+      REFERENCES [dbo].[USUARIO] (idUsuario);
+
+Alter table [dbo].[TRABAJO_SOLICITUD]
+drop constraint FK__TRABAJO_S__IdVec__57DD0BE4;
+
+ALTER TABLE [dbo].[TRABAJO_SOLICITUD]
+   ADD FOREIGN KEY (idVecino)
+      REFERENCES [dbo].[USUARIO] (idUsuario);
+
+drop TABLE [dbo].[USUARIO_VECINO];
+
+alter TABLE [dbo].[RECLAMO] alter COLUMN idUsuario int not null;
+
+alter TABLE [dbo].[TIPO_RECLAMO] alter COLUMN IdUsuarioAlta int not null; 
+alter TABLE [dbo].[TIPO_RECLAMO] alter COLUMN IdUsuarioModificacion int not null; 

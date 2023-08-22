@@ -21,7 +21,7 @@ public partial class TrabajoReclamo
 
     public virtual Usuario? IdUsuarioNavigation { get; set; }
 
-    public virtual UsuarioVecino? IdVecinoNavigation { get; set; }
+    public virtual Usuario? IdVecinoNavigation { get; set; }
 
     public virtual Reclamo NroReclamoNavigation { get; set; } = null!;
 }

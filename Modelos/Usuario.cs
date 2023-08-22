@@ -31,17 +31,25 @@ public partial class Usuario
 
     public virtual ICollection<PruebaGraficaReclamo> PruebaGraficaReclamos { get; set; } = new List<PruebaGraficaReclamo>();
 
-    public virtual ICollection<Reclamo> Reclamos { get; set; } = new List<Reclamo>();
+    public virtual ICollection<Reclamo> ReclamoIdUsuarioNavigations { get; set; } = new List<Reclamo>();
 
-    public virtual ICollection<Solicitud> Solicituds { get; set; } = new List<Solicitud>();
+    public virtual ICollection<Reclamo> ReclamoIdVecinoNavigations { get; set; } = new List<Reclamo>();
+
+    public virtual ICollection<Solicitud> SolicitudIdUsuarioNavigations { get; set; } = new List<Solicitud>();
+
+    public virtual ICollection<Solicitud> SolicitudIdVecinoNavigations { get; set; } = new List<Solicitud>();
 
     public virtual ICollection<TipoReclamo> TipoReclamoIdUsuarioAltaNavigations { get; set; } = new List<TipoReclamo>();
 
     public virtual ICollection<TipoReclamo> TipoReclamoIdUsuarioModificacionNavigations { get; set; } = new List<TipoReclamo>();
 
-    public virtual ICollection<TrabajoReclamo> TrabajoReclamos { get; set; } = new List<TrabajoReclamo>();
+    public virtual ICollection<TrabajoReclamo> TrabajoReclamoIdUsuarioNavigations { get; set; } = new List<TrabajoReclamo>();
 
-    public virtual ICollection<TrabajoSolicitud> TrabajoSolicituds { get; set; } = new List<TrabajoSolicitud>();
+    public virtual ICollection<TrabajoReclamo> TrabajoReclamoIdVecinoNavigations { get; set; } = new List<TrabajoReclamo>();
+
+    public virtual ICollection<TrabajoSolicitud> TrabajoSolicitudIdUsuarioNavigations { get; set; } = new List<TrabajoSolicitud>();
+
+    public virtual ICollection<TrabajoSolicitud> TrabajoSolicitudIdVecinoNavigations { get; set; } = new List<TrabajoSolicitud>();
 
     public virtual ICollection<Trabajo> Trabajos { get; set; } = new List<Trabajo>();
 }

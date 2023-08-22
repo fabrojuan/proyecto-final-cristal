@@ -27,7 +27,7 @@ public partial class Solicitud
 
     public virtual Usuario? IdUsuarioNavigation { get; set; }
 
-    public virtual UsuarioVecino? IdVecinoNavigation { get; set; }
+    public virtual Usuario? IdVecinoNavigation { get; set; }
 
     public virtual ICollection<TrabajoSolicitud> TrabajoSolicituds { get; set; } = new List<TrabajoSolicitud>();
 }

@@ -37,7 +37,7 @@ export class UsuarioVecinoFormGenerarComponent implements OnInit {
         "Apellido": new FormControl("", [Validators.required, Validators.maxLength(100)]),
         "BHabilitado": new FormControl("1"),
         "Telefono": new FormControl("", [Validators.required, Validators.maxLength(20), Validators.pattern("[0-9]{9,}")]),
-        "Mail": new FormControl("", [Validators.required, Validators.pattern("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"), Validators.maxLength(100), this.noRepetirMail.bind(this)]),
+        "Mail": new FormControl("", [Validators.required, Validators.pattern("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"), Validators.maxLength(100)/*, this.noRepetirMail.bind(this)*/]),
         "Domicilio": new FormControl("", [Validators.required, Validators.maxLength(100)]),        
         "Dni": new FormControl("", [Validators.required, Validators.maxLength(8), Validators.minLength(7), Validators.pattern("[0-9]{7,8}")]),
         "Altura": new FormControl("", [Validators.required, Validators.maxLength(5)]),
@@ -79,7 +79,7 @@ export class UsuarioVecinoFormGenerarComponent implements OnInit {
       return;
     }
 
-    this.respuesta = this.usuarioService.GuardarVecino(this.Usuario.value).subscribe(data => { })
+    this.respuesta = this.usuarioService.GuardarVecino(this.Usuario.value).subscribe(data => {})
     if (this.respuesta == 0) {
       console.log("No se guardo correcto hubo error");
     }

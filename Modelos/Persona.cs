@@ -31,7 +31,5 @@ public partial class Persona
 
     public virtual ICollection<Lote> Lotes { get; set; } = new List<Lote>();
 
-    public virtual ICollection<UsuarioVecino> UsuarioVecinos { get; set; } = new List<UsuarioVecino>();
-
     public virtual ICollection<Usuario> Usuarios { get; set; } = new List<Usuario>();
 }

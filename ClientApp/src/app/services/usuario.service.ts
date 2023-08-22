@@ -80,11 +80,11 @@ export class UsuarioService {
   }
 
   public validarCorreo(id:any, correo:any): Observable<any> {
-    return this.http.get(this.urlBase + "api/Vecino/validarCorreo/" + id + "/" + correo).pipe(map(res => res));
+    return this.http.get(this.urlBase + "api/vecinos/validarCorreo/" + id + "/" + correo).pipe(map(res => res));
   }
 
   public GuardarVecino(Usuario:any) {
-    var url = this.urlBase + 'api/Vecino/guardarVecino/';
+    var url = this.urlBase + 'api/vecinos/';
     return this.http.post(url, Usuario).pipe(map(res => res));
   }
 

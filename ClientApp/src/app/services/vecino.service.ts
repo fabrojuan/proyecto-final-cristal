@@ -22,7 +22,7 @@ export class VecinoService {
   }
 
   public getvecino() {
-    return this.http.get(this.urlBase + 'api/Vecino/listarvecinos')
+    return this.http.get(this.urlBase + 'api/vecinos')
       .pipe(map(res => res));
   }
   public getFiltrarvecinoPorTipo(idTipo: any): Observable<any> {
@@ -34,12 +34,12 @@ export class VecinoService {
   }
 
   public Guardarvecino(vecino: any): Observable<any> {
-    var url = this.urlBase + 'api/Vecino/guardarvecino/';
+    var url = this.urlBase + 'api/vecinos/';
     return this.http.post(url, vecino).pipe(map(res => res));
   }
 
   public GuardarVecino(vecino:any) :Observable<any> {
-    var url = this.urlBase + 'api/Vecino/guardarVecino/';
+    var url = this.urlBase + 'api/vecinos/';
     return this.http.post(url, vecino).pipe(map(res => res));
   }
 
@@ -47,7 +47,7 @@ export class VecinoService {
 
   //SOlo utilizado en el login
   public ObtenerVariableSession() {
-    return this.http.get(this.urlBase + 'api/vecino/obtenerVariableSession').pipe(map((res: any) => {
+    return this.http.get(this.urlBase + 'api/vecinos/obtenerVariableSession').pipe(map((res: any) => {
       var data = res;
       var inf = data.valor;
       if (inf == "") {
@@ -62,7 +62,7 @@ export class VecinoService {
   }
 
   public ObtenerSession(): Observable<any> {
-    return this.http.get(this.urlBase + 'api/vecino/obtenerVariableSession').pipe(map((res: any) => {
+    return this.http.get(this.urlBase + 'api/vecinos/obtenerVariableSession').pipe(map((res: any) => {
       var data = res;
       var inf = data.valor;
       if (inf == "") {
@@ -77,12 +77,9 @@ export class VecinoService {
 
 
   public obtenerSessionidVecino(): Observable<any> {
-    return this.http.get(this.urlBase + 'api/vecino/obtenerVariableSession').pipe(map(res => res));
+    return this.http.get(this.urlBase + 'api/vecinos/obtenerVariableSession').pipe(map(res => res));
   }
-  public obtenerSessionNombreVecino(): Observable<any> {
-    return this.http.get(this.urlBase + 'api/vecino/obtenerSessionNombreVecino').pipe(map(res => res));
 
-  }
   public GuardarPersona(Persona: any): Observable<any> {
     var url = this.urlBase + 'api/Persona/GuardarPersona/';
     return this.http.post(url, Persona).pipe(map(res => res));
@@ -93,7 +90,7 @@ export class VecinoService {
 
   //   ************** LOGIN *****************
   public login(vecino:any): Observable<any> {
-    return this.http.post(this.urlBase + "api/Vecino/login/", vecino).pipe(
+    return this.http.post(this.urlBase + "api/vecinos/login/", vecino).pipe(
       map(res => {
         this.guardarToken(res);
         return res;
@@ -132,7 +129,7 @@ export class VecinoService {
   }
 
   public cerrarSessionVecino() {
-    return this.http.get(this.urlBase + "api/Vecino/cerrarSessionVecino").pipe(
+    return this.http.get(this.urlBase + "api/vecinos/cerrarSessionVecino").pipe(
       map(res => {
         this.borrarToken();
         return res;

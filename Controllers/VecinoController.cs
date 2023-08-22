@@ -29,9 +29,11 @@ namespace MVPSA_V2022.Controllers
         {
             return View();
         }
+
         //********************* GUARDAR VECINO ******************************************
+        [AllowAnonymous]
         [HttpPost]
-        [Route("api/Vecino/guardarVecino")]
+        [Route("api/vecinos")]
         public int GuardarVecino([FromBody] VecinoCLS oVecinoCLS)
         {
             int rpta = 0;
@@ -44,6 +46,9 @@ namespace MVPSA_V2022.Controllers
                     {
                         if (oVecinoCLS.IdVecino == 0)
                         {
+
+                            Rol rolVecino = bd.Rols.Where(vec => vec.CodRol == "VEC").First();
+
                             Persona oPersona = new Persona();
                             oPersona.Nombre = oVecinoCLS.NombrePersona;
                             oPersona.Apellido = oVecinoCLS.Apellido;
@@ -57,20 +62,25 @@ namespace MVPSA_V2022.Controllers
                             oPersona.FechaNac = oVecinoCLS.FechaNac;
                             bd.Personas.Add(oPersona);
                             bd.SaveChanges();
-                            UsuarioVecino oUsuario = new UsuarioVecino();
+
+                            Usuario oUsuario = new Usuario();
                             oPersona = bd.Personas.Where(p => p.Dni == oVecinoCLS.Dni).First();
                             oUsuario.IdPersona = oPersona.IdPersona;
                             oUsuario.NombreUser = oVecinoCLS.NombreUser;
+                            oUsuario.IdTipoUsuario = rolVecino.IdRol;
+
                             //Cifrado de la contraseña
                             string Contrasenia = oVecinoCLS.Contrasenia;
                             SHA256Managed sha = new SHA256Managed();
                             byte[] dataNocifrada = Encoding.Default.GetBytes(Contrasenia);
                             byte[] dataCifrada = sha.ComputeHash(dataNocifrada);
                             string claveCifrada = BitConverter.ToString(dataCifrada).Replace("-", "");
+
                             oUsuario.Contrasenia = claveCifrada;
                             oUsuario.Bhabilitado = 1;
-                            bd.UsuarioVecinos.Add(oUsuario);
+                            bd.Usuarios.Add(oUsuario);
                             bd.SaveChanges();
+
                             transaccion.Complete();
                             //Para el caso de edicion no hace falta hacer nada porque la relacion a persona ya esta                     
                             rpta = 1;
@@ -102,8 +112,9 @@ namespace MVPSA_V2022.Controllers
 
         //********************* VALIDAR EMAIL VECINO ******************************************
 
+        [AllowAnonymous]
         [HttpGet]
-        [Route("api/Vecino/validarCorreo/{id}/{correo}")]
+        [Route("api/vecinos/validarCorreo/{id}/{correo}")]
         public int validarCorreo(int id, string correo)
         {
             int rpta = 0;
@@ -133,7 +144,7 @@ namespace MVPSA_V2022.Controllers
         //***************** Listar Personas *************************************
 
         [HttpGet]
-        [Route("api/Vecino/listarvecinos")]
+        [Route("api/vecinos")]
         public IEnumerable<PersonaCLS> listarvecinos()
         {
             using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
@@ -166,7 +177,7 @@ namespace MVPSA_V2022.Controllers
 
         //CERRAR SESION
         [HttpGet]
-        [Route("api/Vecino/cerrarSessionVecino")]
+        [Route("api/vecinos/cerrarSessionVecino")]
         public SeguridadCLS cerrarSessionVecino()
         {
             SeguridadCLS oSeguridadCLS = new SeguridadCLS();
@@ -182,45 +193,26 @@ namespace MVPSA_V2022.Controllers
 
 
         //OBTENER VARIABLE DE SESSION idVecino la variable es vecino
+        [AllowAnonymous]
         [HttpGet]
-        [Route("api/Vecino/obtenerVariableSession")]
-        public SeguridadCLS obtenerVariableSession()
+        [Route("api/vecinos/obtenerVariableSession")]
+        public SeguridadCLS obtenerVariableSession([FromHeader(Name = "id_usuario")] int idUsuario)
         {
             SeguridadCLS oSeguridadCLS = new SeguridadCLS();
-            var variableSession = HttpContext.Session.GetString("vecino");
-            if (variableSession == null)
+            if (idUsuario == 0)
             {
                 oSeguridadCLS.valor = "";
             }
             else
             {
-                oSeguridadCLS.valor = variableSession;
+                oSeguridadCLS.valor = idUsuario.ToString();
             }
             return oSeguridadCLS;
         }
 
-        //OBTENER de la VARIABLE DE SESSION el idVecino la variable es vecino
-        [HttpGet]
-        [Route("api/Vecino/obtenerSessionNombreVecino")]
-        public SeguridadCLS obtenerSessionNombreVecino()
-        {
-            SeguridadCLS oSeguridadCLS = new SeguridadCLS();
-            var variableSession = HttpContext.Session.GetString("nombreVecino");
-            if (variableSession == null)
-            {
-                oSeguridadCLS.valor = "";
-            }
-            else
-            {
-                oSeguridadCLS.valor = variableSession;
-            }
-            return oSeguridadCLS;
-        }
-
-        //Insertar metodo para obtener user.
         [AllowAnonymous]
         [HttpPost]
-        [Route("api/Vecino/login")]
+        [Route("api/vecinos/login")]
         public IActionResult login([FromBody] VecinoCLS oVecinoCLS)
         {
             SHA256Managed sha = new SHA256Managed();
@@ -259,8 +251,6 @@ namespace MVPSA_V2022.Controllers
                 }
             }
         }
-        //*****************FIN LOGIN **************************************
-
 
     }
 }
