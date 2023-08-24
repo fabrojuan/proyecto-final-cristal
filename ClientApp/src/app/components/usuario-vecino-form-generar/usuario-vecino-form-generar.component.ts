@@ -15,6 +15,7 @@ export class UsuarioVecinoFormGenerarComponent implements OnInit {
   parametro: any;
   respuesta: any = 0;
   yaExiste: boolean=false;
+  isFormSubmitted: boolean=false
 
   constructor(private usuarioService: UsuarioService, private router: Router, private activatedRoute: ActivatedRoute) {
     this.activatedRoute.params.subscribe(parametro => {
@@ -36,10 +37,11 @@ export class UsuarioVecinoFormGenerarComponent implements OnInit {
         "Apellido": new FormControl("", [Validators.required, Validators.maxLength(100)]),
         "BHabilitado": new FormControl("1"),
         "Telefono": new FormControl("", [Validators.required, Validators.maxLength(20), Validators.pattern("[0-9]{9,}")]),
-        "Mail": new FormControl("", [Validators.required, Validators.pattern("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"), Validators.maxLength(100), this.noRepetirMail.bind(this)]),
-        "Domicilio": new FormControl("", [Validators.required, Validators.maxLength(100)]),        "Dni": new FormControl("", [Validators.required, Validators.maxLength(8), Validators.minLength(7), Validators.pattern("[0-9]{7,8}")]),
+        "Mail": new FormControl("", [Validators.required, Validators.pattern("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"), Validators.maxLength(100)/*, this.noRepetirMail.bind(this)*/]),
+        "Domicilio": new FormControl("", [Validators.required, Validators.maxLength(100)]),        
+        "Dni": new FormControl("", [Validators.required, Validators.maxLength(8), Validators.minLength(7), Validators.pattern("[0-9]{7,8}")]),
         "Altura": new FormControl("", [Validators.required, Validators.maxLength(5)]),
-        "FechaNac": new FormControl("")
+        "FechaNac": new FormControl("", [Validators.required])
       }
     );
     //
@@ -65,16 +67,29 @@ export class UsuarioVecinoFormGenerarComponent implements OnInit {
     }
   }
   guardarDatos() {
-    if (this.Usuario.valid == true) {
-      this.respuesta = this.usuarioService.GuardarVecino(this.Usuario.value).subscribe(data => { })
-      if (this.respuesta == 0) {
-        console.log("No se guardo correcto hubo error");
-      }
-      else {
-        console.log("Se guardo Joya!!!");
-        this.router.navigate(["/"]);
-      }
+  
+    this.isFormSubmitted = true;
+
+    if (this.Usuario.invalid) {
+      Object.values(this.Usuario.controls).forEach(
+        control => {
+          control.markAsTouched();
+        }
+      );
+      return;
     }
+
+    this.respuesta = this.usuarioService.GuardarVecino(this.Usuario.value).subscribe(data => {})
+    if (this.respuesta == 0) {
+      console.log("No se guardo correcto hubo error");
+    }
+    else {
+      console.log("Se guardo Joya!!!");
+      this.router.navigate(["/"]);
+    }
+
+    alert("Se registró el usuario correctamente");   
+
   }
 
   validarContraseñas(control: FormControl) {
@@ -112,15 +127,56 @@ export class UsuarioVecinoFormGenerarComponent implements OnInit {
     return promesa;
   }
 
-  clickMethod() {
-    alert("Se registró el usuario correctamente");
-    //Luego de presionar click debe redireccionar al home
-  }
-
   volverHome() {
     this.router.navigate(["/"]);
   }
 
+  get nombrePersonaNoValido() {
+    return this.isFormSubmitted && this.Usuario.controls.NombrePersona.errors;
+  }
 
+  get apellidoNoValido()
+  {
+    return this.isFormSubmitted && this.Usuario.controls.Apellido.errors;
+  }
 
+  get telefonoNoValido()
+  {
+    return this.isFormSubmitted && this.Usuario.controls.Telefono.errors;
+  }
+
+  get mailNoValido()
+  {
+    return this.isFormSubmitted && this.Usuario.controls.Mail.errors;
+  }
+
+  get domicilioNoValido()
+  {
+    return this.isFormSubmitted && this.Usuario.controls.Domicilio.errors;
+  }  
+
+  get alturaNoValido()
+  {
+    return this.isFormSubmitted && this.Usuario.controls.Altura.errors;
+  }  
+
+  get nombreUserNoValido()
+  {
+    return this.isFormSubmitted && this.Usuario.controls.NombreUser.errors;
+  } 
+
+  get contraseniaNoValido()
+  {
+    return this.isFormSubmitted && this.Usuario.controls.Contrasenia.errors;
+  } 
+  
+  get dniNoValido()
+  {
+    return this.isFormSubmitted && this.Usuario.controls.Dni.errors;
+  }
+
+  get fechaNacNoValido()
+  {
+    return this.isFormSubmitted && this.Usuario.controls.FechaNac.errors;
+  }
 }

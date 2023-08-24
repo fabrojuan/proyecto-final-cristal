@@ -3,7 +3,9 @@ import { Injectable, Inject } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 
 export class SugerenciaService {
   urlBase: string = "";

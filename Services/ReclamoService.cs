@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MVPSA_V2022.clases;
+using MVPSA_V2022.Enums;
 using MVPSA_V2022.Exceptions;
 using MVPSA_V2022.Modelos;
 using System.Linq;
@@ -37,11 +38,15 @@ namespace MVPSA_V2022.Services
                 reclamo.NroPrioridad = getPrioridadReclamoSegunTipoReclamo(reclamoCLS.codTipoReclamo);
                 reclamo.Fecha = DateTime.Now;
 
-                Usuario usuarioAlta = dbContext.Usuarios.Where(usr => usr.IdUsuario == idUsuarioAlta).FirstOrDefault();
+                Usuario usuarioAlta = dbContext.Usuarios
+                    .Where(usr => usr.IdUsuario == idUsuarioAlta).FirstOrDefault();
 
-                if (usuarioAlta.IdTipoUsuario == 2000) {
-                    // Si es un usuario vecino
+                if ("VEC".Equals(usuarioAlta.IdTipoUsuarioNavigation.CodRol)) {
                     reclamo.IdVecino = idUsuarioAlta;
+                    Persona personaVecino = usuarioAlta.IdPersonaNavigation;
+                    reclamo.NomApeVecino = personaVecino.Nombre + ", " + personaVecino.Apellido;
+                    reclamo.MailVecino = personaVecino.Mail;
+                    reclamo.TelefonoVecino = personaVecino.Telefono;
                 }
 
                 using (M_VPSA_V3Context bd = new M_VPSA_V3Context()) {
@@ -49,9 +54,8 @@ namespace MVPSA_V2022.Services
                     // Guarda la foto 1 si el vecino la cargo
                     if (reclamoCLS.foto1 != null && reclamoCLS.foto1.Length > 0) {
                         PruebaGraficaReclamo pruebaGraficaReclamo1 = new PruebaGraficaReclamo();
-                        pruebaGraficaReclamo1.IdVecino = idUsuarioAlta;
+                        pruebaGraficaReclamo1.IdUsuario = idUsuarioAlta;
                         pruebaGraficaReclamo1.Bhabilitado = 1;
-
                         reclamo.PruebaGraficaReclamos.Add(pruebaGraficaReclamo1);
                     }
 
@@ -59,9 +63,8 @@ namespace MVPSA_V2022.Services
                     if (reclamoCLS.foto2 != null && reclamoCLS.foto2.Length > 0)
                     {
                         PruebaGraficaReclamo pruebaGraficaReclamo2 = new PruebaGraficaReclamo();
-                        pruebaGraficaReclamo2.IdVecino = idUsuarioAlta;
+                        pruebaGraficaReclamo2.IdUsuario = idUsuarioAlta;
                         pruebaGraficaReclamo2.Bhabilitado = 1;
-
                         reclamo.PruebaGraficaReclamos.Add(pruebaGraficaReclamo2);
                     }
 
@@ -84,14 +87,14 @@ namespace MVPSA_V2022.Services
         {
             using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
             {
-                List<ReclamoDto> listaReclamo = (from reclamo in bd.ReclamosVw
+                List<ReclamoDto> listaReclamo = (from reclamo in bd.VwReclamos
                                                  where reclamo.Bhabilitado == 1
                                                  select new ReclamoDto
                                                  {
                                                      nroReclamo = reclamo.NroReclamo,
                                                      descripcion = reclamo.Descripcion,
-                                                     codTipoReclamo = reclamo.CodTipoReclamo,
-                                                     codEstadoReclamo = reclamo.CodEstadoReclamo,
+                                                     codTipoReclamo = (int)reclamo.CodTipoReclamo,
+                                                     codEstadoReclamo = (int)reclamo.CodEstadoReclamo,
                                                      Bhabilitado = reclamo.Bhabilitado,
                                                      calle = reclamo.Calle,
                                                      altura = reclamo.Altura,
@@ -102,7 +105,7 @@ namespace MVPSA_V2022.Services
                                                      estadoReclamo = reclamo.EstadoReclamo,
                                                      tipoReclamo = reclamo.TipoReclamo,
                                                      nombreYapellido = reclamo.NomApeVecino,
-                                                     nroPrioridad = reclamo.NroPrioridad,
+                                                     nroPrioridad = (int)reclamo.NroPrioridad,
                                                      usuarioAsignado = reclamo.Usuario,
                                                      empleadoAsignado = reclamo.Empleado,
                                                      prioridad = reclamo.PrioridadReclamo
@@ -116,15 +119,15 @@ namespace MVPSA_V2022.Services
         {
             using (M_VPSA_V3Context bd = new M_VPSA_V3Context())            {
 
-                ReclamoDto reclamoResponse = (from reclamo in bd.ReclamosVw
+                ReclamoDto reclamoResponse = (from reclamo in bd.VwReclamos
                                                  where reclamo.Bhabilitado == 1
                                                  && reclamo.NroReclamo == nroReclamo
                                               select new ReclamoDto
                                                  {
                                                   nroReclamo = reclamo.NroReclamo,
                                                   descripcion = reclamo.Descripcion,
-                                                  codTipoReclamo = reclamo.CodTipoReclamo,
-                                                  codEstadoReclamo = reclamo.CodEstadoReclamo,
+                                                  codTipoReclamo = (int)reclamo.CodTipoReclamo,
+                                                  codEstadoReclamo = (int)reclamo.CodEstadoReclamo,
                                                   Bhabilitado = reclamo.Bhabilitado,
                                                   calle = reclamo.Calle,
                                                   altura = reclamo.Altura,
@@ -135,7 +138,7 @@ namespace MVPSA_V2022.Services
                                                   estadoReclamo = reclamo.EstadoReclamo,
                                                   tipoReclamo = reclamo.TipoReclamo,
                                                   nombreYapellido = reclamo.NomApeVecino,
-                                                  nroPrioridad = reclamo.NroPrioridad,
+                                                  nroPrioridad = (int)reclamo.NroPrioridad,
                                                   usuarioAsignado = reclamo.Usuario,
                                                   empleadoAsignado = reclamo.Empleado,
                                                   prioridad = reclamo.PrioridadReclamo
@@ -318,8 +321,8 @@ namespace MVPSA_V2022.Services
             // Esto es para que me traiga datos de las entidades relacionadas.
             // por ahora no encontre otra forma de hacerlo. En teoria existe
             // un metodo include() que permite hacerlo pero no aparece como disponible.
-            dbContext.Entry(tipoReclamoDomain).Reference(s => s.UsuarioAlta).Load();
-            dbContext.Entry(tipoReclamoDomain).Reference(s => s.UsuarioModificacion).Load();
+            dbContext.Entry(tipoReclamoDomain).Reference(s => s.IdUsuarioAltaNavigation).Load();
+            dbContext.Entry(tipoReclamoDomain).Reference(s => s.IdUsuarioModificacionNavigation).Load();
 
             return mapper.Map<TipoReclamoDto>(tipoReclamoDomain);
 
@@ -384,7 +387,7 @@ namespace MVPSA_V2022.Services
 
         public ReclamoDto modificarReclamo(int nroReclamo, ModificarReclamoRequestDto reclamoDto)
         {
-            Reclamo reclamo =
+            /*Reclamo reclamo =
                 dbContext.Reclamos
                 .Where(rec => rec.NroReclamo == nroReclamo)
                 .FirstOrDefault();
@@ -398,7 +401,7 @@ namespace MVPSA_V2022.Services
                 dbContext.Reclamos.Update(reclamo);
                 dbContext.SaveChanges();
                 return getReclamo(nroReclamo);
-            }
+            }*/
 
             return new ReclamoDto();
 

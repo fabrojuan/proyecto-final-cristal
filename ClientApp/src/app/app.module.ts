@@ -166,6 +166,7 @@ import { ReclamoFormGenerarEmpleadoComponent } from './components/reclamo-form-g
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'bienvenida', component: BienvenidaComponent, canActivate: [SeguridadGuard] },  //, canActivate: [SeguridadGuard]
+      { path: 'bienvenida-vecino', component: BienvenidaVecinoComponent, canActivate: [SeguridadVecinoGuard] }, 
       { path: 'datos-finanzas-economicos', component: DatosFinanzasEconomicosComponent },
       { path: 'datos-finan-econom-generar', component: DatosFinanEconomGenerarComponent, canActivate: [SeguridadGuard] }, 
       { path: 'denuncia-form-generar', component: DenunciaFormGenerarComponent },
@@ -224,7 +225,8 @@ import { ReclamoFormGenerarEmpleadoComponent } from './components/reclamo-form-g
       { path: 'datos-finanzas-economicos-borrado/:id', component: DatosFinanzasEconomicosBorradoComponent, canActivate: [SeguridadGuard] },
       { path: 'reclamo-cambiar-prioridad/:id', component: ReclamoCambiarPrioridadComponent },
       { path: 'reclamo-derivar/:id', component: ReclamoDerivarComponent },
-      { path: 'reclamo-form-generar-empleado', component: ReclamoFormGenerarEmpleadoComponent },
+      { path: 'reclamo-form-generar-empleado', component: ReclamoFormGenerarEmpleadoComponent, canActivate: [SeguridadGuard] },
+      { path: 'pagina-form-generar', component: PaginaFormGenerarComponent, canActivate: [SeguridadGuard] },
       { path: '*', redirectTo: '' } //a home
 
 

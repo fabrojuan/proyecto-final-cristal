@@ -176,7 +176,7 @@ namespace MVPSA_V2022.Controllers
                                on paginaRol.IdRol equals usuario.IdTipoUsuario
                                where paginaRol.Bhabilitado == 1
                                && usuario.IdUsuario == idUsuario
-                               && pagina.Bvisible == 1
+                               //&& pagina.Bvisible == 1
                                select new PaginaCLS
                                {
                                    idPagina = pagina.IdPagina,
@@ -191,69 +191,74 @@ namespace MVPSA_V2022.Controllers
         //OBTENER VARIABLE DE SESSION DE EMPLEADO
         [HttpGet]
         [Route("api/usuarios/obtenerVariableSession")]
-        public SeguridadCLS obtenerVariableSession()
+        public SeguridadCLS obtenerVariableSession([FromHeader(Name = "id_usuario")] int idUsuario)
         {
             SeguridadCLS oSeguridadCLS = new SeguridadCLS();
-            var variableSession = HttpContext.Session.GetString("empleado");
-            if (variableSession == null)
-            {
-                oSeguridadCLS.valor = "";
+            oSeguridadCLS.valor = idUsuario.ToString();
+
+            using (M_VPSA_V3Context bd = new M_VPSA_V3Context()) {
+                oSeguridadCLS.lista =
+                                (from usuario in bd.Usuarios
+                                  join rol in bd.Rols
+                                  on usuario.IdTipoUsuario equals rol.IdRol
+                                  join paginaxrol in bd.Paginaxrols
+                                  on usuario.IdTipoUsuario equals paginaxrol.IdRol
+                                  join pagina in bd.Paginas
+                                  on paginaxrol.IdPagina equals pagina.IdPagina
+                                  where usuario.IdUsuario == idUsuario
+                                  && rol.TipoRol == "EMPLEADO"
+                                  select new PaginaCLS
+                                  {
+                                      //con substring contamo a partir del primer caracter o sea que la url irá sin el / para no redundar y no tener dobe //
+                                      Accion = pagina.Accion.Substring(1),
+                                  }).ToList();
             }
-            else
-            {
-                oSeguridadCLS.valor = variableSession;
-                List<PaginaCLS> listaPaginaCLS = new List<PaginaCLS>();
-                int idUsuario = int.Parse(HttpContext.Session.GetString("empleado"));
-                int idTipoRol = int.Parse(HttpContext.Session.GetString("tipoEmpleado"));
 
-                using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
-                {
-                    listaPaginaCLS = (from empleado in bd.Usuarios
-                                      join rol in bd.Rols
-                                      on empleado.IdTipoUsuario equals rol.IdRol
-                                      join paginaxrol in bd.Paginaxrols
-                                      on empleado.IdTipoUsuario equals paginaxrol.IdRol
-                                      join pagina in bd.Paginas
-                                      on paginaxrol.IdPagina equals pagina.IdPagina
-                                      where empleado.IdUsuario == idUsuario && empleado.IdTipoUsuario == idTipoRol
-                                      select new PaginaCLS
-                                      {
-                                          //con substring contamo a partir del primer caracter o sea que la url irá sin el / para no redundar y no tener dobe //
-                                          Accion = pagina.Accion.Substring(1),
-
-                                      }).ToList();
-                    oSeguridadCLS.lista = listaPaginaCLS;
-                }
-
-
-            }
             return oSeguridadCLS;
         }
 
-        [HttpPost]
+        
         [AllowAnonymous]
+        [HttpPost]
         [Route("api/usuarios/login")]
-        public IActionResult login([FromBody] UsuarioCLS oUsuarioCLS)
+        public IActionResult loginNuevo([FromBody] SolicitudLoginDto solicitudLoginDto)
         {
             int rpta = 0;
             try
             {
+
+                SHA256Managed sha = new SHA256Managed();
+                byte[] dataNocifrada = Encoding.Default.GetBytes(solicitudLoginDto.usuarioContrasenia);
+                byte[] dataCifrada = sha.ComputeHash(dataNocifrada);
+                string claveCifrada = BitConverter.ToString(dataCifrada).Replace("-", "");
+
+
                 using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
                 {
 
-                    SHA256Managed sha = new SHA256Managed();
-                    byte[] dataNocifrada = Encoding.Default.GetBytes(oUsuarioCLS.Contrasenia);
-                    byte[] dataCifrada = sha.ComputeHash(dataNocifrada);
-                    string claveCifrada = BitConverter.ToString(dataCifrada).Replace("-", "");
+                    TokenUsuarioDto tokenUsuarioDto = (from usuarios in bd.Usuarios
+                                       join roles in bd.Rols
+                                       on usuarios.IdTipoUsuario equals roles.IdRol
+                                       where usuarios.Bhabilitado == 1
+                                       &&
+                                       usuarios.NombreUser == solicitudLoginDto.usuarioNombre.ToUpper()
+                                       && usuarios.Contrasenia == claveCifrada
+                                       && roles.TipoRol == "EMPLEADO"
+                                       select new TokenUsuarioDto
+                                       {
+                                           idUsuario = usuarios.IdUsuario,
+                                           usuarioNombre = usuarios.NombreUser,
+                                           idRol = roles.IdRol,
+                                           codRol = roles.CodRol,
+                                           tipoRol = roles.TipoRol
 
-                    rpta = bd.Usuarios.Where( p => p.NombreUser.ToUpper() == oUsuarioCLS.NombreUser.ToUpper() && p.Contrasenia == claveCifrada).Count();
-                    if (rpta == 1)
+                                       }
+                     ).FirstOrDefault();
+
+
+                    if (tokenUsuarioDto != null)
                     {
-                        Usuario oUsuarioRecuperado = bd.Usuarios
-                            .Where(p => p.NombreUser.ToUpper() == oUsuarioCLS.NombreUser.ToUpper()
-                                        && p.Contrasenia == claveCifrada).First();
-
-                        return Ok(_jwtAuthenticationService.getToken(oUsuarioRecuperado.IdUsuario));
+                        return Ok(_jwtAuthenticationService.getToken(tokenUsuarioDto.idUsuario, tokenUsuarioDto.codRol));
                     }
                     else
                     {
@@ -261,8 +266,9 @@ namespace MVPSA_V2022.Controllers
                     }
                 }
             }
-            catch (Exception ex) { 
-                Console.WriteLine(ex); 
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
             }
 
             return Unauthorized();
