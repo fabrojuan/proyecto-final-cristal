@@ -183,7 +183,7 @@ namespace MVPSA_V2022.Services
                                         cod_Tipo_Reclamo = tipoReclamo.CodTipoReclamo,
                                         nombre = tipoReclamo.Nombre,
                                         descripcion = tipoReclamo.Descripcion,
-                                        tiempo_Max_Tratamiento = tipoReclamo.TiempoMaxTratamiento,
+                                        tiempo_Max_Tratamiento = (int)tipoReclamo.TiempoMaxTratamiento,
                                         usuarioAlta = usuarioAlta.NombreUser,
                                         usuarioModificacion = usuarioModificacion.NombreUser
                                     })
@@ -220,7 +220,7 @@ namespace MVPSA_V2022.Services
                                          cod_Tipo_Reclamo = tipoReclamoQuery.CodTipoReclamo,
                                          nombre = tipoReclamoQuery.Nombre,
                                          descripcion = tipoReclamoQuery.Descripcion,
-                                         tiempo_Max_Tratamiento = tipoReclamoQuery.TiempoMaxTratamiento,
+                                         tiempo_Max_Tratamiento = (int)tipoReclamoQuery.TiempoMaxTratamiento,
                                          usuarioAlta = usuarioAlta.NombreUser,
                                          usuarioModificacion = usuarioModificacion.NombreUser
                                      })
@@ -259,7 +259,7 @@ namespace MVPSA_V2022.Services
                                       cod_Tipo_Reclamo = tipoReclamoQuery.CodTipoReclamo,
                                       nombre = tipoReclamoQuery.Nombre,
                                       descripcion = tipoReclamoQuery.Descripcion,
-                                      tiempo_Max_Tratamiento = tipoReclamoQuery.TiempoMaxTratamiento,
+                                      tiempo_Max_Tratamiento = tipoReclamoQuery.TiempoMaxTratamiento ?? 0,
                                       fechaAlta = (DateTime)tipoReclamoQuery.FechaAlta,
                                       fechaModificacion = (DateTime)tipoReclamoQuery.FechaModificacion,
                                       usuarioAlta = usuarioAlta.NombreUser,
@@ -321,8 +321,8 @@ namespace MVPSA_V2022.Services
             // Esto es para que me traiga datos de las entidades relacionadas.
             // por ahora no encontre otra forma de hacerlo. En teoria existe
             // un metodo include() que permite hacerlo pero no aparece como disponible.
-            dbContext.Entry(tipoReclamoDomain).Reference(s => s.IdUsuarioAltaNavigation).Load();
-            dbContext.Entry(tipoReclamoDomain).Reference(s => s.IdUsuarioModificacionNavigation).Load();
+            //dbContext.Entry(tipoReclamoDomain).Reference(s => s.IdUsuarioAltaNavigation).Load();
+            //dbContext.Entry(tipoReclamoDomain).Reference(s => s.IdUsuarioModificacionNavigation).Load();
 
             return mapper.Map<TipoReclamoDto>(tipoReclamoDomain);
 

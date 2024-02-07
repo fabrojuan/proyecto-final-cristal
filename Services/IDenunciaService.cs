@@ -15,5 +15,6 @@ namespace MVPSA_V2022.Services
 
         public TipoDenunciaCLS modificarTipoDenuncia(TipoDenunciaCLS tipoDenunciaDto, int idUsuarioModificacion);
 
+        public IEnumerable<DenunciaCLS2> ListarDenunciasCerradas();
     }
 }

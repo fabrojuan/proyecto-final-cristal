@@ -7,21 +7,23 @@ public partial class TrabajoReclamo
 {
     public int NroTrabajo { get; set; }
 
-    public string? Descripcion { get; set; }
-
-    public DateTime? Fecha { get; set; }
-
     public int NroReclamo { get; set; }
 
-    public int? IdUsuario { get; set; }
+    public int NroAreaTrabajo { get; set; }
 
-    public int? IdVecino { get; set; }
+    public DateTime FechaTrabajo { get; set; }
 
-    public int? Bhabilitado { get; set; }
+    public string Descripcion { get; set; } = null!;
 
-    public virtual Usuario? IdUsuarioNavigation { get; set; }
+    public int IdUsuarioAlta { get; set; }
 
-    public virtual Usuario? IdVecinoNavigation { get; set; }
+    public DateTime FechaAlta { get; set; }
+
+    public int Bhabilitado { get; set; }
+
+    public virtual Usuario IdUsuarioAltaNavigation { get; set; } = null!;
+
+    public virtual Area NroAreaTrabajoNavigation { get; set; } = null!;
 
     public virtual Reclamo NroReclamoNavigation { get; set; } = null!;
 }

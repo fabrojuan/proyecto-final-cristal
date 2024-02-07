@@ -17,6 +17,8 @@ export class DenunciaFormGenerarComponent implements OnInit {
   foto2: any;
   foto3: any;
   Rpta: number = 0;
+  isFormSubmitted: boolean = false
+  regexTexto = "^[A-Za-z]+$.";
   resultadoGuardadoModal: any = "";
   @ViewChild("myModalInfo", { static: false }) myModalInfo: TemplateRef<any> | undefined;
   //Esta linea anterior es para el modal.
@@ -25,10 +27,10 @@ export class DenunciaFormGenerarComponent implements OnInit {
       {
        "Nro_Denuncia": new FormControl("0"),
         "codTipoDenuncia": new FormControl("", [Validators.required]),
-        'Descripcion': new FormControl("", [Validators.required, Validators.maxLength(2500)]),
+        'Descripcion': new FormControl("", [Validators.required, Validators.maxLength(2500), Validators.minLength(20)]),
         'Calle': new FormControl("", [Validators.required, Validators.maxLength(100)]),
-        "Nombre_Infractor": new FormControl(""),
-        "Apellido_Infractor": new FormControl(""),
+        "Nombre_Infractor": new FormControl(""),//, [Validators.maxLength(45), Validators.pattern(this.regexTexto)]
+        "Apellido_Infractor": new FormControl(""),//, [Validators.maxLength(45)]
         "Bhabilitado": new FormControl("1"),
         "Mail_Notificacion": new FormControl(""),  //, [Validators.required,Validators.maxLength(100),Validators.pattern("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")]
         "Movil_Notificacion": new FormControl(""),
@@ -126,6 +128,10 @@ export class DenunciaFormGenerarComponent implements OnInit {
       return this.foto3;
     }
     return "../../../../assets/Imagenes/Image_not_available.png";
+  }
+  //Continuar aqui con las validaciones. 
+  get DescripcionNoValido() {
+    return this.isFormSubmitted && this.Denuncia.controls.Descripcion.errors;
   }
 
 }

@@ -1,4 +1,4 @@
-<!doctype html>
+<!--<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -20,69 +20,80 @@
     }
   </style>
 
-</head>
-<body class="bg-light">
-  <div class="container">
-    <div class="d-flex align-items-center p-2 my-2 bg-purple bg-light shadow p-2 mb-5 rounded shadow-sm">
-      <img src="../../../assets/Imagenes/trabajando.png" alt="" width="95" height="90">
-      <div class="tituloFormulario text-center form-group col-md-8 offset-md-1">
-        <p> Detalle de Trabajo</p>
-      </div>
-    </div>
-
-    <div class="row">
-
-      <!-- //ACA en este Div Van Las fotos del trabajo y es lo que me falta por ahora.-->
-      <div class="col-md-4 order-md-2 mb-4">
-        <h4 class="d-flex justify-content-between align-items-center mb-3">
-          <span class="text-muted">Pruebas Gráficas</span>
-          <span class="badge badge-secondary badge-pill">3</span>
-        </h4>
-        <ul class="list-group mb-3">
-          <li class="list-group-item d-flex justify-content-between lh-condensed" *ngFor="let prueba of pruebas let i = index">
-            <div>
-              <h6 class="my-0">Prueba gráfica nro: {{prueba.nroImagen}}</h6>
-              <img src={{prueba.foto}} class="d-block w-100" width="200" height="200">
+</head>-->
+<div class="container">
+  <div class="card">
+    <div class="card-body">
+      <body class="bg-light">
+        <div class="container">
+          <div class="d-flex align-items-center p-2 my-2 bg-purple bg-light shadow p-2 mb-5 rounded shadow-sm">
+            <img src="../../../assets/Imagenes/trabajando.svg" alt="" width="58" height="58">
+            <div class="card-title text-center form-group col-md-8 offset-md-1">
+              <p> Detalle de Trabajo</p>
             </div>
-            <span class="text-muted">ver..</span>
-          </li>
-        </ul>
-      </div>
-      <!--Aca empieza la Primera columa del row general que es la de Visualizacion de trabajo. -->
-      <div class="col-md-8 order-md-1">
-
-        <div class="row p-3 my-2 ">
-          <div class="form-group form-inline">
-            <label for="nro_Trabajo">Numero de Trabajo &nbsp;:&nbsp;{{trabajo.nro_Trabajo}}</label>
           </div>
 
+          <div class="row">
+
+            <!-- //ACA en este Div Van Las fotos del trabajo y es lo que me falta por ahora.-->
+            <div class="col-md-4 order-md-2 mb-4">
+              <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <!--<span class="text-muted">Pruebas Gráficas</span>-->
+                <span class="badge badge-secondary badge-pill">3</span>
+              </h4>
+              <ul class="list-group mb-3">
+                <li class="list-group-item d-flex justify-content-between lh-condensed" *ngFor="let prueba of pruebas let i = index">
+                <!--  <p>{{prueba.foto}}</p>-->
+                  <div *ngIf="prueba.foto">
+                    <h6 class="my-0 text-muted">Prueba gráfica nro: {{prueba.nroImagen}}</h6>
+                    <img src={{prueba.foto}} class="d-block w-100" width="200" height="200">
+                  </div>
+                  <!--<div *ngIf="!prueba.foto">-->
+                    <!-- No se muestra nada -->
+                  <!--</div>-->
+                  <!-- <span class="text-muted">ver..</span>-->
+
+                </li>
+              </ul>
+            </div>
+            <!--Aca empieza la Primera columa del row general que es la de Visualizacion de trabajo. -->
+            <div class="col-md-8 order-md-1">
+
+              <div class="row p-3 my-2 ">
+                <div class="form-group form-inline">
+                  <label for="nro_Trabajo">Numero de Trabajo &nbsp;:&nbsp;{{trabajo.nro_Trabajo}}</label>
+                </div>
+
+              </div>
+              <div class="row">
+                <div class=" form-group col-md-12 mb-3">
+                  <label for="descripcion">Descripción:</label>
+                  <textarea class="cssDescripcion form-control sin-borde" rows="7">{{trabajo.descripcion}}</textarea>
+                </div>
+              </div>
+
+              <div class="row p-2 my-2 ">
+                <div class="col-md-5 mb-2 form-group form-inline">
+                  <label for="fecha">Fecha de Registro  &nbsp;:&nbsp;{{trabajo.fecha| date: 'dd/MM/yyyy HH:MM'}}</label>
+                </div>
+
+                <div class="col-md-5 mb-2  form-group form-inline">
+                  <label for="id_Usuario">Legajo Empleado &nbsp;:&nbsp;{{trabajo.id_Usuario}}</label>
+                </div>
+              </div>
+
+              <div class="row p-3 my-5">
+
+                <div class="col-md-6 offset-3 mb-5 mt-5">
+                  <button class="btn btn-primary btn-sm btn-block" (click)="volver()">Volver</button>
+                </div>
+              </div>
+
+            </div>
+          </div>
         </div>
-        <div class="row">
-          <div class=" form-group col-md-12 mb-3">
-            <label for="descripcion">Descripción:</label>
-            <textarea class="cssDescripcion form-control sin-borde" rows="7">{{trabajo.descripcion}}</textarea>
-          </div>
-        </div>
-
-        <div class="row p-2 my-2 ">
-          <div class="col-md-5 mb-2 form-group form-inline">
-            <label for="fecha">Fecha de Registro  &nbsp;:&nbsp;{{trabajo.fecha| date: 'dd/MM/yyyy HH:MM'}}</label>
-          </div>
-
-          <div class="col-md-5 mb-2  form-group form-inline">
-            <label for="id_Usuario">Legajo Empleado &nbsp;:&nbsp;{{trabajo.id_Usuario}}</label>
-          </div>
-        </div>
-
-        <div class="row p-3 my-5">
-
-          <div class="col-md-6 offset-3 mb-5 mt-5">
-            <button class="btn btn-primary btn-sm btn-block" (click)="volver()">Volver</button>
-          </div>
-        </div>
-
-      </div>
+      </body>
+      <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
     </div>
   </div>
-</body>
-</html>
+<!--</html>-->

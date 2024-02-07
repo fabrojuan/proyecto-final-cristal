@@ -1,0 +1,124 @@
+/*-------------------------aca el nuevo -----------------------*/
+.texto-blanco {
+  color: white;
+  font-size: 1.12em;
+}
+
+
+.tituloFormulario {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 2em;
+}
+
+/*el siguiente parrafo es para ajustar automaticamente la altura de las celdas en funcion del contenido del texto.*/
+td, th {
+  word-wrap: break-word; /* Rompe las palabras largas para que no desborden */
+  max-width: 300px; /* Establece un ancho máximo para las celdas */
+  vertical-align: top; /* Alinea el contenido de las celdas en la parte superior */
+}
+  .tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltiper .tooltiptext {
+  /*visibility: hidden;*/
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.Tipo_Denuncia {
+  margin-right: 1.5em;
+}
+
+.textoTabla {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 1em;
+  color: #000000;
+}
+
+
+.tituloTabla {
+  font-size: 0.9em;
+}
+
+.combobox {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 1.1em;
+  color: #240f7d;
+}
+
+
+/*-------------------------aca el nuevo -----------------------*/
+/*.texto-blanco {
+  color: white;
+  font-size: 1.12em;
+}
+
+.tituloFormulario {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 2em;
+}*/
+
+/*el siguiente parrafo es para ajustar automaticamente la altura de las celdas en funcion del contenido del texto.*/ 
+/*td, th {
+  word-wrap: break-word;*/ /* Rompe las palabras largas para que no desborden */
+  /*max-width: 300px;*/ /* Establece un ancho máximo para las celdas */
+  /*vertical-align: top;*/ /* Alinea el contenido de las celdas en la parte superior */
+/*}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltiper .tooltiptext {*/
+  /*visibility: hidden;*/
+  /*width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;*/
+  /* Position the tooltip */
+  /*position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.Tipo_Denuncia {
+  margin-right: 1.5em;
+}
+
+.textoTabla {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 1em;
+  color: #000000;
+}
+
+
+.tituloTabla {
+  font-size: 0.9em;
+}
+
+.combobox {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 1.1em;
+  color: #240f7d;
+}*/

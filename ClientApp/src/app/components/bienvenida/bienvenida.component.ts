@@ -17,6 +17,7 @@ export class BienvenidaComponent implements OnInit {
   chartDenuncia: any;
   totalDenuncias: any;
   totalDenunAsignaEmpleado: any;
+  totalDenunCerradas: any;
 
   constructor(private usuarioService: UsuarioService, private indicadoresService: IndicadoresService) { }
   ngOnInit() {
@@ -27,7 +28,13 @@ export class BienvenidaComponent implements OnInit {
       this.totalDenunAsignaEmpleado = chartDenuncia.totalDenunAsignaEmpleado;
       console.log(this.idEmpleado, this.nombreEmpleado, this.totalDenuncias, this.totalDenunAsignaEmpleado);
     });
-
+    this.indicadoresService.getDenunciasCerradas().subscribe(chartDenuncia => {
+      this.idEmpleado = chartDenuncia.idUsuario;
+      this.nombreEmpleado = chartDenuncia.nombreEmpleado;
+      this.totalDenunCerradas = chartDenuncia.totalDenuncias;
+      this.totalDenunAsignaEmpleado = chartDenuncia.totalDenunAsignaEmpleado;
+      console.log(this.idEmpleado, this.nombreEmpleado, this.totalDenuncias, this.totalDenunAsignaEmpleado);
+    });
 
   }
 

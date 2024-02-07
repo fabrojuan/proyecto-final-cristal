@@ -76,7 +76,7 @@ export class DenunciaDetalleComponent implements OnInit {
   //En guardar datos si la denuncia no se deriva a nadie se carga el usuario que está logueado, sino se asignara la denuncia al id correspondiente que se seleccione en el combobx
   guardarDatos() {
     if (this.Trabajo.valid == true) {
-
+      
       // Aca preguntar si el combo esta activado para derivar.
       //   Y para realizar todo el tratamiento de los estados de la denuncia.
       this.denunciaService.DerivaPriorizaDenuncia(this.Trabajo.value).subscribe(data => { });

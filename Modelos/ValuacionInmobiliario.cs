@@ -11,9 +11,9 @@ public partial class ValuacionInmobiliario
 
     public int? Bhabilitado { get; set; }
 
-    public decimal? IncrementoEsquina { get; set; }
+    public int? IncrementoEsquina { get; set; }
 
-    public decimal? IncrementoAsfalto { get; set; }
+    public int? IncrementoAsfalto { get; set; }
 
     public decimal? ValorSupTerreno { get; set; }
 
