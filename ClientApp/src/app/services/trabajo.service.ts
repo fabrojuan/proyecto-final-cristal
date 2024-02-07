@@ -22,6 +22,7 @@ export class TrabajoService {
 
   public GuardarTrabajo(Trabajo:any) {
     var url = this.urlBase + 'api/Trabajo/guardarTrabajo/';
+    console.log(Trabajo);
     return this.http.post(url, Trabajo).pipe(map(res => res));
   }
 
@@ -54,6 +55,10 @@ export class TrabajoService {
   }
   public ListarTrabajos(idDenuncia: any): Observable<any> {
     return this.http.get(this.urlBase + 'api/Trabajo/ListarTrabajos/' + idDenuncia).pipe(map(res => res));
+  }
+  
+  public ListarTrabajosDenunciasCerradas(idDenuncia: any): Observable<any> {
+    return this.http.get(this.urlBase + 'api/Trabajo/ListarTrabajosDenunciasCerradas/' + idDenuncia).pipe(map(res => res));
   }
   public ListarTrabajosReclamo(idReclamo: any): Observable<any> {
     return this.http.get(this.urlBase + 'api/Trabajo/ListarTrabajosReclamo/' + idReclamo).pipe(map(res => res));

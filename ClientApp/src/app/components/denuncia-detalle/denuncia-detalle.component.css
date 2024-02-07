@@ -7,10 +7,12 @@
 }
 
 .tituloFormulario {
-  color: #240f7d;
-  font-size: 3em;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 2em;
+  /* color: #000000;
+  font-size: 1.2em;
   font-weight: 900;
-  text-shadow: 6px 8px 10px #555;
+  text-shadow: 6px 8px 10px #555;*/
 }
 
 .alert {
@@ -41,32 +43,20 @@
   background-color: transparent;
 }
 
-.fondo {
+/*.fondo {
   background-color: #240f7d;
-}
+}*/
 
 input[type=checkbox] {
   transform: scale(1.5);
 }
-/*.container {*/
-/*max-width: 1400px;*/
-/*max-width: 1600px;
+.encuadre {
+  /*box-shadow: 5px 5px 5px #888888;*/
+  /*border: 1px solid #888888;*/
+  box-shadow: 2px 2px 2px #9479eb, -2px -2px 2px #f8e7e7;
+  padding: 10px;
+  margin: 10px;
 }
 
-.lh-condensed {
-  line-height: 1.25;
-}
-
-.tituloFormulario {
-  font-family: "Times New Roman", Times, serif;
-  font-size: 3em;
-}
-
-
-.sin-borde {
-  border: 0;
-  box-shadow: none;*/ /* You may want to include this as bootstrap applies these styles too */
-/*background-color: transparent;
-}*/
 
 

@@ -22,8 +22,8 @@ namespace MVPSA_V2022.clases.Reportes
         { 
             PdfDocumentEvent docEvent = (PdfDocumentEvent)@event;
             PdfDocument pdfDoc = docEvent.GetDocument();
-            string logoPath = "C:\\Users\\roman\\source\\repos\\romansad\\Proyecto_Cristal_2022\\ClientApp\\src\\assets\\Imagenes\\Arco100px.png";
-            var logo = ImageDataFactory.Create(logoPath);
+            string logoPath = "C:\\Proyecto_JUAN\\proyecto-final-cristal\\ClientApp\\src\\assets\\Imagenes\\Arco100px.png";
+        var logo = ImageDataFactory.Create(logoPath);
             PdfPage page = docEvent.GetPage();
             Rectangle pageSize = page.GetPageSize();
             Color colorGris = new DeviceRgb(192, 192, 192);

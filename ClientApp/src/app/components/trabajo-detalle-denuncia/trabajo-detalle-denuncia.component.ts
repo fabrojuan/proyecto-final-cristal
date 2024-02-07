@@ -54,7 +54,7 @@ export class TrabajoDetalleDenunciaComponent implements OnInit {
       this.TrabajoService.ImagenTrabajoDenuncia(this.parametro).subscribe(param => {
         if (param) {
           this.pruebas = param
-          console.log("Pruebas fotos"+param);
+          //console.log("Pruebas fotos"+param);
 
         }
         //console.log("Datos Trabajo trabajo dtalle denuncia" + this.pruebas);

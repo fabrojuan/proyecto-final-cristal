@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="d-flex align-items-center p-2 my-2 bg-purple bg-light shadow p-2 mb-5 rounded shadow-sm">
       <img src="../../../assets/Imagenes/Reclamo.svg" alt="" width="58" height="58">
-      <div class="tituloFormulario text-center form-group col-md-8 offset-md-1">
+      <div class="card-title text-center form-group col-md-8 offset-md-1">
         <p> Formulario Registrar Página{{titulo}}</p>
       </div>
     </div>
@@ -36,20 +36,19 @@
           La url debe no debe superar los 100 caracteres
         </div>
         <!--<div style="color: coral" *ngIf="Pagina.controls['Accion'].errors?.pattern ">
-          La url debe iniciar con "/"
-        </div>-->
+        La url debe iniciar con "/"
+      </div>-->
       </div>
     </div>
 
-    <!--radion button debajo    "col-md-5    -->
-    <div class="row form-group p-3 ml-2 col-md-12 offset-md-2">
-      <div class="col-md-3  offset-md-2">
-        <label>Visible:</label>
-        <input type="radio" name="Bvisible" title="Visible" value=1 class="form-control" id="formGroupExampleInput" formControlName="Bvisible">
+    <div class="row form-group p-3 ml-2">
+      <div class="col-md-4 offset-md-2">
+        <label for="visibleInput">Visible:</label>
+        <input type="radio" name="Bvisible" title="Visible" value=1 id="visibleInput" formControlName="Bvisible" class="custom-radio">
       </div>
-      <div class="col-md-3  offset-md-2">
-        <label>No Visible:</label>
-        <input type="radio" name="Bvisible" title="No Visible" value=0 class="form-control" id="formGroupExampleInput" formControlName="Bvisible">
+      <div class="col-md-4">
+        <label for="notVisibleInput">No Visible:</label>
+        <input type="radio" name="Bvisible" title="No Visible" value=0 id="notVisibleInput" formControlName="Bvisible" class="custom-radio">
       </div>
     </div>
 

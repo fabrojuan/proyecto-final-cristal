@@ -28,17 +28,21 @@ export class DatosFinanEconomGenerarComponent implements OnInit {
   volver() {
     this.router.navigate(["/bienvenida"]);
   }
+
+  volverAtras() {
+    this.router.navigate(["/generacion-datasets"]);
+  }
+
   ngOnInit() {
   }
 
   ExportarExcel() {
     this.datasetImpuestoService.ExportarExcel();
-     }
+  }
 
-  ExportarPDF()
-  {
-  this.datasetImpuestoService.ExportarPDF();
-}
+  ExportarPDF() {
+    this.datasetImpuestoService.ExportarPDF();
+  }
 
 
 

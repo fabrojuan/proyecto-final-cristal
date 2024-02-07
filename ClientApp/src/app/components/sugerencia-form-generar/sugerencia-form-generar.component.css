@@ -1,4 +1,60 @@
+
+/*-------------------------aca el nuevo -----------------------*/
 .texto-blanco {
+  color: white;
+  font-size: 1.12em;
+}
+
+.tituloFormulario {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 2em;
+}
+
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltiper .tooltiptext {
+  /*visibility: hidden;*/
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.Tipo_Denuncia {
+  margin-right: 1.5em;
+}
+
+.textoTabla {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 1em;
+  color: #000000;
+}
+
+
+.tituloTabla {
+  font-size: 0.9em;
+}
+
+.combobox {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 1.1em;
+  color: #240f7d;
+}
+/*.texto-blanco {
   color: white;
   font-size: 1.12em;
 }
@@ -28,19 +84,19 @@
   border-bottom: 1px dotted black;
 }
 
-.tooltiper .tooltiptext {
+.tooltiper .tooltiptext {*/
   /*visibility: hidden;*/
-  width: 120px;
+  /*width: 120px;
   background-color: black;
   color: #fff;
   text-align: center;
   border-radius: 6px;
-  padding: 5px 0;
+  padding: 5px 0;*/
   /* Position the tooltip */
-  position: absolute;
+  /*position: absolute;
   z-index: 1;
 }
 
 .tooltip:hover .tooltiptext {
   visibility: visible;
-}
+}*/

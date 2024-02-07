@@ -7,7 +7,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastService } from '../../services/toast.service';
 
 @Component({
-  selector: 'app-tipo-denuncia-tabla',
+  selector: 'tipo-denuncia-tabla',
   templateUrl: './tipo-denuncia-tabla.component.html',
   styleUrls: ['./tipo-denuncia-tabla.component.css']
 })

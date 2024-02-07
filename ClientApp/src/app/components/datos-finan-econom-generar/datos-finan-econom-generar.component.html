@@ -1,51 +1,51 @@
-<div class="container-fluid">
-  <div class="d-flex align-items-center p-2 my-2">
-    <img src="../../../assets/Imagenes/openData.png" alt="" width="95" height="95">
-    <div class="tituloFormulario text-center form-group col-md-8 offset-md-1">
-      <p> Generacion Datasets Economicos</p>
-    </div>
-  </div>
 
-  <div class="row">
-    <div class="row p-2 mt-3 row-cols-1 row-cols-md-2 g-4 ">
-      <!--Primer card-->
-      <div class="offset-1 card bg-transparent w-25">
-        <img src="../../../assets/Imagenes/DatasetEconomico.svg" class="card-img" alt="Imagen Open Data Economico" title="Este datase genera el listado completo de impuestos por lote">
-        <div class="card-footer">
-          <button class="btn btn-primary" (click)="generarDatasetImpuestos()">  <img src="../../../assets/IconsGoogle/arrow-up-circle.svg" width="20" height="20">&nbsp;&nbsp;Impuestos Inmobiliarios</button>
+<div class="container">
+  <div class="card">
+    <div class="card-body">
+
+      <!-- Generacion de SET DE DATOS ABIERTOS-->
+     <!-- <div class="row p-2 mt-3 row-cols-1 row-cols-md-2 g-4">-->
+        <div class="row mt-5 row-cols-4 row-cols-md-4 justify-content-center">
+             <div class="tarjeta">
+            <div class="card-body text-center">
+              <h5 class="card-title titulo" title="Click aqui para ayuda Contextual.">Dataset Impuestos por lote</h5>
+              <button class="btn btn-primary mb-2" (click)="generarDatasetImpuestos()" title="Click para generar CSV.">  <img src="../../../assets/IconsGoogle/arrow-up-circle.svg" width="20" height="20">&nbsp;&nbsp;Generar CSV</button>
+              <button class="btn btn-primary my-2" (click)="ExportarExcel()" title="Click para Generar En Formato EXCEL">  <img src="../../../assets/IconsGoogle/arrow-up-circle.svg" width="20" height="20">&nbsp;&nbsp;Generar XLS</button>
+              <button class="btn btn-primary my-2" (click)="ExportarPDF()" title="Click para Generar En Formato PDF">  <img src="../../../assets/IconsGoogle/arrow-up-circle.svg" width="20" height="20">&nbsp;&nbsp;Generar PDF</button>
+
+            </div>
+          </div>
+
+          <div class="tarjeta col offset-md-1">
+            <div class="card-body text-center">
+              <h5 class="card-title titulo" title="Click aqui para ayuda Contextual.">Formulario de eliminacion de datasets publicados</h5>
+              <button class="btn btn-primary" [routerLink]="['/datos-finanzas-economicos-borrado']" title="Click para acceder a tabla de eliminacion de registros">  <img src="../../../assets/IconsGoogle/Delete_Gris.svg" width="20" height="20">&nbsp;&nbsp;Eliminacion</button>
+
+            </div>
+          </div>
+
         </div>
-      </div>
-    </div>
-    <!--Cierre grupo de Cards-->
-  </div>
 
-  <!-- <h4 class="card-title titulo">Impuestos Inmobiliario</h4>-->
-  <!--Este es para borrado de datasets-->
-  <div class="row">
-    <div class="row p-2 mt-3 row-cols-1 row-cols-md-2 g-4 ">
-      <!--Primer card-->
-      <div class="offset-1 card bg-transparent w-25">
-        <img src="../../../assets/Imagenes/Historicos.svg" class="card-img" alt="Imagen Open Data Economico" title="Tablero de Eliminacion Datasets Antiguos o mal Generados">
-        <div class="card-footer">
-          <!--(click)="generarDatasetImpuestos()"-->
-          <button class="btn btn-primary" [routerLink]="['/datos-finanzas-economicos-borrado']">  <img src="../../../assets/IconsGoogle/Delete_Gris.svg" width="20" height="20">&nbsp;&nbsp;Impuestos Inmobiliarios</button>
+
+
+
+        <div class="row mt-5 row-cols-4 row-cols-md-4 justify-content-center">
+
+          <div class="ml-2 align-content-end">
+            <button type="button" class="btn btn-secondary col-md-8 offset-md-1" (click)="volver()">Escritorio</button>
+          </div>
+          <div class=" align-content-start">
+            <button type="button" class="btn btn-success col-md-8 offset-md-1" (click)="volverAtras()">Volver atr&aacute;s</button>
+
+          </div>
         </div>
+
+
       </div>
-    </div>
-    <!--Cierre grupo de Cards-->
+
   </div>
 
-  <section class="my-4">
-    <div class="col-md-5 offset-1">
-      <button type="button" class="btn btn-secondary col-md-4 offset-md-1" (click)="volver()">Volver</button>
-      <button type="button" class="btn btn-info col-md-4 offset-md-1" (click)="ExportarExcel()">Prueba Excel</button>
-      <button type="button" class="btn btn-info col-md-4 offset-md-1" (click)="ExportarPDF()">Prueba PDF</button>
-
-    </div>
-    <div class="col-md-5 offset-1">
-    </div>
-
-  </section>
-  <br><br><br>
+  <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
+</div>
 
 

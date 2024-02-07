@@ -2,3 +2,11 @@
   font-family: "Times New Roman", Times, serif;
   font-size: 3.5em;
 }
+.custom-radio {
+  margin-left: 2em; /* Aumenta o disminuye según tus necesidades */
+  transform: scale(1.5); /* Ajusta el factor de escala según lo grande que lo quieras */
+  position: relative;
+  top: 3px; /* Este ajuste vertical es para alinear mejor con el texto del label. Ajusta según tus necesidades. */
+}
+
+
