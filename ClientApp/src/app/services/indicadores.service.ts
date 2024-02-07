@@ -17,4 +17,9 @@ export class IndicadoresService {
   public getDenunciasxEmpleado(): Observable<any>  {
     return this.http.get(this.urlBase + 'api/Denuncia/DenunciasxEmpleado').pipe(map(res => res));
   }
+
+  public getDenunciasCerradas(): Observable<any> {
+    return this.http.get(this.urlBase + 'api/Denuncia/DenunciasCerradas').pipe(map(res => res));
+  }
+  
 }

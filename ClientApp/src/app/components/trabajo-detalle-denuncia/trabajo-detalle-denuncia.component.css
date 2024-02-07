@@ -1,23 +1,22 @@
-.container {
+/*.container {*/
   /*max-width: 1400px;*/
-  max-width: 1600px;
-}
+  /*max-width: 1600px;
+}*/
 
 .lh-condensed {
   line-height: 1.25;
 }
 
-.tituloFormulario {
-  color: #240f7d;
-  font-size: 3em;
-  font-weight: 900;
-  text-shadow: 6px 8px 10px #555;
-}
+/*.tituloFormulario {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 2em;
+}*/
+
 
 
 .cssDescripcion {
   font-family: "Times New Roman", Times, serif;
-  font-size: 1.4em;
+  font-size: 1em;
 }
 
 

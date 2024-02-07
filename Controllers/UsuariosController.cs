@@ -14,7 +14,7 @@ using System.Text;
 namespace MVPSA_V2022.Controllers
 {
 
-    [Authorize]
+    //[Authorize]
     public class UsuariosController : Controller
     {
 

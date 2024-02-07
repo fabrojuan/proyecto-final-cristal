@@ -35,13 +35,23 @@ public partial class Reclamo
 
     public string? TelefonoVecino { get; set; }
 
+    public int? NroArea { get; set; }
+
+    public int? IdUsuarioResponsable { get; set; }
+
     public virtual EstadoReclamo? CodEstadoReclamoNavigation { get; set; }
 
     public virtual TipoReclamo? CodTipoReclamoNavigation { get; set; }
 
     public virtual Usuario IdUsuarioNavigation { get; set; } = null!;
 
+    public virtual Usuario? IdUsuarioResponsableNavigation { get; set; }
+
     public virtual Usuario? IdVecinoNavigation { get; set; }
+
+    public virtual Area? NroAreaNavigation { get; set; }
+
+    public virtual ICollection<ObservacionReclamo> ObservacionReclamos { get; set; } = new List<ObservacionReclamo>();
 
     public virtual ICollection<PruebaGraficaReclamo> PruebaGraficaReclamos { get; set; } = new List<PruebaGraficaReclamo>();
 

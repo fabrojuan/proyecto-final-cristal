@@ -90,6 +90,8 @@ import { ReclamoCabeceraComponent } from './components/reclamo-cabecera/reclamo-
 import { ReclamoCambiarPrioridadComponent } from './components/reclamo-cambiar-prioridad/reclamo-cambiar-prioridad.component';
 import { ReclamoDerivarComponent } from './components/reclamo-derivar/reclamo-derivar.component';
 import { ReclamoFormGenerarEmpleadoComponent } from './components/reclamo-form-generar-empleado/reclamo-form-generar-empleado.component';
+import { HistoricoDenunciaTablaComponent } from './components/historico-denuncia-tabla/historico-denuncia-tabla.component';
+import { HistoricoDenunciaTrabajosComponent } from './components/historico-denuncia-trabajos/historico-denuncia-trabajos.component';
 
 
 @NgModule({
@@ -154,7 +156,9 @@ import { ReclamoFormGenerarEmpleadoComponent } from './components/reclamo-form-g
     ReclamoCabeceraComponent,
     ReclamoCambiarPrioridadComponent,
     ReclamoDerivarComponent,
-    ReclamoFormGenerarEmpleadoComponent
+    ReclamoFormGenerarEmpleadoComponent,
+    HistoricoDenunciaTablaComponent,
+    HistoricoDenunciaTrabajosComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -218,8 +222,9 @@ import { ReclamoFormGenerarEmpleadoComponent } from './components/reclamo-form-g
       { path: 'tipo-reclamo-form', component: TipoReclamoFormComponent, canActivate: [SeguridadGuard] },
       { path: 'tipo-denuncia-tabla', component: TipoDenunciaTablaComponent, canActivate: [SeguridadGuard] },
       { path: 'tipo-denuncia-form/:id', component: TipoDenunciaFormComponent/*, canActivate: [SeguridadGuard] */},
-      { path: 'tipo-denuncia-form', component: TipoDenunciaFormComponent/*, canActivate: [SeguridadGuard] */},
-      { path: 'lote-form-generar', component: LoteFormGenerarComponent, canActivate: [SeguridadGuard] },
+      { path: 'tipo-denuncia-form', component: TipoDenunciaFormComponent/*, canActivate: [SeguridadGuard] */ },
+      { path: 'tabla-tipo-denuncia', component: DenunciaTipoTablaComponent, canActivate: [SeguridadGuard] },
+      { path: 'tipo-denuncia-form', component: TipoDenunciaFormComponent/*, canActivate: [SeguridadGuard] */ },
       { path: 'generacion-datasets', component: GeneracionDatasetsComponent, canActivate: [SeguridadGuard] },
       { path: 'datos-finanzas-economicos-borrado', component: DatosFinanzasEconomicosBorradoComponent, canActivate: [SeguridadGuard] },
       { path: 'datos-finanzas-economicos-borrado/:id', component: DatosFinanzasEconomicosBorradoComponent, canActivate: [SeguridadGuard] },
@@ -227,6 +232,11 @@ import { ReclamoFormGenerarEmpleadoComponent } from './components/reclamo-form-g
       { path: 'reclamo-derivar/:id', component: ReclamoDerivarComponent },
       { path: 'reclamo-form-generar-empleado', component: ReclamoFormGenerarEmpleadoComponent, canActivate: [SeguridadGuard] },
       { path: 'pagina-form-generar', component: PaginaFormGenerarComponent, canActivate: [SeguridadGuard] },
+      { path: 'historico-denuncia-tabla', component: HistoricoDenunciaTablaComponent, canActivate: [SeguridadGuard] },
+      { path: 'historico-denuncia-trabajos/:id', component: HistoricoDenunciaTrabajosComponent, canActivate: [SeguridadGuard] },
+
+      { path: 'historico-denuncia-trabajos', component: HistoricoDenunciaTrabajosComponent, canActivate: [SeguridadGuard] },
+     
       { path: '*', redirectTo: '' } //a home
 
 

@@ -7,17 +7,17 @@ public partial class Usuario
 {
     public int IdUsuario { get; set; }
 
-    public string? NombreUser { get; set; }
+    public string NombreUser { get; set; } = null!;
 
-    public string? Contrasenia { get; set; }
+    public string Contrasenia { get; set; } = null!;
 
     public int? IdPersona { get; set; }
 
-    public int? Bhabilitado { get; set; }
+    public int Bhabilitado { get; set; }
 
     public int? IdTipoUsuario { get; set; }
 
-    public DateTime? FechaAlta { get; set; }
+    public DateTime FechaAlta { get; set; }
 
     public DateTime? FechaBaja { get; set; }
 
@@ -27,11 +27,15 @@ public partial class Usuario
 
     public virtual Rol? IdTipoUsuarioNavigation { get; set; }
 
+    public virtual ICollection<ObservacionReclamo> ObservacionReclamos { get; set; } = new List<ObservacionReclamo>();
+
     public virtual ICollection<PruebaGraficaDenuncium> PruebaGraficaDenuncia { get; set; } = new List<PruebaGraficaDenuncium>();
 
     public virtual ICollection<PruebaGraficaReclamo> PruebaGraficaReclamos { get; set; } = new List<PruebaGraficaReclamo>();
 
     public virtual ICollection<Reclamo> ReclamoIdUsuarioNavigations { get; set; } = new List<Reclamo>();
+
+    public virtual ICollection<Reclamo> ReclamoIdUsuarioResponsableNavigations { get; set; } = new List<Reclamo>();
 
     public virtual ICollection<Reclamo> ReclamoIdVecinoNavigations { get; set; } = new List<Reclamo>();
 
@@ -43,9 +47,7 @@ public partial class Usuario
 
     public virtual ICollection<TipoReclamo> TipoReclamoIdUsuarioModificacionNavigations { get; set; } = new List<TipoReclamo>();
 
-    public virtual ICollection<TrabajoReclamo> TrabajoReclamoIdUsuarioNavigations { get; set; } = new List<TrabajoReclamo>();
-
-    public virtual ICollection<TrabajoReclamo> TrabajoReclamoIdVecinoNavigations { get; set; } = new List<TrabajoReclamo>();
+    public virtual ICollection<TrabajoReclamo> TrabajoReclamos { get; set; } = new List<TrabajoReclamo>();
 
     public virtual ICollection<TrabajoSolicitud> TrabajoSolicitudIdUsuarioNavigations { get; set; } = new List<TrabajoSolicitud>();
 

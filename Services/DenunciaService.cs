@@ -32,10 +32,10 @@ namespace MVPSA_V2022.Services
         TipoDenunciaCLS IDenunciaService.getTipoDenuncia(int codTipoDenuncia)
         {
             TipoDenunciaCLS tipoDenunciaResponse = null;
-
+            Console.WriteLine("Con writeline llego a buscar la denuncia");
             using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
             {
-                /*tipoDenunciaResponse = (from tipoDenunciaQuery in bd.TipoDenuncia
+                tipoDenunciaResponse = (from tipoDenunciaQuery in bd.TipoDenuncia
                                         join usuarioAlta in bd.Usuarios
                                          on tipoDenunciaQuery.IdUsuarioAlta equals usuarioAlta.IdUsuario
                                         join usuarioModificacion in bd.Usuarios
@@ -44,14 +44,15 @@ namespace MVPSA_V2022.Services
                                         select new TipoDenunciaCLS
                                         {
                                             Cod_Tipo_Denuncia = tipoDenunciaQuery.CodTipoDenuncia,
-                                            Nombre = tipoDenunciaQuery.Nombre,
+                                            Nombre = !String.IsNullOrEmpty(tipoDenunciaQuery.Nombre)? tipoDenunciaQuery.Nombre: "No posee",
+                                            
                                             Descripcion = tipoDenunciaQuery.Descripcion,
                                             Tiempo_Max_Tratamiento = tipoDenunciaQuery.TiempoMaxTratamiento == null ? 0 : (int)tipoDenunciaQuery.TiempoMaxTratamiento,
                                             fechaAlta = (DateTime)tipoDenunciaQuery.FechaAlta,
                                             fechaModificacion = (DateTime)tipoDenunciaQuery.FechaModificacion,
                                             usuarioAlta = usuarioAlta.NombreUser,
                                             usuarioModificacion = usuarioModificacion.NombreUser
-                                        }).Single();*/
+                                        }).Single();
             }
 
             if (tipoDenunciaResponse == null)
@@ -105,7 +106,7 @@ namespace MVPSA_V2022.Services
             List<TipoDenunciaCLS> listaTiposDenuncia = null;
             using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
             {
-                /*listaTiposDenuncia = (from tipoDenuncia in bd.TipoDenuncia
+                listaTiposDenuncia = (from tipoDenuncia in bd.TipoDenuncia
                                       join usuarioAlta in bd.Usuarios
                                         on tipoDenuncia.IdUsuarioAlta equals usuarioAlta.IdUsuario
                                       join usuarioModificacion in bd.Usuarios
@@ -114,17 +115,50 @@ namespace MVPSA_V2022.Services
                                       select new TipoDenunciaCLS
                                       {
                                           Cod_Tipo_Denuncia = tipoDenuncia.CodTipoDenuncia,
-                                          Nombre = tipoDenuncia.Nombre,
+                                          Nombre = !String.IsNullOrEmpty(tipoDenuncia.Nombre) ? tipoDenuncia.Nombre : "No posee",
                                           Descripcion = tipoDenuncia.Descripcion,
                                           Tiempo_Max_Tratamiento = tipoDenuncia.TiempoMaxTratamiento == null ? 0 : (int)tipoDenuncia.TiempoMaxTratamiento,
                                           usuarioAlta = usuarioAlta.NombreUser,
                                           usuarioModificacion = usuarioModificacion.NombreUser
                                       })
                                     .OrderBy(tr => tr.Cod_Tipo_Denuncia)
-                                    .ToList();*/
+                                    .ToList();
                 return listaTiposDenuncia;
             }
 
+
+        }
+
+         IEnumerable<DenunciaCLS2> IDenunciaService.ListarDenunciasCerradas()
+        {
+            using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
+            {
+                Prioridad oPriorodad = new Prioridad();
+                UsuarioCLS usuarioCLS = new UsuarioCLS();
+
+                List<DenunciaCLS2> listaDenunciaCerradas = (from Denuncia in bd.Denuncia
+                                                    join EstadoDenuncia in bd.EstadoDenuncia
+                                                   on Denuncia.CodEstadoDenuncia equals EstadoDenuncia.CodEstadoDenuncia
+                                                    join TipoDenuncia in bd.TipoDenuncia
+                                                    on Denuncia.CodTipoDenuncia equals TipoDenuncia.CodTipoDenuncia
+                                                    join Prioridad in bd.Prioridads
+                                                    on Denuncia.NroPrioridad equals Prioridad.NroPrioridad
+                                                    join Usuario in bd.Usuarios
+                                                    on Denuncia.IdUsuario equals Usuario.IdUsuario
+                                                    where Denuncia.Bhabilitado == 0
+                                                    select new DenunciaCLS2
+                                                    {
+                                                        Nro_Denuncia = Denuncia.NroDenuncia,
+                                                        Fecha = (DateTime)Denuncia.Fecha,
+                                                        Estado_Denuncia = EstadoDenuncia.Nombre,
+                                                        Tipo_Denuncia = !String.IsNullOrEmpty(TipoDenuncia.Nombre) ? TipoDenuncia.Nombre : "No Posee",
+                                                        Prioridad = Prioridad.NombrePrioridad,
+                                                        IdUsuario = (int)((Denuncia.IdUsuario.HasValue) ? Denuncia.IdUsuario : 0),
+                                                        NombreUser = (string)Usuario.NombreUser
+
+                                                    }).ToList();
+                return listaDenunciaCerradas;
+            }
 
         }
 

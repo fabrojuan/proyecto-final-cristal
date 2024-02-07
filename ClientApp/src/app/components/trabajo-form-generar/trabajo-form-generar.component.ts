@@ -36,7 +36,7 @@ export class TrabajoFormGenerarComponent implements OnInit {
     this.Trabajo = new FormGroup(
       {
         "Id_Usuario": new FormControl("0"),
-        "Descripcion": new FormControl("", [Validators.required, Validators.minLength(50), Validators.maxLength(2500)]),
+        "Descripcion": new FormControl("", [Validators.required, Validators.minLength(20), Validators.maxLength(2500)]),
         "Nro_Prioridad": new FormControl("3"),
         "estado_Denuncia": new FormControl(""),
         "nro_Denuncia": new FormControl("0"),
@@ -44,7 +44,8 @@ export class TrabajoFormGenerarComponent implements OnInit {
         //"Mail": new FormControl("", [Validators.required, Validators.maxLength(100), Validators.pattern("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")]),
         "foto": new FormControl(""),
         "foto2": new FormControl(""),
-        "foto3": new FormControl("")
+        "foto3": new FormControl(""),
+        "ApellidoEmpleado": new FormControl("")
 
       });
   }
@@ -68,7 +69,7 @@ export class TrabajoFormGenerarComponent implements OnInit {
   //Aqui vamos a leer el archivo
   changeFoto() {
     var file = (<HTMLInputElement>document.getElementById("fupFoto")).files?.[0] || new Blob(['test text'], { type: 'text/plain' });
-   var fileReader = new FileReader();
+    var fileReader = new FileReader();
 
     fileReader.onloadend = () => {   //Uso el Arrowfunction sino me marca error con foto.
 
@@ -98,23 +99,25 @@ export class TrabajoFormGenerarComponent implements OnInit {
   //En guardar datos si la denuncia no se deriva a nadie se carga el usuario que está logueado, sino se asignara la denuncia al id correspondiente que se seleccione en el combobx
   guardarDatos() {
     if (this.Trabajo.valid == true) {
-
-      this.Trabajo.controls["foto"].setValue(this.foto); //Seteo la foto antes de guardarla
+      if (this.foto != "data:text/plain;base64,dGVzdCB0ZXh0")
+        this.Trabajo.controls["foto"].setValue(this.foto); //Seteo la foto antes de guardarla
+    if (this.foto2 != "data:text/plain;base64,dGVzdCB0ZXh0")
       this.Trabajo.controls["foto2"].setValue(this.foto2); //Seteo la foto antes de guardarla
+    if (this.foto3 != "data:text/plain;base64,dGVzdCB0ZXh0")
       this.Trabajo.controls["foto3"].setValue(this.foto3); //Seteo la foto antes de guardarla
+    
+      this.TrabajoService.GuardarTrabajo(this.Trabajo.value).subscribe(data => {
+        if (data) {
+          console.log(data);
+          this.resultadoGuardadoModal = "Se añadió la actividad correctamente.";
 
-      this.TrabajoService.GuardarTrabajo(this.Trabajo.value).subscribe(data => { 
-      if (data) {
-        console.log(data);
-        this.resultadoGuardadoModal = "Se añadió la actividad correctamente.";
-
-      }
-      else
-        this.resultadoGuardadoModal = "No se ha podido registrar el trabajo genere un ticket con el error en nuestra pestaña de problemas";
-    });
+        }
+        else
+          this.resultadoGuardadoModal = "No se ha podido registrar el trabajo genere un ticket con el error en nuestra pestaña de problemas";
+      });
 
 
-    this.modalService.open(this.myModalInfo);
+      this.modalService.open(this.myModalInfo);
 
       if (this.notificacionMail == 1) {
         this.TrabajoService.notificar(this.Trabajo.value).subscribe(data => { });
@@ -139,6 +142,7 @@ export class TrabajoFormGenerarComponent implements OnInit {
 
   solucionarDenuncia() {
     if (this.parametro >= 1) {
+      
       this.denunciaService.solucionarDenuncia(this.Trabajo.value).subscribe(data => { })
       alert("Denuncia Finalizada");
       this.router.navigate(["/tabla-denuncia"]);
