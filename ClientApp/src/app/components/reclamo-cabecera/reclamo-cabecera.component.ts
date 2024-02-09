@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ReclamoService } from 'src/app/services/reclamo.service';
 
@@ -9,16 +9,17 @@ import { ReclamoService } from 'src/app/services/reclamo.service';
 })
 export class ReclamoCabeceraComponent implements OnInit {
 
-  reclamo: any = {};
+  @Input() reclamo: any = {};
+  @Input() rolUsuario: string = "VECINO";
 
   constructor(private _reclamoService: ReclamoService,
               private _activatedRouter: ActivatedRoute) { 
 
-    this._activatedRouter.params.subscribe(params => {
-      if (params['id'] != null) {
-        _reclamoService.getReclamo(params['id']).subscribe(rec => this.reclamo = rec);
-      }
-    });
+    //this._activatedRouter.params.subscribe(params => {
+    //  if (params['id'] != null) {
+    //    _reclamoService.getReclamo(params['id']).subscribe(rec => this.reclamo = rec);
+    //  }
+    //});
     
   }
 

@@ -3,6 +3,7 @@ using MVPSA_V2022.clases;
 using MVPSA_V2022.Enums;
 using MVPSA_V2022.Exceptions;
 using MVPSA_V2022.Modelos;
+using MVPSA_V2022.Utils;
 using System.Linq;
 
 namespace MVPSA_V2022.Services
@@ -26,12 +27,11 @@ namespace MVPSA_V2022.Services
 
         public ReclamoDto guardarReclamo(CrearReclamoRequestDto reclamoCLS, int idUsuarioAlta)
         {
-            ReclamoDto respuesta = new ReclamoDto();
             Reclamo reclamo = new Reclamo();
 
             try
             {
-                reclamo = mapper.Map<Reclamo>(reclamoCLS);
+                reclamo = Conversor.convertToReclamo(reclamoCLS);
                 reclamo.CodEstadoReclamo = (int?) EstadoReclamoEnum.NUEVO;
                 reclamo.Bhabilitado = 1;
                 reclamo.IdUsuario = idUsuarioAlta;
@@ -41,38 +41,37 @@ namespace MVPSA_V2022.Services
                 Usuario usuarioAlta = dbContext.Usuarios
                     .Where(usr => usr.IdUsuario == idUsuarioAlta).FirstOrDefault();
 
-                if ("VEC".Equals(usuarioAlta.IdTipoUsuarioNavigation.CodRol)) {
+                if ("VEC".Equals(usuarioAlta.IdTipoUsuarioNavigation.CodRol))
+                {
                     reclamo.IdVecino = idUsuarioAlta;
                     Persona personaVecino = usuarioAlta.IdPersonaNavigation;
-                    reclamo.NomApeVecino = personaVecino.Nombre + ", " + personaVecino.Apellido;
+                    reclamo.NomApeVecino = personaVecino.Nombre + " " + personaVecino.Apellido;
                     reclamo.MailVecino = personaVecino.Mail;
                     reclamo.TelefonoVecino = personaVecino.Telefono;
                 }
 
-                using (M_VPSA_V3Context bd = new M_VPSA_V3Context()) {
                     
-                    // Guarda la foto 1 si el vecino la cargo
-                    if (reclamoCLS.foto1 != null && reclamoCLS.foto1.Length > 0) {
-                        PruebaGraficaReclamo pruebaGraficaReclamo1 = new PruebaGraficaReclamo();
-                        pruebaGraficaReclamo1.IdUsuario = idUsuarioAlta;
-                        pruebaGraficaReclamo1.Bhabilitado = 1;
-                        reclamo.PruebaGraficaReclamos.Add(pruebaGraficaReclamo1);
-                    }
-
-                    // Guarda la foto 2 si el vecino la cargo
-                    if (reclamoCLS.foto2 != null && reclamoCLS.foto2.Length > 0)
-                    {
-                        PruebaGraficaReclamo pruebaGraficaReclamo2 = new PruebaGraficaReclamo();
-                        pruebaGraficaReclamo2.IdUsuario = idUsuarioAlta;
-                        pruebaGraficaReclamo2.Bhabilitado = 1;
-                        reclamo.PruebaGraficaReclamos.Add(pruebaGraficaReclamo2);
-                    }
-
-                    // Guarda el reclamo con las imagenes
-                    bd.Reclamos.Add(reclamo);
-                    bd.SaveChanges();
-
+                // Guarda la foto 1 si el vecino la cargo
+                if (reclamoCLS.foto1 != null && reclamoCLS.foto1.Length > 0) {
+                    PruebaGraficaReclamo pruebaGraficaReclamo1 = new PruebaGraficaReclamo();
+                    pruebaGraficaReclamo1.IdUsuario = idUsuarioAlta;
+                    pruebaGraficaReclamo1.Bhabilitado = 1;
+                    reclamo.PruebaGraficaReclamos.Add(pruebaGraficaReclamo1);
                 }
+
+                // Guarda la foto 2 si el vecino la cargo
+                if (reclamoCLS.foto2 != null && reclamoCLS.foto2.Length > 0)
+                {
+                    PruebaGraficaReclamo pruebaGraficaReclamo2 = new PruebaGraficaReclamo();
+                    pruebaGraficaReclamo2.IdUsuario = idUsuarioAlta;
+                    pruebaGraficaReclamo2.Bhabilitado = 1;
+                    reclamo.PruebaGraficaReclamos.Add(pruebaGraficaReclamo2);
+                }
+
+                // Guarda el reclamo con las imagenes
+                dbContext.Reclamos.Add(reclamo);
+                dbContext.SaveChanges();
+                
             }
             catch (Exception ex)
             {
@@ -80,7 +79,7 @@ namespace MVPSA_V2022.Services
                 throw new Exception("Se produjo un error y no se pudo guardar el Reclamo");
             }
 
-            return mapper.Map<ReclamoDto>(reclamo);
+            return  Conversor.convertToReclamoDto(reclamo);
         }
 
         public IEnumerable<ReclamoDto> listarReclamos()
@@ -259,7 +258,7 @@ namespace MVPSA_V2022.Services
                                       cod_Tipo_Reclamo = tipoReclamoQuery.CodTipoReclamo,
                                       nombre = tipoReclamoQuery.Nombre,
                                       descripcion = tipoReclamoQuery.Descripcion,
-                                      tiempo_Max_Tratamiento = tipoReclamoQuery.TiempoMaxTratamiento ?? 0,
+                                      tiempo_Max_Tratamiento = (int)tipoReclamoQuery.TiempoMaxTratamiento,
                                       fechaAlta = (DateTime)tipoReclamoQuery.FechaAlta,
                                       fechaModificacion = (DateTime)tipoReclamoQuery.FechaModificacion,
                                       usuarioAlta = usuarioAlta.NombreUser,
@@ -405,6 +404,23 @@ namespace MVPSA_V2022.Services
 
             return new ReclamoDto();
 
+        }
+
+        public void aplicarAccion(AplicarAccionDto aplicarAccionDto)
+        {
+            var reclamo = dbContext.Reclamos.Find(aplicarAccionDto.nroReclamo);
+            reclamo.CodEstadoReclamo = (int)EstadoReclamoEnum.RECHAZADO;
+            dbContext.Reclamos.Update(reclamo);
+
+            ObservacionReclamo observacionReclamo = new ObservacionReclamo();
+            observacionReclamo.CodAccion = aplicarAccionDto.codAccion;
+            observacionReclamo.CodEstadoReclamo = (int)EstadoReclamoEnum.CANCELADO;
+            observacionReclamo.IdUsuarioAlta = aplicarAccionDto.nroReclamo;
+            observacionReclamo.NroReclamo = aplicarAccionDto.nroReclamo;
+            observacionReclamo.Observacion = aplicarAccionDto.observacion;
+            dbContext.ObservacionReclamos.Add(observacionReclamo);
+
+            dbContext.SaveChanges();
         }
     }
 }

@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ReclamoService } from '../../services/reclamo.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { VecinoService } from '../../services/vecino.service';
-import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-reclamo-form-generar-empleado',
@@ -17,10 +16,12 @@ export class ReclamoFormGenerarEmpleadoComponent implements OnInit {
   Reclamo: FormGroup;
   @ViewChild('fileUploader1') fileUploader1: ElementRef | undefined;
   @ViewChild('fileUploader2') fileUploader2: ElementRef | undefined;
-  isFormSubmitted: boolean=false
+  isFormSubmitted: boolean=false;
+  mensajeUsuario:String = "";
+  mostrarMensajeUsuario:boolean = false;
+  esMensajeOk:boolean = true;
 
-  constructor(private reclamoservice: ReclamoService, private vecinoService: VecinoService,
-              public _toastService: ToastService  ) {
+  constructor(private reclamoservice: ReclamoService, private vecinoService: VecinoService) {
     this.Reclamo = new FormGroup(
       {
         "codTipoReclamo": new FormControl("", [Validators.required]),
@@ -47,6 +48,9 @@ export class ReclamoFormGenerarEmpleadoComponent implements OnInit {
   guardarDatos() {
 
     this.isFormSubmitted = true;
+    this.mensajeUsuario = "";
+    this.mostrarMensajeUsuario = false;
+    this.esMensajeOk = true;
 
     if (this.Reclamo.invalid) {
       Object.values(this.Reclamo.controls).forEach(
@@ -68,14 +72,26 @@ export class ReclamoFormGenerarEmpleadoComponent implements OnInit {
         nroReclamoGenerado = data.nroReclamo;
       },
       error => {
-        this._toastService.show(error.error, { classname: 'bg-danger text-light', delay: 5000 });
+        this.mostrarMensajeError(error.error);
       },
       () => {
         this.limpiarFormulario();
         this.isFormSubmitted = false;
-        this._toastService.show(`Se registró con éxito el reclamo nro: ${nroReclamoGenerado}`, { classname: 'bg-success text-light', delay: 5000 });
+        this.mostrarMensajeOk(`Se registró con éxito el requerimiento nro: ${nroReclamoGenerado}`);
       }
     );
+  }
+
+  mostrarMensajeError(mensaje:string) {
+    this.mensajeUsuario = mensaje;
+    this.mostrarMensajeUsuario = true;
+    this.esMensajeOk = false;
+  }
+
+  mostrarMensajeOk(mensaje:string) {
+    this.mensajeUsuario = mensaje;
+    this.mostrarMensajeUsuario = true;
+    this.esMensajeOk = true;
   }
 
   changeFoto1(event: any) {
@@ -107,6 +123,7 @@ export class ReclamoFormGenerarEmpleadoComponent implements OnInit {
   }
 
   cancelar() {
+    this.isFormSubmitted = false;
     this.limpiarFormulario();
   }
 
@@ -127,7 +144,6 @@ export class ReclamoFormGenerarEmpleadoComponent implements OnInit {
 
   get codTipoReclamoNoValido() {
     return this.isFormSubmitted && this.Reclamo.controls.codTipoReclamo.errors;
-    //return this.Reclamo.get('codTipoReclamo')?.invalid && this.Reclamo.get('codTipoReclamo')?.touched;
   }
 
   get calleNoValido() {

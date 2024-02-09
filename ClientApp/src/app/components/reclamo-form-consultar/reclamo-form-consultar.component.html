@@ -1,0 +1,14 @@
+<div class="container">
+    <h1 class="text-center">Consultar Requerimiento</h1>
+
+    <app-reclamo-cabecera [reclamo]="reclamo"></app-reclamo-cabecera>
+
+    <div class="row pt-3" *ngIf="mostrarBotonRechazar()">
+        <button type="button" class="btn btn-secondary col-md-4 offset-md-1" (click)="rechazarReclamo()">Rechazar</button>
+    </div>
+
+    <!-- <div class="row pt-3">
+        <button type="button" class="btn btn-warning col-md-4 offset-md-1" (click)="asignarAreaReclamo()">Asignar Area</button>
+    </div> -->
+    
+</div>

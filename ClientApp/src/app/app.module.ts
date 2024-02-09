@@ -92,6 +92,9 @@ import { ReclamoDerivarComponent } from './components/reclamo-derivar/reclamo-de
 import { ReclamoFormGenerarEmpleadoComponent } from './components/reclamo-form-generar-empleado/reclamo-form-generar-empleado.component';
 import { HistoricoDenunciaTablaComponent } from './components/historico-denuncia-tabla/historico-denuncia-tabla.component';
 import { HistoricoDenunciaTrabajosComponent } from './components/historico-denuncia-trabajos/historico-denuncia-trabajos.component';
+import { ReclamoFormConsultarComponent } from './components/reclamo-form-consultar/reclamo-form-consultar.component';
+import { ReclamoRechazarDialogComponent } from './components/reclamo-form-consultar/reclamo-rechazar-dialog.component';
+
 
 
 @NgModule({
@@ -158,7 +161,9 @@ import { HistoricoDenunciaTrabajosComponent } from './components/historico-denun
     ReclamoDerivarComponent,
     ReclamoFormGenerarEmpleadoComponent,
     HistoricoDenunciaTablaComponent,
-    HistoricoDenunciaTrabajosComponent
+    HistoricoDenunciaTrabajosComponent,
+    ReclamoFormConsultarComponent,
+    ReclamoRechazarDialogComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -230,13 +235,14 @@ import { HistoricoDenunciaTrabajosComponent } from './components/historico-denun
       { path: 'datos-finanzas-economicos-borrado/:id', component: DatosFinanzasEconomicosBorradoComponent, canActivate: [SeguridadGuard] },
       { path: 'reclamo-cambiar-prioridad/:id', component: ReclamoCambiarPrioridadComponent },
       { path: 'reclamo-derivar/:id', component: ReclamoDerivarComponent },
-      { path: 'reclamo-form-generar-empleado', component: ReclamoFormGenerarEmpleadoComponent, canActivate: [SeguridadGuard] },
+      { path: 'reclamo-form-generar-empleado', component: ReclamoFormGenerarEmpleadoComponent/*, canActivate: [SeguridadGuard] */},
       { path: 'pagina-form-generar', component: PaginaFormGenerarComponent, canActivate: [SeguridadGuard] },
       { path: 'historico-denuncia-tabla', component: HistoricoDenunciaTablaComponent, canActivate: [SeguridadGuard] },
       { path: 'historico-denuncia-trabajos/:id', component: HistoricoDenunciaTrabajosComponent, canActivate: [SeguridadGuard] },
 
       { path: 'historico-denuncia-trabajos', component: HistoricoDenunciaTrabajosComponent, canActivate: [SeguridadGuard] },
      
+      { path: 'reclamo-form-consultar/:id', component: ReclamoFormConsultarComponent },
       { path: '*', redirectTo: '' } //a home
 
 
@@ -245,6 +251,7 @@ import { HistoricoDenunciaTrabajosComponent } from './components/historico-denun
   providers: [UsuarioService, DenunciaService, TrabajoService, SeguridadGuard, VecinoService, SeguridadVecinoGuard, PruebaGraficaService, IndicadoresService, ImpuestoService, LoteService, ToastService,
             { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ ReclamoRechazarDialogComponent ]
 })
 export class AppModule { }

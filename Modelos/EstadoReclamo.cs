@@ -15,10 +15,7 @@ public partial class EstadoReclamo
 
     public string? Descripcion { get; set; }
 
+    public virtual ICollection<ObservacionReclamo> ObservacionReclamos { get; set; } = new List<ObservacionReclamo>();
 
-    public virtual ICollection<ObservacionReclamo> ObservacionReclamoCodEstadoReclamoDestinoNavigations { get; set; } = new List<ObservacionReclamo>();
-    
-    public virtual ICollection<ObservacionReclamo> ObservacionReclamoCodEstadoReclamoOrigenNavigations { get; set; } = new List<ObservacionReclamo>();
-   
     public virtual ICollection<Reclamo> Reclamos { get; set; } = new List<Reclamo>();
 }
