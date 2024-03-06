@@ -19,7 +19,8 @@ const PROXY_CONFIG = [{
         "/api/Lote",
         "/api/pagos",
         "/api/Persona",
-        "/api/DatosAbiertos"
+    "/api/DatosAbiertos",
+    "/api/Sugerencia"
     ],
     target: target,
     secure: false,

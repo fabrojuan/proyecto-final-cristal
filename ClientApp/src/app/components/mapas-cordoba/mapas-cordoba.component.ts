@@ -8,7 +8,8 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 })
 export class MapasCordobaComponent implements OnInit {
   name = 'Set iframe source';
-  url: string = "https://gn-idecor.mapascordoba.gob.ar/maps/3/embed?latitud=-64.356560&longitud=-31.590448&zoom=18&layers=true&info=true";
+  url: string = "https://mapascordoba.gob.ar/viewer/mapa/3/embed?latitud=-64.356560&longitud=-31.590448&zoom=18&layers=true&info=true";
+  //-31.597865656629352, -64.34031453353049
   urlSafe: SafeResourceUrl | undefined;  //añadimos undefined ya que no inicializamos el parametro.
 
   constructor(public sanitizer: DomSanitizer) { }

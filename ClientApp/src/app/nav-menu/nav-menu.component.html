@@ -265,138 +265,140 @@
 <!-- ======= Sidebar ======= -->
 <aside id="sidebar" class="sidebar">
 
-    <ul class="sidebar-nav" id="sidebar-nav">
+  <ul class="sidebar-nav" id="sidebar-nav">
 
-        <li class="nav-item">
-            <a class="nav-link " href="index.html">
-                <i class="bi bi-house"></i>
-                <span>Principal</span>
-            </a>
+    <li class="nav-item">
+      <a class="nav-link " href="index.html">
+        <i class="bi bi-house"></i>
+        <span>Principal</span>
+      </a>
+    </li>
+    <!-- End Dashboard Nav -->
+    <!-- <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-people-fill"></i><span>Vecinos</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li [routerLinkActive]="['link-active']">
+              <a [routerLink]="['/login-vecino']" *ngIf="loginVecino==false">
+                  <i class="bi bi-circle"></i><span>Iniciar Sesi&oacute;n</span>
+              </a>
+          </li>
+          <li [routerLinkActive]="['link-active']">
+              <a (click)="cerrarSessionVecino()" *ngIf="loginVecino==true">
+                  <i class="bi bi-circle"></i><span>Cerrar Sesi&oacute;n</span>
+              </a>
+          </li>
+          <li>
+              <a [routerLink]="['/usuario-vecino-form-generar']">
+                  <i class="bi bi-circle"></i><span>Registrarse</span>
+              </a>
+          </li>
+      </ul>
+  </li>
+  End Components Nav -->
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-layout-text-window-reverse"></i><span>Servicios</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+
+      <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a [routerLink]="['/solicitud-form-generar']">
+            <i class="bi bi-circle"></i><span>Solicitudes</span>
+          </a>
         </li>
-        <!-- End Dashboard Nav -->
-
-        <!-- <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-people-fill"></i><span>Vecinos</span><i class="bi bi-chevron-down ms-auto"></i>
-            </a>
-            <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['/login-vecino']" *ngIf="loginVecino==false">
-                        <i class="bi bi-circle"></i><span>Iniciar Sesi&oacute;n</span>
-                    </a>
-                </li>
-                <li [routerLinkActive]="['link-active']">
-                    <a (click)="cerrarSessionVecino()" *ngIf="loginVecino==true">
-                        <i class="bi bi-circle"></i><span>Cerrar Sesi&oacute;n</span>
-                    </a>
-                </li>
-                <li>
-                    <a [routerLink]="['/usuario-vecino-form-generar']">
-                        <i class="bi bi-circle"></i><span>Registrarse</span>
-                    </a>
-                </li>
-            </ul>
+        <li>
+          <a [routerLink]="['/sugerencia-form-generar']">
+            <i class="bi bi-circle"></i><span>Sugerencias</span>
+          </a>
         </li>
-        End Components Nav -->
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-layout-text-window-reverse"></i><span>Servicios</span><i class="bi bi-chevron-down ms-auto"></i>
-            </a>
-
-            <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                <li>
-                    <a [routerLink]="['/solicitud-form-generar']">
-                        <i class="bi bi-circle"></i><span>Solicitudes</span>
-                    </a>
-                </li>
-                <li>
-                    <a [routerLink]="['/sugerencia-form-generar']">
-                        <i class="bi bi-circle"></i><span>Sugerencias</span>
-                    </a>
-                </li>
-                <li>
-                    <a [routerLink]="['/mapas-cordoba']">
-                        <i class="bi bi-circle"></i><span>Inmobiliario Provincial</span>
-                    </a>
-                </li>
-                <li>
-                    <a [routerLink]="['/reclamo-form-generar']">
-                        <i class="bi bi-circle"></i><span>Generar Reclamo</span>
-                    </a>
-                </li>
-                <li>
-                    <a [routerLink]="['/denuncia-form-generar']">
-                        <i class="bi bi-circle"></i><span>Generar Denuncia</span>
-                    </a>
-                </li>
-            </ul>
+        <li>
+          <a [routerLink]="['/mapas-cordoba']">
+            <i class="bi bi-circle"></i><span>Inmobiliario Provincial</span>
+          </a>
         </li>
-        <!-- End Tables Nav -->
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-bar-chart"></i><span>Datos Abiertos</span><i class="bi bi-chevron-down ms-auto"></i>
-            </a>
-            <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                <li>
-                    <a [routerLink]="['/datos-finanzas-economicos']">
-                        <i class="bi bi-circle"></i><span>Impuestos</span>
-                    </a>
-                </li>
-            </ul>
+        <li>
+          <a [routerLink]="['/reclamo-form-generar']">
+            <i class="bi bi-circle"></i><span>Generar Reclamo</span>
+          </a>
         </li>
-        <!-- End Charts Nav -->
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
-                <i class="bi bi-tools"></i><span>Empleados</span><i class="bi bi-chevron-down ms-auto"></i>
-            </a>
-            <ul id="icons-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                <li>
-                    <a [routerLink]="['/login']" *ngIf="login==false">
-                        <i class="bi bi-circle"></i><span>Inicie Sesi&oacute;n</span>
-                    </a>
-                </li>
-                <li>
-                    <a (click)="cerrarSession()" *ngIf="login==true">
-                        <i class="bi bi-circle"></i><span>Cerrar Sesi&oacute;n</span>
-                    </a>
-                </li>
-                <li *ngFor="let menu of menus">
-                    <a [routerLink]="[menu.accion]">
-                        <i class="bi bi-circle"></i><span>{{menu.mensaje}}</span>
-                    </a>
-                </li>
-            </ul>
+        <li>
+          <a [routerLink]="['/denuncia-form-generar']">
+            <i class="bi bi-circle"></i><span>Generar Denuncia</span>
+          </a>
         </li>
-        <!-- End Icons Nav -->
+      </ul>
+    </li>
+    <!-- End Tables Nav -->
 
-        <!-- <li class="nav-item">
-            <a class="nav-link collapsed" href="pages-contact.html">
-                <i class="bi bi-envelope"></i>
-                <span>Contacto</span>
-            </a>
-        </li> -->
-        <!-- End Contact Page Nav -->
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" [routerLink]="['/usuario-vecino-form-generar']" *ngIf="loginVecino==false && login==false">
-                <i class="bi bi-card-list"></i>
-                <span>Registrarse</span>
-            </a>
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-bar-chart"></i><span>Datos Abiertos</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="charts-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a [routerLink]="['/datos-finanzas-economicos']">
+            <i class="bi bi-circle"></i><span>Impuestos</span>
+          </a>
         </li>
-        <!-- End Register Page Nav -->
+      </ul>
+    </li>
+    <!-- End Charts Nav -->
 
-        <li class="nav-item">
-            <a class="nav-link collapsed" [routerLink]="['/login-vecino']" *ngIf="loginVecino==false && login==false">
-                <i class="bi bi-box-arrow-in-right"></i>
-                <span>Iniciar Sesi&oacute;n</span>
-            </a>
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-tools"></i><span>Empleados</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="icons-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a [routerLink]="['/login']" *ngIf="login==false">
+            <i class="bi bi-circle"></i><span>Inicie Sesi&oacute;n</span>
+          </a>
         </li>
-        <!-- End Login Page Nav -->
+        <li>
+          <a (click)="cerrarSession()" *ngIf="login==true">
+            <i class="bi bi-circle"></i><span>Cerrar Sesi&oacute;n</span>
+          </a>
+        </li>
+        <li *ngFor="let menu of menus">
+          <!--<div *ngIf="menu.bvisible==1">-->
+          <a [routerLink]="[menu.accion]">
+            <i class="bi bi-circle"></i><span>{{menu.mensaje}}</span>
+            <i class="bi bi-circle"></i><span>{{menu.bvisible}}</span>
 
-    </ul>
+          </a>
+          <!--</div>-->
+        </li>
+      </ul>
+    </li>
+    <!-- End Icons Nav -->
+    <!-- <li class="nav-item">
+      <a class="nav-link collapsed" href="pages-contact.html">
+          <i class="bi bi-envelope"></i>
+          <span>Contacto</span>
+      </a>
+  </li> -->
+    <!-- End Contact Page Nav -->
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" [routerLink]="['/usuario-vecino-form-generar']" *ngIf="loginVecino==false && login==false">
+        <i class="bi bi-card-list"></i>
+        <span>Registrarse</span>
+      </a>
+    </li>
+    <!-- End Register Page Nav -->
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" [routerLink]="['/login-vecino']" *ngIf="loginVecino==false && login==false">
+        <i class="bi bi-box-arrow-in-right"></i>
+        <span>Iniciar Sesi&oacute;n</span>
+      </a>
+    </li>
+    <!-- End Login Page Nav -->
+
+  </ul>
 
 </aside>
 <!-- End Sidebar-->
