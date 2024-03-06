@@ -6,12 +6,14 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscription } from 'rxjs';
+
 //Validaciones de inputs:
 import { ControlValueAccessor, Validator, AbstractControl, ValidationErrors, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
 import { CampoRequeridoComponent } from '../campo-requerido/campo-requerido.component';
 import { __values } from 'tslib';
 import { ResultadoEjecucionProceso } from 'src/app/modelos/ResultadoEjecucionProceso';
 import { SolicitudGeneracionImpuestos } from 'src/app/modelos/SolicitudGeneracionImpuestos';
+
 
 @Component({
   selector: 'ejecucion-procesos',
@@ -65,7 +67,6 @@ export class EjecucionProcesosComponent implements OnInit /*, ControlValueAccess
   mensajeWarning:String|undefined = "";
   procesoEjecutadoOk:boolean = false;
   mensajeOk:String = "";
-
   constructor(private impuestoService: ImpuestoService, private router: Router, @Inject('BASE_URL') baseUrl: string, private modalService: NgbModal, private formBuilder: FormBuilder)
   {
     
@@ -117,6 +118,7 @@ export class EjecucionProcesosComponent implements OnInit /*, ControlValueAccess
   
 
   ngOnInit() {
+  
   }
 
   //CONFIRMACION DE BOLETAS DIARIAS

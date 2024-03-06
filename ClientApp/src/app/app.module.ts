@@ -7,6 +7,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AuthInterceptor } from './services/AuthInterceptor';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
+
+
 import { PersonaFormGenerarComponent } from './components/persona-form-generar/persona-form-generar.component';
 
 //*****Componentes**********
@@ -215,6 +217,7 @@ import { HistoricoDenunciaTrabajosComponent } from './components/historico-denun
       { path: 'usuario-vecino-form-generar', component: UsuarioVecinoFormGenerarComponent },
       { path: 'denuncia-generar', component: DenunciaGenerarComponent },
       { path: 'lote-tabla', component: LoteTablaComponent, canActivate: [SeguridadGuard] },
+      { path: 'lote-form-generar', component: LoteFormGenerarComponent, canActivate: [SeguridadGuard] },
       { path: 'lote-detalle', component: LoteDetalleComponent, canActivate: [SeguridadGuard]}, //, canActivate: [SeguridadGuard] //Veo que hacen falta los dos rutas sino el guard no anda ok
       { path: 'lote-detalle/:id', component: LoteDetalleComponent }, //, canActivate: [SeguridadGuard]  le dio por no funcionar verlo!
       { path: 'tipo-reclamo-tabla', component: TipoReclamoTablaComponent, canActivate: [SeguridadGuard] },
@@ -223,7 +226,7 @@ import { HistoricoDenunciaTrabajosComponent } from './components/historico-denun
       { path: 'tipo-denuncia-tabla', component: TipoDenunciaTablaComponent, canActivate: [SeguridadGuard] },
       { path: 'tipo-denuncia-form/:id', component: TipoDenunciaFormComponent/*, canActivate: [SeguridadGuard] */},
       { path: 'tipo-denuncia-form', component: TipoDenunciaFormComponent/*, canActivate: [SeguridadGuard] */ },
-      { path: 'tabla-tipo-denuncia', component: DenunciaTipoTablaComponent, canActivate: [SeguridadGuard] },
+      { path: 'denuncia-tipo-tabla', component: DenunciaTipoTablaComponent, canActivate: [SeguridadGuard] },
       { path: 'tipo-denuncia-form', component: TipoDenunciaFormComponent/*, canActivate: [SeguridadGuard] */ },
       { path: 'generacion-datasets', component: GeneracionDatasetsComponent, canActivate: [SeguridadGuard] },
       { path: 'datos-finanzas-economicos-borrado', component: DatosFinanzasEconomicosBorradoComponent, canActivate: [SeguridadGuard] },
@@ -243,7 +246,8 @@ import { HistoricoDenunciaTrabajosComponent } from './components/historico-denun
     ])
   ],
   providers: [UsuarioService, DenunciaService, TrabajoService, SeguridadGuard, VecinoService, SeguridadVecinoGuard, PruebaGraficaService, IndicadoresService, ImpuestoService, LoteService, ToastService,
-            { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+   
   ],
   bootstrap: [AppComponent]
 })

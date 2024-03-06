@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 
 namespace MVPSA_V2022.Controllers
 {
+    [ApiController]
+    [Route("api/Sugerencia/")]
     [Authorize]
     public class SugerenciaController : Controller
     {
@@ -38,7 +40,8 @@ namespace MVPSA_V2022.Controllers
         }
 
         [HttpPost]
-        [Route("api/Sugerencia/guardarSugerencia")]
+        [Route("guardarSugerencia")]
+        [AllowAnonymous]
         public int guardarSugerencia([FromBody] SugerenciaCLS sugerenciaCLS)
         {
             int rpta = 0;
@@ -64,8 +67,8 @@ namespace MVPSA_V2022.Controllers
             return rpta;
         }
         [HttpGet]
-        [Route("api/Sugerencia/listarSugerencias")]
-        public IEnumerable<SugerenciaCLS> ListarSugerencias()
+        [Route("listarSugerencias")]
+        public IEnumerable<SugerenciaCLS> listarSugerencias()
         {
             using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
             {

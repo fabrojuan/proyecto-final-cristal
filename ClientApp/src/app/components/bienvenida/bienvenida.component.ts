@@ -5,6 +5,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { IndicadoresService } from '../../services/indicadores.service';
 
 
+
 @Component({
   selector: 'bienvenida',
   templateUrl: './bienvenida.component.html',
@@ -18,6 +19,8 @@ export class BienvenidaComponent implements OnInit {
   totalDenuncias: any;
   totalDenunAsignaEmpleado: any;
   totalDenunCerradas: any;
+
+  
 
   constructor(private usuarioService: UsuarioService, private indicadoresService: IndicadoresService) { }
   ngOnInit() {

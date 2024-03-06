@@ -103,7 +103,7 @@ namespace MVPSA_V2022.Services
                     SqlParameter importe_sin_contruir = new SqlParameter("@montoSupTerreno", solicitud.montoSuperficieTerreno);
                     SqlParameter interes_esquina = new SqlParameter("@interes_esquina", solicitud.coeficienteInteresEsquina);
                     SqlParameter interes_asfalto = new SqlParameter("@interes_asfalto", solicitud.coeficienteInteresAsfalto);
-                    bd.Database.ExecuteSqlRaw("GENERACION_IMPUESTOS_LOTES_2 @montoSupEdificada,@montoSupTerreno, @interes_esquina," +
+                    bd.Database.ExecuteSqlRaw("GENERACION_IMPUESTOS_LOTES @montoSupEdificada,@montoSupTerreno, @interes_esquina," +
                                                   "@interes_asfalto", construido, importe_sin_contruir, interes_esquina, interes_asfalto);
                     bd.SaveChanges();
                     return new ResultadoEjecucionProcesoCLS("OK");
