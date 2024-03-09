@@ -5,6 +5,8 @@
          [disabled]="disabled"
          [placeholder]="placeholder"
          class="form-control"
-         [ngClass]="{'is-invalid': controlDir?.control?.touched && !controlDir.control?.valid}" />
+         [ngClass]="{'is-invalid': controlDir?.control && controlDir.control?.touched && !controlDir.control?.valid}" />
+         <!--[ngClass]="{'is-invalid': controlDir?.control.touched && !controlDir.control?.valid}" />-->
+  
   <div class="invalid-feedback text-center">Dato Incorrecto/Obligatorio!</div>
 </div>

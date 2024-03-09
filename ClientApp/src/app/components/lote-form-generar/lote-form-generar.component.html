@@ -37,7 +37,7 @@
           </div>
 
           <div class="row pt-4 ">
-            <div class="pt-4 col-md-4 offset-md-1" [ngClass]="{ 'was-validated': Lote?.value?.codTipoLote }">
+            <div class="pt-4 col-md-4 offset-md-1" [ngClass]="{ 'was-validated': Lote.value.codTipoLote }">
               <!--<label>(*) Tipo de Lote&nbsp;</label>-->
               <select id="CodTipo_Lote" formControlName="CodTipoInmueble" class="form-control" (blur)="onTouched()">
                 <!--combobox-->
