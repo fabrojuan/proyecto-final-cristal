@@ -63,7 +63,7 @@ export class DenunciaService {
   }
   public agregarDenuncia(Denuncia: any)
   {
-    var url = this.urlBase + 'api/Denuncia/guardarDenuncia/';
+    var url = this.urlBase + 'api/Denuncia/guardarDenuncia';
     return this.http.post(url,Denuncia).pipe(map(res => res));
   }
 

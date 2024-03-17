@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { DenunciaService } from '../../services/denuncia.service';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators, UntypedFormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -11,7 +11,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class DenunciaGenerarComponent implements OnInit {
   TiposDenuncia: any;
-   Denuncia: FormGroup;
+   Denuncia: UntypedFormGroup;
   foto: any;
   foto2: any;
   foto3: any;
@@ -19,11 +19,11 @@ export class DenunciaGenerarComponent implements OnInit {
   resultadoGuardadoModal: any = "";
   @ViewChild("myModalInfo", { static: false }) myModalInfo: TemplateRef<any> | undefined;
   //Esta linea anterior es para el modal.
-  constructor(private denunciaservice: DenunciaService, private router: Router, private modalService: NgbModal, private formBuilder: FormBuilder) {
+  constructor(private denunciaservice: DenunciaService, private router: Router, private modalService: NgbModal, private formBuilder: UntypedFormBuilder) {
     this.Denuncia = this.formBuilder.group(
       {
         //"Nro_Denuncia": new FormControl("0"),
-        "codTipoDenuncia": new FormControl("", [Validators.required]),
+        "codTipoDenuncia": new UntypedFormControl("", [Validators.required]),
         //  'Descripcion': new FormControl("", [Validators.required, Validators.maxLength(2500)]),
         //  'Calle': new FormControl("", [Validators.required, Validators.maxLength(100)]),
         //  "Nombre_Infractor": new FormControl("pepe"),

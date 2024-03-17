@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TrabajoService } from '../../services/trabajo.service';
 import { PruebaGraficaService } from '../../services/prueba-grafica.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { DenunciaService } from '../../services/denuncia.service';
 
 @Component({
@@ -11,7 +11,7 @@ import { DenunciaService } from '../../services/denuncia.service';
   styleUrls: ['./denuncia-detalle.component.css']
 })
 export class DenunciaDetalleComponent implements OnInit {
-  Trabajo: FormGroup;
+  Trabajo: UntypedFormGroup;
   Empleados: any;
   Prioridades: any;
   pruebas: any;
@@ -29,20 +29,20 @@ export class DenunciaDetalleComponent implements OnInit {
       }
     });
 
-    this.Trabajo = new FormGroup(
+    this.Trabajo = new UntypedFormGroup(
       {
-        "idUsuario": new FormControl("0"),
-        "Descripcion": new FormControl("", [Validators.required, Validators.minLength(50), Validators.maxLength(2500)]),
-        "Nro_Prioridad": new FormControl("0", [Validators.required, Validators.pattern("[^4]")]),
-        "estado_Denuncia": new FormControl(""),
-        "nro_Denuncia": new FormControl("0"),
-        "legajoActual": new FormControl("0"),
-        "nombre_Infractor": new FormControl("0"),
-        "tipo_Denuncia": new FormControl(""),
+        "idUsuario": new UntypedFormControl("0"),
+        "Descripcion": new UntypedFormControl("", [Validators.required, Validators.minLength(50), Validators.maxLength(2500)]),
+        "Nro_Prioridad": new UntypedFormControl("0", [Validators.required, Validators.pattern("[^4]")]),
+        "estado_Denuncia": new UntypedFormControl(""),
+        "nro_Denuncia": new UntypedFormControl("0"),
+        "legajoActual": new UntypedFormControl("0"),
+        "nombre_Infractor": new UntypedFormControl("0"),
+        "tipo_Denuncia": new UntypedFormControl(""),
         //"Mail": new FormControl("", [Validators.required, Validators.maxLength(100), Validators.pattern("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")]),
-        "altura": new FormControl("0"),
-        "calle": new FormControl(""),
-        "entre_Calles": new FormControl("")
+        "altura": new UntypedFormControl("0"),
+        "calle": new UntypedFormControl(""),
+        "entre_Calles": new UntypedFormControl("")
 
       });
   }

@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TrabajoService } from '../../services/trabajo.service';
 import { DenunciaService } from '../../services/denuncia.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -11,7 +11,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./trabajo-form-generar.component.css']
 })
 export class TrabajoFormGenerarComponent implements OnInit {
-  Trabajo: FormGroup;
+  Trabajo: UntypedFormGroup;
   Empleados: any;
   Prioridades: any;
   parametro: any;
@@ -33,19 +33,19 @@ export class TrabajoFormGenerarComponent implements OnInit {
       }
     });
 
-    this.Trabajo = new FormGroup(
+    this.Trabajo = new UntypedFormGroup(
       {
-        "Id_Usuario": new FormControl("0"),
-        "Descripcion": new FormControl("", [Validators.required, Validators.minLength(20), Validators.maxLength(2500)]),
-        "Nro_Prioridad": new FormControl("3"),
-        "estado_Denuncia": new FormControl(""),
-        "nro_Denuncia": new FormControl("0"),
-        "legajoActual": new FormControl("0"),
+        "Id_Usuario": new UntypedFormControl("0"),
+        "Descripcion": new UntypedFormControl("", [Validators.required, Validators.minLength(20), Validators.maxLength(2500)]),
+        "Nro_Prioridad": new UntypedFormControl("3"),
+        "estado_Denuncia": new UntypedFormControl(""),
+        "nro_Denuncia": new UntypedFormControl("0"),
+        "legajoActual": new UntypedFormControl("0"),
         //"Mail": new FormControl("", [Validators.required, Validators.maxLength(100), Validators.pattern("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")]),
-        "foto": new FormControl(""),
-        "foto2": new FormControl(""),
-        "foto3": new FormControl(""),
-        "ApellidoEmpleado": new FormControl("")
+        "foto": new UntypedFormControl(""),
+        "foto2": new UntypedFormControl(""),
+        "foto3": new UntypedFormControl(""),
+        "ApellidoEmpleado": new UntypedFormControl("")
 
       });
   }

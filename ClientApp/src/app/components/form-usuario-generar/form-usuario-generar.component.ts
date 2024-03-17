@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UsuarioService } from '../../services/usuario.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'form-usuario-generar',
@@ -9,7 +9,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
   styleUrls: ['./form-usuario-generar.component.css']
 })
 export class FormUsuarioGenerarComponent implements OnInit {
-  Usuario: FormGroup;
+  Usuario: UntypedFormGroup;
   titulo: string = "";
   parametro: any;
   TiposRol: any;
@@ -23,22 +23,22 @@ export class FormUsuarioGenerarComponent implements OnInit {
         this.titulo = "Añadir";
       }
     });
-    this.Usuario = new FormGroup(
+    this.Usuario = new UntypedFormGroup(
       {
-        "IdUsuario": new FormControl("0"),
-        "NombreUser": new FormControl("", [Validators.required, Validators.maxLength(100)]),
-        "Contrasenia": new FormControl("", [Validators.required, Validators.maxLength(100), Validators.minLength(8)]),
-        "IdPersona": new FormControl("0"),
-        "NombrePersona": new FormControl("", [Validators.required, Validators.maxLength(100)]),
-        "Apellido": new FormControl("", [Validators.required, Validators.maxLength(100)]),
-        "BHabilitado": new FormControl("1"),
-        "Telefono": new FormControl("", [Validators.required, Validators.maxLength(50)]),
-        "Mail": new FormControl("", [Validators.required, Validators.maxLength(100), Validators.pattern("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")]),
-        "Domicilio": new FormControl("", [Validators.required, Validators.maxLength(100)]),
-        "Dni": new FormControl("", [Validators.required, Validators.maxLength(10)]),
-        "Altura": new FormControl("", [Validators.required, Validators.maxLength(5)]),
+        "IdUsuario": new UntypedFormControl("0"),
+        "NombreUser": new UntypedFormControl("", [Validators.required, Validators.maxLength(100)]),
+        "Contrasenia": new UntypedFormControl("", [Validators.required, Validators.maxLength(100), Validators.minLength(8)]),
+        "IdPersona": new UntypedFormControl("0"),
+        "NombrePersona": new UntypedFormControl("", [Validators.required, Validators.maxLength(100)]),
+        "Apellido": new UntypedFormControl("", [Validators.required, Validators.maxLength(100)]),
+        "BHabilitado": new UntypedFormControl("1"),
+        "Telefono": new UntypedFormControl("", [Validators.required, Validators.maxLength(50)]),
+        "Mail": new UntypedFormControl("", [Validators.required, Validators.maxLength(100), Validators.pattern("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")]),
+        "Domicilio": new UntypedFormControl("", [Validators.required, Validators.maxLength(100)]),
+        "Dni": new UntypedFormControl("", [Validators.required, Validators.maxLength(10)]),
+        "Altura": new UntypedFormControl("", [Validators.required, Validators.maxLength(5)]),
         //"FechaNac": new FormControl("")
-        "TiposRol": new FormControl("", [Validators.required])
+        "TiposRol": new UntypedFormControl("", [Validators.required])
       });
   }
 

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { UsuarioService } from '../../services/usuario.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 //import { resolve } from 'url';
 
 @Component({
@@ -11,7 +11,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
   styleUrls: ['./tipo-rol-form-generar.component.css']
 })
 export class TipoRolFormGenerarComponent implements OnInit {
-  Rol: FormGroup;
+  Rol: UntypedFormGroup;
   titulo: string = "";
   parametro: any;
   respuesta: any = 0;
@@ -26,12 +26,12 @@ export class TipoRolFormGenerarComponent implements OnInit {
         this.titulo = "Nuevo";
       }
     });
-    this.Rol = new FormGroup(
+    this.Rol = new UntypedFormGroup(
       {
-        "IidRol": new FormControl("0"),
-        "NombreRol": new FormControl("", [Validators.required, Validators.maxLength(100)]),
-        "BHabilitado": new FormControl("0", [Validators.required, Validators.maxLength(1), Validators.pattern("[0-1]{1,}")]),
-        "Valores": new FormControl(""),
+        "IidRol": new UntypedFormControl("0"),
+        "NombreRol": new UntypedFormControl("", [Validators.required, Validators.maxLength(100)]),
+        "BHabilitado": new UntypedFormControl("0", [Validators.required, Validators.maxLength(1), Validators.pattern("[0-1]{1,}")]),
+        "Valores": new UntypedFormControl(""),
 
       }
     );

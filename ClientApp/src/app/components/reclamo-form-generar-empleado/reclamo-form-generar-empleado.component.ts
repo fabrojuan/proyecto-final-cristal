@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ReclamoService } from '../../services/reclamo.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { VecinoService } from '../../services/vecino.service';
 import { ToastService } from '../../services/toast.service';
 
@@ -14,25 +14,25 @@ export class ReclamoFormGenerarEmpleadoComponent implements OnInit {
   TiposReclamo: any;
   foto1: any;
   foto2: any;
-  Reclamo: FormGroup;
+  Reclamo: UntypedFormGroup;
   @ViewChild('fileUploader1') fileUploader1: ElementRef | undefined;
   @ViewChild('fileUploader2') fileUploader2: ElementRef | undefined;
   isFormSubmitted: boolean=false
 
   constructor(private reclamoservice: ReclamoService, private vecinoService: VecinoService,
               public _toastService: ToastService  ) {
-    this.Reclamo = new FormGroup(
+    this.Reclamo = new UntypedFormGroup(
       {
-        "codTipoReclamo": new FormControl("", [Validators.required]),
-        "descripcion": new FormControl("", [Validators.required, Validators.maxLength(200)]),
-        "calle": new FormControl("", [Validators.required, Validators.maxLength(50)]),
-        "entreCalles": new FormControl("", [Validators.required, Validators.maxLength(50)]),
-        "altura": new FormControl("", [Validators.required, Validators.maxLength(6)]),
-        "foto1": new FormControl(""),
-        "foto2": new FormControl(""),
-        "nomApeVecino": new FormControl("", [Validators.required, Validators.maxLength(100)]),
-        "mailVecino": new FormControl("", [Validators.required, Validators.maxLength(100), Validators.pattern("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")]),
-        "telefonoVecino": new FormControl("", [Validators.required, Validators.maxLength(50)])
+        "codTipoReclamo": new UntypedFormControl("", [Validators.required]),
+        "descripcion": new UntypedFormControl("", [Validators.required, Validators.maxLength(200)]),
+        "calle": new UntypedFormControl("", [Validators.required, Validators.maxLength(50)]),
+        "entreCalles": new UntypedFormControl("", [Validators.required, Validators.maxLength(50)]),
+        "altura": new UntypedFormControl("", [Validators.required, Validators.maxLength(6)]),
+        "foto1": new UntypedFormControl(""),
+        "foto2": new UntypedFormControl(""),
+        "nomApeVecino": new UntypedFormControl("", [Validators.required, Validators.maxLength(100)]),
+        "mailVecino": new UntypedFormControl("", [Validators.required, Validators.maxLength(100), Validators.pattern("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")]),
+        "telefonoVecino": new UntypedFormControl("", [Validators.required, Validators.maxLength(50)])
       }
     );
   }

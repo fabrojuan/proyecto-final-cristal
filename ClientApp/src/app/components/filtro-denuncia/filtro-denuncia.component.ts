@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DenunciaService } from '../../services/denuncia.service';
 
@@ -12,12 +12,12 @@ export class FiltroDenunciaComponent implements OnInit {
   error: boolean = false;
   TiposDenuncia: any;
   urlBase: string = "";
-  Denuncia: FormGroup;
+  Denuncia: UntypedFormGroup;
   constructor(private denunciaservice: DenunciaService, private router: Router, @Inject('BASE_URL') baseUrl: string) {
     this.urlBase = baseUrl;
-    this.Denuncia = new FormGroup(
+    this.Denuncia = new UntypedFormGroup(
       {
-        'Descripcion': new FormControl("",[Validators.maxLength(2500)]),
+        'Descripcion': new UntypedFormControl("",[Validators.maxLength(2500)]),
              }
     );
   }

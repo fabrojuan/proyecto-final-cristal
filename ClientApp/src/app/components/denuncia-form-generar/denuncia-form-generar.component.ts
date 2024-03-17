@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { DenunciaService } from '../../services/denuncia.service';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators, UntypedFormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -12,7 +12,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class DenunciaFormGenerarComponent implements OnInit {
   TiposDenuncia: any;
-  public Denuncia: FormGroup;
+  public Denuncia: UntypedFormGroup;
   foto: any;
   foto2: any;
   foto3: any;
@@ -22,23 +22,23 @@ export class DenunciaFormGenerarComponent implements OnInit {
   resultadoGuardadoModal: any = "";
   @ViewChild("myModalInfo", { static: false }) myModalInfo: TemplateRef<any> | undefined;
   //Esta linea anterior es para el modal.
-  constructor(private denunciaservice: DenunciaService, private router: Router, private modalService: NgbModal, private formBuilder: FormBuilder) {
+  constructor(private denunciaservice: DenunciaService, private router: Router, private modalService: NgbModal, private formBuilder: UntypedFormBuilder) {
     this.Denuncia = this.formBuilder.group(
       {
-       "Nro_Denuncia": new FormControl("0"),
-        "codTipoDenuncia": new FormControl("", [Validators.required]),
-        'Descripcion': new FormControl("", [Validators.required, Validators.maxLength(2500), Validators.minLength(20)]),
-        'Calle': new FormControl("", [Validators.required, Validators.maxLength(100)]),
-        "Nombre_Infractor": new FormControl(""),//, [Validators.maxLength(45), Validators.pattern(this.regexTexto)]
-        "Apellido_Infractor": new FormControl(""),//, [Validators.maxLength(45)]
-        "Bhabilitado": new FormControl("1"),
-        "Mail_Notificacion": new FormControl(""),  //, [Validators.required,Validators.maxLength(100),Validators.pattern("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")]
-        "Movil_Notificacion": new FormControl(""),
-        "Entre_Calles": new FormControl("", [Validators.required, Validators.maxLength(100)]),
-        "Altura": new FormControl("", [Validators.required, Validators.maxLength(6)]),
-        "foto": new FormControl(""),
-        "foto2": new FormControl(""),
-        "foto3": new FormControl("")
+       "Nro_Denuncia": new UntypedFormControl("0"),
+        "codTipoDenuncia": new UntypedFormControl("", [Validators.required]),
+        'Descripcion': new UntypedFormControl("", [Validators.required, Validators.maxLength(2500), Validators.minLength(20)]),
+        'Calle': new UntypedFormControl("", [Validators.required, Validators.maxLength(100)]),
+        "Nombre_Infractor": new UntypedFormControl(""),//, [Validators.maxLength(45), Validators.pattern(this.regexTexto)]
+        "Apellido_Infractor": new UntypedFormControl(""),//, [Validators.maxLength(45)]
+        "Bhabilitado": new UntypedFormControl("1"),
+        "Mail_Notificacion": new UntypedFormControl(""),  //, [Validators.required,Validators.maxLength(100),Validators.pattern("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")]
+        "Movil_Notificacion": new UntypedFormControl(""),
+        "Entre_Calles": new UntypedFormControl("", [Validators.required, Validators.maxLength(100)]),
+        "Altura": new UntypedFormControl("", [Validators.required, Validators.maxLength(6)]),
+        "foto": new UntypedFormControl(""),
+        "foto2": new UntypedFormControl(""),
+        "foto3": new UntypedFormControl("")
       }
     );
   }

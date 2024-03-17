@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 import { DatasetFinanzasService } from '../../services/dataset-finanzas.service';
 import { UsuarioService } from '../../services/usuario.service';
@@ -25,7 +25,7 @@ export class DatosFinanzasEconomicosComponent implements OnInit {
   urlSafe: SafeResourceUrl | undefined;
   urlsSeguras: any;
   ubicacion :any="/ClientApp/src / assets / DatosAbiertos / ";
-  constructor(private http: HttpClient,public sanitizer: DomSanitizer, private datasetfinanzasService: DatasetFinanzasService, private usuarioService: UsuarioService, private formBuilder: FormBuilder) {
+  constructor(private http: HttpClient,public sanitizer: DomSanitizer, private datasetfinanzasService: DatasetFinanzasService, private usuarioService: UsuarioService, private formBuilder: UntypedFormBuilder) {
   }
   ngOnInit() {
 

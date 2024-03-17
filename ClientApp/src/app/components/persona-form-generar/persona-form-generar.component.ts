@@ -1,7 +1,7 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { LoteService } from '../../services/lote.service';
 import { VecinoService } from '../../services/vecino.service';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators, UntypedFormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscription } from 'rxjs';
@@ -30,7 +30,7 @@ import { CampoRequeridoComponent } from '../campo-requerido/campo-requerido.comp
 export class PersonaFormGenerarComponent implements OnInit, ControlValueAccessor, Validator {
   
   redirectPersona: number = 0;
-  public Persona: FormGroup;
+  public Persona: UntypedFormGroup;
   tituloModal: string = "Registro de Persona";
   resultadoGuardadoModal: any = "";
   //Validaciones
@@ -42,20 +42,20 @@ export class PersonaFormGenerarComponent implements OnInit, ControlValueAccessor
   @ViewChild("myModalInfo", { static: false }) myModalInfo: TemplateRef<any> | undefined;
   //Esta linea anterior es para el modal.
 
-  constructor(private loteservice: LoteService, private router: Router, private modalService: NgbModal, private vecinoservice: VecinoService, private formBuilder: FormBuilder) {
+  constructor(private loteservice: LoteService, private router: Router, private modalService: NgbModal, private vecinoservice: VecinoService, private formBuilder: UntypedFormBuilder) {
     this.subscriptions = new Subscription();
     this.Persona = this.formBuilder.group(
       {
-        "Nombre": new FormControl("", [Validators.required, Validators.maxLength(65)]),
-        "Apellido": new FormControl("", [Validators.required, Validators.maxLength(65)]),
-        'Dni': new FormControl("", [Validators.required, Validators.maxLength(8), Validators.pattern("^[0-9]{8}")]),
-        "FechaNac": new FormControl("", [Validators.required, Validators.maxLength(16), Validators.pattern("^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)[0-9]{2}")]),
-        "Mail": new FormControl("", [Validators.required, Validators.maxLength(100), Validators.pattern("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")]),
-        "Telefono": new FormControl("", [Validators.required, Validators.maxLength(20), Validators.pattern("^[0-9]{1,20}")]),
-        "Domicilio": new FormControl("", [Validators.required, Validators.maxLength(100)]),
-        "Altura": new FormControl("", [Validators.required, Validators.maxLength(4), Validators.pattern("^[0-9]{1,4}")]),
-        "Bhabilitado": new FormControl("1"),
-        "Iidpersona": new FormControl("0"),
+        "Nombre": new UntypedFormControl("", [Validators.required, Validators.maxLength(65)]),
+        "Apellido": new UntypedFormControl("", [Validators.required, Validators.maxLength(65)]),
+        'Dni': new UntypedFormControl("", [Validators.required, Validators.maxLength(8), Validators.pattern("^[0-9]{8}")]),
+        "FechaNac": new UntypedFormControl("", [Validators.required, Validators.maxLength(16), Validators.pattern("^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)[0-9]{2}")]),
+        "Mail": new UntypedFormControl("", [Validators.required, Validators.maxLength(100), Validators.pattern("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")]),
+        "Telefono": new UntypedFormControl("", [Validators.required, Validators.maxLength(20), Validators.pattern("^[0-9]{1,20}")]),
+        "Domicilio": new UntypedFormControl("", [Validators.required, Validators.maxLength(100)]),
+        "Altura": new UntypedFormControl("", [Validators.required, Validators.maxLength(4), Validators.pattern("^[0-9]{1,4}")]),
+        "Bhabilitado": new UntypedFormControl("1"),
+        "Iidpersona": new UntypedFormControl("0"),
 
       },
       { validators: this.todoslosCamposRequeridos }

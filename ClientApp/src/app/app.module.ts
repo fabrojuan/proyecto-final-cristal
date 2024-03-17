@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AuthInterceptor } from './services/AuthInterceptor';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
+import { DataTablesModule } from 'angular-datatables';
 
 
 import { PersonaFormGenerarComponent } from './components/persona-form-generar/persona-form-generar.component';
@@ -169,6 +170,7 @@ import { HistoricoDenunciaTrabajosComponent } from './components/historico-denun
     FormsModule,
     NgxPaginationModule,
     NgbModule,
+    DataTablesModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'bienvenida', component: BienvenidaComponent, canActivate: [SeguridadGuard] },  //, canActivate: [SeguridadGuard]

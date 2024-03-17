@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DatasetFinanzasService } from '../../services/dataset-finanzas.service';
 import { UsuarioService } from '../../services/usuario.service';
@@ -15,14 +15,14 @@ export class DatosFinanzasEconomicosBorradoComponent implements OnInit {
   financieros: any;
   p: number = 1;
   cabeceras: string[] = ["Nombre de Archivo", "Ubicación"];
-  constructor(private datasetfinanzasService: DatasetFinanzasService, private usuarioService: UsuarioService, private router: Router, private formBuilder: FormBuilder) {
-    this.form = new FormGroup({
+  constructor(private datasetfinanzasService: DatasetFinanzasService, private usuarioService: UsuarioService, private router: Router, private formBuilder: UntypedFormBuilder) {
+    this.form = new UntypedFormGroup({
       //'NombreUser': new FormControl("", Validators.required),
       //'Contrasenia': new FormControl("", Validators.required)
     });
   }
 
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   ngOnInit() {
 

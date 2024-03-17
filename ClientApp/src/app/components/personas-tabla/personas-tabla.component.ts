@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { LoteService } from '../../services/lote.service';
 import { VecinoService } from '../../services/vecino.service';
 import { Router } from '@angular/router';
@@ -19,13 +19,13 @@ export class PersonasTablaComponent implements OnInit {
   //DenunciasFiltradas: any;
   p: number = 1;
   cabeceras: string[] = ["Nombre", "Apellido", "Dni", "Telefono", "Mail", "Calle", "Nro"];
-  constructor(private loteservice: LoteService, private vecinoService: VecinoService, private formBuilder: FormBuilder, private router: Router) {
-    this.form = new FormGroup({
+  constructor(private loteservice: LoteService, private vecinoService: VecinoService, private formBuilder: UntypedFormBuilder, private router: Router) {
+    this.form = new UntypedFormGroup({
 
     });
   }
 
-  form: FormGroup;  // Lo Comento porque en los grid no hay gestion de los campos
+  form: UntypedFormGroup;  // Lo Comento porque en los grid no hay gestion de los campos
   ngOnInit() {
 
     
