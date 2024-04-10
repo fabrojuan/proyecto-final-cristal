@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TrabajoService } from '../../services/trabajo.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { UsuarioService } from '../../services/usuario.service';
 import { ReclamoService } from '../../services/reclamo.service';
 
@@ -11,7 +11,7 @@ import { ReclamoService } from '../../services/reclamo.service';
   styleUrls: ['./reclamo-trabajo-form.component.css']
 })
 export class ReclamoTrabajoFormComponent implements OnInit {
-  Trabajo: FormGroup;
+  Trabajo: UntypedFormGroup;
   Empleados: any;
   Prioridades: any;
   parametro: any;
@@ -29,18 +29,18 @@ export class ReclamoTrabajoFormComponent implements OnInit {
       }
     });
 
-    this.Trabajo = new FormGroup(
+    this.Trabajo = new UntypedFormGroup(
       {
-        "Id_Usuario": new FormControl("0"),
-        "Id_Vecino": new FormControl("0"),
-        "descripcionReclamo": new FormControl(""),
-        "Descripcion": new FormControl("", [Validators.required, Validators.minLength(50), Validators.maxLength(2500)]),
-        "Nro_Prioridad": new FormControl("3"),
-        "estado_Reclamo": new FormControl(""),
-        "tipoReclamo": new FormControl(""),
-        "nro_Reclamo": new FormControl("0"),
-        "legajoActual": new FormControl("0"),
-        "nomApeVecino": new FormControl("")
+        "Id_Usuario": new UntypedFormControl("0"),
+        "Id_Vecino": new UntypedFormControl("0"),
+        "descripcionReclamo": new UntypedFormControl(""),
+        "Descripcion": new UntypedFormControl("", [Validators.required, Validators.minLength(50), Validators.maxLength(2500)]),
+        "Nro_Prioridad": new UntypedFormControl("3"),
+        "estado_Reclamo": new UntypedFormControl(""),
+        "tipoReclamo": new UntypedFormControl(""),
+        "nro_Reclamo": new UntypedFormControl("0"),
+        "legajoActual": new UntypedFormControl("0"),
+        "nomApeVecino": new UntypedFormControl("")
 
 
         //"Mail": new FormControl("", [Validators.required, Validators.maxLength(100), Validators.pattern("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")]),

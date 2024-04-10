@@ -1,9 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { LoteService } from '../../services/lote.service';
 import { VecinoService } from '../../services/vecino.service';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import espaniolDatatables from 'src/assets/espaniolDatatables.json';
 
 @Component({
   selector: 'lote-tabla',
@@ -18,23 +20,36 @@ export class LoteTablaComponent implements OnInit {
   TiposDenuncia: any;
   DenunciasFiltradas: any;
   p: number = 1;
-  cabeceras: string[] = ["Id Lote", "Manzana", "Nro Lote", "Superficie Terreno", "Base Imponible", "Valuacion Total", "Propietario"];
-  constructor(private loteservice: LoteService, private vecinoService: VecinoService, private formBuilder: FormBuilder, private router: Router) {
-    this.form = new FormGroup({
+  dtoptions: DataTables.Settings = {};
+
+  dtTrigger: Subject<any> = new Subject<any>();
+
+  cabeceras: string[] = ["Id Lote", "Nro Lote" ,"Manzana" , "Superficie Terreno", "Base Imponible", "Valuacion Total", "Propietario"];
+  constructor(private loteservice: LoteService, private vecinoService: VecinoService, private formBuilder: UntypedFormBuilder, private router: Router) {
+    this.form = new UntypedFormGroup({
      
     });
   }
 
-  form: FormGroup;  // Lo Comento porque en los grid no hay gestion de los campos
+  form: UntypedFormGroup;  // Lo Comento porque en los grid no hay gestion de los campos
   ngOnInit() {
+    this.dtoptions = {
+      paging: false,
+      lengthChange: true,
+      pagingType: 'full_numbers',
+      language: espaniolDatatables
+    };
 
-    this.loteservice.getLote().subscribe(data => this.Lotes = data);
-    //this.denunciaservice.getTipoDenuncia().subscribe(data => this.TiposDenuncia = data);
-    //this.usuarioService.getUsuario().subscribe(data => this.Usuarios = data);
-    this.form = this.formBuilder.group({
-      descripcion: '',
-      tipoDenuncia: 0
+    this.loteservice.getLote().subscribe(data => {
+      this.Lotes = data;
+      this.dtTrigger.next(null);
     });
+     
+    
+    //this.form = this.formBuilder.group({
+    //  descripcion: '',
+    //  tipoDenuncia: 0
+    //});
 
   }
   volverHome() {

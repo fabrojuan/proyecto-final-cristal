@@ -43,7 +43,7 @@ namespace MVPSA_V2022.Services
                                         where tipoDenunciaQuery.CodTipoDenuncia == codTipoDenuncia
                                         select new TipoDenunciaCLS
                                         {
-                                            Cod_Tipo_Denuncia = tipoDenunciaQuery.CodTipoDenuncia,
+                                            cod_Tipo_Denuncia = tipoDenunciaQuery.CodTipoDenuncia,
                                             Nombre = !String.IsNullOrEmpty(tipoDenunciaQuery.Nombre)? tipoDenunciaQuery.Nombre: "No posee",
                                             
                                             Descripcion = tipoDenunciaQuery.Descripcion,
@@ -114,14 +114,14 @@ namespace MVPSA_V2022.Services
                                       where tipoDenuncia.Bhabilitado == 1
                                       select new TipoDenunciaCLS
                                       {
-                                          Cod_Tipo_Denuncia = tipoDenuncia.CodTipoDenuncia,
+                                          cod_Tipo_Denuncia = tipoDenuncia.CodTipoDenuncia,
                                           Nombre = !String.IsNullOrEmpty(tipoDenuncia.Nombre) ? tipoDenuncia.Nombre : "No posee",
                                           Descripcion = tipoDenuncia.Descripcion,
                                           Tiempo_Max_Tratamiento = tipoDenuncia.TiempoMaxTratamiento == null ? 0 : (int)tipoDenuncia.TiempoMaxTratamiento,
                                           usuarioAlta = usuarioAlta.NombreUser,
                                           usuarioModificacion = usuarioModificacion.NombreUser
                                       })
-                                    .OrderBy(tr => tr.Cod_Tipo_Denuncia)
+                                    .OrderBy(tr => tr.cod_Tipo_Denuncia)
                                     .ToList();
                 return listaTiposDenuncia;
             }
@@ -191,7 +191,7 @@ namespace MVPSA_V2022.Services
             using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
             {
                 tipoDenuncia =
-                    bd.TipoDenuncia.Where(tr => tr.CodTipoDenuncia == tipoDenunciaDto.Cod_Tipo_Denuncia).Single();
+                    bd.TipoDenuncia.Where(tr => tr.CodTipoDenuncia == tipoDenunciaDto.cod_Tipo_Denuncia).Single();
                 tipoDenuncia.Nombre = tipoDenunciaDto.Nombre;
                 tipoDenuncia.Descripcion = tipoDenunciaDto.Descripcion;
                 tipoDenuncia.TiempoMaxTratamiento = tipoDenunciaDto.Tiempo_Max_Tratamiento;

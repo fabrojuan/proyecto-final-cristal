@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UsuarioService } from '../../services/usuario.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { VecinoService } from '../../services/vecino.service';
 
@@ -14,13 +14,13 @@ import { VecinoService } from '../../services/vecino.service';
 })
 export class LoginVecinoComponent implements OnInit {
   urlBase: string = "";
-  vecino: FormGroup;
+  vecino: UntypedFormGroup;
   error: boolean = false;
   constructor(private vecinoService: VecinoService, private router: Router, @Inject('BASE_URL') baseUrl: string) {
     this.urlBase = baseUrl;
-    this.vecino = new FormGroup({
-      'NombreUser': new FormControl("", Validators.required),
-      'Contrasenia': new FormControl("", Validators.required)
+    this.vecino = new UntypedFormGroup({
+      'NombreUser': new UntypedFormControl("", Validators.required),
+      'Contrasenia': new UntypedFormControl("", Validators.required)
     });
   }
 

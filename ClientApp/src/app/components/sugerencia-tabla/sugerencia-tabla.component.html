@@ -4,7 +4,6 @@
 
 
       <div class="d-flex align-items-center p-3 my-3 bg-purple bg-light shadow p-2 mb-5 rounded shadow-sm container">
-        <!-- <i class="bi bi-check-circle text-dark" style="font-size: 2.5em;" title="Listado de Denuncias Activas."></i>-->
         <img src="../../../assets/IconsGoogle/patch-plus-fll.svg" alt="" width="60" height="60" title="Tu sugerencia puede representar un gran progreso para nuestra comunidad, compartilas por favor.">
         <div class="card-title text-center form-group col-md-8 offset-md-1">
           <p>Gestión de Sugerencias</p>
@@ -13,7 +12,7 @@
       <form [formGroup]="form">
 
         <br /><br />
-        <table datatable class="row-border hover table table-hover" style="padding-bottom: 2.5em">
+        <table datatable [dtOptions]="dtoptions" [dtTrigger]="dtTrigger" class="row-border hover table table-hover" style="padding-bottom: 2.5em">
           <thead class="thead-dark tituloTabla">
 
 
@@ -28,7 +27,7 @@
               <td class="text-center">{{Sugerencia.idSugerencia}}</td>
               <td class="text-center">{{Sugerencia.descripcion}}</td>
               <td class="text-center">{{Sugerencia.fechaGenerada| date: 'dd/MM/yyyy HH:MM'}}</td>
-              <td class="text-center">Establecer dias para caducar con un Store Procedure / triger</td>
+              <td class="text-center">{{Sugerencia.estado}}</td>
 
               <td class="text-center" *ngIf="isMantenimiento==true">
     <button type="button" class="btn btn-light" ><img src="../../../assets/IconsGoogle/reply-fill.svg" alt="" width="20" height="20" title="Generar Requerimiento a partir de esta sugerencia"></button>

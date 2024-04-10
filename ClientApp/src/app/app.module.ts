@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AuthInterceptor } from './services/AuthInterceptor';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
+import { DataTablesModule } from 'angular-datatables';
 
 
 import { PersonaFormGenerarComponent } from './components/persona-form-generar/persona-form-generar.component';
@@ -94,6 +95,7 @@ import { ReclamoDerivarComponent } from './components/reclamo-derivar/reclamo-de
 import { ReclamoFormGenerarEmpleadoComponent } from './components/reclamo-form-generar-empleado/reclamo-form-generar-empleado.component';
 import { HistoricoDenunciaTablaComponent } from './components/historico-denuncia-tabla/historico-denuncia-tabla.component';
 import { HistoricoDenunciaTrabajosComponent } from './components/historico-denuncia-trabajos/historico-denuncia-trabajos.component';
+import { ReportarProblemasComponent } from './components/reportar-problemas/reportar-problemas.component';
 
 
 @NgModule({
@@ -160,7 +162,8 @@ import { HistoricoDenunciaTrabajosComponent } from './components/historico-denun
     ReclamoDerivarComponent,
     ReclamoFormGenerarEmpleadoComponent,
     HistoricoDenunciaTablaComponent,
-    HistoricoDenunciaTrabajosComponent
+    HistoricoDenunciaTrabajosComponent,
+    ReportarProblemasComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -169,6 +172,7 @@ import { HistoricoDenunciaTrabajosComponent } from './components/historico-denun
     FormsModule,
     NgxPaginationModule,
     NgbModule,
+    DataTablesModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'bienvenida', component: BienvenidaComponent, canActivate: [SeguridadGuard] },  //, canActivate: [SeguridadGuard]

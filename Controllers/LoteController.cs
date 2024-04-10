@@ -58,7 +58,7 @@ namespace MVPSA_V2022.Controllers
             using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
             {
 
-                /*listaTipoLote = (from TipoLote in bd.TipoLote
+                listaTipoLote = (from TipoLote in bd.TipoLotes
                                  where TipoLote.Bhabilitado == 1
                                  select new TipoLoteCLS
                                  {
@@ -66,7 +66,7 @@ namespace MVPSA_V2022.Controllers
                                      Nombre = TipoLote.Nombre,
                                      Descripcion = TipoLote.Descripcion
 
-                                 }).ToList();*/
+                                 }).ToList();
                 return listaTipoLote;
             }
 

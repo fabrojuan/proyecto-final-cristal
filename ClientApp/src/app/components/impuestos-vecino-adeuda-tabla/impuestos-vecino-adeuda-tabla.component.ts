@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ImpuestoService } from '../../services/impuesto.service';
 
@@ -29,9 +29,9 @@ export class ImpuestosVecinoAdeudaTablaComponent implements OnInit {
         this.titulo = "Añadir";
       }
     });
-    this.FGimpuestos = new FormGroup(
+    this.FGimpuestos = new UntypedFormGroup(
       {
-        "Valores": new FormControl(""),
+        "Valores": new UntypedFormControl(""),
 
       }
     );

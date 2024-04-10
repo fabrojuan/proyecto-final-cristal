@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ReclamoService } from '../../services/reclamo.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { SugerenciaService } from '../../services/sugerencia.service';
 import { Router, RouterModule } from '@angular/router';
 @Component({
@@ -12,11 +12,11 @@ export class SugerenciaFormGenerarComponent implements OnInit {
   TiposReclamo: any;
   nombreVecino: any;
   idVecino: any;
-  Sugerencia: FormGroup;
+  Sugerencia: UntypedFormGroup;
   constructor(private sugerenciaservice: SugerenciaService, private router: Router) {
-    this.Sugerencia = new FormGroup(
+    this.Sugerencia = new UntypedFormGroup(
       {
-        "Descripcion": new FormControl("", [Validators.required, Validators.minLength(50)]),
+        "Descripcion": new UntypedFormControl("", [Validators.required, Validators.minLength(50)]),
 
       }
     );

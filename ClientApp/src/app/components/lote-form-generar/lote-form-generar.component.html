@@ -7,7 +7,7 @@
           <div class="d-flex align-items-center p-2 my-2">
             <img src="../../../assets/IconsGoogle/lote_px.png" alt="Lote" width="58" height="58">
             <div class="tituloFormulario text-center form-group col-md-8 offset-md-1">
-              <p> Formulario de Registro de Lote</p>
+              <p> Registracion de Lote</p>
             </div>
           </div>
 
@@ -37,7 +37,7 @@
           </div>
 
           <div class="row pt-4 ">
-            <div class="pt-4 col-md-4 offset-md-1" [ngClass]="{ 'was-validated': Lote?.value?.codTipoLote }">
+            <div class="pt-4 col-md-4 offset-md-1" [ngClass]="{ 'was-validated': Lote.value.codTipoLote }">
               <!--<label>(*) Tipo de Lote&nbsp;</label>-->
               <select id="CodTipo_Lote" formControlName="CodTipoInmueble" class="form-control" (blur)="onTouched()">
                 <!--combobox-->

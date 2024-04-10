@@ -1,9 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { SugerenciaService } from '../../services/sugerencia.service';
 import { UsuarioService } from '../../services/usuario.service';
-
+import { Subject } from 'rxjs';
+import espaniolDatatables from 'src/assets/espaniolDatatables.json';
 @Component({
   selector: 'sugerencia-tabla',
   templateUrl: './sugerencia-tabla.component.html',
@@ -14,24 +15,35 @@ export class SugerenciaTablaComponent implements OnInit {
   Sugerencias: any;
   DenunciasFiltradas: any;
   p: number = 1;
-  cabeceras: string[] = ["Id Sugerencia", "Descripcion", "Fecha Generada", "Tiempo de Caducidad"];
-  constructor(private sugerenciaservice: SugerenciaService, private usuarioService: UsuarioService, private formBuilder: FormBuilder) {
-    this.form = new FormGroup({
+  dtoptions: DataTables.Settings = {};
+  
+  dtTrigger: Subject<any> = new Subject<any>();
+  cabeceras: string[] = ["Id Sugerencia", "Descripcion", "Fecha Generada", "Estado"];
+  constructor(private sugerenciaservice: SugerenciaService, private usuarioService: UsuarioService, private formBuilder: UntypedFormBuilder) {
+    this.form = new UntypedFormGroup({
       //'NombreUser': new FormControl("", Validators.required),
       //'Contrasenia': new FormControl("", Validators.required)
     });
   }
 
-  form: FormGroup;  // Lo Comento porque en los grid no hay gestion de los campos
+  form: UntypedFormGroup;  // Lo Comento porque en los grid no hay gestion de los campos
   ngOnInit() {
-
-    this.sugerenciaservice.getSugerencia().subscribe(data => this.Sugerencias = data);
+    this.dtoptions = {
+      paging: false,
+      lengthChange: false,
+      pagingType: 'full_numbers',
+      language: espaniolDatatables
+    };
+   
+    this.sugerenciaservice.getSugerencia().subscribe(data => {
+      this.Sugerencias = data;
+      this.dtTrigger.next(null);
+    });
     this.form = this.formBuilder.group({
       descripcion: '',
       tipoDenuncia: 0
     });
 
   }
-
+ 
 }
-

@@ -13,5 +13,7 @@ public partial class Sugerencium
 
     public int? Bhabilitado { get; set; }
 
-    public int? Estado { get; set; }
+    public int Estado { get; set; }
+
+    public virtual EstadoSugerencium EstadoNavigation { get; set; } = null!;
 }

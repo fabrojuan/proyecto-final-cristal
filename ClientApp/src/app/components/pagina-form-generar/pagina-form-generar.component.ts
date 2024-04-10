@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ReclamoService } from '../../services/reclamo.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { UsuarioService } from '../../services/usuario.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -15,7 +15,7 @@ export class PaginaFormGenerarComponent implements OnInit {
   TiposReclamo: any;
   nombreVecino: any;
   idVecino: any;
-  Pagina: FormGroup;
+  Pagina: UntypedFormGroup;
   constructor(private usuarioService: UsuarioService, private router: Router, private activatedRoute: ActivatedRoute) {
     this.activatedRoute.params.subscribe(parametro => {
       this.parametro = parametro["id"]
@@ -25,13 +25,13 @@ export class PaginaFormGenerarComponent implements OnInit {
         this.titulo = "Añadir";
       }
     });
-    this.Pagina = new FormGroup(
+    this.Pagina = new UntypedFormGroup(
       {
-        "idPagina": new FormControl("0"),
-        "Mensaje": new FormControl("", [Validators.required, Validators.maxLength(70)]),
-        "Accion": new FormControl("", [Validators.required, Validators.maxLength(100)]),
-        "Bhabilitado": new FormControl("1"),
-        "Bvisible": new FormControl("1"),
+        "idPagina": new UntypedFormControl("0"),
+        "Mensaje": new UntypedFormControl("", [Validators.required, Validators.maxLength(70)]),
+        "Accion": new UntypedFormControl("", [Validators.required, Validators.maxLength(100)]),
+        "Bhabilitado": new UntypedFormControl("1"),
+        "Bvisible": new UntypedFormControl("1"),
 
 
 
