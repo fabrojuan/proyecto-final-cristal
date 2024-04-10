@@ -35,6 +35,8 @@ public partial class CristalContext : DbContext
 
     public virtual DbSet<EstadoSolicitud> EstadoSolicituds { get; set; }
 
+    public virtual DbSet<EstadoSugerencium> EstadoSugerencia { get; set; }
+
     public virtual DbSet<Impuestoinmobiliario> Impuestoinmobiliarios { get; set; }
 
     public virtual DbSet<Lote> Lotes { get; set; }
@@ -316,6 +318,24 @@ public partial class CristalContext : DbContext
 
             entity.Property(e => e.CodEstadoSolicitud).HasColumnName("Cod_Estado_Solicitud");
             entity.Property(e => e.Bhabilitado).HasColumnName("BHabilitado");
+            entity.Property(e => e.Descripcion)
+                .HasMaxLength(250)
+                .IsUnicode(false);
+            entity.Property(e => e.Nombre)
+                .HasMaxLength(80)
+                .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<EstadoSugerencium>(entity =>
+        {
+           entity.HasKey(e => e.CodEstadoSugerencia).HasName("PK__ESTADO_S__50AF48C06B2B7065");
+
+            entity.ToTable("ESTADO_SUGERENCIA");
+
+            entity.Property(e => e.CodEstadoSugerencia).HasColumnName("Cod_Estado_Sugerencia");
+            entity.Property(e => e.Bhabilitado)
+                .HasDefaultValueSql("((0))")
+                .HasColumnName("BHabilitado");
             entity.Property(e => e.Descripcion)
                 .HasMaxLength(250)
                 .IsUnicode(false);
@@ -830,6 +850,11 @@ public partial class CristalContext : DbContext
             entity.Property(e => e.FechaGenerada)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("date");
+
+            entity.HasOne(d => d.EstadoNavigation).WithMany(p => p.Sugerencia)
+                .HasForeignKey(d => d.Estado)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Estado");
         });
 
         modelBuilder.Entity<TipoDatoAbierto>(entity =>

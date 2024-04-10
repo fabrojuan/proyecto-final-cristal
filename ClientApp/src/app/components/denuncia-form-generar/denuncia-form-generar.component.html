@@ -14,7 +14,6 @@
             </div>
           </div>
 
-        
 
 
           <div class="col-md-6">
@@ -24,6 +23,7 @@
               <option [ngValue]="TipoDenuncia.cod_Tipo_Denuncia" *ngFor="let TipoDenuncia of TiposDenuncia">{{TipoDenuncia.nombre}}</option>
             </select>
           </div>
+
 
           <div class="col-md-6">
             <label for="formGroupExampleInput">(*) Calle</label>
@@ -83,9 +83,10 @@
               <div class="card-header">
                 Adjuntar Prueba 1
               </div>
-              <img src="{{foto1Url}}" class="card-img-top" height="120" />
+              <img src="{{foto1Url}}" class="card-img-top" height="240" />
               <div class="card-body">
-                <input type="file" class="form-control custom-file-input" id="fupFoto" lang="es" (change)="changeFoto()" accept="image/*">
+                    <input type="file" class="form-control custom-file-input" id="fupFoto" lang="es" (change)="changeFoto()" accept="image/*">
+             
               </div>
             </div>
           </div>
@@ -95,7 +96,7 @@
               <div class="card-header">
                 Adjuntar Prueba 2
               </div>
-              <img src="{{foto2Url}}" class="card-img-top" height="120" />
+              <img src="{{foto2Url}}" class="card-img-top" height="240" />
               <div class="card-body">
                 <input type="file" lang="es" data-browse="Seleccionar archivo" class="form-control custom-file-input" id="fupFoto2" (change)="changeFoto()" accept="image/*">
               </div>
@@ -107,7 +108,7 @@
               <div class="card-header">
                 Adjuntar Prueba 3
               </div>
-              <img src="{{foto3Url}}" class="card-img-top" height="120" />
+              <img src="{{foto3Url}}" class="card-img-top" height="240" />
               <div class="card-body">
                 <input type="file" class="form-control custom-file-input" id="fupFoto3" lang="es" (change)="changeFoto()" accept="image/*">
               </div>
@@ -133,9 +134,9 @@
             <input type="text" class="form-control col-md-3" id="exampleFormControlInput1" placeholder="Opcional teléfono de contacto" formControlName="Movil_Notificacion">
           </div>
 
-          <div style="color:white" class="form-group col-md-12 justify-content-around">
+          <div style="color:black" class="form-group col-md-12 justify-content-around">
 
-            <div class="text-center  bg-danger shadow p-2 mb-5 rounded shadow-sm" *ngIf="Denuncia.valid==false">Verifique que los datos indicados con (*) estén correctamente ingresados</div>
+            <div class="text-center  bg-info-light shadow p-2 mb-5 rounded shadow-sm" *ngIf="Denuncia.valid==false">Verifique que los campos señalados con (*) estén correctamente ingresados</div>
 
           </div>
 

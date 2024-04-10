@@ -23,11 +23,6 @@
   font-size: 3.5em;
 }
 
-/*.subtitulo {
-  font-family: "Times New Roman", Times, serif;
-  font-size: 2.5em;
-}*/
-
 
 .tooltip {
   position: relative;
@@ -51,3 +46,9 @@
 .tooltip:hover .tooltiptext {
   visibility: visible;
 }
+
+
+
+/*.custom-file-input::before {
+  content: none;*/ /* Oculta el contenido antes del campo de entrada */
+/*}*/

@@ -22,6 +22,9 @@ export class TrabajoFormGenerarComponent implements OnInit {
   notificacionMail: any;
   resultadoGuardadoModal: any = "";
   @ViewChild("myModalInfo", { static: false }) myModalInfo: TemplateRef<any> | undefined;
+  tituloModal: string = "";  //estas cuatro lineas son del modal de accion sobre el formulario.
+  redirectModal: number = 0;
+
 
   constructor(private TrabajoService: TrabajoService, private denunciaService: DenunciaService, private modalService: NgbModal, private router: Router, private activatedRoute: ActivatedRoute) {
     this.activatedRoute.params.subscribe(parametro => {
@@ -108,13 +111,14 @@ export class TrabajoFormGenerarComponent implements OnInit {
     
       this.TrabajoService.GuardarTrabajo(this.Trabajo.value).subscribe(data => {
         if (data) {
-          console.log(data);
+          this.tituloModal = "Registro de Trabajo";
           this.resultadoGuardadoModal = "Se añadió la actividad correctamente.";
 
         }
-        else
+        else { this.tituloModal = "ERROR!";
           this.resultadoGuardadoModal = "No se ha podido registrar el trabajo genere un ticket con el error en nuestra pestaña de problemas";
-      });
+        }
+        });
 
 
       this.modalService.open(this.myModalInfo);
@@ -133,22 +137,36 @@ export class TrabajoFormGenerarComponent implements OnInit {
     this.router.navigate(["/tabla-denuncia"]);
   }
   derivarAMesaEntrada() {
+    this.tituloModal = "Denuncia derivada a mesa de entrada";
+    this.resultadoGuardadoModal = "La denuncia se ha derivadado para que personal de mesa de Ayuda continue con el tratamiento";
     if (this.parametro >= 1) {
       this.denunciaService.devolverAMesa(this.Trabajo.value).subscribe(data => { })
-      alert("La Denuncia ha sido derivada a Mesa de Entrada");
+      this.modalService.open(this.myModalInfo);
       this.router.navigate(["/tabla-denuncia"]);
     }
   }
 
   solucionarDenuncia() {
+    this.tituloModal = "Denuncia en proceso de Solucion";
+    this.resultadoGuardadoModal = "La denuncia se ha etiquetado para que sea finalizada por personal de mesa de Ayuda";
     if (this.parametro >= 1) {
-      
       this.denunciaService.solucionarDenuncia(this.Trabajo.value).subscribe(data => { })
-      alert("Denuncia Finalizada");
+      this.modalService.open(this.myModalInfo);
       this.router.navigate(["/tabla-denuncia"]);
     }
   }
-
+  cerrarmodal() {
+    this.modalService.dismissAll(this.myModalInfo);
+    if (this.redirectModal > 0) {
+      this.router.navigate(["/tabla-denuncia"]);
+      this.tituloModal = "Se redirigira al Tablero de Denuncias"
+      this.redirectModal = 0;
+    }
+    else { //resetear campos del modal ya que la persona esta registrada y seteamos lote.
+      this.tituloModal = "No te olvides de generar el ticket con el error en el menu de problemas.";
+      this.router.navigate(["/tabla-denuncia"]);
+    }
+  }
   verCheck() {
     var seleccionados = "";
     var noseleccionados = "";

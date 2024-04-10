@@ -1,12 +1,11 @@
 {
   "dependencies": {
     "@angular/cli": "14.2.13",
-    "@angular/localize": "14.3.0",
-    "@ng-bootstrap/ng-bootstrap": "^12.0.0",
+    "@angular/localize": "^14.3.0",
+    "@ng-bootstrap/ng-bootstrap": "^13.1.1",
     "@popperjs/core": "^2.11.2",
-    "angular-chart.js": "^1.1.1",
+    "chart.js": "^4.4.2",
     "g": "^2.0.1",
-    "moment": "^2.29.4",
-    "ng2-charts": "^3.1.2"
+    "moment": "^2.29.4"
   }
 }

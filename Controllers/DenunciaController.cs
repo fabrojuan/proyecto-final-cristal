@@ -202,7 +202,7 @@ namespace MVPSA_V2022.Controllers
                         oDenuncia = bd.Denuncia.Where(d => d.Descripcion == descripcion).First();
 
                         int NroDenunciaTemp = oDenuncia.NroDenuncia;
-                        if (oDenunciaCLS2.foto != null)
+                        if (oDenunciaCLS2.foto != "data:text/plain;base64,dGVzdCB0ZXh0")
                         {
                             PruebaGraficaDenuncium oPrueba = new PruebaGraficaDenuncium();
                             oPrueba.Foto = oDenunciaCLS2.foto;
@@ -211,7 +211,7 @@ namespace MVPSA_V2022.Controllers
 
                             bd.PruebaGraficaDenuncia.Add(oPrueba);
                         }
-                        if (oDenunciaCLS2.foto2 != null)
+                        if (oDenunciaCLS2.foto2 != "data:text/plain;base64,dGVzdCB0ZXh0")
                         {
                             PruebaGraficaDenuncium oPrueba = new PruebaGraficaDenuncium();
                             oPrueba.Foto = oDenunciaCLS2.foto2;
@@ -219,7 +219,7 @@ namespace MVPSA_V2022.Controllers
                             oPrueba.Bhabilitado = 1;
                             bd.PruebaGraficaDenuncia.Add(oPrueba);
                         }
-                        if (oDenunciaCLS2.foto3 != null)
+                        if (oDenunciaCLS2.foto3 != "data:text/plain;base64,dGVzdCB0ZXh0")
                         {
                             PruebaGraficaDenuncium oPrueba = new PruebaGraficaDenuncium();
                             oPrueba.Foto = oDenunciaCLS2.foto3;
@@ -304,12 +304,21 @@ namespace MVPSA_V2022.Controllers
                         bd.SaveChanges();
 
                     }
+                    else
+                    {
+                     //   using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
+                        {
+                            Denuncium oDenuncia = bd.Denuncia.Where(d => d.NroDenuncia == oTrabajoCLS.Nro_Denuncia).First();
+                            oDenuncia.CodEstadoDenuncia = 5;
+                            bd.SaveChanges();
 
+                        }
+                        rpta = 1;
+                    }
+
+                    return rpta;
                 }
-                return rpta;
             }
-
-
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
@@ -331,7 +340,7 @@ namespace MVPSA_V2022.Controllers
                 {
 
                     Denuncium oDenuncia = bd.Denuncia.Where(d => d.NroDenuncia == oTrabajoCLS.Nro_Denuncia).First();
-                    oDenuncia.CodEstadoDenuncia = 8;
+                    oDenuncia.CodEstadoDenuncia = 7;
                     bd.SaveChanges();
 
                 }
@@ -439,11 +448,10 @@ namespace MVPSA_V2022.Controllers
                                      where TipoDenuncia.Bhabilitado == 1
                                      select new TipoDenunciaCLS
                                      {
-                                         Cod_Tipo_Denuncia = TipoDenuncia.CodTipoDenuncia,
-                                         Nombre = TipoDenuncia.Nombre,
+                                         cod_Tipo_Denuncia = (int)TipoDenuncia.CodTipoDenuncia,
+                                         Nombre= !String.IsNullOrEmpty(TipoDenuncia.Nombre) ? TipoDenuncia.Nombre : "Sin Tipo",
                                          Tiempo_Max_Tratamiento = (int)TipoDenuncia.TiempoMaxTratamiento,
-                                         Descripcion = TipoDenuncia.Descripcion
-
+                                         Descripcion = !String.IsNullOrEmpty(TipoDenuncia.Descripcion) ? TipoDenuncia.Descripcion : "Sin Descripcion"
                                      }).ToList();
                 return listaTipoDenuncia;
             }

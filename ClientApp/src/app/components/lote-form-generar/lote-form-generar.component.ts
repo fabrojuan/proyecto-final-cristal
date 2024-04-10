@@ -144,8 +144,7 @@ export class LoteFormGenerarComponent implements OnInit, ControlValueAccessor, V
       console.log(this.Lote.value);
       this.loteservice.agregarLote(this.Lote.value).subscribe(data => {
         if (data) {
-          console.log(data);
-
+       
           this.resultadoGuardadoModal = "Se ha generado Lote correctamente.";
 
         }

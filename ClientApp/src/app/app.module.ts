@@ -95,6 +95,7 @@ import { ReclamoDerivarComponent } from './components/reclamo-derivar/reclamo-de
 import { ReclamoFormGenerarEmpleadoComponent } from './components/reclamo-form-generar-empleado/reclamo-form-generar-empleado.component';
 import { HistoricoDenunciaTablaComponent } from './components/historico-denuncia-tabla/historico-denuncia-tabla.component';
 import { HistoricoDenunciaTrabajosComponent } from './components/historico-denuncia-trabajos/historico-denuncia-trabajos.component';
+import { ReportarProblemasComponent } from './components/reportar-problemas/reportar-problemas.component';
 
 
 @NgModule({
@@ -161,7 +162,8 @@ import { HistoricoDenunciaTrabajosComponent } from './components/historico-denun
     ReclamoDerivarComponent,
     ReclamoFormGenerarEmpleadoComponent,
     HistoricoDenunciaTablaComponent,
-    HistoricoDenunciaTrabajosComponent
+    HistoricoDenunciaTrabajosComponent,
+    ReportarProblemasComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

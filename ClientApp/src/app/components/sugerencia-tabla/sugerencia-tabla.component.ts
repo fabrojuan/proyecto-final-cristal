@@ -16,11 +16,9 @@ export class SugerenciaTablaComponent implements OnInit {
   DenunciasFiltradas: any;
   p: number = 1;
   dtoptions: DataTables.Settings = {};
-  //dtoptions: DataTables.LanguageSettings = {
-  // espaniolDatatables  };
   
   dtTrigger: Subject<any> = new Subject<any>();
-  cabeceras: string[] = ["Id Sugerencia", "Descripcion", "Fecha Generada", "Tiempo de Caducidad"];
+  cabeceras: string[] = ["Id Sugerencia", "Descripcion", "Fecha Generada", "Estado"];
   constructor(private sugerenciaservice: SugerenciaService, private usuarioService: UsuarioService, private formBuilder: UntypedFormBuilder) {
     this.form = new UntypedFormGroup({
       //'NombreUser': new FormControl("", Validators.required),
@@ -47,35 +45,5 @@ export class SugerenciaTablaComponent implements OnInit {
     });
 
   }
-
-  //const espaniolDatatables2: DataTables.LanguageSettings = {
-  //  processing: "Procesando...",
-  //  lengthMenu: "Mostrar _MENU_ registros",
-  //  zeroRecords: "No se encontraron resultados",
-  //  emptyTable: "Ningún dato disponible en esta tabla",
-  //  info: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-  //  infoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
-  //  infoFiltered: "(filtrado de un total de _MAX_ registros)",
-  //  search: "Buscar:",
-  //  thousands: ",",
-  //  loadingRecords: "Cargando...",
-  //  paginate: {
-  //    first: "Primero",
-  //    last: "Último",
-  //    next: "Siguiente",
-  //    previous: "Anterior"
-  //  },
-  //  aria: {
-  //    sortAscending: ": Activar para ordenar la columna de manera ascendente",
-  //    sortDescending: ": Activar para ordenar la columna de manera descendent"
-  //  },
-  //  //buttons: {
-  //  //  oncopy: "Copiar",
-  //  //  colvis: "Visibilidad"
-
-  //  //}
-  //};
  
 }
-
-  
