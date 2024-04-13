@@ -5,6 +5,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { ReclamoService } from 'src/app/services/reclamo.service';
 import { ReclamoRechazarDialogComponent } from './reclamo-rechazar-dialog.component';
 import { AplicarAccion } from 'src/app/modelos_Interfaces/AplicarAccion';
+import { ReclamoAsignarComponent } from '../reclamo-asignar/reclamo-asignar.component';
 
 @Component({
   selector: 'app-reclamo-form-consultar',
@@ -60,7 +61,15 @@ export class ReclamoFormConsultarComponent implements OnInit {
 
   guardarCambioEstadoReclamo() {}
 
-  asignarAreaReclamo() {}
+  asignarAreaReclamo() {
+    const modalRef = this.modalService.open(ReclamoAsignarComponent, 
+      { animation: false, backdrop: "static", centered: true, keyboard: false, size: "lg" });
+
+    modalRef.componentInstance.eventoAsignacionConfirmado.subscribe((asignacion: any) => {
+      modalRef.close();
+      this.confirmarAsignacion(asignacion.codArea, asignacion.descripcionMotivoAsignacion);
+    })
+  }
 
   confirmarRechazo(descripcionMotivoRechazo : string) {
     if (descripcionMotivoRechazo) {
@@ -68,11 +77,16 @@ export class ReclamoFormConsultarComponent implements OnInit {
       aplicarAccion.codAccion = "RECHAZAR";
       aplicarAccion.observacion = descripcionMotivoRechazo;
       this.reclamoService.aplicarAccion(this.nroReclamo, aplicarAccion).subscribe(resp => {
-        alert("Se registró correctamente el rechazo del reclamo");
+        alert("Se registró correctamente el rechazo del requerimiento");
+
+        this.reclamoService.getReclamo(this.nroReclamo).subscribe(datosReclamo => {
+          this.reclamo = datosReclamo;
+        });
+
         return;
       }, error => {
         console.error(error);
-        alert("Ocurrió un error al registrar el rechazo del reclamo");
+        alert("Ocurrió un error al registrar el rechazo del requerimiento");
         return;
       });
       
@@ -82,11 +96,45 @@ export class ReclamoFormConsultarComponent implements OnInit {
     
   }
 
+  confirmarAsignacion(codArea: number, descripcionMotivoAsignacion : string) {
+    if (codArea) {
+      console.log("Reclamo asignado al area " + codArea + " por el siguiente motivo: " + descripcionMotivoAsignacion);
+      let aplicarAccion: AplicarAccion = {};
+      aplicarAccion.codAccion = "ASIGNAR";
+      aplicarAccion.codArea = codArea;
+      aplicarAccion.observacion = descripcionMotivoAsignacion;
+      this.reclamoService.aplicarAccion(this.nroReclamo, aplicarAccion).subscribe(resp => {
+        alert("Se registró correctamente la asignación del requerimiento");
+
+        this.reclamoService.getReclamo(this.nroReclamo).subscribe(datosReclamo => {
+          this.reclamo = datosReclamo;
+        });
+
+        return;
+      }, error => {
+        console.error(error);
+        alert("Ocurrió un error al registrar el rechazo del requerimiento");
+        return;
+      });
+
+
+    } else {
+      alert("Debe asignar una área");
+    }
+
+    
+    
+  }
+
   mostrarBotonRechazar() : boolean {
-    if (this.reclamo.codEstado == 1) {
+    if (this.reclamo.codEstadoReclamo == 1) {
       return true;
     }
     return false;
+  }
+
+  volver() {
+    this._router.navigate(["/reclamo-tabla"]);
   }
 
 }

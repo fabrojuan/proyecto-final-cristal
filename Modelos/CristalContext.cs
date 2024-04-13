@@ -456,8 +456,7 @@ public partial class CristalContext : DbContext
             entity.ToTable("OBSERVACION_RECLAMO");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.CodEstadoReclamoDestino).HasColumnName("cod_estado_reclamo_destino");
-            entity.Property(e => e.CodEstadoReclamoOrigen).HasColumnName("cod_estado_reclamo_origen");
+            entity.Property(e => e.CodEstadoReclamo).HasColumnName("cod_estado_reclamo");
             entity.Property(e => e.FechaAlta)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime")
@@ -469,13 +468,8 @@ public partial class CristalContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("observacion");
 
-            entity.HasOne(d => d.CodEstadoReclamoDestinoNavigation).WithMany(p => p.ObservacionReclamoCodEstadoReclamoDestinoNavigations)
-                .HasForeignKey(d => d.CodEstadoReclamoDestino)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_OBSERVACION_RECLAMO_ESTADO_RECLAMO_2");
-
-            entity.HasOne(d => d.CodEstadoReclamoOrigenNavigation).WithMany(p => p.ObservacionReclamoCodEstadoReclamoOrigenNavigations)
-                .HasForeignKey(d => d.CodEstadoReclamoOrigen)
+            entity.HasOne(d => d.CodEstadoReclamoNavigation).WithMany(p => p.ObservacionReclamos)
+                .HasForeignKey(d => d.CodEstadoReclamo)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_OBSERVACION_RECLAMO_ESTADO_RECLAMO");
 

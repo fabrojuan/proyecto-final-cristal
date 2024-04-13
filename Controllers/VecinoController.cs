@@ -1,14 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using MVPSA_V2022.clases;
 using MVPSA_V2022.Modelos;
 using MVPSA_V2022.Services;
-using System;
-using System.Linq;
-using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Transactions;
@@ -227,7 +222,7 @@ namespace MVPSA_V2022.Controllers
                                                    join roles in bd.Rols
                                                    on usuarios.IdTipoUsuario equals roles.IdRol
                                                    where usuarios.Bhabilitado == 1
-                                                   && usuarios.NombreUser == oVecinoCLS.NombreUser.ToUpper()
+                                                   && usuarios.NombreUser.ToUpper() == oVecinoCLS.NombreUser.ToUpper()
                                                    && usuarios.Contrasenia == claveCifrada
                                                    && roles.TipoRol == "VECINO"
                                                    select new TokenUsuarioDto

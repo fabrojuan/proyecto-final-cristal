@@ -1,14 +1,31 @@
 <div class="container">
-    <h1 class="text-center">Consultar Requerimiento</h1>
 
-    <app-reclamo-cabecera [reclamo]="reclamo"></app-reclamo-cabecera>
 
-    <div class="row pt-3" *ngIf="mostrarBotonRechazar()">
-        <button type="button" class="btn btn-secondary col-md-4 offset-md-1" (click)="rechazarReclamo()">Rechazar</button>
+
+    <div class="card">
+        <div class="card-body">
+          
+            <h5 class="card-title">Consultar Requerimiento</h5>
+
+            <app-reclamo-cabecera [reclamo]="reclamo"></app-reclamo-cabecera>
+
+            <div class="row pt-3" *ngIf="mostrarBotonRechazar()">
+                <button type="button" class="btn btn-danger col-md-2 m-1" (click)="rechazarReclamo()"><i class="bi bi-x"></i> Rechazar</button>
+                <button type="button" class="btn btn-warning col-md-2 m-1" (click)="asignarAreaReclamo()"><i class="bi bi-people"></i> Asignar</button>
+                <button type="button" class="btn btn-warning col-md-2 m-1" (click)="asignarAreaReclamo()"><i class="bi bi-tools"></i> Cargar Trabajo</button>
+                <button type="button" class="btn btn-warning col-md-2 m-1" (click)="asignarAreaReclamo()"><i class="bi bi-check2-all"></i> Finalizar</button>
+            </div>
+
+            
+
+        </div>
+
+        <div class="card-footer">
+            <div class="row pt-3" >
+                <button type="button" class="btn btn-secondary col-md-3 offset-md-9" (click)="volver()">Volver</button>
+            </div>
+        </div>
+
     </div>
 
-    <!-- <div class="row pt-3">
-        <button type="button" class="btn btn-warning col-md-4 offset-md-1" (click)="asignarAreaReclamo()">Asignar Area</button>
-    </div> -->
-    
 </div>

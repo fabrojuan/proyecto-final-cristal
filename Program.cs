@@ -1,13 +1,11 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using MVPSA_V2022.Configurations;
 using MVPSA_V2022.Interceptors;
 using MVPSA_V2022.Mappers;
 using MVPSA_V2022.Modelos;
 using MVPSA_V2022.Services;
-using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 string cors = "ConfigurarCors";

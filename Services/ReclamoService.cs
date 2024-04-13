@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using MVPSA_V2022.clases;
+using MVPSA_V2022.clases.Mobbex;
 using MVPSA_V2022.Enums;
 using MVPSA_V2022.Exceptions;
 using MVPSA_V2022.Modelos;
 using MVPSA_V2022.Utils;
-using System.Linq;
 
 namespace MVPSA_V2022.Services
 {
@@ -116,6 +118,9 @@ namespace MVPSA_V2022.Services
 
         public ReclamoDto getReclamo(int nroReclamo)
         {
+
+     
+
             using (M_VPSA_V3Context bd = new M_VPSA_V3Context())            {
 
                 ReclamoDto reclamoResponse = (from reclamo in bd.VwReclamos
@@ -408,19 +413,42 @@ namespace MVPSA_V2022.Services
 
         public void aplicarAccion(AplicarAccionDto aplicarAccionDto)
         {
-            var reclamo = dbContext.Reclamos.Find(aplicarAccionDto.nroReclamo);
-            reclamo.CodEstadoReclamo = (int)EstadoReclamoEnum.RECHAZADO;
-            dbContext.Reclamos.Update(reclamo);
+            if (aplicarAccionDto.codAccion.Equals("RECHAZAR")) {
+                var reclamo = dbContext.Reclamos.Find(aplicarAccionDto.nroReclamo);
+                reclamo.CodEstadoReclamo = (int)EstadoReclamoEnum.RECHAZADO;
+                dbContext.Reclamos.Update(reclamo);
 
-            ObservacionReclamo observacionReclamo = new ObservacionReclamo();
-            observacionReclamo.CodAccion = aplicarAccionDto.codAccion;
-            observacionReclamo.CodEstadoReclamo = (int)EstadoReclamoEnum.CANCELADO;
-            observacionReclamo.IdUsuarioAlta = aplicarAccionDto.nroReclamo;
-            observacionReclamo.NroReclamo = aplicarAccionDto.nroReclamo;
-            observacionReclamo.Observacion = aplicarAccionDto.observacion;
-            dbContext.ObservacionReclamos.Add(observacionReclamo);
+                ObservacionReclamo observacionReclamo = new ObservacionReclamo();
+                observacionReclamo.CodAccion = aplicarAccionDto.codAccion;
+                observacionReclamo.CodEstadoReclamo = (int)EstadoReclamoEnum.RECHAZADO;
+                observacionReclamo.IdUsuarioAlta = int.Parse(aplicarAccionDto.idUsuario);
+                observacionReclamo.NroReclamo = aplicarAccionDto.nroReclamo;
+                observacionReclamo.Observacion = aplicarAccionDto.observacion;
+                dbContext.ObservacionReclamos.Add(observacionReclamo);
 
-            dbContext.SaveChanges();
+                dbContext.SaveChanges();
+            }
+
+            if (aplicarAccionDto.codAccion.Equals("ASIGNAR")) {
+                var reclamo = dbContext.Reclamos.Find(aplicarAccionDto.nroReclamo);
+                reclamo.NroArea = aplicarAccionDto.codArea;
+                dbContext.Reclamos.Update(reclamo);
+
+                var area = dbContext.Areas.Find(aplicarAccionDto.codArea);
+
+                ObservacionReclamo observacionReclamo = new ObservacionReclamo();
+                observacionReclamo.CodAccion = aplicarAccionDto.codAccion;
+                observacionReclamo.CodEstadoReclamo = (int)reclamo.CodEstadoReclamo;
+                observacionReclamo.IdUsuarioAlta = int.Parse(aplicarAccionDto.idUsuario);
+                observacionReclamo.NroReclamo = aplicarAccionDto.nroReclamo;
+                observacionReclamo.Observacion = "Se asigna requerimiento al área: " +
+                    area.Nombre + " por el motivo: " + aplicarAccionDto.observacion;
+                dbContext.ObservacionReclamos.Add(observacionReclamo);
+
+                dbContext.SaveChanges();
+            }
+            
         }
+
     }
 }

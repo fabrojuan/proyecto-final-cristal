@@ -341,3 +341,18 @@ ALTER TABLE DBO.RECLAMO
       ON DELETE  NO ACTION
       ON UPDATE  NO ACTION;
 
+
+SET IDENTITY_INSERT [dbo].[AREA] ON;
+
+INSERT INTO AREA (nro_area, nombre, cod_area, bhabilitado)
+VALUES(1, 'MESA DE ENTRADA', 'ME', 1);
+INSERT INTO AREA (nro_area, nombre, cod_area, bhabilitado)
+VALUES(2, 'ESPACIOS VERDES', 'EV', 1);
+INSERT INTO AREA (nro_area, nombre, cod_area, bhabilitado)
+VALUES(3, 'ALUMBRADO PUBLICO', 'AP', 1);
+INSERT INTO AREA (nro_area, nombre, cod_area, bhabilitado)
+VALUES(4, 'OBRAS VIALES', 'OV', 1);
+INSERT INTO AREA (nro_area, nombre, cod_area, bhabilitado)
+VALUES(5, 'RECOLECCION DE RESIDUOS', 'RS', 1);
+
+SET IDENTITY_INSERT [dbo].[AREA] OFF;
