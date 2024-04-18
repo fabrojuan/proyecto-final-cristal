@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { Prioridad } from '../modelos_Interfaces/Prioridad';
 import { ModificarReclamoRequest } from '../modelos_Interfaces/ModificarReclamoRequest';
 import { AplicarAccion } from '../modelos_Interfaces/AplicarAccion';
+import { ObservacionReclamo } from '../modelos_Interfaces/ObservacionReclamo';
 
 //import { r } from '@angular/core/src/render3';
   
@@ -77,6 +78,13 @@ export class ReclamoService {
   public aplicarAccion(nroReclamo: number, accion: AplicarAccion): Observable<any> {
     const url = this.urlBase + 'api/reclamos/' + nroReclamo + "/acciones";
     return this.http.post<any>(url, accion);
+  }
+
+  /**
+   * Observaciones Reclamos
+   */
+  public getObservacionesReclamo(nroReclamo: number): Observable<Array<ObservacionReclamo>> {
+    return this.http.get<Array<ObservacionReclamo>>(this.urlBase + 'api/reclamos/' + nroReclamo + '/observaciones').pipe(map(res => res));
   }
 
 }

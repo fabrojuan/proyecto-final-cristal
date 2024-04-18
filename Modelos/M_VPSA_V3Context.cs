@@ -97,14 +97,10 @@ namespace MVPSA_V2022.Modelos
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-            => optionsBuilder.UseSqlServer("Server=localhost;Database=cristal;User Id=sa;Password=pepito1#;TrustServerCertificate=True;")
-                    .LogTo(Console.WriteLine)
-            .EnableSensitiveDataLogging();
+            => optionsBuilder.UseSqlServer("Server=localhost;Database=cristal;User Id=sa;Password=pepito1#;TrustServerCertificate=True;");
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.UseCollation("SQL_Latin1_General_CP1_CI_AS");
-
             modelBuilder.Entity<Alicuotum>(entity =>
             {
                 entity.HasKey(e => e.IdAlicuota).HasName("PK__ALICUOTA__381F0CC3436A82EF");
@@ -458,6 +454,10 @@ namespace MVPSA_V2022.Modelos
                 entity.ToTable("OBSERVACION_RECLAMO");
 
                 entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.CodAccion)
+                    .HasMaxLength(15)
+                    .IsUnicode(false)
+                    .HasColumnName("codAccion");
                 entity.Property(e => e.CodEstadoReclamo).HasColumnName("cod_estado_reclamo");
                 entity.Property(e => e.FechaAlta)
                     .HasDefaultValueSql("(getdate())")
@@ -1118,6 +1118,7 @@ namespace MVPSA_V2022.Modelos
                 entity.Property(e => e.NomApeVecino)
                     .HasMaxLength(100)
                     .IsUnicode(false);
+                entity.Property(e => e.NroArea).HasColumnName("nro_area");
                 entity.Property(e => e.NroPrioridad).HasColumnName("Nro_Prioridad");
                 entity.Property(e => e.NroReclamo).HasColumnName("Nro_Reclamo");
                 entity.Property(e => e.PrioridadReclamo)

@@ -95,6 +95,7 @@ import { HistoricoDenunciaTrabajosComponent } from './components/historico-denun
 import { ReclamoFormConsultarComponent } from './components/reclamo-form-consultar/reclamo-form-consultar.component';
 import { ReclamoRechazarDialogComponent } from './components/reclamo-form-consultar/reclamo-rechazar-dialog.component';
 import { ReclamoAsignarComponent } from './components/reclamo-asignar/reclamo-asignar.component';
+import { ObservacionesReclamoTablaComponent } from './components/observaciones-reclamo-tabla/observaciones-reclamo-tabla.component';
 
 
 
@@ -165,7 +166,8 @@ import { ReclamoAsignarComponent } from './components/reclamo-asignar/reclamo-as
     HistoricoDenunciaTrabajosComponent,
     ReclamoFormConsultarComponent,
     ReclamoRechazarDialogComponent,
-    ReclamoAsignarComponent
+    ReclamoAsignarComponent,
+    ObservacionesReclamoTablaComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

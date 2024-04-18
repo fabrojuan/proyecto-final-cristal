@@ -20,6 +20,7 @@ namespace MVPSA_V2022.Utils
 			destino.NomApeVecino = origen.NomApeVecino;
 			destino.MailVecino = origen.MailVecino;
 			destino.TelefonoVecino = origen.TelefonoVecino;
+			destino.NroArea = origen.nroArea;
 			return destino;
         }
 

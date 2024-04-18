@@ -40,6 +40,11 @@ namespace MVPSA_V2022.Services
                 reclamo.NroPrioridad = getPrioridadReclamoSegunTipoReclamo(reclamoCLS.codTipoReclamo);
                 reclamo.Fecha = DateTime.Now;
 
+                if (reclamo.NroArea == null || reclamo.NroArea == 0) {
+                    var areaMesaDeEntrada = dbContext.Areas.Where(area => area.CodArea == "ME").Single();
+                    reclamo.NroArea = areaMesaDeEntrada.NroArea;
+                }
+                
                 Usuario usuarioAlta = dbContext.Usuarios
                     .Where(usr => usr.IdUsuario == idUsuarioAlta).FirstOrDefault();
 
@@ -84,8 +89,20 @@ namespace MVPSA_V2022.Services
             return  Conversor.convertToReclamoDto(reclamo);
         }
 
-        public IEnumerable<ReclamoDto> listarReclamos()
+        public IEnumerable<ReclamoDto> listarReclamos(int idUsuarioConectado)
         {
+
+            var query = dbContext.VwReclamos.Where(rec => rec.Bhabilitado == 1);
+
+            var usuarioConectado = dbContext.Usuarios.Where(usu => usu.IdUsuario == idUsuarioConectado).FirstOrDefault();
+            String codRolUsuarioConectado = usuarioConectado.IdTipoUsuarioNavigation.CodRol;
+
+            /*if (codRolUsuarioConectado != "MDE" && codRolUsuarioConectado != "INT"
+                && codRolUsuarioConectado != "ADS") {
+                query.Where(rec => rec.NroArea == usuarioConectado.area)
+            }*/ 
+
+
             using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
             {
                 List<ReclamoDto> listaReclamo = (from reclamo in bd.VwReclamos
@@ -145,7 +162,8 @@ namespace MVPSA_V2022.Services
                                                   nroPrioridad = (int)reclamo.NroPrioridad,
                                                   usuarioAsignado = reclamo.Usuario,
                                                   empleadoAsignado = reclamo.Empleado,
-                                                  prioridad = reclamo.PrioridadReclamo
+                                                  prioridad = reclamo.PrioridadReclamo,
+                                                  nroArea = reclamo.NroArea
                                               }).Single();
 
 
@@ -448,6 +466,34 @@ namespace MVPSA_V2022.Services
                 dbContext.SaveChanges();
             }
             
+        }
+
+        public List<ObservacionReclamoDto> obtenerObservacionesDeReclamo(int nroReclamo) {
+
+            List<ObservacionReclamoDto> result = new List<ObservacionReclamoDto>();
+            var observaciones = dbContext.ObservacionReclamos.Where(obs => obs.NroReclamo == nroReclamo)
+                .OrderBy(obs => obs.FechaAlta)
+                .ToList();
+            observaciones.ForEach(obs => {
+                ObservacionReclamoDto observacion = new ObservacionReclamoDto
+                {
+                    id = obs.Id,
+                    nroReclamo = obs.NroReclamo,
+                    observacion = obs.Observacion,
+                    codEstadoReclamo = obs.CodEstadoReclamo,
+                    estadoReclamo = obs.CodEstadoReclamoNavigation.Nombre,
+                    idUsuarioAlta = obs.IdUsuarioAlta,
+                    usuarioAlta = obs.IdUsuarioAltaNavigation.NombreUser,
+                    fechaAlta = obs.FechaAlta,
+                    codAccion = obs.CodAccion
+                };
+
+                result.Add(observacion);
+
+            });
+
+            return result;
+
         }
 
     }

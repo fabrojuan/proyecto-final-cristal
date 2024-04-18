@@ -6,6 +6,7 @@ import { ReclamoService } from 'src/app/services/reclamo.service';
 import { ReclamoRechazarDialogComponent } from './reclamo-rechazar-dialog.component';
 import { AplicarAccion } from 'src/app/modelos_Interfaces/AplicarAccion';
 import { ReclamoAsignarComponent } from '../reclamo-asignar/reclamo-asignar.component';
+import { ObservacionesReclamoTablaComponent } from '../observaciones-reclamo-tabla/observaciones-reclamo-tabla.component';
 
 @Component({
   selector: 'app-reclamo-form-consultar',
@@ -58,6 +59,12 @@ export class ReclamoFormConsultarComponent implements OnInit {
 
   }
 
+  mostrarObservacionesReclamo() {
+    const modalRef = this.modalService.open(ObservacionesReclamoTablaComponent, 
+      { animation: false, backdrop: "static", centered: true, keyboard: false, size: "lg" });
+    modalRef.componentInstance.nroReclamo = this.nroReclamo;
+  }
+
 
   guardarCambioEstadoReclamo() {}
 
@@ -96,12 +103,18 @@ export class ReclamoFormConsultarComponent implements OnInit {
     
   }
 
-  confirmarAsignacion(codArea: number, descripcionMotivoAsignacion : string) {
-    if (codArea) {
-      console.log("Reclamo asignado al area " + codArea + " por el siguiente motivo: " + descripcionMotivoAsignacion);
+  confirmarAsignacion(nroArea: number, descripcionMotivoAsignacion : string) {
+    if (nroArea) {
+
+      if (nroArea == this.reclamo.nroArea) {
+        alert("No se puede asignar el requerimiento a la misma área que tiene actualmente.");
+        return;
+      }
+
+      console.log("Reclamo asignado al area " + nroArea + " por el siguiente motivo: " + descripcionMotivoAsignacion);
       let aplicarAccion: AplicarAccion = {};
       aplicarAccion.codAccion = "ASIGNAR";
-      aplicarAccion.codArea = codArea;
+      aplicarAccion.codArea = nroArea;
       aplicarAccion.observacion = descripcionMotivoAsignacion;
       this.reclamoService.aplicarAccion(this.nroReclamo, aplicarAccion).subscribe(resp => {
         alert("Se registró correctamente la asignación del requerimiento");

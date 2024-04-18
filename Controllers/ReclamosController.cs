@@ -138,11 +138,11 @@ namespace MVPSA_V2022.Controllers
         }
 
         [HttpGet]
-        public IActionResult ListarReclamos()
+        public IActionResult ListarReclamos([FromHeader(Name = "id_usuario")] string idUsuarioAlta)
         {
             try
             {
-                return Ok(reclamoService.listarReclamos());
+                return Ok(reclamoService.listarReclamos(Int32.Parse(idUsuarioAlta)));
             } catch (Exception ex) {
                 return NotFound(ex.Message);
             }
@@ -195,6 +195,18 @@ namespace MVPSA_V2022.Controllers
             aplicarAccionDto.idUsuario = idUsuarioAccion;
             reclamoService.aplicarAccion(aplicarAccionDto);
             return Ok();
+        }
+
+        /**
+         * Observaciones reclamos
+         */
+
+        [HttpGet]
+        [Route("{nroReclamo}/observaciones")]
+        public IActionResult buscarObservaciones([FromHeader(Name = "id_usuario")] string idUsuarioAccion,
+                                                  int nroReclamo)
+        {
+            return Ok(reclamoService.obtenerObservacionesDeReclamo(nroReclamo));            
         }
 
     }

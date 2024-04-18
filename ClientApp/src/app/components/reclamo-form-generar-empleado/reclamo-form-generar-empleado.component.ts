@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ReclamoService } from '../../services/reclamo.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { VecinoService } from '../../services/vecino.service';
+import { Area } from 'src/app/modelos_Interfaces/Area';
+import { AreasService } from 'src/app/services/areas.service';
 
 @Component({
   selector: 'app-reclamo-form-generar-empleado',
@@ -20,8 +22,11 @@ export class ReclamoFormGenerarEmpleadoComponent implements OnInit {
   mensajeUsuario:String = "";
   mostrarMensajeUsuario:boolean = false;
   esMensajeOk:boolean = true;
+  areas: Area[] = []; 
 
-  constructor(private reclamoservice: ReclamoService, private vecinoService: VecinoService) {
+  constructor(private reclamoservice: ReclamoService, private vecinoService: VecinoService,
+              private _areasService: AreasService
+  ) {
     this.Reclamo = new FormGroup(
       {
         "codTipoReclamo": new FormControl("", [Validators.required]),
@@ -33,9 +38,11 @@ export class ReclamoFormGenerarEmpleadoComponent implements OnInit {
         "foto2": new FormControl(""),
         "nomApeVecino": new FormControl("", [Validators.required, Validators.maxLength(100)]),
         "mailVecino": new FormControl("", [Validators.required, Validators.maxLength(100), Validators.pattern("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")]),
-        "telefonoVecino": new FormControl("", [Validators.required, Validators.maxLength(50)])
+        "telefonoVecino": new FormControl("", [Validators.required, Validators.maxLength(50)]),
+        "nroArea": new FormControl(1)
       }
     );
+
   }
 
   ngOnInit() {
@@ -43,6 +50,12 @@ export class ReclamoFormGenerarEmpleadoComponent implements OnInit {
 
     this.foto1 = "";
     this.foto2 = "";
+
+    this._areasService.getAreas().subscribe(
+      data => {
+        this.areas = data;
+      }
+    );
   }
 
   guardarDatos() {

@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 
 namespace MVPSA_V2022.Modelos;
@@ -24,5 +24,4 @@ public partial class ObservacionReclamo
     public virtual Usuario IdUsuarioAltaNavigation { get; set; } = null!;
 
     public virtual Reclamo NroReclamoNavigation { get; set; } = null!;
-
 }

@@ -95,13 +95,11 @@
                 </div>
 
                 <div class="col-md-6">
-                    <label for="exampleInputEmail1" class="form-label">Area Asignada</label>
-                    <select id="Tipo_Reclamo" formControlName="codTipoReclamo" class="form-select" [ngClass]="{'is-invalid' : codTipoReclamoNoValido}">
-                        <option value="">--Seleccione Opción--</option>
-                        <option [ngValue]="TipoReclamo.cod_Tipo_Reclamo" *ngFor="let TipoReclamo of TiposReclamo">{{TipoReclamo.nombre}}</option>
-                    </select>
-                    <div class="invalid-feedback" *ngIf="codTipoReclamoNoValido">
-                        El tipo de requerimiento es requerido.
+                    <label class="col-sm-2 col-form-label">(*) Area</label>
+                    <div class="col-sm-10">
+                        <select id="area" class="form-select" formControlName="nroArea" >
+                            <option [ngValue]="area.nroArea" *ngFor="let area of areas">{{area.nombre}}</option>
+                        </select>
                     </div>
                 </div>
 

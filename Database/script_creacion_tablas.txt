@@ -356,3 +356,39 @@ INSERT INTO AREA (nro_area, nombre, cod_area, bhabilitado)
 VALUES(5, 'RECOLECCION DE RESIDUOS', 'RS', 1);
 
 SET IDENTITY_INSERT [dbo].[AREA] OFF;
+
+
+DROP VIEW IF EXISTS vw_reclamo;
+
+
+create view dbo.vw_reclamo as SELECT        rec.Nro_Reclamo, 
+rec.Fecha,
+rec.Descripcion, 
+rec.Cod_Tipo_Reclamo,
+rec.Cod_Estado_Reclamo, 
+rec.BHabilitado,
+rec.Calle, 
+rec.Altura, 
+rec.EntreCalles, 
+rec.IdVecino, 
+rec.IdUsuario, 
+rec.NomApeVecino, 
+rec.Nro_Prioridad, 
+rec.MailVecino,
+rec.TelefonoVecino, 
+tre.Nombre AS tipo_reclamo ,
+est.Nombre AS estado_reclamo , 
+pre.Nombre_Prioridad AS prioridad_reclamo  ,
+usu.NombreUser AS usuario, 
+CASE WHEN usu.NombreUser IS NULL THEN 'Sin Asignar' ELSE concat(per.Apellido, ', ', per.Nombre) END AS empleado,
+rec.nro_area
+FROM            dbo.RECLAMO AS rec INNER JOIN
+                         dbo.TIPO_RECLAMO AS tre ON tre.Cod_Tipo_Reclamo = rec.Cod_Tipo_Reclamo INNER JOIN
+                         dbo.ESTADO_RECLAMO AS est ON est.Cod_Estado_Reclamo = rec.Cod_Estado_Reclamo INNER JOIN
+                         dbo.PRIORIDAD_RECLAMO AS pre ON pre.Nro_Prioridad = rec.Nro_Prioridad LEFT OUTER JOIN
+                         dbo.USUARIO AS usu ON usu.idUsuario = rec.IdUsuario LEFT OUTER JOIN
+                         dbo.PERSONA AS per ON per.idPersona = usu.idPersona;
+
+
+ALTER TABLE dbo.usuario 
+ADD nro_area int not null DEFAULT (1);
