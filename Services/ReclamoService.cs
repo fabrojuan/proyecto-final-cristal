@@ -90,47 +90,45 @@ namespace MVPSA_V2022.Services
         }
 
         public IEnumerable<ReclamoDto> listarReclamos(int idUsuarioConectado)
-        {
-
-            var query = dbContext.VwReclamos.Where(rec => rec.Bhabilitado == 1);
+        {           
 
             var usuarioConectado = dbContext.Usuarios.Where(usu => usu.IdUsuario == idUsuarioConectado).FirstOrDefault();
             String codRolUsuarioConectado = usuarioConectado.IdTipoUsuarioNavigation.CodRol;
 
-            /*if (codRolUsuarioConectado != "MDE" && codRolUsuarioConectado != "INT"
+            var query = dbContext.VwReclamos.Where(rec => rec.Bhabilitado == 1);
+            if (codRolUsuarioConectado != "MDE" && codRolUsuarioConectado != "INT"
                 && codRolUsuarioConectado != "ADS") {
-                query.Where(rec => rec.NroArea == usuarioConectado.area)
-            }*/ 
-
-
-            using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
-            {
-                List<ReclamoDto> listaReclamo = (from reclamo in bd.VwReclamos
-                                                 where reclamo.Bhabilitado == 1
-                                                 select new ReclamoDto
-                                                 {
-                                                     nroReclamo = reclamo.NroReclamo,
-                                                     descripcion = reclamo.Descripcion,
-                                                     codTipoReclamo = (int)reclamo.CodTipoReclamo,
-                                                     codEstadoReclamo = (int)reclamo.CodEstadoReclamo,
-                                                     Bhabilitado = reclamo.Bhabilitado,
-                                                     calle = reclamo.Calle,
-                                                     altura = reclamo.Altura,
-                                                     entreCalles = reclamo.EntreCalles,
-                                                     idVecino = reclamo.IdVecino,
-                                                     idUsuario = reclamo.IdUsuario,
-                                                     Fecha = (DateTime)reclamo.Fecha,
-                                                     estadoReclamo = reclamo.EstadoReclamo,
-                                                     tipoReclamo = reclamo.TipoReclamo,
-                                                     nombreYapellido = reclamo.NomApeVecino,
-                                                     nroPrioridad = (int)reclamo.NroPrioridad,
-                                                     usuarioAsignado = reclamo.Usuario,
-                                                     empleadoAsignado = reclamo.Empleado,
-                                                     prioridad = reclamo.PrioridadReclamo
-                                                 }).ToList();
-
-                return listaReclamo;
+                query = query.Where(rec => rec.NroArea == usuarioConectado.NroArea);
             }
+
+            List<ReclamoDto> listaReclamo = new List<ReclamoDto>();
+            query.ToList().ForEach(reclamo => {
+                ReclamoDto reclamoDto = new ReclamoDto
+                {
+                    nroReclamo = reclamo.NroReclamo,
+                    descripcion = reclamo.Descripcion,
+                    codTipoReclamo = (int)reclamo.CodTipoReclamo,
+                    codEstadoReclamo = (int)reclamo.CodEstadoReclamo,
+                    Bhabilitado = reclamo.Bhabilitado,
+                    calle = reclamo.Calle,
+                    altura = reclamo.Altura,
+                    entreCalles = reclamo.EntreCalles,
+                    idVecino = reclamo.IdVecino,
+                    idUsuario = reclamo.IdUsuario,
+                    Fecha = (DateTime)reclamo.Fecha,
+                    estadoReclamo = reclamo.EstadoReclamo,
+                    tipoReclamo = reclamo.TipoReclamo,
+                    nombreYapellido = reclamo.NomApeVecino,
+                    nroPrioridad = (int)reclamo.NroPrioridad,
+                    usuarioAsignado = reclamo.Usuario,
+                    empleadoAsignado = reclamo.Empleado,
+                    prioridad = reclamo.PrioridadReclamo
+                };
+                listaReclamo.Add(reclamoDto);
+            });
+
+            return listaReclamo;
+                        
         }
 
         public ReclamoDto getReclamo(int nroReclamo)

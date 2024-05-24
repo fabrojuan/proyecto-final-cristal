@@ -7,14 +7,16 @@ namespace MVPSA_V2022.Modelos
 {
     public partial class M_VPSA_V3Context : DbContext
     {
-        public M_VPSA_V3Context()
-        {
-        }
 
         public M_VPSA_V3Context(DbContextOptions<M_VPSA_V3Context> options)
             : base(options)
         {
         }
+
+        public M_VPSA_V3Context()
+        {
+        }
+
         public virtual DbSet<Alicuotum> Alicuota { get; set; }
 
         public virtual DbSet<Area> Areas { get; set; }
@@ -1057,6 +1059,9 @@ namespace MVPSA_V2022.Modelos
                 entity.Property(e => e.NombreUser)
                     .HasMaxLength(100)
                     .IsUnicode(false);
+                entity.Property(e => e.NroArea)
+                    .HasDefaultValueSql("((1))")
+                    .HasColumnName("nro_area");
 
                 entity.HasOne(d => d.IdPersonaNavigation).WithMany(p => p.Usuarios)
                     .HasForeignKey(d => d.IdPersona)
