@@ -96,6 +96,7 @@ import { ReclamoFormConsultarComponent } from './components/reclamo-form-consult
 import { ReclamoRechazarDialogComponent } from './components/reclamo-form-consultar/reclamo-rechazar-dialog.component';
 import { ReclamoAsignarComponent } from './components/reclamo-asignar/reclamo-asignar.component';
 import { ObservacionesReclamoTablaComponent } from './components/observaciones-reclamo-tabla/observaciones-reclamo-tabla.component';
+import { ReclamoFormGenerarSugerenciaComponent } from './components/reclamo-form-generar-sugerencia/reclamo-form-generar-sugerencia.component';
 
 
 
@@ -167,7 +168,8 @@ import { ObservacionesReclamoTablaComponent } from './components/observaciones-r
     ReclamoFormConsultarComponent,
     ReclamoRechazarDialogComponent,
     ReclamoAsignarComponent,
-    ObservacionesReclamoTablaComponent
+    ObservacionesReclamoTablaComponent,
+    ReclamoFormGenerarSugerenciaComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -247,6 +249,7 @@ import { ObservacionesReclamoTablaComponent } from './components/observaciones-r
       { path: 'historico-denuncia-trabajos', component: HistoricoDenunciaTrabajosComponent, canActivate: [SeguridadGuard] },
      
       { path: 'reclamo-form-consultar/:id', component: ReclamoFormConsultarComponent },
+      { path: 'reclamo-form-generar-sugerencia/:id_sugerencia', component: ReclamoFormGenerarSugerenciaComponent },
       { path: '*', redirectTo: '' } //a home
 
 
