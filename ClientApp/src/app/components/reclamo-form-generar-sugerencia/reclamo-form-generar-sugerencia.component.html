@@ -1,0 +1,79 @@
+<div class="container">
+
+    <div class="alert border-0 alert-dismissible fade show" 
+         [class.alert-success]="esMensajeOk"
+         [class.bg-success]="esMensajeOk"
+         [class.text-light]="esMensajeOk"
+         [class.alert-warning]="!esMensajeOk"
+         [class.bg-warning]="!esMensajeOk"
+        role="alert" *ngIf="mostrarMensajeUsuario">
+        <i class="bi bi-check-circle me-1"></i> {{ mensajeUsuario }}
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Formulario de Requerimiento</h5>
+
+            <form [formGroup]="Reclamo" (ngSubmit)="guardarDatos()" class="row g-3">
+
+                <div class="col-md-6">
+                    <label for="exampleInputEmail1" class="form-label">(*) Tipo de Requerimiento</label>
+                    <select id="Tipo_Reclamo" formControlName="codTipoReclamo" class="form-select" [ngClass]="{'is-invalid' : codTipoReclamoNoValido}">
+                        <option value="">--Seleccione Opción--</option>
+                        <option [ngValue]="TipoReclamo.cod_Tipo_Reclamo" *ngFor="let TipoReclamo of TiposReclamo">{{TipoReclamo.nombre}}</option>
+                    </select>
+                    <div class="invalid-feedback" *ngIf="codTipoReclamoNoValido">
+                        El tipo de requerimiento es requerido.
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="formGroupExampleInput" class="form-label">Nro. Sugerencia origen</label>
+                    <input type="text" readonly class="form-control" id="calle" value="{{idSugerenciaOrigen}}" >
+                </div>
+
+                <div class="col-12">
+                    <label for="descripcion" class="form-label">(*) Descripción</label>
+                    <textarea type="text" class="form-control" [ngClass]="{'is-invalid' : descripcionNoValido}" id="descripcion" formControlName="descripcion" value="" rows="3" placeholder="Descripcion del reclamo del servicio, circunstancias que lo generaron. Puede incluir nombres de personas implicadas para mayor trazabilidad."></textarea>
+                    <div class="invalid-feedback" *ngIf="descripcionNoValido">
+                        La descripción es requerida y no puede superar los 200 caracteres.
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <input type="file" class="form-control" id="fotoUploader1" lang="es" #fileUploader1 (change)="changeFoto1($event)" accept="image/*">
+                </div>
+
+                <div class="col-md-6">
+                    <input type="file" class="form-control" id="fotoUploader2" lang="es" #fileUploader2 (change)="changeFoto2($event)" accept="image/*">
+                </div>
+
+                <div class="col-md-6">
+                    <label class="col-sm-2 col-form-label">(*) Area</label>
+                    <div class="col-sm-10">
+                        <select id="area" class="form-select" formControlName="nroArea" >
+                            <option [ngValue]="area.nroArea" *ngFor="let area of areas">{{area.nombre}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-12 order-md-1">
+
+                    <div class="row">
+                        <hr class="mb-4">
+                        <div class="form-group col-md-12 mb-3 pt-3">
+                            <input type="submit" value="Generar" class="btn btn-primary col-md-4 offset-md-1 " />
+                            <button type="button" class="btn btn-secondary col-md-4 offset-md-1" (click)="cancelar()">Cancelar</button>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+
+</div>
