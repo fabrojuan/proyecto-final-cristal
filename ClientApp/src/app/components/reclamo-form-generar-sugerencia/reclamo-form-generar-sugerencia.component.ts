@@ -39,7 +39,8 @@ export class ReclamoFormGenerarSugerenciaComponent implements OnInit {
         "descripcion": new FormControl("", [Validators.required, Validators.maxLength(200)]),
         "foto1": new FormControl(""),
         "foto2": new FormControl(""),
-        "nroArea": new FormControl(1)
+        "nroArea": new FormControl(1),
+        "idSugerenciaOrigen": new FormControl()
       }
     );
 
@@ -88,6 +89,10 @@ export class ReclamoFormGenerarSugerenciaComponent implements OnInit {
     this.Reclamo.controls["foto1"].setValue(this.foto1); 
     this.Reclamo.controls["foto2"].setValue(this.foto2);
 
+    if (this.idSugerenciaOrigen) {
+      this.Reclamo.controls["idSugerenciaOrigen"].setValue(this.idSugerenciaOrigen);
+    }
+    
     var nroReclamoGenerado: number = 0;
 
     this.reclamoservice.agregarReclamo(this.Reclamo.value).subscribe(

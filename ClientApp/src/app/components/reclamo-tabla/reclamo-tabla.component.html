@@ -15,7 +15,7 @@
                         </thead>
 
                         <tbody>
-                            <tr *ngFor="let reclamo of ReclamosFiltrados | paginate: { itemsPerPage: 5, currentPage: p }">
+                            <tr *ngFor="let reclamo of ReclamosFiltrados | paginate: { itemsPerPage: 10, currentPage: p }">
                                 <td>{{reclamo.nroReclamo}}</td>
                                 <td>{{reclamo.fecha | date: 'dd/MM/yyyy HH:mm'}}</td>
                                 <td>{{reclamo.estadoReclamo}}</td>

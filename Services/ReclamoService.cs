@@ -44,6 +44,10 @@ namespace MVPSA_V2022.Services
                     var areaMesaDeEntrada = dbContext.Areas.Where(area => area.CodArea == "ME").Single();
                     reclamo.NroArea = areaMesaDeEntrada.NroArea;
                 }
+
+                if (reclamoCLS.idSugerenciaOrigen != null && reclamoCLS.idSugerenciaOrigen != 0) {
+                    reclamo.IdSugerenciaOrigen = reclamoCLS.idSugerenciaOrigen;
+                }
                 
                 Usuario usuarioAlta = dbContext.Usuarios
                     .Where(usr => usr.IdUsuario == idUsuarioAlta).FirstOrDefault();
