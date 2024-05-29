@@ -37,14 +37,8 @@ export class ReclamoFormGenerarSugerenciaComponent implements OnInit {
       {
         "codTipoReclamo": new FormControl("", [Validators.required]),
         "descripcion": new FormControl("", [Validators.required, Validators.maxLength(200)]),
-        "calle": new FormControl("", [Validators.required, Validators.maxLength(50)]),
-        "entreCalles": new FormControl("", [Validators.required, Validators.maxLength(50)]),
-        "altura": new FormControl("", [Validators.required, Validators.maxLength(6)]),
         "foto1": new FormControl(""),
         "foto2": new FormControl(""),
-        "nomApeVecino": new FormControl("", [Validators.required, Validators.maxLength(100)]),
-        "mailVecino": new FormControl("", [Validators.required, Validators.maxLength(100), Validators.pattern("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")]),
-        "telefonoVecino": new FormControl("", [Validators.required, Validators.maxLength(50)]),
         "nroArea": new FormControl(1)
       }
     );
