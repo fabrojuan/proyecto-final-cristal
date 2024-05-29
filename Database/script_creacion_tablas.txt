@@ -392,3 +392,6 @@ FROM            dbo.RECLAMO AS rec INNER JOIN
 
 ALTER TABLE dbo.usuario 
 ADD nro_area int not null DEFAULT (1);
+
+ALTER TABLE [dbo].[RECLAMO]
+    ADD [id_sugerencia_origen] INT NULL;
