@@ -1,17 +1,44 @@
 <div class="container">
+  <div class="card">
+    <div class="card-body">
 
-    <section class="section error-404 min-vh-100 d-flex flex-column align-items-center justify-content-center">
-        <h1>Oh Oh</h1>
-        <h2>Página en desarrollo</h2>
-        <!-- <a class="btn" href="index.html">Back to home</a> -->
-        <img src="assets/img/not-found.svg" class="img-fluid py-5" alt="Forbidden">
-        <div class="credits">
-            <!-- All the links in the footer should remain intact. -->
-            <!-- You can delete the links only if you purchased the pro version. -->
-            <!-- Licensing information: https://bootstrapmade.com/license/ -->
-            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+
+      <div class="d-flex align-items-center p-3 my-3 bg-purple bg-light shadow p-2 mb-5 rounded shadow-sm container">
+        <img src="../../../assets/IconsGoogle/patch-plus-fll.svg" alt="" width="60" height="60" title="Tu sugerencia puede representar un gran progreso para nuestra comunidad, compartilas por favor.">
+        <div class="card-title text-center form-group col-md-8 offset-md-1">
+          <p>Gestión de Sugerencias</p>
         </div>
-    </section>
+      </div>
+      <form [formGroup]="form">
 
+        <br /><br />
+        <table datatable [dtOptions]="dtoptions" [dtTrigger]="dtTrigger" class="row-border hover table table-hover" style="padding-bottom: 2.5em">
+          <thead class="thead-dark tituloTabla">
+
+
+            <tr>
+              <th class="text-center" *ngFor="let cabecera of cabeceras ">{{cabecera}} </th>
+              <th class="text-center" *ngIf="isMantenimiento==true">Operacion Generar Requerimiento</th>
+            </tr>
+          </thead>
+
+          <tbody class="textoTabla">
+            <tr *ngFor="let Sugerencia of Sugerencias | paginate: { itemsPerPage: 10, currentPage: p }">
+              <td class="text-center">{{Sugerencia.idSugerencia}}</td>
+              <td class="text-center">{{Sugerencia.descripcion}}</td>
+              <td class="text-center">{{Sugerencia.fechaGenerada| date: 'dd/MM/yyyy HH:MM'}}</td>
+              <td class="text-center">{{Sugerencia.estado}}</td>
+
+              <td class="text-center" *ngIf="isMantenimiento==true">
+    <button type="button" class="btn btn-light" ><img src="../../../assets/IconsGoogle/reply-fill.svg" alt="" width="20" height="20" title="Generar Requerimiento a partir de esta sugerencia"></button>
+  </td>
+            </tr>
+          </tbody>
+        </table>
+        <pagination-controls previousLabel="Anteriores" nextLabel="Siguientes" (pageChange)="p = $event"></pagination-controls>
+      </form>
+
+    </div>
+  </div>
+  <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
 </div>

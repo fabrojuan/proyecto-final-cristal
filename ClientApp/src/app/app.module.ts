@@ -7,6 +7,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AuthInterceptor } from './services/AuthInterceptor';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
+import { DataTablesModule } from 'angular-datatables';
+
+
 import { PersonaFormGenerarComponent } from './components/persona-form-generar/persona-form-generar.component';
 
 //*****Componentes**********
@@ -98,6 +101,7 @@ import { ReclamoAsignarComponent } from './components/reclamo-asignar/reclamo-as
 import { ObservacionesReclamoTablaComponent } from './components/observaciones-reclamo-tabla/observaciones-reclamo-tabla.component';
 import { ReclamoFormGenerarSugerenciaComponent } from './components/reclamo-form-generar-sugerencia/reclamo-form-generar-sugerencia.component';
 
+import { ReportarProblemasComponent } from './components/reportar-problemas/reportar-problemas.component';
 
 
 @NgModule({
@@ -169,7 +173,8 @@ import { ReclamoFormGenerarSugerenciaComponent } from './components/reclamo-form
     ReclamoRechazarDialogComponent,
     ReclamoAsignarComponent,
     ObservacionesReclamoTablaComponent,
-    ReclamoFormGenerarSugerenciaComponent
+    ReclamoFormGenerarSugerenciaComponent,
+    ReportarProblemasComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -178,6 +183,7 @@ import { ReclamoFormGenerarSugerenciaComponent } from './components/reclamo-form
     FormsModule,
     NgxPaginationModule,
     NgbModule,
+    DataTablesModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'bienvenida', component: BienvenidaComponent, canActivate: [SeguridadGuard] },  //, canActivate: [SeguridadGuard]
@@ -226,6 +232,7 @@ import { ReclamoFormGenerarSugerenciaComponent } from './components/reclamo-form
       { path: 'usuario-vecino-form-generar', component: UsuarioVecinoFormGenerarComponent },
       { path: 'denuncia-generar', component: DenunciaGenerarComponent },
       { path: 'lote-tabla', component: LoteTablaComponent, canActivate: [SeguridadGuard] },
+      { path: 'lote-form-generar', component: LoteFormGenerarComponent, canActivate: [SeguridadGuard] },
       { path: 'lote-detalle', component: LoteDetalleComponent, canActivate: [SeguridadGuard]}, //, canActivate: [SeguridadGuard] //Veo que hacen falta los dos rutas sino el guard no anda ok
       { path: 'lote-detalle/:id', component: LoteDetalleComponent }, //, canActivate: [SeguridadGuard]  le dio por no funcionar verlo!
       { path: 'tipo-reclamo-tabla', component: TipoReclamoTablaComponent, canActivate: [SeguridadGuard] },
@@ -235,6 +242,7 @@ import { ReclamoFormGenerarSugerenciaComponent } from './components/reclamo-form
       { path: 'tipo-denuncia-form/:id', component: TipoDenunciaFormComponent/*, canActivate: [SeguridadGuard] */},
       { path: 'tipo-denuncia-form', component: TipoDenunciaFormComponent/*, canActivate: [SeguridadGuard] */ },
       { path: 'tabla-tipo-denuncia', component: DenunciaTipoTablaComponent, canActivate: [SeguridadGuard] },
+      { path: 'denuncia-tipo-tabla', component: DenunciaTipoTablaComponent, canActivate: [SeguridadGuard] },
       { path: 'tipo-denuncia-form', component: TipoDenunciaFormComponent/*, canActivate: [SeguridadGuard] */ },
       { path: 'generacion-datasets', component: GeneracionDatasetsComponent, canActivate: [SeguridadGuard] },
       { path: 'datos-finanzas-economicos-borrado', component: DatosFinanzasEconomicosBorradoComponent, canActivate: [SeguridadGuard] },
@@ -256,7 +264,8 @@ import { ReclamoFormGenerarSugerenciaComponent } from './components/reclamo-form
     ])
   ],
   providers: [UsuarioService, DenunciaService, TrabajoService, SeguridadGuard, VecinoService, SeguridadVecinoGuard, PruebaGraficaService, IndicadoresService, ImpuestoService, LoteService, ToastService,
-            { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+   
   ],
   bootstrap: [AppComponent],
   entryComponents: [ ReclamoRechazarDialogComponent ]

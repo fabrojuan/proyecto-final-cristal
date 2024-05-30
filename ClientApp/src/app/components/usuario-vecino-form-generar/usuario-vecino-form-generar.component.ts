@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UsuarioService } from '../../services/usuario.service';
-import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, FormBuilder, Validators } from '@angular/forms';
 //import { resolve } from 'url';
 
 @Component({
@@ -10,7 +10,7 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
   styleUrls: ['./usuario-vecino-form-generar.component.css']
 })
 export class UsuarioVecinoFormGenerarComponent implements OnInit {
-  Usuario: FormGroup;
+  Usuario: UntypedFormGroup;
   titulo: string = "";
   parametro: any;
   respuesta: any = 0;
@@ -26,22 +26,22 @@ export class UsuarioVecinoFormGenerarComponent implements OnInit {
         this.titulo = "Registrarse";
       }
     });
-    this.Usuario = new FormGroup(
+    this.Usuario = new UntypedFormGroup(
       {
-        "IdVecino": new FormControl("0"),
-        "NombreUser": new FormControl("", [Validators.required, Validators.maxLength(100)]),
-        "Contrasenia": new FormControl("", [Validators.required, Validators.maxLength(100), Validators.minLength(8), Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$")]),  //pattern=""
-        "Contrasenia2": new FormControl("", [Validators.required, Validators.maxLength(100), Validators.minLength(8), this.validarContraseñas.bind(this)]),
-        "IdPersona": new FormControl("0"),
-        "NombrePersona": new FormControl("", [Validators.required, Validators.maxLength(100)]),
-        "Apellido": new FormControl("", [Validators.required, Validators.maxLength(100)]),
-        "BHabilitado": new FormControl("1"),
-        "Telefono": new FormControl("", [Validators.required, Validators.maxLength(20), Validators.pattern("[0-9]{9,}")]),
-        "Mail": new FormControl("", [Validators.required, Validators.pattern("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"), Validators.maxLength(100)/*, this.noRepetirMail.bind(this)*/]),
-        "Domicilio": new FormControl("", [Validators.required, Validators.maxLength(100)]),        
-        "Dni": new FormControl("", [Validators.required, Validators.maxLength(8), Validators.minLength(7), Validators.pattern("[0-9]{7,8}")]),
-        "Altura": new FormControl("", [Validators.required, Validators.maxLength(5)]),
-        "FechaNac": new FormControl("", [Validators.required])
+        "IdVecino": new UntypedFormControl("0"),
+        "NombreUser": new UntypedFormControl("", [Validators.required, Validators.maxLength(100)]),
+        "Contrasenia": new UntypedFormControl("", [Validators.required, Validators.maxLength(100), Validators.minLength(8), Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$")]),  //pattern=""
+        "Contrasenia2": new UntypedFormControl("", [Validators.required, Validators.maxLength(100), Validators.minLength(8), this.validarContraseñas.bind(this)]),
+        "IdPersona": new UntypedFormControl("0"),
+        "NombrePersona": new UntypedFormControl("", [Validators.required, Validators.maxLength(100)]),
+        "Apellido": new UntypedFormControl("", [Validators.required, Validators.maxLength(100)]),
+        "BHabilitado": new UntypedFormControl("1"),
+        "Telefono": new UntypedFormControl("", [Validators.required, Validators.maxLength(20), Validators.pattern("[0-9]{9,}")]),
+        "Mail": new UntypedFormControl("", [Validators.required, Validators.pattern("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"), Validators.maxLength(100)/*, this.noRepetirMail.bind(this)*/]),
+        "Domicilio": new UntypedFormControl("", [Validators.required, Validators.maxLength(100)]),        
+        "Dni": new UntypedFormControl("", [Validators.required, Validators.maxLength(8), Validators.minLength(7), Validators.pattern("[0-9]{7,8}")]),
+        "Altura": new UntypedFormControl("", [Validators.required, Validators.maxLength(5)]),
+        "FechaNac": new UntypedFormControl("", [Validators.required])
       }
     );
     //
@@ -92,7 +92,7 @@ export class UsuarioVecinoFormGenerarComponent implements OnInit {
 
   }
 
-  validarContraseñas(control: FormControl) {
+  validarContraseñas(control: UntypedFormControl) {
     if (control.value != "" && control.value != null) {
       if (this.Usuario.controls["Contrasenia"].value != control.value) {
         return ({ noIguales: true })
@@ -106,7 +106,7 @@ export class UsuarioVecinoFormGenerarComponent implements OnInit {
 
   }
 
-  noRepetirMail(control: FormControl) {
+  noRepetirMail(control: UntypedFormControl) {
     var promesa = new Promise((resolve, reject) => {
       if (control.value != "" && control.value != null) {
         this.usuarioService.validarCorreo(this.Usuario.controls["IdVecino"].value, control.value).subscribe(data => {

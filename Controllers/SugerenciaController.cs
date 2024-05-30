@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 
 namespace MVPSA_V2022.Controllers
 {
+    [ApiController]
+    [Route("api/Sugerencia/")]
     [Authorize]
     public class SugerenciaController : Controller
     {
@@ -38,7 +40,8 @@ namespace MVPSA_V2022.Controllers
         }
 
         [HttpPost]
-        [Route("api/Sugerencia/guardarSugerencia")]
+        [Route("guardarSugerencia")]
+        [AllowAnonymous]
         public int guardarSugerencia([FromBody] SugerenciaCLS sugerenciaCLS)
         {
             int rpta = 0;
@@ -64,32 +67,25 @@ namespace MVPSA_V2022.Controllers
             return rpta;
         }
         [HttpGet]
-        [Route("api/Sugerencia/listarSugerencias")]
-        public IEnumerable<SugerenciaCLS> ListarSugerencias()
+        [Route("listarSugerencias")]
+        public IEnumerable<SugerenciaCLS> listarSugerencias()
         {
             using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
             {
 
-                List<SugerenciaCLS> listaSugerencia = (from sugerencia in bd.Sugerencia
-
-                                                       where sugerencia.Bhabilitado == 1 && sugerencia.Estado == 1
+                List<SugerenciaCLS> listaSugerencia = (from sugerencia in bd.Sugerencia join esugere in bd.EstadoSugerencias
+                                                             on sugerencia.Estado equals esugere.CodEstadoSugerencia
+                                                       where sugerencia.Bhabilitado == 1 && sugerencia.Estado == esugere.CodEstadoSugerencia
                                                        select new SugerenciaCLS
                                                        {
                                                            idSugerencia = sugerencia.IdSugerencia,
                                                            fechaGenerada = (DateTime)sugerencia.FechaGenerada,
-                                                           descripcion = sugerencia.Descripcion
-                                                       }).ToList();
+                                                           descripcion = !String.IsNullOrEmpty(sugerencia.Descripcion) ? sugerencia.Descripcion : "No Posee",
+                                                           estado= !String.IsNullOrEmpty(esugere.Nombre) ? esugere.Nombre : "No Posee"
+            }).ToList();
                 return listaSugerencia;
             }
 
         }
-
-        // Este metodo para la edicion significa que debo modificar si una sugerencia 
-        //es irrelevante                Usuario oUsuario = bd.Usuario.Where(p => p.IdUsuario == oUsuarioCLS.IdUsuario).First();
-
-
-
-
-
     }
 }

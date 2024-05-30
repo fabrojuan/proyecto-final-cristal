@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ReclamoService } from '../../services/reclamo.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { VecinoService } from '../../services/vecino.service';
 
 @Component({
@@ -13,24 +13,22 @@ export class ReclamoFormGenerarComponent implements OnInit {
   foto1: any;
   foto2: any;
   isFormSubmitted: boolean=false;
-  mensajeUsuario:String = "";
-  mostrarMensajeUsuario:boolean = false;
-  esMensajeOk:boolean = true;
-  Reclamo: FormGroup;
+  Reclamo: UntypedFormGroup;
   @ViewChild('fileUploader1') fileUploader1: ElementRef | undefined;
   @ViewChild('fileUploader2') fileUploader2: ElementRef | undefined;
 
-  constructor(private reclamoservice: ReclamoService, private vecinoService: VecinoService) {
-    this.Reclamo = new FormGroup(
+  constructor(private reclamoservice: ReclamoService, private vecinoService: VecinoService,
+              public _toastService: ToastService  ) {
+    this.Reclamo = new UntypedFormGroup(
       {
-        "Nro_Reclamo": new FormControl("0"),
-        "codTipoReclamo": new FormControl("", [Validators.required]),
-        "Descripcion": new FormControl("", [Validators.required, Validators.maxLength(200)]),
-        "Calle": new FormControl("", [Validators.required, Validators.maxLength(50)]),
-        "entreCalles": new FormControl("", [Validators.required, Validators.maxLength(50)]),
-        "Altura": new FormControl("", [Validators.required, Validators.maxLength(6)]),
-        "foto1": new FormControl(""),
-        "foto2": new FormControl("")
+        "Nro_Reclamo": new UntypedFormControl("0"),
+        "codTipoReclamo": new UntypedFormControl("", [Validators.required]),
+        "Descripcion": new UntypedFormControl("", [Validators.required, Validators.maxLength(200)]),
+        "Calle": new UntypedFormControl("", [Validators.required, Validators.maxLength(50)]),
+        "entreCalles": new UntypedFormControl("", [Validators.required, Validators.maxLength(50)]),
+        "Altura": new UntypedFormControl("", [Validators.required, Validators.maxLength(6)]),
+        "foto1": new UntypedFormControl(""),
+        "foto2": new UntypedFormControl("")
       }
     );
   }

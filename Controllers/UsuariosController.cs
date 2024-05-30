@@ -182,6 +182,7 @@ namespace MVPSA_V2022.Controllers
                                    idPagina = pagina.IdPagina,
                                    Accion = pagina.Accion.Substring(1),
                                    Mensaje = pagina.Mensaje,
+                                   Bvisible=(int)pagina.Bvisible,
                                    Bhabilitado = (int)pagina.Bhabilitado
                                }).ToList();
                 return listaPagina;

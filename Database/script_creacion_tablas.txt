@@ -255,6 +255,7 @@ drop TABLE [dbo].[USUARIO_VECINO];
 alter TABLE [dbo].[RECLAMO] alter COLUMN idUsuario int not null;
 
 alter TABLE [dbo].[TIPO_RECLAMO] alter COLUMN IdUsuarioAlta int not null; 
+
 alter TABLE [dbo].[TIPO_RECLAMO] alter COLUMN IdUsuarioModificacion int not null;
 
 alter TABLE [dbo].[USUARIO] alter COLUMN NombreUser VARCHAR (100) not null; 
@@ -395,3 +396,23 @@ ADD nro_area int not null DEFAULT (1);
 
 ALTER TABLE [dbo].[RECLAMO]
     ADD [id_sugerencia_origen] INT NULL;
+
+
+CREATE TABLE ESTADO_SUGERENCIA(
+	Cod_Estado_Sugerencia int IDENTITY(1,1) PRIMARY KEY,
+	Nombre varchar(80) NOT NULL,
+	BHabilitado int Default(0),
+	Descripcion varchar(250) NULL);
+	INSERT INTO ESTADO_SUGERENCIA(Nombre)
+VALUES('Registrado');
+	INSERT INTO ESTADO_SUGERENCIA(Nombre)
+VALUES('Considerado');
+	INSERT INTO ESTADO_SUGERENCIA(Nombre)
+VALUES('Descartado');
+INSERT INTO ESTADO_SUGERENCIA(Nombre)
+VALUES('Gestionado');
+
+ALTER TABLE SUGERENCIA ADD CONSTRAINT FK_Estado FOREIGN KEY (Estado)
+      REFERENCES ESTADO_SUGERENCIA (Cod_Estado_Sugerencia) ;
+
+	  ALTER TABLE SUGERENCIA ALTER COLUMN Estado int NOT NULL;

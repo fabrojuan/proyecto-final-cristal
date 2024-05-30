@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { LoteService } from '../../services/lote.service';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators, UntypedFormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscription } from 'rxjs';
@@ -28,7 +28,7 @@ import { CampoRequeridoComponent } from '../campo-requerido/campo-requerido.comp
 export class LoteFormGenerarComponent implements OnInit, ControlValueAccessor, Validator {
   TiposLote: any;
   redirectPersona: number = 0;
-  public Lote: FormGroup;
+  public Lote: UntypedFormGroup;
   idLote: string = "";
   dniTitular: string = "";
   tituloModal: string = "";
@@ -44,22 +44,22 @@ export class LoteFormGenerarComponent implements OnInit, ControlValueAccessor, V
   @ViewChild("myModalInfo", { static: false }) myModalInfo: TemplateRef<any> | undefined;
   //Esta linea anterior es para el modal.
 
-  constructor(private loteservice: LoteService, private router: Router, private modalService: NgbModal, private formBuilder: FormBuilder) {
+  constructor(private loteservice: LoteService, private router: Router, private modalService: NgbModal, private formBuilder: UntypedFormBuilder) {
     this.subscriptions = new Subscription();
     this.Lote = this.formBuilder.group(
       {
-        "CodTipoInmueble": new FormControl("", [Validators.required]),
-        "NomenclaturaCatastral": new FormControl("", [Validators.required]),
-        'Manzana': new FormControl("", [Validators.required, Validators.maxLength(3), Validators.pattern("^[0-9]{1,3}")]),
-        'NroLote': new FormControl("", [Validators.required, Validators.maxLength(2), Validators.pattern("^[0-9]{1,2}")]),
-        "Calle": new FormControl("", [Validators.required, Validators.maxLength(100)]),
-        "Altura": new FormControl("", [Validators.required, Validators.maxLength(4), Validators.pattern("^[0-9]{1,4}")]),
-        "Bhabilitado": new FormControl("1"),
-        "SupTerreno": new FormControl("", [Validators.required, Validators.maxLength(4), Validators.pattern("^[0-9]{1,4}")]),  //, [Validators.required,Validators.maxLength(100),Validators.pattern("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")]
-        "SupEdificada": new FormControl("", [Validators.required, Validators.maxLength(4), Validators.pattern("^[0-9]{1,4}")]),
-        "DniTitular": new FormControl("", [Validators.required, Validators.maxLength(8), Validators.pattern("^[0-9]{8}")]),
-        "Esquina": new FormControl("0"),
-        "Asfaltado": new FormControl("0"),
+        "CodTipoInmueble": new UntypedFormControl("", [Validators.required]),
+        "NomenclaturaCatastral": new UntypedFormControl("", [Validators.required]),
+        'Manzana': new UntypedFormControl("", [Validators.required, Validators.maxLength(3), Validators.pattern("^[0-9]{1,3}")]),
+        'NroLote': new UntypedFormControl("", [Validators.required, Validators.maxLength(2), Validators.pattern("^[0-9]{1,2}")]),
+        "Calle": new UntypedFormControl("", [Validators.required, Validators.maxLength(100)]),
+        "Altura": new UntypedFormControl("", [Validators.required, Validators.maxLength(4), Validators.pattern("^[0-9]{1,4}")]),
+        "Bhabilitado": new UntypedFormControl("1"),
+        "SupTerreno": new UntypedFormControl("", [Validators.required, Validators.maxLength(4), Validators.pattern("^[0-9]{1,4}")]),  //, [Validators.required,Validators.maxLength(100),Validators.pattern("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")]
+        "SupEdificada": new UntypedFormControl("", [Validators.required, Validators.maxLength(4), Validators.pattern("^[0-9]{1,4}")]),
+        "DniTitular": new UntypedFormControl("", [Validators.required, Validators.maxLength(8), Validators.pattern("^[0-9]{8}")]),
+        "Esquina": new UntypedFormControl("0"),
+        "Asfaltado": new UntypedFormControl("0"),
       },
       { validators: this.todoslosCamposRequeridos }
     );
@@ -144,8 +144,7 @@ export class LoteFormGenerarComponent implements OnInit, ControlValueAccessor, V
       console.log(this.Lote.value);
       this.loteservice.agregarLote(this.Lote.value).subscribe(data => {
         if (data) {
-          console.log(data);
-
+       
           this.resultadoGuardadoModal = "Se ha generado Lote correctamente.";
 
         }

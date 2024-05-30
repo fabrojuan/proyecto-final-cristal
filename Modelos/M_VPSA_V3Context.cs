@@ -37,6 +37,9 @@ namespace MVPSA_V2022.Modelos
 
         public virtual DbSet<EstadoSolicitud> EstadoSolicituds { get; set; }
 
+        public virtual DbSet<EstadoSugerencia> EstadoSugerencias { get; set; }
+
+
         public virtual DbSet<Impuestoinmobiliario> Impuestoinmobiliarios { get; set; }
 
         public virtual DbSet<Lote> Lotes { get; set; }
@@ -103,6 +106,8 @@ namespace MVPSA_V2022.Modelos
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.UseCollation("SQL_Latin1_General_CP1_CI_AS");
+
             modelBuilder.Entity<Alicuotum>(entity =>
             {
                 entity.HasKey(e => e.IdAlicuota).HasName("PK__ALICUOTA__381F0CC3436A82EF");
@@ -323,7 +328,23 @@ namespace MVPSA_V2022.Modelos
                     .HasMaxLength(80)
                     .IsUnicode(false);
             });
+            modelBuilder.Entity<EstadoSugerencia>(entity =>
+            {
+              entity.HasKey(e => e.CodEstadoSugerencia).HasName("PK__ESTADO_S__50AF48C06B2B7065");
 
+                entity.ToTable("ESTADO_SUGERENCIA");
+
+                entity.Property(e => e.CodEstadoSugerencia).HasColumnName("Cod_Estado_Sugerencia");
+                entity.Property(e => e.Bhabilitado)
+                    .HasDefaultValueSql("((0))")
+                    .HasColumnName("BHabilitado");
+                entity.Property(e => e.Descripcion)
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+                entity.Property(e => e.Nombre)
+                    .HasMaxLength(80)
+                    .IsUnicode(false);
+            });
             modelBuilder.Entity<Impuestoinmobiliario>(entity =>
             {
                 entity.HasKey(e => e.IdImpuesto).HasName("PK__IMPUESTO__A9B889287061ADA9");
@@ -1148,6 +1169,5 @@ namespace MVPSA_V2022.Modelos
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
-
     }
 }

@@ -12,7 +12,7 @@ import { NgModule } from '@angular/core';
 })
 export class ImpuestosVecinoIdentificadorComponent implements OnInit {
 
-  nroCuenta: any = 0;
+  nroCuenta: any;
   constructor() {
 
   }

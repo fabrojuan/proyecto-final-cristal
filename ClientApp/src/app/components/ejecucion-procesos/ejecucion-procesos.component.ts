@@ -1,17 +1,19 @@
 import { Component, OnInit, Inject, ViewChild, TemplateRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { UntypedFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { ImpuestoService } from '../../services/impuesto.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, Subscription } from 'rxjs';
+
 //Validaciones de inputs:
 import { ControlValueAccessor, Validator, AbstractControl, ValidationErrors, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
 import { CampoRequeridoComponent } from '../campo-requerido/campo-requerido.component';
 import { __values } from 'tslib';
 import { ResultadoEjecucionProceso } from 'src/app/modelos/ResultadoEjecucionProceso';
 import { SolicitudGeneracionImpuestos } from 'src/app/modelos/SolicitudGeneracionImpuestos';
+
 
 @Component({
   selector: 'ejecucion-procesos',
@@ -43,7 +45,7 @@ export class EjecucionProcesosComponent implements OnInit /*, ControlValueAccess
   aniofechaEjeTemp: any;
   anioActualTemp: any;
   resultadoGuardadoModal: any = "";
-  public Valuacion: FormGroup;
+  public Valuacion: UntypedFormGroup;
   tituloModal: string = "Generación Impuesto Inmobiliario";
   //Validaciones
   numRegex = /^-?\d{3,9}[.,]?\d{0,2}$/;
@@ -65,19 +67,18 @@ export class EjecucionProcesosComponent implements OnInit /*, ControlValueAccess
   mensajeWarning:String|undefined = "";
   procesoEjecutadoOk:boolean = false;
   mensajeOk:String = "";
-
-  constructor(private impuestoService: ImpuestoService, private router: Router, @Inject('BASE_URL') baseUrl: string, private modalService: NgbModal, private formBuilder: FormBuilder)
+  constructor(private impuestoService: ImpuestoService, private router: Router, @Inject('BASE_URL') baseUrl: string, private modalService: NgbModal, private formBuilder: UntypedFormBuilder)
   {
     
     //this.subscriptions = new Subscription();
     this.Valuacion = this.formBuilder.group(
       {
-        "ValorSupTerreno": new FormControl("", [Validators.required, Validators.maxLength(10), Validators.pattern(this.numRegex)]),
-        "ValorSupEdificada": new FormControl("", [Validators.required, Validators.maxLength(10), Validators.pattern(this.numRegex)]), //Antes entre 2 y 10 numeros ^[0-9]{2,10}
-        "IncrementoEsquina": new FormControl("", [Validators.required, Validators.maxLength(10), Validators.pattern(this.numRegexPorcentual)]),
-        "IncrementoAsfalto": new FormControl("", [Validators.required, Validators.maxLength(10), Validators.pattern(this.numRegexPorcentual)]),
+        "ValorSupTerreno": new UntypedFormControl("", [Validators.required, Validators.maxLength(10), Validators.pattern(this.numRegex)]),
+        "ValorSupEdificada": new UntypedFormControl("", [Validators.required, Validators.maxLength(10), Validators.pattern(this.numRegex)]), //Antes entre 2 y 10 numeros ^[0-9]{2,10}
+        "IncrementoEsquina": new UntypedFormControl("", [Validators.required, Validators.maxLength(10), Validators.pattern(this.numRegexPorcentual)]),
+        "IncrementoAsfalto": new UntypedFormControl("", [Validators.required, Validators.maxLength(10), Validators.pattern(this.numRegexPorcentual)]),
 
-        "Bhabilitado": new FormControl("1"),
+        "Bhabilitado": new UntypedFormControl("1"),
 
       },
       { validators: this.todoslosCamposRequeridos }
@@ -117,6 +118,7 @@ export class EjecucionProcesosComponent implements OnInit /*, ControlValueAccess
   
 
   ngOnInit() {
+  
   }
 
   //CONFIRMACION DE BOLETAS DIARIAS

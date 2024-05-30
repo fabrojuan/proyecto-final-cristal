@@ -35,6 +35,8 @@ public partial class CristalContext : DbContext
 
     public virtual DbSet<EstadoSolicitud> EstadoSolicituds { get; set; }
 
+    public virtual DbSet<EstadoSugerencium> EstadoSugerencia { get; set; }
+
     public virtual DbSet<Impuestoinmobiliario> Impuestoinmobiliarios { get; set; }
 
     public virtual DbSet<Lote> Lotes { get; set; }
@@ -97,10 +99,12 @@ public partial class CristalContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=localhost;Database=cristal;User Id=sa;Password=pepito1#;TrustServerCertificate=True;");
+        => optionsBuilder.UseSqlServer("Data Source=ROMANS;Initial Catalog=cristal;Integrated Security=True ;TrustServerCertificate=true");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.UseCollation("SQL_Latin1_General_CP1_CI_AS");
+
         modelBuilder.Entity<Alicuotum>(entity =>
         {
             entity.HasKey(e => e.IdAlicuota).HasName("PK__ALICUOTA__381F0CC3436A82EF");
@@ -322,6 +326,24 @@ public partial class CristalContext : DbContext
                 .IsUnicode(false);
         });
 
+        modelBuilder.Entity<EstadoSugerencium>(entity =>
+        {
+           entity.HasKey(e => e.CodEstadoSugerencia).HasName("PK__ESTADO_S__50AF48C06B2B7065");
+
+            entity.ToTable("ESTADO_SUGERENCIA");
+
+            entity.Property(e => e.CodEstadoSugerencia).HasColumnName("Cod_Estado_Sugerencia");
+            entity.Property(e => e.Bhabilitado)
+                .HasDefaultValueSql("((0))")
+                .HasColumnName("BHabilitado");
+            entity.Property(e => e.Descripcion)
+                .HasMaxLength(250)
+                .IsUnicode(false);
+            entity.Property(e => e.Nombre)
+                .HasMaxLength(80)
+                .IsUnicode(false);
+        });
+
         modelBuilder.Entity<Impuestoinmobiliario>(entity =>
         {
             entity.HasKey(e => e.IdImpuesto).HasName("PK__IMPUESTO__A9B889287061ADA9");
@@ -454,11 +476,8 @@ public partial class CristalContext : DbContext
             entity.ToTable("OBSERVACION_RECLAMO");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.CodAccion)
-                .HasMaxLength(15)
-                .IsUnicode(false)
-                .HasColumnName("codAccion");
-            entity.Property(e => e.CodEstadoReclamo).HasColumnName("cod_estado_reclamo");
+            entity.Property(e => e.CodEstadoReclamoDestino).HasColumnName("cod_estado_reclamo_destino");
+            entity.Property(e => e.CodEstadoReclamoOrigen).HasColumnName("cod_estado_reclamo_origen");
             entity.Property(e => e.FechaAlta)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime")
@@ -470,8 +489,13 @@ public partial class CristalContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("observacion");
 
-            entity.HasOne(d => d.CodEstadoReclamoNavigation).WithMany(p => p.ObservacionReclamos)
-                .HasForeignKey(d => d.CodEstadoReclamo)
+            entity.HasOne(d => d.CodEstadoReclamoDestinoNavigation).WithMany(p => p.ObservacionReclamoCodEstadoReclamoDestinoNavigations)
+                .HasForeignKey(d => d.CodEstadoReclamoDestino)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_OBSERVACION_RECLAMO_ESTADO_RECLAMO_2");
+
+            entity.HasOne(d => d.CodEstadoReclamoOrigenNavigation).WithMany(p => p.ObservacionReclamoCodEstadoReclamoOrigenNavigations)
+                .HasForeignKey(d => d.CodEstadoReclamoOrigen)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_OBSERVACION_RECLAMO_ESTADO_RECLAMO");
 
@@ -826,6 +850,11 @@ public partial class CristalContext : DbContext
             entity.Property(e => e.FechaGenerada)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("date");
+
+            entity.HasOne(d => d.EstadoNavigation).WithMany(p => p.Sugerencia)
+                .HasForeignKey(d => d.Estado)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Estado");
         });
 
         modelBuilder.Entity<TipoDatoAbierto>(entity =>
@@ -1057,9 +1086,6 @@ public partial class CristalContext : DbContext
             entity.Property(e => e.NombreUser)
                 .HasMaxLength(100)
                 .IsUnicode(false);
-            entity.Property(e => e.NroArea)
-                .HasDefaultValueSql("((1))")
-                .HasColumnName("nro_area");
 
             entity.HasOne(d => d.IdPersonaNavigation).WithMany(p => p.Usuarios)
                 .HasForeignKey(d => d.IdPersona)
@@ -1121,7 +1147,6 @@ public partial class CristalContext : DbContext
             entity.Property(e => e.NomApeVecino)
                 .HasMaxLength(100)
                 .IsUnicode(false);
-            entity.Property(e => e.NroArea).HasColumnName("nro_area");
             entity.Property(e => e.NroPrioridad).HasColumnName("Nro_Prioridad");
             entity.Property(e => e.NroReclamo).HasColumnName("Nro_Reclamo");
             entity.Property(e => e.PrioridadReclamo)

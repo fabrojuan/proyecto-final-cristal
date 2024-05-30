@@ -10,5 +10,8 @@ namespace MVPSA_V2022.clases
         public int idSugerencia { get; set; }
         public string descripcion { get; set; }
         public DateTime fechaGenerada { get; set; }
+
+        public int codestado { get; set; }
+        public string estado { get; set; }
     }
 }

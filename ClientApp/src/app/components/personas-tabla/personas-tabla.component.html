@@ -1,5 +1,6 @@
-
-<div class="container-fluid">
+<div class="container">
+  <div class="card">
+    <div class="card-body">
 
 
   <div class="d-flex align-items-center ">
@@ -9,55 +10,68 @@
     </div>
   </div>
 
-  <form [formGroup]="form">
-    <div class="row ms-2 pt-3">
-      <div class="mb-3 col-3 col-md-3 col-lg-3 col-xl-3 pt-3">
-        <div class="input-group ">
-          <input type="text" class="form-control" placeholder="Buscar x Apellido" aria-label="Nro de Manzana" aria-describedby="button-addon2">
-          <button class="btn btn-outline-secondary" type="button" id="button-addon2">Buscar</button>
+      <div class="d-flex align-items-center ">
+        <img class="ms-3 " src="../../../assets/Imagenes/personas2.png" alt="" width="60" height="60">
+        <div class="card-title text-center form-group col-md-7 offset-md-1">
+          <p> Tablero de Gestión de Personas</p>
         </div>
       </div>
+
+      <form [formGroup]="form">
+        <div class="row ms-2 pt-3">
+          <div class="mb-3 col-3 col-md-3 col-lg-3 col-xl-3 pt-3">
+            <div class="input-group ">
+              <input type="text" class="form-control" placeholder="Buscar x Apellido" aria-label="Nro de Manzana" aria-describedby="button-addon2">
+              <button class="btn btn-outline-secondary" type="button" id="button-addon2">Buscar</button>
+            </div>
+          </div>
+        </div>
+
+        <br /><br />
+        <table class="table table-hover" style="padding-bottom: 2.5em">
+          <thead class="thead-dark tituloTabla">
+
+
+            <tr>
+              <th class="text-center" *ngFor="let cabecera of cabeceras ">{{cabecera}} </th>
+              <th class="text-center" *ngIf="isMantenimiento==true">Operaciones</th>
+            </tr>
+          </thead>
+
+          <tbody class="textoTabla">
+            <tr *ngFor="let Persona of Personas | paginate: { itemsPerPage: 10, currentPage: p }">
+              <td class="text-center">{{Persona.nombre}}</td>
+              <td class="text-center">{{Persona.apellido}}</td>
+              <td class="text-center">{{Persona.dni}}</td>
+              <td class="text-center">{{Persona.telefono}}</td>
+              <td class="text-center">{{Persona.mail}}</td>
+              <td class="text-center">{{Persona.domicilio}} </td>
+              <td class="text-center">{{Persona.altura}} </td>
+
+              <td class="text-center" *ngIf="isMantenimiento==true">
+                <button type="button" class="btn " [routerLink]="['/Persona-detalle',Persona.iidPersona]"><img src="../../../assets/IconsGoogle/Mas_info.svg" alt="" width="24" height="24" title="Mas Info del Persona"></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <pagination-controls previousLabel="Anteriores" nextLabel="Siguientes" (pageChange)="p = $event"></pagination-controls>
+        <div class="row p-3 my-2">
+          <hr class="mb-4">
+          <div class="form-group col-md-12 mb-3 pt-3">
+            <button type="button" value="Nuevo" class="btn btn-success col-md-4 offset-md-1 " [routerLink]="['/persona-form-generar']">  <img src="../../../assets/Imagenes/plus-square.svg" alt="" width="24" height="24" title="Añadir Persona a base de Personas">&nbsp;&nbsp;Añadir Persona</button>
+            <button type="button" class="btn btn-secondary col-md-4 offset-md-1" (click)="volverHome()"><img src="../../../assets/IconsGoogle/arrow-bar-left.svg" alt="" width="24" height="24" title="Volver" />&nbsp;&nbsp; Volver</button>
+
+          </div>
+
+        </div>
+
+
+      </form>
     </div>
 
-    <br /><br />
-          <table class="table table-hover" style="padding-bottom: 2.5em">
-            <thead class="thead-dark tituloTabla">
+  </div>
 
-
-              <tr>
-                <th class="text-center" *ngFor="let cabecera of cabeceras ">{{cabecera}} </th>
-                <th class="text-center" *ngIf="isMantenimiento==true">Operaciones</th>
-              </tr>
-            </thead>
-
-            <tbody class="textoTabla">
-              <tr *ngFor="let Persona of Personas | paginate: { itemsPerPage: 10, currentPage: p }">
-                <td class="text-center">{{Persona.nombre}}</td>
-                <td class="text-center">{{Persona.apellido}}</td>
-                <td class="text-center">{{Persona.dni}}</td>
-                <td class="text-center">{{Persona.telefono}}</td>
-                <td class="text-center">{{Persona.mail}}</td>
-                <td class="text-center">{{Persona.domicilio}} </td>
-                <td class="text-center">{{Persona.altura}} </td>
-
-                <td class="text-center" *ngIf="isMantenimiento==true">
-                  <button type="button" class="btn " [routerLink]="['/Persona-detalle',Persona.iidPersona]"><img src="../../../assets/IconsGoogle/Mas_info.svg" alt="" width="24" height="24" title="Mas Info del Persona"></button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-    <pagination-controls previousLabel="Anteriores" nextLabel="Siguientes" (pageChange)="p = $event"></pagination-controls>
-    <div class="row p-3 my-2">
-      <hr class="mb-4">
-      <div class="form-group col-md-12 mb-3 pt-3">
-        <button type="button" value="Nuevo" class="btn btn-success col-md-4 offset-md-1 " [routerLink]="['/persona-form-generar']">  <img src="../../../assets/Imagenes/plus-square.svg" alt="" width="24" height="24" title="Añadir Persona a base de Personas">&nbsp;&nbsp;Añadir Persona</button>
-        <button type="button" class="btn btn-secondary col-md-4 offset-md-1" (click)="volverHome()"><img src="../../../assets/IconsGoogle/arrow-bar-left.svg" alt="" width="24" height="24" title="Volver" />&nbsp;&nbsp; Volver</button>
-
-      </div>
-
-    </div>
-
-
-  </form>
+  <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
 </div>
+
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DenunciaService } from '../../services/denuncia.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { ToastService } from '../../services/toast.service';
 
@@ -12,13 +12,13 @@ import { ToastService } from '../../services/toast.service';
 })
 export class TipoDenunciaFormComponent implements OnInit {
 
-  form: FormGroup = new FormGroup({});
+  form: UntypedFormGroup = new UntypedFormGroup({});
   modoUso: string = "ALTA";
 
   constructor(private _denunciaService: DenunciaService,
     private _activatedRouter: ActivatedRoute,
     private _router: Router,
-    private _fb: FormBuilder,
+    private _fb: UntypedFormBuilder,
     public _toastService: ToastService) {
 
     this.crearFormulario();

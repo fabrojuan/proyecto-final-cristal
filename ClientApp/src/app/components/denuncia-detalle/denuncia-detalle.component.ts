@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TrabajoService } from '../../services/trabajo.service';
 import { PruebaGraficaService } from '../../services/prueba-grafica.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { DenunciaService } from '../../services/denuncia.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'denuncia-detalle',
@@ -11,38 +13,46 @@ import { DenunciaService } from '../../services/denuncia.service';
   styleUrls: ['./denuncia-detalle.component.css']
 })
 export class DenunciaDetalleComponent implements OnInit {
-  Trabajo: FormGroup;
+  Trabajo: UntypedFormGroup;
   Empleados: any;
   Prioridades: any;
   pruebas: any;
   parametro: any;
   NroDenuncia: any;
+  tituloModal: string = "";  //estas cuatro lineas son del modal de accion sobre el formulario.
+  resultadoGuardadoModal: any = "";
+  @ViewChild("myModalInfo", { static: false }) myModalInfo: TemplateRef<any> | undefined;
+  redirectModal: number = 0;
 
+  onTouched: () => void = () => { };
+  onChange: (value: any) => void = () => { };
+  subscriptions: Subscription;
 
-  constructor(private TrabajoService: TrabajoService, private denunciaService: DenunciaService, private PruebaGraficaService: PruebaGraficaService, private router: Router, private activatedRoute: ActivatedRoute) {
+  constructor(private TrabajoService: TrabajoService, private denunciaService: DenunciaService, private modalService: NgbModal, private PruebaGraficaService: PruebaGraficaService, private router: Router, private activatedRoute: ActivatedRoute) {
+    this.subscriptions = new Subscription();
     this.activatedRoute.params.subscribe(parametro => {
       this.parametro = parametro["id"];
       if (this.parametro >= 1) {
-        console.log(this.parametro);
+        /*        console.log(this.parametro);*/
       } else {
         this.NroDenuncia = 0;
       }
     });
 
-    this.Trabajo = new FormGroup(
+    this.Trabajo = new UntypedFormGroup(
       {
-        "idUsuario": new FormControl("0"),
-        "Descripcion": new FormControl("", [Validators.required, Validators.minLength(50), Validators.maxLength(2500)]),
-        "Nro_Prioridad": new FormControl("0", [Validators.required, Validators.pattern("[^4]")]),
-        "estado_Denuncia": new FormControl(""),
-        "nro_Denuncia": new FormControl("0"),
-        "legajoActual": new FormControl("0"),
-        "nombre_Infractor": new FormControl("0"),
-        "tipo_Denuncia": new FormControl(""),
+        "idUsuario": new UntypedFormControl("0"),
+        "Descripcion": new UntypedFormControl("", [Validators.required, Validators.minLength(50), Validators.maxLength(2500)]),
+        "Nro_Prioridad": new UntypedFormControl("0", [Validators.required, Validators.pattern("[^4]")]),
+        "estado_Denuncia": new UntypedFormControl(""),
+        "nro_Denuncia": new UntypedFormControl("0"),
+        "legajoActual": new UntypedFormControl("0"),
+        "nombre_Infractor": new UntypedFormControl("0"),
+        "tipo_Denuncia": new UntypedFormControl(""),
         //"Mail": new FormControl("", [Validators.required, Validators.maxLength(100), Validators.pattern("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")]),
-        "altura": new FormControl("0"),
-        "calle": new FormControl(""),
-        "entre_Calles": new FormControl("")
+        "altura": new UntypedFormControl("0"),
+        "calle": new UntypedFormControl(""),
+        "entre_Calles": new UntypedFormControl("")
 
       });
   }
@@ -72,26 +82,51 @@ export class DenunciaDetalleComponent implements OnInit {
     } else {
     }
   }
-
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
   //En guardar datos si la denuncia no se deriva a nadie se carga el usuario que está logueado, sino se asignara la denuncia al id correspondiente que se seleccione en el combobx
   guardarDatos() {
+
     if (this.Trabajo.valid == true) {
       
       // Aca preguntar si el combo esta activado para derivar.
       //   Y para realizar todo el tratamiento de los estados de la denuncia.
-      this.denunciaService.DerivaPriorizaDenuncia(this.Trabajo.value).subscribe(data => { });
+      this.denunciaService.DerivaPriorizaDenuncia(this.Trabajo.value).subscribe(data => {
+        if (data) {
+          this.tituloModal = "Gestion Realizada!"
+          this.resultadoGuardadoModal = "La denuncia se derivó al área correspondiente";
+          this.redirectModal = 1;
+        }
+        else
+          this.resultadoGuardadoModal = " No se cambio la Prioridad de la denuncia. solo se deriva";
+        this.redirectModal = 0;
+      });
+      this.modalService.open(this.myModalInfo);
+      this.router.navigate(["/tabla-denuncia"]);
+
     }
   }
-  clickMethod() {
-    alert("La denuncia se Derivó y Priorizó correctamente.");
-    //Luego de presionar click debe redireccionar al home
+  cerrarmodal() {
+    this.modalService.dismissAll(this.myModalInfo);
+    if (this.redirectModal > 0) {
+      this.router.navigate(["/tabla-denuncia"]);
+      this.tituloModal = "Se redirigira al Tablero de Denuncias"
+      this.redirectModal = 0;
+    }
+    else { //resetear campos del modal ya que la persona esta registrada y seteamos lote.
+      this.tituloModal = "No te olvides de generar el ticket con el error en el menu de problemas.";
+      this.router.navigate(["/tabla-denuncia"]);
+    }
   }
+
   volver() {
+    //this.mostrarModal = false; // Ocultar el modal al navegar
     this.router.navigate(["/tabla-denuncia"]);
   }
 
   registrarTrabajo() {
+
     this.router.navigate(["/trabajo-form-generar", this.parametro]);
   }
-
 }

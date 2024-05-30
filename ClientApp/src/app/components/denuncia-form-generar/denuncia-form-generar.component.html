@@ -6,10 +6,14 @@
       <div class="container pt-4">
         <form [formGroup]="Denuncia" (ngSubmit)="guardarDatos()" class="row g-3">
 
-          <div class="d-flex align-items-center bg-light shadow mb-3 rounded shadow-sm fondoTextTitulo">
+          <div class="d-flex align-items-center ">
             <img src="../../../assets/IconsGoogle/Justicia.svg" alt="" width="48" height="48" class="mb-2">
 
+            <div class="card-title text-center form-group col-md-7 offset-md-1">
+              <p> Formulario de Denuncia</p>
+            </div>
           </div>
+
 
 
           <div class="col-md-6">
@@ -19,6 +23,7 @@
               <option [ngValue]="TipoDenuncia.cod_Tipo_Denuncia" *ngFor="let TipoDenuncia of TiposDenuncia">{{TipoDenuncia.nombre}}</option>
             </select>
           </div>
+
 
           <div class="col-md-6">
             <label for="formGroupExampleInput">(*) Calle</label>
@@ -48,8 +53,8 @@
               El DNI ingresado es incorrecto, verifique por favor.
             </div>
             <!--<div class="invalid-feedback" *ngIf="isFormSubmitted && Denuncia.controls['Descripcion'].errors?.pattern">
-              El DNI solo puede estar compuesto por números.
-            </div>-->
+      El DNI solo puede estar compuesto por números.
+    </div>-->
           </div>
 
 
@@ -69,8 +74,8 @@
             <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Apellido Infractor" formControlName="Apellido_Infractor">
           </div>
 
-          <div class="d-flex align-items-center bg-light shadow mb-3 rounded shadow-sm subtitulo">
-            <div class="form-group mx-md-n5 col-md-12 text-center">  <img src="../../../assets/IconsGoogle/camera.svg" alt="" width="48" height="48"> &nbsp;&nbsp;&nbsp; Puede añadir hasta 3 imágenes como prueba </div>
+          <div class="d-flex align-items-center bg-light shadow mb-3 rounded shadow-sm card-title">
+            <div class="form-group mx-md-n5 col-md-12 text-center">  <img src="../../../assets/IconsGoogle/camera.svg" alt="" width="45" height="45"> &nbsp;&nbsp;&nbsp; Puede añadir hasta 3 imágenes como prueba </div>
           </div>
 
           <div class="col-md-4">
@@ -78,9 +83,10 @@
               <div class="card-header">
                 Adjuntar Prueba 1
               </div>
-              <img src="{{foto1Url}}" class="card-img-top" height="120" />
+              <img src="{{foto1Url}}" class="card-img-top" height="240" />
               <div class="card-body">
-                <input type="file" class="form-control custom-file-input" id="fupFoto" lang="es" (change)="changeFoto()" accept="image/*">
+                    <input type="file" class="form-control custom-file-input" id="fupFoto" lang="es" (change)="changeFoto()" accept="image/*">
+             
               </div>
             </div>
           </div>
@@ -90,7 +96,7 @@
               <div class="card-header">
                 Adjuntar Prueba 2
               </div>
-              <img src="{{foto2Url}}" class="card-img-top" height="120" />
+              <img src="{{foto2Url}}" class="card-img-top" height="240" />
               <div class="card-body">
                 <input type="file" lang="es" data-browse="Seleccionar archivo" class="form-control custom-file-input" id="fupFoto2" (change)="changeFoto()" accept="image/*">
               </div>
@@ -102,7 +108,7 @@
               <div class="card-header">
                 Adjuntar Prueba 3
               </div>
-              <img src="{{foto3Url}}" class="card-img-top" height="120" />
+              <img src="{{foto3Url}}" class="card-img-top" height="240" />
               <div class="card-body">
                 <input type="file" class="form-control custom-file-input" id="fupFoto3" lang="es" (change)="changeFoto()" accept="image/*">
               </div>
@@ -112,8 +118,8 @@
           </div>
 
 
-          <div class="d-flex align-items-center bg-light shadow mb-3 rounded shadow-sm subtitulo">
-            <div class="form-group mx-md-n5 col-md-12 text-center" title="datos opcionales del denunciante para contacto personalizado con el hecho">  <img src="../../../assets/icons/people.svg" alt="" width="48" height="48" title="datos opcionales del denunciante para contacto personalizado con el hecho"> &nbsp;&nbsp;&nbsp; Informaci&oacute;n de contacto opcional </div>
+          <div class="d-flex align-items-center bg-light shadow mb-3 rounded shadow-sm card-title">
+            <div class="form-group mx-md-n5 col-md-12 text-center" title="datos opcionales del denunciante para contacto personalizado con el hecho">  <img src="../../../assets/icons/people.svg" alt="" width="45" height="45" title="datos opcionales del denunciante para contacto personalizado con el hecho"> &nbsp;&nbsp;&nbsp; Informaci&oacute;n de contacto opcional </div>
           </div>
 
           <div class="col-md-6">
@@ -128,9 +134,9 @@
             <input type="text" class="form-control col-md-3" id="exampleFormControlInput1" placeholder="Opcional teléfono de contacto" formControlName="Movil_Notificacion">
           </div>
 
-          <div style="color:white" class="form-group col-md-12 justify-content-around">
+          <div style="color:black" class="form-group col-md-12 justify-content-around">
 
-            <div class="text-center  bg-danger shadow p-2 mb-5 rounded shadow-sm" *ngIf="Denuncia.valid==false">Verifique que los datos indicados con (*) estén correctamente ingresados</div>
+            <div class="text-center  bg-info-light shadow p-2 mb-5 rounded shadow-sm" *ngIf="Denuncia.valid==false">Verifique que los campos señalados con (*) estén correctamente ingresados</div>
 
           </div>
 

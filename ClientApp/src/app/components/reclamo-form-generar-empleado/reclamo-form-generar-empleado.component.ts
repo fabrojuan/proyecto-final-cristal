@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ReclamoService } from '../../services/reclamo.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { VecinoService } from '../../services/vecino.service';
 import { Area } from 'src/app/modelos_Interfaces/Area';
 import { AreasService } from 'src/app/services/areas.service';
@@ -15,7 +15,7 @@ export class ReclamoFormGenerarEmpleadoComponent implements OnInit {
   TiposReclamo: any;
   foto1: any;
   foto2: any;
-  Reclamo: FormGroup;
+  Reclamo: UntypedFormGroup;
   @ViewChild('fileUploader1') fileUploader1: ElementRef | undefined;
   @ViewChild('fileUploader2') fileUploader2: ElementRef | undefined;
   isFormSubmitted: boolean=false;
