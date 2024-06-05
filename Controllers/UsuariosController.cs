@@ -174,8 +174,9 @@ namespace MVPSA_V2022.Controllers
                                on paginaRol.IdPagina equals pagina.IdPagina
                                join usuario in bd.Usuarios
                                on paginaRol.IdRol equals usuario.IdTipoUsuario
-                               where paginaRol.Bhabilitado == 1
-                               && usuario.IdUsuario == idUsuario
+                               where //paginaRol.Bhabilitado == 1
+                               //&&   esta linea anterior es para uqe no se visualicen los que no deben verse activar cuando terminemos.
+                               usuario.IdUsuario == idUsuario
                                //&& pagina.Bvisible == 1
                                select new PaginaCLS
                                {

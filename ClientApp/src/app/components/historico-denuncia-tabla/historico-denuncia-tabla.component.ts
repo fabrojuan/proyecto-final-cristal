@@ -3,6 +3,9 @@ import { UntypedFormBuilder } from '@angular/forms';
 import { UntypedFormGroup } from '@angular/forms';
 import { DenunciaService } from '../../services/denuncia.service';
 import { UsuarioService } from '../../services/usuario.service';
+import espaniolDatatables from 'src/assets/espaniolDatatables.json';
+import { Subject } from 'rxjs';
+
 @Component({
   selector: 'historico-denuncia-tabla',
   templateUrl: './historico-denuncia-tabla.component.html',
@@ -14,6 +17,8 @@ import { UsuarioService } from '../../services/usuario.service';
   TiposDenuncia: any;
   DenunciasFiltradas: any;
   p: number = 1;
+  dtoptions: DataTables.Settings = {};
+  dtTrigger: Subject<any> = new Subject<any>();
   cabeceras: string[] = ["Id Denuncia", "Fecha Generada", "Tipo Denuncia", "Estado Denuncia", "Prioridad", "Cerrada por"];
   constructor(private denunciaservice: DenunciaService, private usuarioService: UsuarioService, private formBuilder: UntypedFormBuilder) {
     this.form = new UntypedFormGroup({
@@ -24,8 +29,18 @@ import { UsuarioService } from '../../services/usuario.service';
 
   form: UntypedFormGroup;  // Lo Comento porque en los grid no hay gestion de los campos
   ngOnInit() {
+    this.dtoptions = {
+      paging: false,
+      lengthChange: false,
+      pagingType: 'full_numbers',
+      language: espaniolDatatables
+    };
 
-    this.denunciaservice.ListarDenunciasCerradas().subscribe(data => this.Denuncias = data);
+    this.denunciaservice.ListarDenunciasCerradas().subscribe(data => {
+      this.Denuncias = data
+      this.dtTrigger.next(null);
+    });
+
     this.denunciaservice.getTipoDenuncia().subscribe(data => this.TiposDenuncia = data);
     this.usuarioService.getUsuarios().subscribe(data => this.Usuarios = data);
     this.form = this.formBuilder.group({

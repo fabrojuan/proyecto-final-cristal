@@ -53,7 +53,7 @@ export class LoteTablaComponent implements OnInit {
 
   }
   volverHome() {
-    this.router.navigate(["/"]);
+    this.router.navigate(["/lotesypersonas"]);
   }
 
 }

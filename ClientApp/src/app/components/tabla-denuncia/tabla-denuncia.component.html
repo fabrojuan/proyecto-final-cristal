@@ -10,16 +10,34 @@
         </div>
       </div>
       <form [formGroup]="form">
-        
+
         <br /><br />
         <table datatable [dtOptions]="dtoptions" [dtTrigger]="dtTrigger" class="row-border hover table table-hover" style="padding-bottom: 2.5em">
           <thead class="thead-dark tituloTabla">
+            <tr>
+              <th class="text-center">Filtros:</th>
 
+              <th class="text-center">Tipo Denuncia</th>
+              <th class="text-center">
+                <select id="Tipo_Denuncia" class="form-select">
+                  <option value="">-- Seleccione Opción --</option>
+                  <option [ngValue]="TipoDenuncia.cod_Tipo_Denuncia" *ngFor="let TipoDenuncia of TiposDenuncia">{{TipoDenuncia.nombre}}</option>
+                </select>
+              </th>
+            </tr>
 
             <tr>
               <th class="text-center" *ngFor="let cabecera of cabeceras ">{{cabecera}} </th>
               <th class="text-center" *ngIf="isMantenimiento==true">Operaciones ver/editar</th>
+              <!--<th class="text-center">
+                <select id="Tipo_Denuncia" class="form-select">
+                  <option value="">tipo de denuncia</option>
+                  <option [ngValue]="TipoDenuncia.cod_Tipo_Denuncia" *ngFor="let TipoDenuncia of TiposDenuncia">{{TipoDenuncia.nombre}}</option>
+                </select>
+              </th>-->
             </tr>
+
+
           </thead>
 
           <tbody class="textoTabla">
@@ -45,6 +63,6 @@
       </form>
 
     </div>
-</div>
- <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
+  </div>
+  <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
 </div>

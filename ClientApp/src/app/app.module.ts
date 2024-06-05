@@ -96,6 +96,10 @@ import { ReclamoFormGenerarEmpleadoComponent } from './components/reclamo-form-g
 import { HistoricoDenunciaTablaComponent } from './components/historico-denuncia-tabla/historico-denuncia-tabla.component';
 import { HistoricoDenunciaTrabajosComponent } from './components/historico-denuncia-trabajos/historico-denuncia-trabajos.component';
 import { ReportarProblemasComponent } from './components/reportar-problemas/reportar-problemas.component';
+import { IndicadoresGraficosComponent } from './components/indicadores-graficos/indicadores-graficos.component';
+import { ChartsDenunciaComponent } from './components/charts-denuncia/charts-denuncia.component';
+import { EmpleadosyrolesComponent } from './components/empleadosyroles/empleadosyroles.component';
+import { LotesypersonasComponent } from './components/lotesypersonas/lotesypersonas.component';
 
 
 @NgModule({
@@ -163,7 +167,11 @@ import { ReportarProblemasComponent } from './components/reportar-problemas/repo
     ReclamoFormGenerarEmpleadoComponent,
     HistoricoDenunciaTablaComponent,
     HistoricoDenunciaTrabajosComponent,
-    ReportarProblemasComponent
+    ReportarProblemasComponent,
+    IndicadoresGraficosComponent,
+    ChartsDenunciaComponent,
+    EmpleadosyrolesComponent,
+    LotesypersonasComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -241,9 +249,11 @@ import { ReportarProblemasComponent } from './components/reportar-problemas/repo
       { path: 'pagina-form-generar', component: PaginaFormGenerarComponent, canActivate: [SeguridadGuard] },
       { path: 'historico-denuncia-tabla', component: HistoricoDenunciaTablaComponent, canActivate: [SeguridadGuard] },
       { path: 'historico-denuncia-trabajos/:id', component: HistoricoDenunciaTrabajosComponent, canActivate: [SeguridadGuard] },
-
+      { path: 'indicadores-graficos', component: IndicadoresGraficosComponent, canActivate: [SeguridadGuard] },
+      { path: 'empleadosyroles', component: EmpleadosyrolesComponent, canActivate: [SeguridadGuard] },
       { path: 'historico-denuncia-trabajos', component: HistoricoDenunciaTrabajosComponent, canActivate: [SeguridadGuard] },
-     
+      { path: 'charts-denuncia', component: ChartsDenunciaComponent, canActivate: [SeguridadGuard] },
+      { path: 'lotesypersonas', component: LotesypersonasComponent, canActivate: [SeguridadGuard] },
       { path: '*', redirectTo: '' } //a home
 
 

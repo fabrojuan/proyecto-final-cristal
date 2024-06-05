@@ -16,12 +16,13 @@ export class DatosFinanEconomGenerarComponent implements OnInit {
 
 
   generarDatasetImpuestos() {
-    console.log("Lllamo a la funcion.");
     this.datasetImpuestoService.generarDatasetImpuestos().subscribe(data => {
       this.impuestos = data;
 
     });
-    console.log('Los impuestos son', this.impuestos);
+    this.datasetImpuestoService.ExportarExcel();
+    this.datasetImpuestoService.ExportarPDF();
+    /*console.log('Los impuestos son', this.impuestos);*/
 
   }
 
@@ -36,13 +37,13 @@ export class DatosFinanEconomGenerarComponent implements OnInit {
   ngOnInit() {
   }
 
-  ExportarExcel() {
-    this.datasetImpuestoService.ExportarExcel();
-  }
+  //ExportarExcel() {
+  //  this.datasetImpuestoService.ExportarExcel();
+  //}
 
-  ExportarPDF() {
-    this.datasetImpuestoService.ExportarPDF();
-  }
+  //ExportarPDF() {
+  //  this.datasetImpuestoService.ExportarPDF();
+  //}
 
 
 

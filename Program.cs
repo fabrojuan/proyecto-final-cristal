@@ -45,6 +45,7 @@ builder.Services.AddDbContext<M_VPSA_V3Context>(options
 builder.Services.AddScoped<IReclamoService, ReclamoService>();
 builder.Services.AddSingleton<IDenunciaService, DenunciaService>();
 builder.Services.AddSingleton<IPagoService, PagoService>();
+builder.Services.AddSingleton<IindicadoresService, IndicadoresService>();
 builder.Services.AddSingleton<IUsuarioService, UsuarioService>();
 builder.Services.AddSingleton<IImpuestoService, ImpuestoService>();
 builder.Services.AddScoped<ITrabajoService,TrabajoService>();
