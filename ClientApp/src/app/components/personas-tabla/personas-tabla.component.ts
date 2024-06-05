@@ -39,7 +39,7 @@ export class PersonasTablaComponent implements OnInit {
 
   }
   volverHome() {
-    this.router.navigate(["/bienvenida"]);
+    this.router.navigate(["/lotesypersonas"]);
   }
 
 }

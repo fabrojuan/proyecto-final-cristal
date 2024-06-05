@@ -130,13 +130,13 @@
 
                   <div class="row p-2 my-2">
                     <div class="col-md-2 offset-1">
-                      <button [disabled]="!Trabajo.valid" title="Puede derivar la denuncia a otro empleado, y/o recategorizar la prioridad de la denuncia" class="btn btn-success btn-sm btn-block" (click)="guardarDatos()">Derivar</button>
+                      <button [disabled]="!Trabajo.valid" title="Puede derivar la denuncia a otro empleado, y/o recategorizar la prioridad de la denuncia" class="btn btn-success btn-sm btn-block" (click)="guardarDatos()"style="display: flex; justify-content: center; align-items: center;"><i class="bi bi-forward-fill fs-5"></i>&nbsp;Derivar</button>
                     </div>
-                    <div class="col-md-3 offset-1">
-                      <button class="btn btn-primary btn-sm btn-block" data-bs-placement="top" data-bs-toggle="tooltip" title="Registre el trabajo realizado sobre la denuncia" (click)="registrarTrabajo()">Registrar Trabajo</button>
+                    <div class="col-md-4 offset-1">
+                      <button class="btn btn-primary btn-sm btn-block" data-bs-placement="top" data-bs-toggle="tooltip" title="Registre el trabajo realizado sobre la denuncia" (click)="registrarTrabajo()"style="display: flex; justify-content: center; align-items: center;"><i class="bi bi-wrench-adjustable-circle fs-5"></i>&nbsp;Guardar Trabajo</button>
                     </div>
-                    <div class="col-md-2 offset-1">
-                      <button class="btn btn-secondary btn-sm btn-block" (click)="volver()">Volver</button>
+                    <div class="col-md-2 ">
+                      <button class="btn btn-secondary btn-sm btn-block" (click)="volver()"style="display: flex; justify-content: center; align-items: center;"><i class="bi bi-arrow-left-circle fs-5"></i>&nbsp;Volver</button>
                     </div>
                   </div>
                 </div>

@@ -21,5 +21,16 @@ export class IndicadoresService {
   public getDenunciasCerradas(): Observable<any> {
     return this.http.get(this.urlBase + 'api/Denuncia/DenunciasCerradas').pipe(map(res => res));
   }
+
+  public CantidadDenunciasAbiertas(): Observable<any> {
+    return this.http.get(this.urlBase + 'api/Indicadores/CantidadDenunciasAbiertas').pipe(map(res => res));
+  }
+  public CantidadDenunciasCerradas(): Observable<any> {
+    return this.http.get(this.urlBase + 'api/Indicadores/CantidadDenunciasCerradas').pipe(map(res => res));
+  }
+  public FechaTrabajosEnDenuncias(): Observable<any> {
+    return this.http.get(this.urlBase + 'api/Indicadores/FechaTrabajosEnDenuncias').pipe(map(res => res));
+  }
   
+
 }

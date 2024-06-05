@@ -159,6 +159,7 @@ namespace MVPSA_V2022.Controllers
                                                         Iidpersona=persona.IdPersona,
                                                       Nombre = !String.IsNullOrEmpty(persona.Nombre) ? persona.Nombre : "No Posee",
                                                         apellido = !String.IsNullOrEmpty(persona.Apellido)?persona.Apellido : "No Posee",
+                                                        Dni = !String.IsNullOrEmpty(persona.Dni) ? persona.Dni : "No Posee",
                                                         Telefono = !String.IsNullOrEmpty(persona.Telefono) ? persona.Telefono : "No Posee",
                                                         Mail = !String.IsNullOrEmpty(persona.Mail) ? persona.Mail : "No Posee",
                                                         Domicilio = !String.IsNullOrEmpty(persona.Domicilio) ? persona.Domicilio : "No Posee",

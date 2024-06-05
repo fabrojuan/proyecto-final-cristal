@@ -87,30 +87,53 @@
                 <label class="custom-file-label" for="customFileLang"><img src="../../../assets/IconsGoogle/card-image.svg" alt="" width="16" height="16" title="card-image"> Adjuntar Prueba 3</label>
               </div>
 
-              <div class="row p-5 my-2 col-md-10 offset-3 mt-5">
+              <div class="row p-5 my-2 col-md-10  mt-5">
               </div>
 
             </div>
 
-            <div class="row col-md-12 order-md-2 mb-4 mt-5">
-              <div class="col-md-2 offset-1 mb-4 mt-xs-5">
-                <button [disabled]="!Trabajo.valid" class="btn btn-primary btn-sm btn-block letraButton" type="submit" title="Para registrar el trabajo minimamente debe ingresar 50 caracteres">Registrar Trabajo</button>
+            <!--<div class="row col-md-12 order-md-2 mb-4 mt-5">
+         <div class="col-md-3 offset-1 mb-4 mt-xs-5">
+           <button [disabled]="!Trabajo.valid" class="btn btn-primary btn-sm btn-block letraButton" type="submit" title="Para registrar el trabajo minimamente debe ingresar 50 caracteres"><i class="bi bi-wrench-adjustable-circle fs-5"></i>&nbsp;&nbsp;Registrar Trabajo</button>
+         </div>
+
+         <div class="col-md-2  mb-4 mt-xs-5">
+           <button class="btn btn-primary btn-sm  btn-block letraButton" type="button" (click)="derivarAMesaEntrada()" title="Deriva la Denuncia para que Mesa de Entrada realice gestiones posteriores&#44; o la derive a quien corresponda"><i class="bi bi-forward-fill fs-5"></i>&nbsp;&nbsp;Derivar a Mesa</button>
+         </div>
+
+         <div class="col-md-2  mb-4 mt-xs-5">
+           <button class="btn btn-success btn-sm btn-block letraButton" type="button" (click)="solucionarDenuncia()" title="Se enviara a Mesa para que cierre la denuncia"><i class="bi bi-check2-circle fs-5"></i>&nbsp;&nbsp;Solucionar</button>
+         </div>
+
+         <div class="col-md-2  mb-4 mt-xs-5">
+           <button class="btn btn-danger btn-sm btn-block letraButton" type="button" (click)="solucionarDenuncia()" title="Se enviara a Mesa de de baja la denuncia que no corresponde"><i class="bi bi-x-circle-fill fs-5"></i>&nbsp;&nbsp;Dar de baja</button>
+         </div>
+
+
+         <div class="col-md-2  mb-4 mt-xs-5">
+           <button class="btn btn-primary btn-sm btn-block letraButton" type="button" (click)="volver()" title="ir al Tablero de Gestión de Denuncias"><i class="bi bi-arrow-left-circle fs-5"></i>&nbsp;&nbsp;Volver</button>
+         </div>
+  </div>-->
+            <div class="row col-md-12 offset-1 order-md-2 mb-4 mt-5">
+              <div class="col-md-2 mx-md-2 mb-4 mt-xs-5">
+                <button [disabled]="!Trabajo.valid" class="btn btn-warning btn-sm btn-block letraButton " type="submit" title="Para registrar el trabajo minimamente debe ingresar 50 caracteres" style="display: flex; justify-content: center; align-items: center;"><i class="bi bi-wrench-adjustable-circle fs-5"></i>&nbsp;Guardar Trabajo</button>
               </div>
 
-              <div class="col-md-2 offset-1 mb-4 mt-xs-5">
-                <button class="btn btn-primary btn-sm  btn-block letraButton" type="button" (click)="derivarAMesaEntrada()" title="Deriva la Denuncia para que Mesa de Entrada realice gestiones posteriores&#44; o la derive a quien corresponda">Derivar a Mesa</button>
+              <div class="col-md-2 mx-md-2 mb-4 mt-xs-5">
+                <button class="btn btn-warning btn-sm  btn-block letraButton" type="button" (click)="derivarAMesaEntrada()" title="Deriva la Denuncia para que Mesa de Entrada realice gestiones posteriores&#44; o la derive a quien corresponda" style="display: flex; justify-content: center; align-items: center;"><i class="bi bi-forward-fill fs-5"></i>&nbsp;&nbsp;Derivar a Mesa</button>
               </div>
 
-              <div class="col-md-2 offset-1 mb-4 mt-xs-5">
-                <button class="btn btn-danger btn-sm btn-block letraButton" type="button" (click)="solucionarDenuncia()" title="Se enviara a Mesa para que cierre la denuncia">Solucionar</button>
+              <div class="col-md-2 mx-md-2 mb-4 mt-xs-5">
+                <button class="btn btn-warning btn-sm btn-block letraButton" type="button" (click)="solucionarDenuncia()" title="Se enviara a Mesa para que cierre la denuncia"style="display: flex; justify-content: center; align-items: center;"><i class="bi bi-check2-circle fs-5"></i>&nbsp;&nbsp;Solucionar</button>
               </div>
 
-              <div class="col-md-2 offset-1 mb-4 mt-xs-5">
-                <button class="btn btn-primary btn-sm btn-block letraButton" type="button" (click)="volver()" title="ir al Tablero de Gestión de Denuncias">Volver</button>
+              <div class="col-md-2 mx-md-2 mb-4 mt-xs-5">
+                <button class="btn btn-danger btn-sm btn-block letraButton" type="button" (click)="solucionarDenuncia()" title="Se enviara a Mesa de de baja la denuncia que no corresponde" style="display: flex; justify-content: center; align-items: center;"><i class="bi bi-x-circle-fill fs-5"></i>&nbsp;&nbsp;Dar de baja</button>
               </div>
 
-
-
+              <div class="col-md-2 mx-md-2 mb-4 mt-xs-5">
+                <button class="btn btn-warning btn-sm btn-block letraButton" type="button" (click)="volver()" title="ir al Tablero de Gestión de Denuncias" style="display: flex; justify-content: center; align-items: center;"><i class="bi bi-arrow-left-circle fs-5"></i>&nbsp;&nbsp;Volver</button>
+              </div>
             </div>
             <ng-template #myModalInfo let-modal>
               <div class="modal bg-secondary" tabindex="-1" style="display:block;" role="dialog">

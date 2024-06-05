@@ -23,11 +23,11 @@
                 <h6>
                   {{totalDenunAsignaEmpleado}}
                 </h6>
-                <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+                <span class="text-success small pt-1 fw-bold">0</span> <span class="text-muted small pt-2 ps-1">generadas este mes</span>
               </div>
             </div>
           </div>
-      <!--    <canvas id="chart">{{ chart }}</canvas>-->
+
           <!--Historicos de denuncias-->
           <div class="col-md-5 offset-2">
             <h5 class="card-title">Denuncias Finalizadas&nbsp;<span class="text-success small pt-1 fw-bold">| {{totalDenunCerradas}}</span></h5>
@@ -36,12 +36,12 @@
                 <i class="bi bi-clock-history" [routerLink]="['/historico-denuncia-tabla']" title="Click aquí visualizar el historico de denuncias resueltas."></i>
               </div>
               <div class="ps-3">
-                <span class="text-success small">Asignadas a mi</span>
+                <span class="text-success small">Intervenciones</span>
                 <h6>
                   <!--  TAREA Aca deben ir el total de denuncias cerradas por el empleado.-->
                   <!--{{totalDenunAsignaEmpleado}}-->
                 </h6>
-                <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+                <span class="text-success small pt-1 fw-bold">6</span> <span class="text-muted small pt-2 ps-1">trabajos generados</span>
               </div>
             </div>
           </div>
@@ -50,29 +50,54 @@
       </div>
     </div>
     <!-- End Denincias Card -->
-    <!-- Inicia datos Abiertos Card -->
-    <div class="card-body">
-      <h5 class="card-title">Datos Abiertos <span>| Today</span></h5>
+    <!-- Inicia datos Abiertos Card e indicadores de gestion-->
+    <div class="card info-card customers-card">
 
-      <div class="d-flex align-items-center">
-        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-          <i class="bi bi-clipboard-data" [routerLink]="['/generacion-datasets']" title="Click aquí para gestionar los dataset para datos abiertos."></i>
+      <div class="card-body">
+        <div class="row">
 
-        </div>
-        <div class="ps-3">
-          <h6>145</h6>
-          <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+          <div class="col-md-5">
+            <h5 class="card-title">Datos Abiertos <span>| 2024</span></h5>
+            <div class="d-flex align-items-center">
+              <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                <i class="bi bi-share" [routerLink]="['/generacion-datasets']" title="Click aquí para gestionar los dataset para datos abiertos."></i>
 
+              </div>
+              <div class="ps-3">
+                <h6>4</h6>
+                <span class="text-success small pt-1 fw-bold">Esquemas </span> <span class="text-muted small pt-2 ps-1">de clasificacion</span>
+
+              </div>
+            </div>
+          </div>
+
+          <!Indicadores Graficoss-->
+          <div class="col-md-5 offset-2">
+            <h5 class="card-title">Indicadores Graficos &nbsp;</h5>
+            <div class="d-flex align-items-center">
+              <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                <i class="bi bi-pie-chart-fill" [routerLink]="['/indicadores-graficos']" title="Click aquí visualizar Diagramas de torta barras, ets con distintos indicadores."></i>
+              </div>
+              <div class="ps-3">
+                <span class="text-success small">Cantidad de Indicadores</span>
+                <h6>
+                  <!--  TAREA Aca deben ir el total de denuncias cerradas por el empleado.-->
+                  <!--{{totalDenunAsignaEmpleado}}-->
+                </h6>
+                <span class="text-success small pt-1 fw-bold">2</span> <span class="text-muted small pt-2 ps-1">diagramas</span>
+              </div>
+            </div>
+          </div>
+          <!-- FIN datos Abiertos Card e indicadores de gestion-->
         </div>
       </div>
     </div>
-    <!-- End DAtos Abiertos Card -->
-    <!-- Revenue Card -->
+    <!-- Requerimientos -->
     <div class="col-md-6">
       <div class="card info-card customers-card">
 
         <div class="card-body">
-          <h5 class="card-title">Reclamos <span>| Mis Asignaciones</span></h5>
+          <h5 class="card-title">Requerimientos <span>| Mis Asignaciones</span></h5>
 
           <div class="d-flex align-items-center">
             <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -87,31 +112,10 @@
 
       </div>
     </div>
-    <!-- End Revenue Card -->
-    <!-- Sales Card -->
+    <!-- Fin Requerimientos -->
+    <!-- Sugerencias -->
     <div class="col-md-6">
       <div class="card info-card revenue-card">
-
-        <div class="card-body">
-          <h5 class="card-title">Solicitudes <span>| Mis Asignaciones</span></h5>
-
-          <div class="d-flex align-items-center">
-            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-              <i class="bi bi-envelope-exclamation"></i>
-            </div>
-            <div class="ps-3">
-              <h6>12</h6>
-              <span class="text-success small pt-1 fw-bold">34</span> <span class="text-muted small pt-2 ps-1">Total Activas</span>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-    <!-- End Sales Card -->
-    <!-- Customers Card -->
-    <div class="col-md-6">
-      <div class="card info-card sales-card">
 
         <div class="card-body">
           <h5 class="card-title">Sugerencias <span></span></h5>
@@ -126,20 +130,52 @@
           </div>
         </div>
 
+
       </div>
     </div>
-     <!--End Customers Card--> 
-    <!--<div style="display: block;">
-      <canvas baseChart
-              [type]="'pie'"
-              [datasets]="pieChartDatasets"
-              [labels]="pieChartLabels"
-              [options]="pieChartOptions"
-              [plugins]="pieChartPlugins"
-              [legend]="pieChartLegend">
-      </canvas>
-    </div>-->
+    <!-- Fin Sugerencias -->
+    <!-- Customers Card -->
+    <!-- Gestion de Accesos -->
+    <div class="col-md-6">
+      <div class="card info-card customers-card">
 
+        <div class="card-body">
+          <h5 class="card-title">Gestion de vecinos y Lotes <span>| Mis Formularios</span></h5>
+
+          <div class="d-flex align-items-center">
+            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+              <i [routerLink]="['/lotesypersonas']" title="Click aquí para gestionar las personas asociadas a los lotes.">
+                <img src="../../../assets/Imagenes/construccion_lote.png" alt="" width="70" height="70">
+              </i>
+            </div>
+            <div class="ps-3">
+              <h6>0</h6>
+              <span class="text-success small pt-1 fw-bold">507</span> <span class="text-muted small pt-2 ps-1">Total Activas</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!-- Fin Gestion de Accesos -->
+    <!-- Gestion de Roles -->
+    <div class="col-md-6">
+      <div class="card info-card revenue-card">
+     <div class="card-body">
+          <h5 class="card-title">Gestion de empleados, roles y componentes  <span></span></h5>
+          <div class="d-flex align-items-center">
+            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+              <i class="bi bi-people-fill" [routerLink]="['/empleadosyroles']" title="Click aquí para gestionar las paginas web, los empleados los roles."></i>
+            </div>
+            <div class="ps-3">
+              <h6>1</h6>
+              <span class="text-success small pt-1 fw-bold">385</span> <span class="text-muted small pt-2 ps-1">Total Activas</span>
+            </div>
+          </div>
+        </div>
+     </div>
+    </div>
+    <!-- Fin Sugerencias -->
 
   </div>
 </section>
