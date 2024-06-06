@@ -179,6 +179,8 @@ UPDATE [dbo].[ROL]
 	set tipoRol = 'VECINO'
 	WHERE idRol = 2000;
 
+
+
 ALTER TABLE [dbo].[TRABAJO]  WITH CHECK ADD FOREIGN KEY([Nro_Denuncia])
 REFERENCES [dbo].[DENUNCIA] ([Nro_Denuncia]);
 
@@ -253,7 +255,148 @@ drop TABLE [dbo].[USUARIO_VECINO];
 alter TABLE [dbo].[RECLAMO] alter COLUMN idUsuario int not null;
 
 alter TABLE [dbo].[TIPO_RECLAMO] alter COLUMN IdUsuarioAlta int not null; 
-alter TABLE [dbo].[TIPO_RECLAMO] alter COLUMN IdUsuarioModificacion int not null; 
+
+alter TABLE [dbo].[TIPO_RECLAMO] alter COLUMN IdUsuarioModificacion int not null;
+
+alter TABLE [dbo].[USUARIO] alter COLUMN NombreUser VARCHAR (100) not null; 
+alter TABLE [dbo].[USUARIO] alter COLUMN Contrasenia VARCHAR (100) not null; 
+alter TABLE [dbo].[USUARIO] alter COLUMN BHabilitado int not null; 
+alter TABLE [dbo].[USUARIO] alter COLUMN idTipoUsuario int not null; 
+alter TABLE [dbo].[USUARIO] alter COLUMN FechaAlta DATE not null;
+
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[OBSERVACION_RECLAMO]') AND type in (N'U'))
+DROP TABLE [dbo].[OBSERVACION_RECLAMO]
+GO
+
+CREATE TABLE [dbo].[OBSERVACION_RECLAMO](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[nro_reclamo] [int] NOT NULL,
+	[observacion] [varchar](250) NOT NULL,
+	[cod_estado_reclamo] [int] NOT NULL,
+	[id_usuario_alta] [int] NOT NULL,
+	[fecha_alta] [datetime] NOT NULL,
+	[codAccion] [varchar](15) NOT NULL
+);
+
+ALTER TABLE [dbo].[OBSERVACION_RECLAMO] ADD  CONSTRAINT [PK_OBSERVACION_RECLAMO] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+);
+
+ALTER TABLE [dbo].[OBSERVACION_RECLAMO] ADD  CONSTRAINT [DEFAULT_obervacion_reclamo_fecha_alta]  DEFAULT (getdate()) FOR [fecha_alta];
+ALTER TABLE [dbo].[OBSERVACION_RECLAMO]  WITH CHECK ADD  CONSTRAINT [FK_OBSERVACION_RECLAMO_ESTADO_RECLAMO] FOREIGN KEY([cod_estado_reclamo])
+REFERENCES [dbo].[ESTADO_RECLAMO] ([Cod_Estado_Reclamo]);
+ALTER TABLE [dbo].[OBSERVACION_RECLAMO] CHECK CONSTRAINT [FK_OBSERVACION_RECLAMO_ESTADO_RECLAMO];
+ALTER TABLE [dbo].[OBSERVACION_RECLAMO]  WITH CHECK ADD  CONSTRAINT [FK_OBSERVACION_RECLAMO_RECLAMO] FOREIGN KEY([nro_reclamo])
+REFERENCES [dbo].[RECLAMO] ([Nro_Reclamo]);
+ALTER TABLE [dbo].[OBSERVACION_RECLAMO] CHECK CONSTRAINT [FK_OBSERVACION_RECLAMO_RECLAMO];
+ALTER TABLE [dbo].[OBSERVACION_RECLAMO]  WITH CHECK ADD  CONSTRAINT [FK_OBSERVACION_RECLAMO_USUARIO] FOREIGN KEY([id_usuario_alta])
+REFERENCES [dbo].[USUARIO] ([idUsuario]);
+ALTER TABLE [dbo].[OBSERVACION_RECLAMO] CHECK CONSTRAINT [FK_OBSERVACION_RECLAMO_USUARIO];
+
+CREATE TABLE [dbo].[AREA] (
+    [nro_area]    INT           IDENTITY (1, 1) NOT NULL,
+    [nombre]      VARCHAR (100) NOT NULL,
+    [cod_area]    VARCHAR (20)  NOT NULL,
+    [bhabilitado] INT           CONSTRAINT [DEFAULT_AREA_bhabilitado] DEFAULT 1 NOT NULL,
+    CONSTRAINT [PK_AREA] PRIMARY KEY CLUSTERED ([nro_area] ASC)
+);
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TRABAJO_RECLAMO]') AND type in (N'U'))
+DROP TABLE [dbo].[TRABAJO_RECLAMO]
+GO
+
+
+CREATE TABLE [dbo].[TRABAJO_RECLAMO] (
+    [nro_trabajo]     INT           IDENTITY (1, 1) NOT NULL,
+    [nro_reclamo]     INT           NOT NULL,
+    [nro_area_trabajo] INT           NOT NULL,
+    [fecha_trabajo]   DATE          NOT NULL,
+    [descripcion]     VARCHAR (250) NOT NULL,
+    [id_usuario_alta] INT           NOT NULL,
+    [fecha_alta]      DATETIME      CONSTRAINT [DEFAULT_TRABAJO_RECLAMO_fecha_alta] DEFAULT getDate() NOT NULL,
+    [bhabilitado]     INT           CONSTRAINT [DEFAULT_TRABAJO_RECLAMO_bhabilitado] DEFAULT 1 NOT NULL,
+    CONSTRAINT [PK_TRABAJO_RECLAMO] PRIMARY KEY CLUSTERED ([nro_trabajo] ASC),
+    CONSTRAINT [FK_TRABAJO_RECLAMO_RECLAMO] FOREIGN KEY ([nro_reclamo]) REFERENCES [dbo].[RECLAMO] ([Nro_Reclamo]),
+    CONSTRAINT [FK_TRABAJO_RECLAMO_AREA] FOREIGN KEY ([nro_area_trabajo]) REFERENCES [dbo].[AREA] ([nro_area]),
+    CONSTRAINT [FK_TRABAJO_RECLAMO_USUARIO] FOREIGN KEY ([id_usuario_alta]) REFERENCES [dbo].[USUARIO] ([idUsuario])
+);
+
+
+ALTER TABLE dbo.RECLAMO 
+ADD nro_area INT;  
+
+ALTER TABLE dbo.RECLAMO 
+ADD id_usuario_responsable INT;  
+
+ALTER TABLE DBO.RECLAMO
+   ADD FOREIGN KEY (nro_area)
+      REFERENCES DBO.AREA (nro_area)
+      ON DELETE  NO ACTION
+      ON UPDATE  NO ACTION;
+
+ALTER TABLE DBO.RECLAMO
+   ADD FOREIGN KEY (id_usuario_responsable)
+      REFERENCES DBO.USUARIO (idUsuario)
+      ON DELETE  NO ACTION
+      ON UPDATE  NO ACTION;
+
+
+SET IDENTITY_INSERT [dbo].[AREA] ON;
+
+INSERT INTO AREA (nro_area, nombre, cod_area, bhabilitado)
+VALUES(1, 'MESA DE ENTRADA', 'ME', 1);
+INSERT INTO AREA (nro_area, nombre, cod_area, bhabilitado)
+VALUES(2, 'ESPACIOS VERDES', 'EV', 1);
+INSERT INTO AREA (nro_area, nombre, cod_area, bhabilitado)
+VALUES(3, 'ALUMBRADO PUBLICO', 'AP', 1);
+INSERT INTO AREA (nro_area, nombre, cod_area, bhabilitado)
+VALUES(4, 'OBRAS VIALES', 'OV', 1);
+INSERT INTO AREA (nro_area, nombre, cod_area, bhabilitado)
+VALUES(5, 'RECOLECCION DE RESIDUOS', 'RS', 1);
+
+SET IDENTITY_INSERT [dbo].[AREA] OFF;
+
+
+DROP VIEW IF EXISTS vw_reclamo;
+
+
+create view dbo.vw_reclamo as SELECT        rec.Nro_Reclamo, 
+rec.Fecha,
+rec.Descripcion, 
+rec.Cod_Tipo_Reclamo,
+rec.Cod_Estado_Reclamo, 
+rec.BHabilitado,
+rec.Calle, 
+rec.Altura, 
+rec.EntreCalles, 
+rec.IdVecino, 
+rec.IdUsuario, 
+rec.NomApeVecino, 
+rec.Nro_Prioridad, 
+rec.MailVecino,
+rec.TelefonoVecino, 
+tre.Nombre AS tipo_reclamo ,
+est.Nombre AS estado_reclamo , 
+pre.Nombre_Prioridad AS prioridad_reclamo  ,
+usu.NombreUser AS usuario, 
+CASE WHEN usu.NombreUser IS NULL THEN 'Sin Asignar' ELSE concat(per.Apellido, ', ', per.Nombre) END AS empleado,
+rec.nro_area
+FROM            dbo.RECLAMO AS rec INNER JOIN
+                         dbo.TIPO_RECLAMO AS tre ON tre.Cod_Tipo_Reclamo = rec.Cod_Tipo_Reclamo INNER JOIN
+                         dbo.ESTADO_RECLAMO AS est ON est.Cod_Estado_Reclamo = rec.Cod_Estado_Reclamo INNER JOIN
+                         dbo.PRIORIDAD_RECLAMO AS pre ON pre.Nro_Prioridad = rec.Nro_Prioridad LEFT OUTER JOIN
+                         dbo.USUARIO AS usu ON usu.idUsuario = rec.IdUsuario LEFT OUTER JOIN
+                         dbo.PERSONA AS per ON per.idPersona = usu.idPersona;
+
+
+ALTER TABLE dbo.usuario 
+ADD nro_area int not null DEFAULT (1);
+
+ALTER TABLE [dbo].[RECLAMO]
+    ADD [id_sugerencia_origen] INT NULL;
+
 
 CREATE TABLE ESTADO_SUGERENCIA(
 	Cod_Estado_Sugerencia int IDENTITY(1,1) PRIMARY KEY,

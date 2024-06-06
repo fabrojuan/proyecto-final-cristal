@@ -7,14 +7,16 @@ namespace MVPSA_V2022.Modelos
 {
     public partial class M_VPSA_V3Context : DbContext
     {
-        public M_VPSA_V3Context()
-        {
-        }
 
         public M_VPSA_V3Context(DbContextOptions<M_VPSA_V3Context> options)
             : base(options)
         {
         }
+
+        public M_VPSA_V3Context()
+        {
+        }
+
         public virtual DbSet<Alicuotum> Alicuota { get; set; }
 
         public virtual DbSet<Area> Areas { get; set; }
@@ -100,7 +102,7 @@ namespace MVPSA_V2022.Modelos
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-            => optionsBuilder.UseSqlServer("Data Source=ROMANS;Initial Catalog=cristal;Integrated Security=True ;TrustServerCertificate=true");
+            => optionsBuilder.UseSqlServer("Server=localhost;Database=cristal;User Id=sa;Password=pepito1#;TrustServerCertificate=True;");
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -475,8 +477,11 @@ namespace MVPSA_V2022.Modelos
                 entity.ToTable("OBSERVACION_RECLAMO");
 
                 entity.Property(e => e.Id).HasColumnName("id");
-                entity.Property(e => e.CodEstadoReclamoDestino).HasColumnName("cod_estado_reclamo_destino");
-                entity.Property(e => e.CodEstadoReclamoOrigen).HasColumnName("cod_estado_reclamo_origen");
+                entity.Property(e => e.CodAccion)
+                    .HasMaxLength(15)
+                    .IsUnicode(false)
+                    .HasColumnName("codAccion");
+                entity.Property(e => e.CodEstadoReclamo).HasColumnName("cod_estado_reclamo");
                 entity.Property(e => e.FechaAlta)
                     .HasDefaultValueSql("(getdate())")
                     .HasColumnType("datetime")
@@ -488,13 +493,8 @@ namespace MVPSA_V2022.Modelos
                     .IsUnicode(false)
                     .HasColumnName("observacion");
 
-                entity.HasOne(d => d.CodEstadoReclamoDestinoNavigation).WithMany(p => p.ObservacionReclamoCodEstadoReclamoDestinoNavigations)
-                    .HasForeignKey(d => d.CodEstadoReclamoDestino)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_OBSERVACION_RECLAMO_ESTADO_RECLAMO_2");
-
-                entity.HasOne(d => d.CodEstadoReclamoOrigenNavigation).WithMany(p => p.ObservacionReclamoCodEstadoReclamoOrigenNavigations)
-                    .HasForeignKey(d => d.CodEstadoReclamoOrigen)
+                entity.HasOne(d => d.CodEstadoReclamoNavigation).WithMany(p => p.ObservacionReclamos)
+                    .HasForeignKey(d => d.CodEstadoReclamo)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_OBSERVACION_RECLAMO_ESTADO_RECLAMO");
 
@@ -738,6 +738,7 @@ namespace MVPSA_V2022.Modelos
                 entity.Property(e => e.Fecha)
                     .HasDefaultValueSql("(getdate())")
                     .HasColumnType("datetime");
+                entity.Property(e => e.IdSugerenciaOrigen).HasColumnName("id_sugerencia_origen");
                 entity.Property(e => e.IdUsuarioResponsable).HasColumnName("id_usuario_responsable");
                 entity.Property(e => e.MailVecino)
                     .HasMaxLength(100)
@@ -1080,6 +1081,9 @@ namespace MVPSA_V2022.Modelos
                 entity.Property(e => e.NombreUser)
                     .HasMaxLength(100)
                     .IsUnicode(false);
+                entity.Property(e => e.NroArea)
+                    .HasDefaultValueSql("((1))")
+                    .HasColumnName("nro_area");
 
                 entity.HasOne(d => d.IdPersonaNavigation).WithMany(p => p.Usuarios)
                     .HasForeignKey(d => d.IdPersona)
@@ -1141,6 +1145,7 @@ namespace MVPSA_V2022.Modelos
                 entity.Property(e => e.NomApeVecino)
                     .HasMaxLength(100)
                     .IsUnicode(false);
+                entity.Property(e => e.NroArea).HasColumnName("nro_area");
                 entity.Property(e => e.NroPrioridad).HasColumnName("Nro_Prioridad");
                 entity.Property(e => e.NroReclamo).HasColumnName("Nro_Reclamo");
                 entity.Property(e => e.PrioridadReclamo)
@@ -1164,6 +1169,5 @@ namespace MVPSA_V2022.Modelos
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
-       
     }
 }

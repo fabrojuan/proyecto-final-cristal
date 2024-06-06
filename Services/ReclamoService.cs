@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using MVPSA_V2022.clases;
+using MVPSA_V2022.clases.Mobbex;
 using MVPSA_V2022.Enums;
 using MVPSA_V2022.Exceptions;
 using MVPSA_V2022.Modelos;
-using System.Linq;
+using MVPSA_V2022.Utils;
 
 namespace MVPSA_V2022.Services
 {
@@ -26,53 +29,60 @@ namespace MVPSA_V2022.Services
 
         public ReclamoDto guardarReclamo(CrearReclamoRequestDto reclamoCLS, int idUsuarioAlta)
         {
-            ReclamoDto respuesta = new ReclamoDto();
             Reclamo reclamo = new Reclamo();
 
             try
             {
-                reclamo = mapper.Map<Reclamo>(reclamoCLS);
+                reclamo = Conversor.convertToReclamo(reclamoCLS);
                 reclamo.CodEstadoReclamo = (int?) EstadoReclamoEnum.NUEVO;
                 reclamo.Bhabilitado = 1;
                 reclamo.IdUsuario = idUsuarioAlta;
                 reclamo.NroPrioridad = getPrioridadReclamoSegunTipoReclamo(reclamoCLS.codTipoReclamo);
                 reclamo.Fecha = DateTime.Now;
 
+                if (reclamo.NroArea == null || reclamo.NroArea == 0) {
+                    var areaMesaDeEntrada = dbContext.Areas.Where(area => area.CodArea == "ME").Single();
+                    reclamo.NroArea = areaMesaDeEntrada.NroArea;
+                }
+
+                if (reclamoCLS.idSugerenciaOrigen != null && reclamoCLS.idSugerenciaOrigen != 0) {
+                    reclamo.IdSugerenciaOrigen = reclamoCLS.idSugerenciaOrigen;
+                }
+                
                 Usuario usuarioAlta = dbContext.Usuarios
                     .Where(usr => usr.IdUsuario == idUsuarioAlta).FirstOrDefault();
 
-                if ("VEC".Equals(usuarioAlta.IdTipoUsuarioNavigation.CodRol)) {
+                if ("VEC".Equals(usuarioAlta.IdTipoUsuarioNavigation.CodRol))
+                {
                     reclamo.IdVecino = idUsuarioAlta;
                     Persona personaVecino = usuarioAlta.IdPersonaNavigation;
-                    reclamo.NomApeVecino = personaVecino.Nombre + ", " + personaVecino.Apellido;
+                    reclamo.NomApeVecino = personaVecino.Nombre + " " + personaVecino.Apellido;
                     reclamo.MailVecino = personaVecino.Mail;
                     reclamo.TelefonoVecino = personaVecino.Telefono;
                 }
 
-                using (M_VPSA_V3Context bd = new M_VPSA_V3Context()) {
                     
-                    // Guarda la foto 1 si el vecino la cargo
-                    if (reclamoCLS.foto1 != null && reclamoCLS.foto1.Length > 0) {
-                        PruebaGraficaReclamo pruebaGraficaReclamo1 = new PruebaGraficaReclamo();
-                        pruebaGraficaReclamo1.IdUsuario = idUsuarioAlta;
-                        pruebaGraficaReclamo1.Bhabilitado = 1;
-                        reclamo.PruebaGraficaReclamos.Add(pruebaGraficaReclamo1);
-                    }
-
-                    // Guarda la foto 2 si el vecino la cargo
-                    if (reclamoCLS.foto2 != null && reclamoCLS.foto2.Length > 0)
-                    {
-                        PruebaGraficaReclamo pruebaGraficaReclamo2 = new PruebaGraficaReclamo();
-                        pruebaGraficaReclamo2.IdUsuario = idUsuarioAlta;
-                        pruebaGraficaReclamo2.Bhabilitado = 1;
-                        reclamo.PruebaGraficaReclamos.Add(pruebaGraficaReclamo2);
-                    }
-
-                    // Guarda el reclamo con las imagenes
-                    bd.Reclamos.Add(reclamo);
-                    bd.SaveChanges();
-
+                // Guarda la foto 1 si el vecino la cargo
+                if (reclamoCLS.foto1 != null && reclamoCLS.foto1.Length > 0) {
+                    PruebaGraficaReclamo pruebaGraficaReclamo1 = new PruebaGraficaReclamo();
+                    pruebaGraficaReclamo1.IdUsuario = idUsuarioAlta;
+                    pruebaGraficaReclamo1.Bhabilitado = 1;
+                    reclamo.PruebaGraficaReclamos.Add(pruebaGraficaReclamo1);
                 }
+
+                // Guarda la foto 2 si el vecino la cargo
+                if (reclamoCLS.foto2 != null && reclamoCLS.foto2.Length > 0)
+                {
+                    PruebaGraficaReclamo pruebaGraficaReclamo2 = new PruebaGraficaReclamo();
+                    pruebaGraficaReclamo2.IdUsuario = idUsuarioAlta;
+                    pruebaGraficaReclamo2.Bhabilitado = 1;
+                    reclamo.PruebaGraficaReclamos.Add(pruebaGraficaReclamo2);
+                }
+
+                // Guarda el reclamo con las imagenes
+                dbContext.Reclamos.Add(reclamo);
+                dbContext.SaveChanges();
+                
             }
             catch (Exception ex)
             {
@@ -80,43 +90,56 @@ namespace MVPSA_V2022.Services
                 throw new Exception("Se produjo un error y no se pudo guardar el Reclamo");
             }
 
-            return mapper.Map<ReclamoDto>(reclamo);
+            return  Conversor.convertToReclamoDto(reclamo);
         }
 
-        public IEnumerable<ReclamoDto> listarReclamos()
-        {
-            using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
-            {
-                List<ReclamoDto> listaReclamo = (from reclamo in bd.VwReclamos
-                                                 where reclamo.Bhabilitado == 1
-                                                 select new ReclamoDto
-                                                 {
-                                                     nroReclamo = reclamo.NroReclamo,
-                                                     descripcion = reclamo.Descripcion,
-                                                     codTipoReclamo = (int)reclamo.CodTipoReclamo,
-                                                     codEstadoReclamo = (int)reclamo.CodEstadoReclamo,
-                                                     Bhabilitado = reclamo.Bhabilitado,
-                                                     calle = reclamo.Calle,
-                                                     altura = reclamo.Altura,
-                                                     entreCalles = reclamo.EntreCalles,
-                                                     idVecino = reclamo.IdVecino,
-                                                     idUsuario = reclamo.IdUsuario,
-                                                     Fecha = (DateTime)reclamo.Fecha,
-                                                     estadoReclamo = reclamo.EstadoReclamo,
-                                                     tipoReclamo = reclamo.TipoReclamo,
-                                                     nombreYapellido = reclamo.NomApeVecino,
-                                                     nroPrioridad = (int)reclamo.NroPrioridad,
-                                                     usuarioAsignado = reclamo.Usuario,
-                                                     empleadoAsignado = reclamo.Empleado,
-                                                     prioridad = reclamo.PrioridadReclamo
-                                                 }).ToList();
+        public IEnumerable<ReclamoDto> listarReclamos(int idUsuarioConectado)
+        {           
 
-                return listaReclamo;
+            var usuarioConectado = dbContext.Usuarios.Where(usu => usu.IdUsuario == idUsuarioConectado).FirstOrDefault();
+            String codRolUsuarioConectado = usuarioConectado.IdTipoUsuarioNavigation.CodRol;
+
+            var query = dbContext.VwReclamos.Where(rec => rec.Bhabilitado == 1);
+            if (codRolUsuarioConectado != "MDE" && codRolUsuarioConectado != "INT"
+                && codRolUsuarioConectado != "ADS") {
+                query = query.Where(rec => rec.NroArea == usuarioConectado.NroArea);
             }
+
+            List<ReclamoDto> listaReclamo = new List<ReclamoDto>();
+            query.ToList().ForEach(reclamo => {
+                ReclamoDto reclamoDto = new ReclamoDto
+                {
+                    nroReclamo = reclamo.NroReclamo,
+                    descripcion = reclamo.Descripcion,
+                    codTipoReclamo = (int)reclamo.CodTipoReclamo,
+                    codEstadoReclamo = (int)reclamo.CodEstadoReclamo,
+                    Bhabilitado = reclamo.Bhabilitado,
+                    calle = reclamo.Calle,
+                    altura = reclamo.Altura,
+                    entreCalles = reclamo.EntreCalles,
+                    idVecino = reclamo.IdVecino,
+                    idUsuario = reclamo.IdUsuario,
+                    Fecha = (DateTime)reclamo.Fecha,
+                    estadoReclamo = reclamo.EstadoReclamo,
+                    tipoReclamo = reclamo.TipoReclamo,
+                    nombreYapellido = reclamo.NomApeVecino,
+                    nroPrioridad = (int)reclamo.NroPrioridad,
+                    usuarioAsignado = reclamo.Usuario,
+                    empleadoAsignado = reclamo.Empleado,
+                    prioridad = reclamo.PrioridadReclamo
+                };
+                listaReclamo.Add(reclamoDto);
+            });
+
+            return listaReclamo;
+                        
         }
 
         public ReclamoDto getReclamo(int nroReclamo)
         {
+
+     
+
             using (M_VPSA_V3Context bd = new M_VPSA_V3Context())            {
 
                 ReclamoDto reclamoResponse = (from reclamo in bd.VwReclamos
@@ -141,7 +164,8 @@ namespace MVPSA_V2022.Services
                                                   nroPrioridad = (int)reclamo.NroPrioridad,
                                                   usuarioAsignado = reclamo.Usuario,
                                                   empleadoAsignado = reclamo.Empleado,
-                                                  prioridad = reclamo.PrioridadReclamo
+                                                  prioridad = reclamo.PrioridadReclamo,
+                                                  nroArea = reclamo.NroArea
                                               }).Single();
 
 
@@ -259,7 +283,7 @@ namespace MVPSA_V2022.Services
                                       cod_Tipo_Reclamo = tipoReclamoQuery.CodTipoReclamo,
                                       nombre = tipoReclamoQuery.Nombre,
                                       descripcion = tipoReclamoQuery.Descripcion,
-                                      tiempo_Max_Tratamiento = tipoReclamoQuery.TiempoMaxTratamiento ?? 0,
+                                      tiempo_Max_Tratamiento = (int)tipoReclamoQuery.TiempoMaxTratamiento,
                                       fechaAlta = (DateTime)tipoReclamoQuery.FechaAlta,
                                       fechaModificacion = (DateTime)tipoReclamoQuery.FechaModificacion,
                                       usuarioAlta = usuarioAlta.NombreUser,
@@ -406,5 +430,73 @@ namespace MVPSA_V2022.Services
             return new ReclamoDto();
 
         }
+
+        public void aplicarAccion(AplicarAccionDto aplicarAccionDto)
+        {
+            if (aplicarAccionDto.codAccion.Equals("RECHAZAR")) {
+                var reclamo = dbContext.Reclamos.Find(aplicarAccionDto.nroReclamo);
+                reclamo.CodEstadoReclamo = (int)EstadoReclamoEnum.RECHAZADO;
+                dbContext.Reclamos.Update(reclamo);
+
+                ObservacionReclamo observacionReclamo = new ObservacionReclamo();
+                observacionReclamo.CodAccion = aplicarAccionDto.codAccion;
+                observacionReclamo.CodEstadoReclamo = (int)EstadoReclamoEnum.RECHAZADO;
+                observacionReclamo.IdUsuarioAlta = int.Parse(aplicarAccionDto.idUsuario);
+                observacionReclamo.NroReclamo = aplicarAccionDto.nroReclamo;
+                observacionReclamo.Observacion = aplicarAccionDto.observacion;
+                dbContext.ObservacionReclamos.Add(observacionReclamo);
+
+                dbContext.SaveChanges();
+            }
+
+            if (aplicarAccionDto.codAccion.Equals("ASIGNAR")) {
+                var reclamo = dbContext.Reclamos.Find(aplicarAccionDto.nroReclamo);
+                reclamo.NroArea = aplicarAccionDto.codArea;
+                dbContext.Reclamos.Update(reclamo);
+
+                var area = dbContext.Areas.Find(aplicarAccionDto.codArea);
+
+                ObservacionReclamo observacionReclamo = new ObservacionReclamo();
+                observacionReclamo.CodAccion = aplicarAccionDto.codAccion;
+                observacionReclamo.CodEstadoReclamo = (int)reclamo.CodEstadoReclamo;
+                observacionReclamo.IdUsuarioAlta = int.Parse(aplicarAccionDto.idUsuario);
+                observacionReclamo.NroReclamo = aplicarAccionDto.nroReclamo;
+                observacionReclamo.Observacion = "Se asigna requerimiento al área: " +
+                    area.Nombre + " por el motivo: " + aplicarAccionDto.observacion;
+                dbContext.ObservacionReclamos.Add(observacionReclamo);
+
+                dbContext.SaveChanges();
+            }
+            
+        }
+
+        public List<ObservacionReclamoDto> obtenerObservacionesDeReclamo(int nroReclamo) {
+
+            List<ObservacionReclamoDto> result = new List<ObservacionReclamoDto>();
+            var observaciones = dbContext.ObservacionReclamos.Where(obs => obs.NroReclamo == nroReclamo)
+                .OrderBy(obs => obs.FechaAlta)
+                .ToList();
+            observaciones.ForEach(obs => {
+                ObservacionReclamoDto observacion = new ObservacionReclamoDto
+                {
+                    id = obs.Id,
+                    nroReclamo = obs.NroReclamo,
+                    observacion = obs.Observacion,
+                    codEstadoReclamo = obs.CodEstadoReclamo,
+                    estadoReclamo = obs.CodEstadoReclamoNavigation.Nombre,
+                    idUsuarioAlta = obs.IdUsuarioAlta,
+                    usuarioAlta = obs.IdUsuarioAltaNavigation.NombreUser,
+                    fechaAlta = obs.FechaAlta,
+                    codAccion = obs.CodAccion
+                };
+
+                result.Add(observacion);
+
+            });
+
+            return result;
+
+        }
+
     }
 }

@@ -2,13 +2,11 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using MVPSA_V2022.Configurations;
 using MVPSA_V2022.Interceptors;
 using MVPSA_V2022.Mappers;
 using MVPSA_V2022.Modelos;
 using MVPSA_V2022.Services;
-using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 string cors = "ConfigurarCors";
@@ -39,8 +37,8 @@ Console.WriteLine(builder.Configuration.GetConnectionString("VPSAConnectionStrin
 //        => options.UseSqlServer(builder.Configuration.GetConnectionString("VPSAConnectionString")));
 
 builder.Services.AddDbContext<M_VPSA_V3Context>(options
-      => options.UseSqlServer("Data Source=RomanS;Initial Catalog=cristal;Encrypt=False;Integrated Security=True"));
-//  => options.UseSqlServer("Server=tcp:cristal-sql.database.windows.net,1433;Initial Catalog=M_VPSA_V3;Persist Security Info=False;User ID=cristal;Password=pepito1#;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"));
+        //=> options.UseLazyLoadingProxies().UseSqlServer("Server=tcp:cristal-sql.database.windows.net,1433;Initial Catalog=M_VPSA_V3;Persist Security Info=False;User ID=cristal;Password=pepito1#;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"));
+        => options.UseLazyLoadingProxies().UseSqlServer("Server=localhost;Database=cristal;User Id=sa;Password=pepito1#;TrustServerCertificate=True;"));
 
 builder.Services.AddScoped<IReclamoService, ReclamoService>();
 builder.Services.AddSingleton<IDenunciaService, DenunciaService>();
