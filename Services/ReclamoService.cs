@@ -33,6 +33,20 @@ namespace MVPSA_V2022.Services
 
             try
             {
+                if (reclamoCLS.idSugerenciaOrigen != 0) {
+                    var rec = this.dbContext.Sugerencia.Where(s => s.IdSugerencia == reclamoCLS.idSugerenciaOrigen)
+                    .FirstOrDefault();
+
+                    if (rec == null) {
+                        throw new BusinessException("La sugerencia ingresada no existe");
+                    }
+
+                    if (rec.EstadoNavigation.CodEstadoSugerencia != (int)EstadoSugerenciaEnum.CONSIDERADA) {
+                        throw new BusinessException("Para poder crear un requerimiento a partir de una sugerencia esta debe estar en estado Considerada");
+                    }
+                }
+
+
                 reclamo = Conversor.convertToReclamo(reclamoCLS);
                 reclamo.CodEstadoReclamo = (int?) EstadoReclamoEnum.NUEVO;
                 reclamo.Bhabilitado = 1;
@@ -45,7 +59,7 @@ namespace MVPSA_V2022.Services
                     reclamo.NroArea = areaMesaDeEntrada.NroArea;
                 }
 
-                if (reclamoCLS.idSugerenciaOrigen != null && reclamoCLS.idSugerenciaOrigen != 0) {
+                if (reclamoCLS.idSugerenciaOrigen != 0) {
                     reclamo.IdSugerenciaOrigen = reclamoCLS.idSugerenciaOrigen;
                 }
                 
@@ -81,8 +95,19 @@ namespace MVPSA_V2022.Services
 
                 // Guarda el reclamo con las imagenes
                 dbContext.Reclamos.Add(reclamo);
+
+                if (reclamoCLS.idSugerenciaOrigen != 0) {
+                    var sugerencia = this.dbContext.Sugerencia
+                        .Where(s => s.IdSugerencia == reclamoCLS.idSugerenciaOrigen)
+                        .FirstOrDefault();
+                    sugerencia.Estado = (int) EstadoSugerenciaEnum.GESTIONADA;
+                }
+
                 dbContext.SaveChanges();
                 
+            }
+            catch(BusinessException be) {
+                throw be;
             }
             catch (Exception ex)
             {
@@ -126,7 +151,8 @@ namespace MVPSA_V2022.Services
                     nroPrioridad = (int)reclamo.NroPrioridad,
                     usuarioAsignado = reclamo.Usuario,
                     empleadoAsignado = reclamo.Empleado,
-                    prioridad = reclamo.PrioridadReclamo
+                    prioridad = reclamo.PrioridadReclamo,
+                    interno = "N"
                 };
                 listaReclamo.Add(reclamoDto);
             });

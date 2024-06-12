@@ -21,6 +21,7 @@ namespace MVPSA_V2022.Utils
 			destino.MailVecino = origen.MailVecino;
 			destino.TelefonoVecino = origen.TelefonoVecino;
 			destino.NroArea = origen.nroArea;
+			destino.Interno = origen.interno;
 			return destino;
         }
 
@@ -45,6 +46,16 @@ namespace MVPSA_V2022.Utils
 			return destino;
 
 		}
+
+        public static SugerenciaCLS convertToSugerenciaCLS(Sugerencium origen)	{
+			SugerenciaCLS destino = new SugerenciaCLS();
+			destino.idSugerencia = origen.IdSugerencia;
+			destino.fechaGenerada = (DateTime)origen.FechaGenerada;
+			destino.descripcion = !String.IsNullOrEmpty(origen.Descripcion) ? origen.Descripcion : "No Posee";
+			destino.estado = origen.EstadoNavigation.Nombre;
+			return destino;
+		}
+
     }
 }
 

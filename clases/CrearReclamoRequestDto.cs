@@ -14,5 +14,6 @@
         public string foto2 { get; set; }
         public int nroArea { get; set; }
         public int idSugerenciaOrigen { get; set; }
+        public string interno { get; set; }
     }
 }

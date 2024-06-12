@@ -30,6 +30,7 @@ namespace MVPSA_V2022.clases
         public string prioridad { get; set; }
 
         public int? nroArea { get; set; }
+        public string interno { get; set; }
 
 
     }

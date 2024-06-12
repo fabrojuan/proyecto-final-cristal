@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ReclamoService } from '../../services/reclamo.service';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators, FormControl, FormGroup } from '@angular/forms';
 import { VecinoService } from '../../services/vecino.service';
 import { Area } from 'src/app/modelos_Interfaces/Area';
 import { AreasService } from 'src/app/services/areas.service';
+import { ClaveValor } from 'src/app/modelos_Interfaces/ClaveValor';
 
 @Component({
   selector: 'app-reclamo-form-generar-empleado',
@@ -23,26 +24,13 @@ export class ReclamoFormGenerarEmpleadoComponent implements OnInit {
   mostrarMensajeUsuario:boolean = false;
   esMensajeOk:boolean = true;
   areas: Area[] = []; 
+  opcionesReclamoInterno: ClaveValor[] = [{clave : "N", valor : "No"}, {clave : "S", valor : "Si"}];
 
   constructor(private reclamoservice: ReclamoService, private vecinoService: VecinoService,
               private _areasService: AreasService
   ) {
-    this.Reclamo = new FormGroup(
-      {
-        "codTipoReclamo": new FormControl("", [Validators.required]),
-        "descripcion": new FormControl("", [Validators.required, Validators.maxLength(200)]),
-        "calle": new FormControl("", [Validators.required, Validators.maxLength(50)]),
-        "entreCalles": new FormControl("", [Validators.required, Validators.maxLength(50)]),
-        "altura": new FormControl("", [Validators.required, Validators.maxLength(6)]),
-        "foto1": new FormControl(""),
-        "foto2": new FormControl(""),
-        "nomApeVecino": new FormControl("", [Validators.required, Validators.maxLength(100)]),
-        "mailVecino": new FormControl("", [Validators.required, Validators.maxLength(100), Validators.pattern("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")]),
-        "telefonoVecino": new FormControl("", [Validators.required, Validators.maxLength(50)]),
-        "nroArea": new FormControl(1)
-      }
-    );
-
+    this.Reclamo = new FormGroup({});
+    this.crearFormularioRequerimientoExterno();
   }
 
   ngOnInit() {
@@ -91,6 +79,7 @@ export class ReclamoFormGenerarEmpleadoComponent implements OnInit {
         this.limpiarFormulario();
         this.isFormSubmitted = false;
         this.mostrarMensajeOk(`Se registró con éxito el requerimiento nro: ${nroReclamoGenerado}`);
+        this.crearFormularioRequerimientoExterno();
       }
     );
   }
@@ -138,6 +127,7 @@ export class ReclamoFormGenerarEmpleadoComponent implements OnInit {
   cancelar() {
     this.isFormSubmitted = false;
     this.limpiarFormulario();
+    this.crearFormularioRequerimientoExterno();
   }
 
   private limpiarFormulario() {
@@ -153,6 +143,44 @@ export class ReclamoFormGenerarEmpleadoComponent implements OnInit {
     if (this.fileUploader2) {
       this.fileUploader2.nativeElement.value = null;
     }
+  }
+
+  crearFormularioRequerimientoExterno() {
+    this.Reclamo = new FormGroup(
+      {
+        "codTipoReclamo": new FormControl("", [Validators.required]),
+        "descripcion": new FormControl("", [Validators.required, Validators.maxLength(200)]),
+        "calle": new FormControl("", [Validators.required, Validators.maxLength(50)]),
+        "entreCalles": new FormControl("", [Validators.required, Validators.maxLength(50)]),
+        "altura": new FormControl("", [Validators.required, Validators.maxLength(6)]),
+        "foto1": new FormControl(""),
+        "foto2": new FormControl(""),
+        "nomApeVecino": new FormControl("", [Validators.required, Validators.maxLength(100)]),
+        "mailVecino": new FormControl("", [Validators.required, Validators.maxLength(100), Validators.pattern("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")]),
+        "telefonoVecino": new FormControl("", [Validators.required, Validators.maxLength(50)]),
+        "nroArea": new FormControl(1),
+        "interno": new FormControl("N")
+      }
+    );
+  }
+
+  crearFormularioRequerimientoInterno() {
+    this.Reclamo = new FormGroup(
+      {
+        "codTipoReclamo": new FormControl("", [Validators.required]),
+        "descripcion": new FormControl("", [Validators.required, Validators.maxLength(200)]),
+        "calle": new FormControl("", [Validators.maxLength(50)]),
+        "entreCalles": new FormControl("", [Validators.maxLength(50)]),
+        "altura": new FormControl("", [Validators.maxLength(6)]),
+        "foto1": new FormControl(""),
+        "foto2": new FormControl(""),
+        "nomApeVecino": new FormControl("", [Validators.maxLength(100)]),
+        "mailVecino": new FormControl("", [Validators.maxLength(100), Validators.pattern("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")]),
+        "telefonoVecino": new FormControl("", [Validators.maxLength(50)]),
+        "nroArea": new FormControl(1),
+        "interno": new FormControl("S")
+      }
+    );
   }
 
   get codTipoReclamoNoValido() {
@@ -185,6 +213,18 @@ export class ReclamoFormGenerarEmpleadoComponent implements OnInit {
 
   get telefonoVecinoNoValido() {
     return this.isFormSubmitted && this.Reclamo.controls.telefonoVecino.errors;
+  }
+
+  get esRequerimientoInterno() {
+    return this.Reclamo.controls["interno"].value == 'S';
+  }
+
+  checkInternoChanged() {
+    if (this.Reclamo.controls["interno"].value == "S") {
+      this.crearFormularioRequerimientoInterno();
+    } else {
+      this.crearFormularioRequerimientoExterno();
+    }
   }
 
 }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MVPSA_V2022.clases;
 using MVPSA_V2022.Modelos;
+using MVPSA_V2022.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,13 @@ namespace MVPSA_V2022.Controllers
     [Authorize]
     public class SugerenciaController : Controller
     {
+
+        private readonly M_VPSA_V3Context dbContext;
+
+        public SugerenciaController(M_VPSA_V3Context dbContext) {
+            this.dbContext = dbContext;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -73,7 +81,7 @@ namespace MVPSA_V2022.Controllers
             using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
             {
 
-                List<SugerenciaCLS> listaSugerencia = (from sugerencia in bd.Sugerencia join esugere in bd.EstadoSugerencias
+                List<SugerenciaCLS> listaSugerencia = (from sugerencia in bd.Sugerencia join esugere in bd.EstadoSugerencia
                                                              on sugerencia.Estado equals esugere.CodEstadoSugerencia
                                                        where sugerencia.Bhabilitado == 1 && sugerencia.Estado == esugere.CodEstadoSugerencia
                                                        select new SugerenciaCLS
@@ -87,5 +95,21 @@ namespace MVPSA_V2022.Controllers
             }
 
         }
+
+        [HttpGet]
+        [Route("{idSugerencia}")]
+        public SugerenciaCLS getSugerencia(int idSugerencia)
+        {
+
+            var sugerencia = this.dbContext.Sugerencia.Where(sug => sug.IdSugerencia == idSugerencia).FirstOrDefault();
+
+            if (sugerencia == null) {
+                return null;
+            }
+            
+            return Conversor.convertToSugerenciaCLS(sugerencia);
+
+        }
+
     }
 }

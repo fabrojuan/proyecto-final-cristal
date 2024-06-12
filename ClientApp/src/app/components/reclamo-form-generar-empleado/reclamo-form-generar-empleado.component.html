@@ -17,7 +17,15 @@
 
             <form [formGroup]="Reclamo" (ngSubmit)="guardarDatos()" class="row g-3">
 
-                <div class="col-md-6">
+                <div class="col-md-2">
+                    <label for="exampleInputEmail1" class="form-label">Interno?</label>
+                    <select id="Tipo_Reclamo" formControlName="interno" class="form-select" 
+                        (change)="checkInternoChanged()">
+                        <option [ngValue]="opcion.clave" *ngFor="let opcion of opcionesReclamoInterno">{{opcion.valor}}</option>
+                    </select>
+                </div>
+
+                <div class="col-md-5">
                     <label for="exampleInputEmail1" class="form-label">(*) Tipo de Requerimiento</label>
                     <select id="Tipo_Reclamo" formControlName="codTipoReclamo" class="form-select" [ngClass]="{'is-invalid' : codTipoReclamoNoValido}">
                         <option value="">--Seleccione Opción--</option>
@@ -26,9 +34,9 @@
                     <div class="invalid-feedback" *ngIf="codTipoReclamoNoValido">
                         El tipo de requerimiento es requerido.
                     </div>
-                </div>
+                </div>                
 
-                <div class="col-md-6">
+                <div class="col-md-5" *ngIf="!esRequerimientoInterno">
                     <label for="formGroupExampleInput" class="form-label">(*) Nombre calle</label>
                     <input type="text" class="form-control" [ngClass]="{'is-invalid' : calleNoValido}" id="calle" formControlName="calle" value="">
                     <div class="invalid-feedback" *ngIf="calleNoValido">
@@ -36,7 +44,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-6" *ngIf="!esRequerimientoInterno">
                     <label for="formGroupExampleInput" class="form-label">(*) Altura aproximada</label>
                     <input type="text" class="form-control" [ngClass]="{'is-invalid' : alturaNoValido}" id="calle" formControlName="altura" value="">
                     <div class="invalid-feedback" *ngIf="alturaNoValido">
@@ -44,7 +52,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-6" *ngIf="!esRequerimientoInterno">
                     <label for="formGroupExampleInput" class="form-label">(*) Entre calles</label>
                     <input type="text" class="form-control" [ngClass]="{'is-invalid' : entreCallesNoValido}" id="formGroupExampleInput" formControlName="entreCalles" value="">
                     <div class="invalid-feedback" *ngIf="entreCallesNoValido">
@@ -52,7 +60,7 @@
                     </div>
                 </div>
 
-                <div class="row mt-3">
+                <div class="row mt-3" *ngIf="!esRequerimientoInterno">
                     <div class="col-md-4">
                         <label for="nomApeVecino" class="form-label">(*) Nombre y Apellido vecino</label>
                         <input type="text" class="form-control" [ngClass]="{'is-invalid' : nomApeVecinoNoValido}" id="nomApeVecino" formControlName="nomApeVecino" value="">

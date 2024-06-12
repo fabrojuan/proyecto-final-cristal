@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Area } from 'src/app/modelos_Interfaces/Area';
 import { AreasService } from 'src/app/services/areas.service';
 import { ReclamoService } from 'src/app/services/reclamo.service';
@@ -25,13 +25,14 @@ export class ReclamoFormGenerarSugerenciaComponent implements OnInit {
   mostrarMensajeUsuario:boolean = false;
   esMensajeOk:boolean = true;
   areas: Area[] = []; 
-  idSugerenciaOrigen?:number;
+  idSugerenciaOrigen:number = 0;
 
   constructor(private reclamoservice: ReclamoService, 
               private vecinoService: VecinoService,
               private _areasService: AreasService,
               private _activatedRouter: ActivatedRoute,
-              private sugerenciaService: SugerenciaService
+              private sugerenciaService: SugerenciaService,
+              private router: Router
   ) {
     this.Reclamo = new FormGroup(
       {
@@ -40,18 +41,17 @@ export class ReclamoFormGenerarSugerenciaComponent implements OnInit {
         "foto1": new FormControl(""),
         "foto2": new FormControl(""),
         "nroArea": new FormControl(1),
-        "idSugerenciaOrigen": new FormControl()
+        "idSugerenciaOrigen": new FormControl(),
+        "interno": new FormControl("S")
       }
     );
 
     this._activatedRouter.params.subscribe(params => {
       this.idSugerenciaOrigen = params['id_sugerencia'];
 
-      //this.nroReclamo = params['id_sugerencia'];
-      //this.reclamoService.getReclamo(this.nroReclamo).subscribe(datosReclamo => {
-      //  console.log(datosReclamo);
-      //  this.reclamo = datosReclamo;
-      //});
+      this.sugerenciaService.getSugerenciaById(this.idSugerenciaOrigen).subscribe(datosSugerencia => {
+        this.Reclamo.controls["descripcion"].setValue(datosSugerencia.descripcion);
+      });
     });
 
   }
@@ -89,7 +89,7 @@ export class ReclamoFormGenerarSugerenciaComponent implements OnInit {
     this.Reclamo.controls["foto1"].setValue(this.foto1); 
     this.Reclamo.controls["foto2"].setValue(this.foto2);
 
-    if (this.idSugerenciaOrigen) {
+    if (this.idSugerenciaOrigen && this.idSugerenciaOrigen > 0) {
       this.Reclamo.controls["idSugerenciaOrigen"].setValue(this.idSugerenciaOrigen);
     }
     
@@ -153,6 +153,7 @@ export class ReclamoFormGenerarSugerenciaComponent implements OnInit {
   cancelar() {
     this.isFormSubmitted = false;
     this.limpiarFormulario();
+    this.router.navigate(["/sugerencia-tabla"]);
   }
 
   private limpiarFormulario() {

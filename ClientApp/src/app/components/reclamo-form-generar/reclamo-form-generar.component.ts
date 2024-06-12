@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ReclamoService } from '../../services/reclamo.service';
 import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { VecinoService } from '../../services/vecino.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'reclamo-form-generar',
@@ -16,6 +17,9 @@ export class ReclamoFormGenerarComponent implements OnInit {
   Reclamo: UntypedFormGroup;
   @ViewChild('fileUploader1') fileUploader1: ElementRef | undefined;
   @ViewChild('fileUploader2') fileUploader2: ElementRef | undefined;
+  mensajeUsuario: string | undefined;
+  mostrarMensajeUsuario: boolean | undefined;
+  esMensajeOk: boolean | undefined;
 
   constructor(private reclamoservice: ReclamoService, private vecinoService: VecinoService,
               public _toastService: ToastService  ) {
@@ -28,7 +32,8 @@ export class ReclamoFormGenerarComponent implements OnInit {
         "entreCalles": new UntypedFormControl("", [Validators.required, Validators.maxLength(50)]),
         "Altura": new UntypedFormControl("", [Validators.required, Validators.maxLength(6)]),
         "foto1": new UntypedFormControl(""),
-        "foto2": new UntypedFormControl("")
+        "foto2": new UntypedFormControl(""),
+        "interno": new UntypedFormControl("N")
       }
     );
   }
