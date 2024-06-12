@@ -21,6 +21,8 @@ public partial class Usuario
 
     public DateTime? FechaBaja { get; set; }
 
+    public int NroArea { get; set; }
+
     public virtual ICollection<Denuncium> Denuncia { get; set; } = new List<Denuncium>();
 
     public virtual Persona? IdPersonaNavigation { get; set; }

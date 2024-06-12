@@ -25,7 +25,7 @@ public partial class VwReclamo
 
     public int? IdVecino { get; set; }
 
-    public int? IdUsuario { get; set; }
+    public int IdUsuario { get; set; }
 
     public string? NomApeVecino { get; set; }
 
@@ -44,4 +44,6 @@ public partial class VwReclamo
     public string? Usuario { get; set; }
 
     public string Empleado { get; set; } = null!;
+
+    public int? NroArea { get; set; }
 }

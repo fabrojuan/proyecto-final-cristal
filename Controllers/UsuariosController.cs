@@ -166,7 +166,7 @@ namespace MVPSA_V2022.Controllers
         [Route("api/usuarios/paginas")]
         public List<PaginaCLS> ListarPaginas([FromHeader(Name = "id_usuario")] int idUsuario)
         {
-            List<PaginaCLS> listaPagina = new List<PaginaCLS>();
+            List<PaginaCLS> listaPagina = new List<PaginaCLS>();    
             using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
             {
                 listaPagina = (from paginaRol in bd.Paginaxrols

@@ -62,6 +62,51 @@
         <pagination-controls previousLabel="Anteriores" nextLabel="Siguientes" (pageChange)="p = $event"></pagination-controls>
       </form>
 
+<div class="container">
+  <div class="card">
+    <div class="card-body">
+
+
+      <div class="d-flex align-items-center p-3 my-3 bg-purple bg-light shadow p-2 mb-5 rounded shadow-sm container">
+        <i class="bi bi-shield-lock text-dark" style="font-size: 2.5em;" title="Listado de Denuncias Activas."></i>
+        <div class="card-title text-center form-group col-md-8 offset-md-1">
+          <p>Tablero de Gestión de Denuncias</p>
+        </div>
+      </div>
+      <form [formGroup]="form">
+        
+        <br /><br />
+        <table datatable class="row-border hover table table-hover" style="padding-bottom: 2.5em">
+          <thead class="thead-dark tituloTabla">
+
+
+            <tr>
+              <th class="text-center" *ngFor="let cabecera of cabeceras ">{{cabecera}} </th>
+              <th class="text-center" *ngIf="isMantenimiento==true">Operaciones ver/editar</th>
+            </tr>
+          </thead>
+
+          <tbody class="textoTabla">
+            <tr *ngFor="let Denuncia of Denuncias | paginate: { itemsPerPage: 10, currentPage: p }">
+              <td class="text-center">{{Denuncia.nro_Denuncia}}</td>
+              <td class="text-center">{{Denuncia.fecha| date: 'dd/MM/yyyy HH:MM'}}</td>
+              <td class="text-center">{{Denuncia.tipo_Denuncia}}</td>
+              <td class="text-center">{{Denuncia.estado_Denuncia}}</td>
+              <td class="text-center">{{Denuncia.prioridad}}</td>
+              <td class="text-center">{{Denuncia.nombreUser}} </td>
+              <td class="text-center" *ngIf="isMantenimiento==true">
+                <button type="button" class="btn btn-light" [routerLink]="['/trabajo-tabla',Denuncia.nro_Denuncia]"><img src="../../../assets/IconsGoogle/eyeglasses.svg" alt="" width="20" height="20" title="Visualizacion de Trabajos registrados"></button>
+                <button type="button" class="btn btn-outline-primary" [routerLink]="['/trabajo-form-generar',Denuncia.nro_Denuncia]">
+                  <img src="../../../assets/IconsGoogle/gear.svg" alt="" width="20" height="20" title="Registrar Trabajo">
+                </button>
+                <button type="button" class="btn btn-light" [routerLink]="['/denuncia-detalle',Denuncia.nro_Denuncia]"><img src="../../../assets/IconsGoogle/Mas_info.svg" alt="" width="20" height="20" title="Derivacion y/o Visualizacion denuncia"></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <pagination-controls previousLabel="Anteriores" nextLabel="Siguientes" (pageChange)="p = $event"></pagination-controls>
+      </form>
+
     </div>
   </div>
   <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

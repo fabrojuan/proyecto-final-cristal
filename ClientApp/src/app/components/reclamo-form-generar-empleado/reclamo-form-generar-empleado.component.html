@@ -1,51 +1,71 @@
 <div class="container">
+
+    <div class="alert border-0 alert-dismissible fade show" 
+         [class.alert-success]="esMensajeOk"
+         [class.bg-success]="esMensajeOk"
+         [class.text-light]="esMensajeOk"
+         [class.alert-warning]="!esMensajeOk"
+         [class.bg-warning]="!esMensajeOk"
+        role="alert" *ngIf="mostrarMensajeUsuario">
+        <i class="bi bi-check-circle me-1"></i> {{ mensajeUsuario }}
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">Formulario de Reclamo</h5>
+            <h5 class="card-title">Formulario de Requerimiento</h5>
 
             <form [formGroup]="Reclamo" (ngSubmit)="guardarDatos()" class="row g-3">
 
-                <div class="col-md-6">
-                    <label for="exampleInputEmail1" class="form-label">(*) Tipo de Reclamo</label>
+                <div class="col-md-2">
+                    <label for="exampleInputEmail1" class="form-label">Interno?</label>
+                    <select id="Tipo_Reclamo" formControlName="interno" class="form-select" 
+                        (change)="checkInternoChanged()">
+                        <option [ngValue]="opcion.clave" *ngFor="let opcion of opcionesReclamoInterno">{{opcion.valor}}</option>
+                    </select>
+                </div>
+
+                <div class="col-md-5">
+                    <label for="exampleInputEmail1" class="form-label">(*) Tipo de Requerimiento</label>
                     <select id="Tipo_Reclamo" formControlName="codTipoReclamo" class="form-select" [ngClass]="{'is-invalid' : codTipoReclamoNoValido}">
                         <option value="">--Seleccione Opción--</option>
                         <option [ngValue]="TipoReclamo.cod_Tipo_Reclamo" *ngFor="let TipoReclamo of TiposReclamo">{{TipoReclamo.nombre}}</option>
                     </select>
                     <div class="invalid-feedback" *ngIf="codTipoReclamoNoValido">
-                        El tipo de reclamo es requerido.
+                        El tipo de requerimiento es requerido.
                     </div>
-                </div>
+                </div>                
 
-                <div class="col-md-6">
+                <div class="col-md-5" *ngIf="!esRequerimientoInterno">
                     <label for="formGroupExampleInput" class="form-label">(*) Nombre calle</label>
                     <input type="text" class="form-control" [ngClass]="{'is-invalid' : calleNoValido}" id="calle" formControlName="calle" value="">
                     <div class="invalid-feedback" *ngIf="calleNoValido">
-                        El nombre de calle es requerido. No puede superar los 50 caracteres.
+                        El nombre de calle es requerido y no puede superar los 50 caracteres.
                     </div>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-6" *ngIf="!esRequerimientoInterno">
                     <label for="formGroupExampleInput" class="form-label">(*) Altura aproximada</label>
                     <input type="text" class="form-control" [ngClass]="{'is-invalid' : alturaNoValido}" id="calle" formControlName="altura" value="">
                     <div class="invalid-feedback" *ngIf="alturaNoValido">
-                        La altura aproximada es requerida. No puede superar los 6 caracteres.
+                        La altura aproximada es requerida y no puede superar los 6 caracteres.
                     </div>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-6" *ngIf="!esRequerimientoInterno">
                     <label for="formGroupExampleInput" class="form-label">(*) Entre calles</label>
                     <input type="text" class="form-control" [ngClass]="{'is-invalid' : entreCallesNoValido}" id="formGroupExampleInput" formControlName="entreCalles" value="">
                     <div class="invalid-feedback" *ngIf="entreCallesNoValido">
-                        El dato de entre calles es requerido. No puede superar los 50 caracteres.
+                        El dato de entre calles es requerido y no puede superar los 50 caracteres.
                     </div>
                 </div>
 
-                <div class="row mt-3">
+                <div class="row mt-3" *ngIf="!esRequerimientoInterno">
                     <div class="col-md-4">
                         <label for="nomApeVecino" class="form-label">(*) Nombre y Apellido vecino</label>
                         <input type="text" class="form-control" [ngClass]="{'is-invalid' : nomApeVecinoNoValido}" id="nomApeVecino" formControlName="nomApeVecino" value="">
                         <div class="invalid-feedback" *ngIf="nomApeVecinoNoValido">
-                            El nombre del vecino es requerido. No puede superar los 100 caracteres.
+                            El nombre del vecino es requerido y no puede superar los 100 caracteres.
                         </div>
                     </div>
 
@@ -53,7 +73,7 @@
                         <label for="mailVecino" class="form-label">(*) Mail vecino</label>
                         <input type="text" class="form-control" [ngClass]="{'is-invalid' : mailVecinoNoValido}" id="mailVecino" formControlName="mailVecino" value="">
                         <div class="invalid-feedback" *ngIf="mailVecinoNoValido">
-                            El mail del vecino es requerido. No puede superar los 100 caracteres. Debe tener un formato válido.
+                            El mail del vecino es requerido, no puede superar los 100 caracteres y debe tener un formato válido.
                         </div>
                     </div>
 
@@ -61,7 +81,7 @@
                         <label for="telefonoVecino" class="form-label">(*) Teléfono vecino</label>
                         <input type="text" class="form-control" [ngClass]="{'is-invalid' : telefonoVecinoNoValido}" id="telefonoVecino" formControlName="telefonoVecino" value="">
                         <div class="invalid-feedback" *ngIf="telefonoVecinoNoValido">
-                            El teléfono del vecino es requerido. No puede superar los 50 caracteres.
+                            El teléfono del vecino es requerido y no puede superar los 50 caracteres.
                         </div>
                     </div>
                 </div>
@@ -70,7 +90,7 @@
                     <label for="descripcion" class="form-label">(*) Descripción</label>
                     <textarea type="text" class="form-control" [ngClass]="{'is-invalid' : descripcionNoValido}" id="descripcion" formControlName="descripcion" value="" rows="3" placeholder="Descripcion del reclamo del servicio, circunstancias que lo generaron. Puede incluir nombres de personas implicadas para mayor trazabilidad."></textarea>
                     <div class="invalid-feedback" *ngIf="descripcionNoValido">
-                        La descripción es requerida. No puede superar los 200 caracteres.
+                        La descripción es requerida y no puede superar los 200 caracteres.
                     </div>
                 </div>
 
@@ -80,6 +100,15 @@
 
                 <div class="col-md-6">
                     <input type="file" class="form-control" id="fotoUploader2" lang="es" #fileUploader2 (change)="changeFoto2($event)" accept="image/*">
+                </div>
+
+                <div class="col-md-6">
+                    <label class="col-sm-2 col-form-label">(*) Area</label>
+                    <div class="col-sm-10">
+                        <select id="area" class="form-select" formControlName="nroArea" >
+                            <option [ngValue]="area.nroArea" *ngFor="let area of areas">{{area.nombre}}</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="col-md-12 order-md-1">
@@ -100,5 +129,4 @@
 
     </div>
 
-    <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
 </div>
