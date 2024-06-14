@@ -6,7 +6,7 @@ namespace MVPSA_V2022.Services
     {
         public ReclamoDto guardarReclamo(CrearReclamoRequestDto reclamoCLS, int idVecinoAlta);
 
-        public IEnumerable<ReclamoDto> listarReclamos(int usuarioConsulta);
+        public IEnumerable<ReclamoDto> listarReclamos(int usuarioConsulta, int tipo, int estado, int numero, String nomApeVecino);
 
         public ReclamoDto getReclamo(int nroReclamo);
 
@@ -27,6 +27,8 @@ namespace MVPSA_V2022.Services
         public void aplicarAccion(AplicarAccionDto aplicarAccionDto);
 
         public List<ObservacionReclamoDto> obtenerObservacionesDeReclamo(int nroReclamo);
+
+        public List<EstadoReclamoDto> getEstadosReclamo();
 
     }        
 }

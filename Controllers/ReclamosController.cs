@@ -138,11 +138,15 @@ namespace MVPSA_V2022.Controllers
         }
 
         [HttpGet]
-        public IActionResult ListarReclamos([FromHeader(Name = "id_usuario")] string idUsuarioAlta)
+        public IActionResult ListarReclamos([FromHeader(Name = "id_usuario")] string idUsuarioAlta,
+                                            [FromQuery] int tipo,
+                                            [FromQuery] int estado,
+                                            [FromQuery] int numero,
+                                            [FromQuery(Name = "nom_ape_vecino")] string? nomApeVecino)
         {
             try
             {
-                return Ok(reclamoService.listarReclamos(Int32.Parse(idUsuarioAlta)));
+                return Ok(reclamoService.listarReclamos(Int32.Parse(idUsuarioAlta), tipo, estado, numero, nomApeVecino));
             } catch (Exception ex) {
                 return NotFound(ex.Message);
             }
@@ -207,6 +211,19 @@ namespace MVPSA_V2022.Controllers
                                                   int nroReclamo)
         {
             return Ok(reclamoService.obtenerObservacionesDeReclamo(nroReclamo));            
+        }
+
+        [HttpGet]
+        [Route("estados")]
+        public IActionResult getEstadosReclamos() {
+            try
+            {
+                    return Ok(reclamoService.getEstadosReclamo());
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
     }

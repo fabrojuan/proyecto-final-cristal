@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ReclamoService } from '../../services/reclamo.service';
 import { ClaveValor } from 'src/app/modelos_Interfaces/ClaveValor';
+import { EstadoReclamo } from 'src/app/modelos_Interfaces/EstadoReclamo';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'reclamo-tabla',
@@ -15,6 +17,12 @@ export class ReclamoTablaComponent implements OnInit {
   cabeceras: string[] = ["Número", "Fecha Generado", "Estado", "Tipo", "Prioridad", "Asignado a"];
   listaPrioridades: ClaveValor[] = [];
   prioridadSeleccionada: ClaveValor = {clave : "0", valor : "Todas"};
+  TiposReclamo: any;
+  tipoReclamoSeleccionado: number = 0;
+  estadosReclamo: EstadoReclamo[] = [];
+  estadoReclamoSeleccionado: number = 0;
+  nroReclamoFiltro: string = '';
+  nomApeVecinoFiltro: string = '';
 
   constructor(private reclamoservice: ReclamoService) {
   }
@@ -31,7 +39,13 @@ export class ReclamoTablaComponent implements OnInit {
         this.Reclamos = data; 
         this.ReclamosFiltrados = data;
       });
+
+      this.reclamoservice.getTipoReclamo().subscribe(data => this.TiposReclamo = data);
+
+      this.reclamoservice.getEstados().subscribe(data => this.estadosReclamo = data);
+
   }
+  
 
   filtrarPrioridad() {
     if (this.prioridadSeleccionada.clave == "0") {
@@ -39,6 +53,38 @@ export class ReclamoTablaComponent implements OnInit {
     } else {
       this.ReclamosFiltrados = this.Reclamos.filter(p => p.nroPrioridad == this.prioridadSeleccionada.clave);
     }
+  }
+
+  aplicarFiltrado() {
+    let queryParams = new HttpParams();
+
+    if (this.estadoReclamoSeleccionado && this.estadoReclamoSeleccionado != 0) {
+      queryParams = queryParams.append("estado", this.estadoReclamoSeleccionado);
+    }
+
+    if (this.tipoReclamoSeleccionado && this.tipoReclamoSeleccionado != 0) {
+      queryParams = queryParams.append("tipo", this.tipoReclamoSeleccionado);
+    }
+
+    if (this.nroReclamoFiltro && this.nroReclamoFiltro.length != 0) {
+      queryParams = queryParams.append("numero", this.nroReclamoFiltro);
+    }
+
+    if (this.nomApeVecinoFiltro && this.nomApeVecinoFiltro.length != 0) {
+      queryParams = queryParams.append("nom_ape_vecino", this.nomApeVecinoFiltro);
+    }
+
+    this.reclamoservice.getReclamosConFiltros(queryParams).subscribe(data => 
+      { 
+        this.Reclamos = data; 
+        this.ReclamosFiltrados = data;
+      });
+
+    
+  }
+
+  aplicarFiltroNroReclamo(event: any) {
+      this.aplicarFiltrado(); 
   }
 
 }
