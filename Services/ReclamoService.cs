@@ -118,7 +118,8 @@ namespace MVPSA_V2022.Services
             return  Conversor.convertToReclamoDto(reclamo);
         }
 
-        public IEnumerable<ReclamoDto> listarReclamos(int idUsuarioConectado)
+        public IEnumerable<ReclamoDto> listarReclamos(int idUsuarioConectado, int tipo, int estado, int numero,
+                                                      String nomApeVecino)
         {           
 
             var usuarioConectado = dbContext.Usuarios.Where(usu => usu.IdUsuario == idUsuarioConectado).FirstOrDefault();
@@ -128,6 +129,22 @@ namespace MVPSA_V2022.Services
             if (codRolUsuarioConectado != "MDE" && codRolUsuarioConectado != "INT"
                 && codRolUsuarioConectado != "ADS") {
                 query = query.Where(rec => rec.NroArea == usuarioConectado.NroArea);
+            }
+
+            if (tipo != 0) {
+                query = query.Where(rec => rec.CodTipoReclamo == tipo);
+            }
+
+            if (estado != 0) {
+                query = query.Where(rec => rec.CodEstadoReclamo == estado);
+            }
+
+            if (numero != 0) {
+                query = query.Where(rec => rec.NroReclamo == numero);
+            }
+
+            if (nomApeVecino != null && nomApeVecino.Length > 0) {
+                query = query.Where(rec => rec.NomApeVecino.ToUpper().Contains(nomApeVecino.ToUpper()));
             }
 
             List<ReclamoDto> listaReclamo = new List<ReclamoDto>();
@@ -524,5 +541,24 @@ namespace MVPSA_V2022.Services
 
         }
 
+        public List<EstadoReclamoDto> getEstadosReclamo()
+        {
+            List<EstadoReclamoDto> estados = new List<EstadoReclamoDto>();
+
+            this.dbContext.EstadoReclamos
+                .OrderBy(est => est.Nombre)
+                .ToList()
+                .ForEach(est => {
+                        EstadoReclamoDto estado = new EstadoReclamoDto{
+                        codEstadoReclamo = est.CodEstadoReclamo,
+                        nombre = est.Nombre           
+                        };
+
+                        estados.Add(estado);
+                    }
+                );
+
+            return estados;
+        }
     }
 }

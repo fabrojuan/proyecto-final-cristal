@@ -6,6 +6,7 @@ import { Prioridad } from '../modelos_Interfaces/Prioridad';
 import { ModificarReclamoRequest } from '../modelos_Interfaces/ModificarReclamoRequest';
 import { AplicarAccion } from '../modelos_Interfaces/AplicarAccion';
 import { ObservacionReclamo } from '../modelos_Interfaces/ObservacionReclamo';
+import { EstadoReclamo } from '../modelos_Interfaces/EstadoReclamo';
 
 //import { r } from '@angular/core/src/render3';
   
@@ -55,6 +56,10 @@ export class ReclamoService {
     return this.http.post(url, Reclamo).pipe(map(res => res));
   }
 
+  public getReclamosConFiltros(queryParams: any): Observable<any>{
+    return this.http.get(this.urlBase + 'api/reclamos', {params: queryParams}).pipe(map(res => res));
+  }
+
   public getReclamos(): Observable<any>{
     return this.http.get(this.urlBase + 'api/reclamos').pipe(map(res => res));
   }
@@ -85,6 +90,13 @@ export class ReclamoService {
    */
   public getObservacionesReclamo(nroReclamo: number): Observable<Array<ObservacionReclamo>> {
     return this.http.get<Array<ObservacionReclamo>>(this.urlBase + 'api/reclamos/' + nroReclamo + '/observaciones').pipe(map(res => res));
+  }
+
+  /**
+   * Estados Reclamos
+   */
+  public getEstados(): Observable<Array<EstadoReclamo>> {
+    return this.http.get<Array<EstadoReclamo>>(this.urlBase + 'api/reclamos/estados').pipe(map(res => res));
   }
 
 }
