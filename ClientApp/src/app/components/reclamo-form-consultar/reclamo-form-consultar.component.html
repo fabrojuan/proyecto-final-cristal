@@ -10,11 +10,18 @@
             <app-reclamo-cabecera [reclamo]="reclamo"></app-reclamo-cabecera>
 
             <!-- <div class="row pt-3" *ngIf="mostrarBotonRechazar()"> -->
-                <button type="button" class="btn btn-danger col-md-2 m-1" (click)="rechazarReclamo()"><i class="bi bi-x"></i> Rechazar</button>
-                <button type="button" class="btn btn-warning col-md-2 m-1" (click)="asignarAreaReclamo()"><i class="bi bi-people"></i> Asignar</button>
-                <button type="button" class="btn btn-warning col-md-2 m-1" (click)="asignarAreaReclamo()"><i class="bi bi-tools"></i> Cargar Trabajo</button>
-                <button type="button" class="btn btn-warning col-md-2 m-1" (click)="mostrarObservacionesReclamo()"><i class="bi bi-binoculars"></i> Observaciones</button>
-                <button type="button" class="btn btn-warning col-md-2 m-1" (click)="asignarAreaReclamo()"><i class="bi bi-check2-all"></i> Finalizar</button>
+                <button type="button" class="btn btn-danger col-md-2 m-1" 
+                    (click)="rechazarReclamo()" *ngIf="opcionesReclamo.puedeRechazar"><i class="bi bi-x"></i> Rechazar</button>
+                <button type="button" class="btn btn-warning col-md-2 m-1" 
+                    (click)="asignarAreaReclamo()" *ngIf="opcionesReclamo.puedeAsignar"><i class="bi bi-people"></i> Asignar</button>
+                <button type="button" class="btn btn-warning col-md-2 m-1" 
+                    (click)="cargarTrabajoReclamo()" *ngIf="opcionesReclamo.puedeCargarTrabajo"><i class="bi bi-tools"></i> Cargar Trabajo</button>
+                <button type="button" class="btn btn-warning col-md-2 m-1" 
+                    (click)="mostrarObservacionesReclamo()" *ngIf="opcionesReclamo.puedeVerObservaciones"><i class="bi bi-binoculars"></i> Observaciones</button>
+                <button type="button" class="btn btn-warning col-md-2 m-1" 
+                    (click)="mostrarTrabajosReclamo()" *ngIf="opcionesReclamo.puedeVerTrabajos"><i class="bi bi-list-task"></i> Trabajos</button>
+                <button type="button" class="btn btn-warning col-md-2 m-1" 
+                    (click)="asignarAreaReclamo()" *ngIf="opcionesReclamo.puedeFinalizar"><i class="bi bi-check2-all"></i> Finalizar</button>
             <!-- </div> -->
 
             

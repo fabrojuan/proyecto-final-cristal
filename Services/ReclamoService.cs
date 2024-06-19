@@ -125,7 +125,7 @@ namespace MVPSA_V2022.Services
             var usuarioConectado = dbContext.Usuarios.Where(usu => usu.IdUsuario == idUsuarioConectado).FirstOrDefault();
             String codRolUsuarioConectado = usuarioConectado.IdTipoUsuarioNavigation.CodRol;
 
-            var query = dbContext.VwReclamos.Where(rec => rec.Bhabilitado == 1);
+            var query = dbContext.Reclamos.Where(rec => rec.Bhabilitado == 1);
             if (codRolUsuarioConectado != "MDE" && codRolUsuarioConectado != "INT"
                 && codRolUsuarioConectado != "ADS") {
                 query = query.Where(rec => rec.NroArea == usuarioConectado.NroArea);
@@ -148,7 +148,7 @@ namespace MVPSA_V2022.Services
             }
 
             List<ReclamoDto> listaReclamo = new List<ReclamoDto>();
-            query.ToList().ForEach(reclamo => {
+            query.OrderByDescending(rec => rec.Fecha).ToList().ForEach(reclamo => {
                 ReclamoDto reclamoDto = new ReclamoDto
                 {
                     nroReclamo = reclamo.NroReclamo,
@@ -162,14 +162,14 @@ namespace MVPSA_V2022.Services
                     idVecino = reclamo.IdVecino,
                     idUsuario = reclamo.IdUsuario,
                     Fecha = (DateTime)reclamo.Fecha,
-                    estadoReclamo = reclamo.EstadoReclamo,
-                    tipoReclamo = reclamo.TipoReclamo,
+                    estadoReclamo = reclamo.CodEstadoReclamoNavigation.Nombre,
+                    tipoReclamo = reclamo.CodTipoReclamoNavigation.Nombre,
                     nombreYapellido = reclamo.NomApeVecino,
                     nroPrioridad = (int)reclamo.NroPrioridad,
-                    usuarioAsignado = reclamo.Usuario,
-                    empleadoAsignado = reclamo.Empleado,
-                    prioridad = reclamo.PrioridadReclamo,
-                    interno = "N"
+                    usuarioAsignado = "",
+                    empleadoAsignado = reclamo.NroAreaNavigation?.Nombre,
+                    //prioridad = reclamo.NroPrioridad,
+                    interno = reclamo.Interno
                 };
                 listaReclamo.Add(reclamoDto);
             });
@@ -504,8 +504,8 @@ namespace MVPSA_V2022.Services
                 observacionReclamo.CodEstadoReclamo = (int)reclamo.CodEstadoReclamo;
                 observacionReclamo.IdUsuarioAlta = int.Parse(aplicarAccionDto.idUsuario);
                 observacionReclamo.NroReclamo = aplicarAccionDto.nroReclamo;
-                observacionReclamo.Observacion = "Se asigna requerimiento al área: " +
-                    area.Nombre + " por el motivo: " + aplicarAccionDto.observacion;
+                observacionReclamo.Observacion = "Se asigna requerimiento al área '" +
+                    area.Nombre + "' por el motivo: " + aplicarAccionDto.observacion;
                 dbContext.ObservacionReclamos.Add(observacionReclamo);
 
                 dbContext.SaveChanges();
@@ -559,6 +559,31 @@ namespace MVPSA_V2022.Services
                 );
 
             return estados;
+        }
+
+        public OpcionesReclamoDto getOpcionesReclamo(int numeroReclamo, int idUsuario)
+        {
+            OpcionesReclamoDto opciones = new OpcionesReclamoDto();
+
+            var reclamo = this.dbContext.Reclamos.Where(rec => rec.NroReclamo == numeroReclamo).FirstOrDefault();
+            if (reclamo == null) {
+                return opciones;
+            }
+
+            var usuario = this.dbContext.Usuarios.Where(usr => usr.IdUsuario == idUsuario).FirstOrDefault();
+
+            opciones.nroReclamo = reclamo.NroReclamo;
+
+            int codEstadoReclamo = (int)reclamo.CodEstadoReclamo;
+            opciones.puedeAsignar = codEstadoReclamo != ((int)EstadoReclamoEnum.RECHAZADO) && codEstadoReclamo != ((int)EstadoReclamoEnum.SOLUCIONADO);
+            opciones.puedeCargarTrabajo = codEstadoReclamo != ((int)EstadoReclamoEnum.RECHAZADO) && codEstadoReclamo != ((int)EstadoReclamoEnum.SOLUCIONADO)
+                                            && codEstadoReclamo != ((int)EstadoReclamoEnum.SUSPENDIDO);
+            opciones.puedeRechazar = codEstadoReclamo == ((int)EstadoReclamoEnum.NUEVO);
+            opciones.puedeFinalizar = true;
+            opciones.puedeVerObservaciones = usuario.IdTipoUsuarioNavigation?.TipoRol == "EMPLEADO";
+            opciones.puedeVerTrabajos = true;
+
+            return opciones;
         }
     }
 }

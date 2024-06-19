@@ -7,6 +7,8 @@ import { ReclamoRechazarDialogComponent } from './reclamo-rechazar-dialog.compon
 import { AplicarAccion } from 'src/app/modelos_Interfaces/AplicarAccion';
 import { ReclamoAsignarComponent } from '../reclamo-asignar/reclamo-asignar.component';
 import { ObservacionesReclamoTablaComponent } from '../observaciones-reclamo-tabla/observaciones-reclamo-tabla.component';
+import { TrabajoReclamoFormGenerarComponent } from '../trabajo-reclamo-form-generar/trabajo-reclamo-form-generar.component';
+import { TrabajosReclamoTablaComponent } from '../trabajos-reclamo-tabla/trabajos-reclamo-tabla.component';
 
 @Component({
   selector: 'app-reclamo-form-consultar',
@@ -20,6 +22,7 @@ export class ReclamoFormConsultarComponent implements OnInit {
   @ViewChild("myModalInfo", { static: false }) myModalInfo: TemplateRef<any> | undefined;
   cambioEstadoReclamoForm: FormGroup;
   isCambioEstadoReclamoFormSubmitted: boolean=false;
+  opcionesReclamo: any;
   
   constructor(private _activatedRouter: ActivatedRoute,
               private _router: Router,
@@ -31,6 +34,9 @@ export class ReclamoFormConsultarComponent implements OnInit {
       this.reclamoService.getReclamo(this.nroReclamo).subscribe(datosReclamo => {
         console.log(datosReclamo);
         this.reclamo = datosReclamo;
+      });
+      this.reclamoService.getOpcionesReclamo(this.nroReclamo).subscribe(opciones => {
+        this.opcionesReclamo = opciones;
       });
     });
     
@@ -65,8 +71,11 @@ export class ReclamoFormConsultarComponent implements OnInit {
     modalRef.componentInstance.nroReclamo = this.nroReclamo;
   }
 
-
-  guardarCambioEstadoReclamo() {}
+  mostrarTrabajosReclamo() {
+    const modalRef = this.modalService.open(TrabajosReclamoTablaComponent, 
+      { animation: false, backdrop: "static", centered: true, keyboard: false, size: "lg" });
+    modalRef.componentInstance.nroReclamo = this.nroReclamo;
+  }
 
   asignarAreaReclamo() {
     const modalRef = this.modalService.open(ReclamoAsignarComponent, 
@@ -76,6 +85,16 @@ export class ReclamoFormConsultarComponent implements OnInit {
       modalRef.close();
       this.confirmarAsignacion(asignacion.codArea, asignacion.descripcionMotivoAsignacion);
     })
+  }
+
+  cargarTrabajoReclamo() {
+    const modalRef = this.modalService.open(TrabajoReclamoFormGenerarComponent, 
+      { animation: false, backdrop: "static", centered: true, keyboard: false, size: "lg" });
+
+    modalRef.componentInstance.eventoCargaTrabajo.subscribe((asignacion: any) => {
+       modalRef.close();
+       this.confirmarCargaTrabajo(asignacion.fechaTrabajo, asignacion.descripcionTrabajo);
+     })
   }
 
   confirmarRechazo(descripcionMotivoRechazo : string) {
@@ -88,6 +107,9 @@ export class ReclamoFormConsultarComponent implements OnInit {
 
         this.reclamoService.getReclamo(this.nroReclamo).subscribe(datosReclamo => {
           this.reclamo = datosReclamo;
+        });
+        this.reclamoService.getOpcionesReclamo(this.nroReclamo).subscribe(opciones => {
+          this.opcionesReclamo = opciones;
         });
 
         return;
@@ -122,6 +144,9 @@ export class ReclamoFormConsultarComponent implements OnInit {
         this.reclamoService.getReclamo(this.nroReclamo).subscribe(datosReclamo => {
           this.reclamo = datosReclamo;
         });
+        this.reclamoService.getOpcionesReclamo(this.nroReclamo).subscribe(opciones => {
+          this.opcionesReclamo = opciones;
+        });
 
         return;
       }, error => {
@@ -133,17 +158,25 @@ export class ReclamoFormConsultarComponent implements OnInit {
 
     } else {
       alert("Debe asignar una área");
-    }
-
-    
+    }    
     
   }
 
-  mostrarBotonRechazar() : boolean {
-    if (this.reclamo.codEstadoReclamo == 1) {
-      return true;
+  confirmarCargaTrabajo(fechaTrabajo: string, descripcionTrabajo : string) {
+    if (fechaTrabajo && fechaTrabajo.length > 0 && descripcionTrabajo && descripcionTrabajo.length > 0) {
+      this.reclamoService.guardarTrabajoReclamo(this.nroReclamo, 
+                                                {"fechaTrabajo": fechaTrabajo, "descripcion": descripcionTrabajo})
+        .subscribe(resp => {
+          alert("Se registró correctamente la carga del trabajo");                                         
+          return;
+        }, error => {
+          console.error(error);
+          alert("Ocurrió un error al registrar el trabajo del requerimiento");
+          return;
+        });
+    } else {
+      alert("Debe indicar una fecha y descripción del trabajo");
     }
-    return false;
   }
 
   volver() {

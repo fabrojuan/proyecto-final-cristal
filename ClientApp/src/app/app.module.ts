@@ -106,6 +106,8 @@ import { IndicadoresGraficosComponent } from './components/indicadores-graficos/
 import { ChartsDenunciaComponent } from './components/charts-denuncia/charts-denuncia.component';
 import { EmpleadosyrolesComponent } from './components/empleadosyroles/empleadosyroles.component';
 import { LotesypersonasComponent } from './components/lotesypersonas/lotesypersonas.component';
+import { TrabajoReclamoFormGenerarComponent } from './components/trabajo-reclamo-form-generar/trabajo-reclamo-form-generar.component';
+import { TrabajosReclamoTablaComponent } from './components/trabajos-reclamo-tabla/trabajos-reclamo-tabla.component';
 
 
 @NgModule({
@@ -183,7 +185,9 @@ import { LotesypersonasComponent } from './components/lotesypersonas/lotesyperso
     ReclamoAsignarComponent,
     ObservacionesReclamoTablaComponent,
     ReclamoFormGenerarSugerenciaComponent,
-    ReportarProblemasComponent
+    ReportarProblemasComponent,
+    TrabajoReclamoFormGenerarComponent,
+    TrabajosReclamoTablaComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

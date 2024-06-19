@@ -20,15 +20,17 @@ namespace MVPSA_V2022.Controllers
     public class ReclamosController : Controller
     {
         private readonly IReclamoService reclamoService;
+        private readonly ITrabajoReclamoService trabajoReclamoService;
 
         public IActionResult Index()
         {
             return View();
         }
 
-        public ReclamosController(IReclamoService reclamoService)
+        public ReclamosController(IReclamoService reclamoService, ITrabajoReclamoService trabajoReclamoService)
         {
             this.reclamoService = reclamoService;
+            this.trabajoReclamoService = trabajoReclamoService;
         }
 
         [HttpGet]
@@ -224,6 +226,32 @@ namespace MVPSA_V2022.Controllers
             {
                 return NotFound(ex.Message);
             }
+        }
+
+        [HttpGet]
+        [Route("{nroReclamo}/trabajos")]
+        public IActionResult listarTrabajos([FromHeader(Name = "id_usuario")] string idUsuarioAlta,
+                                             int nroReclamo) {
+            return Ok(trabajoReclamoService.obtenerTrabajosReclamo(nroReclamo));
+        }
+
+        [HttpPost]
+        [Route("{nroReclamo}/trabajos")]
+        public IActionResult guardarTrabajo([FromHeader(Name = "id_usuario")] string idUsuarioAlta,
+                                             int nroReclamo,
+                                             [FromBody] TrabajoReclamoCreacionRequestDto trabajoReclamoDto) {
+
+            trabajoReclamoDto.nroReclamo = nroReclamo;                                    
+            trabajoReclamoService.guardarTrabajo(trabajoReclamoDto, Int32.Parse(idUsuarioAlta));
+            return Ok();
+            
+        }
+
+        [HttpGet]
+        [Route("{nroReclamo}/opciones")]
+        public IActionResult getOpcionesReclamo([FromHeader(Name = "id_usuario")] string idUsuario,
+                                                 int nroReclamo) {
+            return Ok(this.reclamoService.getOpcionesReclamo(nroReclamo, Int32.Parse(idUsuario)));
         }
 
     }
