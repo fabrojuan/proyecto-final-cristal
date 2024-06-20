@@ -9,6 +9,8 @@ import { ReclamoAsignarComponent } from '../reclamo-asignar/reclamo-asignar.comp
 import { ObservacionesReclamoTablaComponent } from '../observaciones-reclamo-tabla/observaciones-reclamo-tabla.component';
 import { TrabajoReclamoFormGenerarComponent } from '../trabajo-reclamo-form-generar/trabajo-reclamo-form-generar.component';
 import { TrabajosReclamoTablaComponent } from '../trabajos-reclamo-tabla/trabajos-reclamo-tabla.component';
+import { ReclamoSuspenderComponent } from '../reclamo-suspender/reclamo-suspender.component';
+import { ReclamoFinalizarComponent } from '../reclamo-finalizar/reclamo-finalizar.component';
 
 @Component({
   selector: 'app-reclamo-form-consultar',
@@ -97,6 +99,26 @@ export class ReclamoFormConsultarComponent implements OnInit {
      })
   }
 
+  suspenderReclamo() {
+    const modalRef = this.modalService.open(ReclamoSuspenderComponent, 
+      { animation: false, backdrop: "static", centered: true, keyboard: false, size: "lg" });
+
+     modalRef.componentInstance.eventoSuspensionConfirmado.subscribe((suspension: any) => {
+        modalRef.close();
+        this.confirmarSuspensionReclamo(suspension.descripcion);
+      })
+  }
+
+  finalizarReclamo() {
+    const modalRef = this.modalService.open(ReclamoFinalizarComponent, 
+      { animation: false, backdrop: "static", centered: true, keyboard: false, size: "lg" });
+
+      modalRef.componentInstance.eventoFinalizacionConfirmado.subscribe((finalizacion: any) => {
+         modalRef.close();
+         this.confirmarFinalizacionReclamo(finalizacion.resultado, finalizacion.descripcion);
+       })
+  }
+
   confirmarRechazo(descripcionMotivoRechazo : string) {
     if (descripcionMotivoRechazo) {
       let aplicarAccion: AplicarAccion = {};
@@ -123,6 +145,32 @@ export class ReclamoFormConsultarComponent implements OnInit {
       alert("Debe ingresar el motivo del rechazo");
     }
     
+  }
+
+  confirmarFinalizacionReclamo(resultado: string, descripcion: string) {
+    if (resultado && resultado.length > 1 && descripcion && descripcion.length > 1) {
+      let aplicarAccion: AplicarAccion = {};
+      aplicarAccion.codAccion = resultado;
+      aplicarAccion.observacion = descripcion;
+      this.reclamoService.aplicarAccion(this.nroReclamo, aplicarAccion).subscribe(resp => {
+        alert("Se registró correctamente la finalización del requerimiento");
+
+        this.reclamoService.getReclamo(this.nroReclamo).subscribe(datosReclamo => {
+          this.reclamo = datosReclamo;
+        });
+        this.reclamoService.getOpcionesReclamo(this.nroReclamo).subscribe(opciones => {
+          this.opcionesReclamo = opciones;
+        });
+
+        return;
+      }, error => {
+        console.error(error);
+        alert("Ocurrió un error al registrar la finalización del requerimiento");
+        return;
+      });
+    } else {
+      alert("Debe indicar un resultado y descripción");
+    }
   }
 
   confirmarAsignacion(nroArea: number, descripcionMotivoAsignacion : string) {
@@ -158,6 +206,36 @@ export class ReclamoFormConsultarComponent implements OnInit {
 
     } else {
       alert("Debe asignar una área");
+    }    
+    
+  }
+
+  confirmarSuspensionReclamo(descripcion : string) {
+    if (descripcion && descripcion.length > 0) {
+
+      let aplicarAccion: AplicarAccion = {};
+      aplicarAccion.codAccion = "SUSPENDER";
+      aplicarAccion.observacion = descripcion;
+      this.reclamoService.aplicarAccion(this.nroReclamo, aplicarAccion).subscribe(resp => {
+        alert("Se registró correctamente la asignación del requerimiento");
+
+        this.reclamoService.getReclamo(this.nroReclamo).subscribe(datosReclamo => {
+          this.reclamo = datosReclamo;
+        });
+        this.reclamoService.getOpcionesReclamo(this.nroReclamo).subscribe(opciones => {
+          this.opcionesReclamo = opciones;
+        });
+
+        return;
+      }, error => {
+        console.error(error);
+        alert("Ocurrió un error al registrar la suspensión del requerimiento");
+        return;
+      });
+
+
+    } else {
+      alert("Debe cargar una descripción");
     }    
     
   }

@@ -419,3 +419,26 @@ ALTER TABLE SUGERENCIA ALTER COLUMN Estado int NOT NULL;
 
 ALTER TABLE [dbo].[RECLAMO]
     ADD [interno] VARCHAR (1) CONSTRAINT [DEFAULT_RECLAMO_interno] DEFAULT ('N') NOT NULL;
+
+ALTER TABLE reclamo ADD CONSTRAINT FK_reclamo_prioridad FOREIGN KEY (Nro_Prioridad)
+      REFERENCES Prioridad_reclamo (Nro_Prioridad) ;
+
+-- En Tratamiento
+  update ESTADO_RECLAMO
+  set Nombre = 'En Curso'
+  where Cod_Estado_Reclamo = 3;
+
+  -- Asignado
+  update ESTADO_RECLAMO
+  set BHabilitado = 0
+  where Cod_Estado_Reclamo = 2;
+
+-- Nuevo
+  update ESTADO_RECLAMO
+  set Nombre = 'Creado'
+  where Cod_Estado_Reclamo = 1;
+
+ALTER TABLE [dbo].[RECLAMO]
+    ADD [fecha_cierre] DATE NULL;
+
+

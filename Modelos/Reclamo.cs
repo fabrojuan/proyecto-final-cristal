@@ -55,6 +55,8 @@ public partial class Reclamo
 
     public virtual Area? NroAreaNavigation { get; set; }
 
+    public virtual PrioridadReclamo? NroPrioridadNavigation { get; set; }
+
     public virtual ICollection<ObservacionReclamo> ObservacionReclamos { get; set; } = new List<ObservacionReclamo>();
 
     public virtual ICollection<PruebaGraficaReclamo> PruebaGraficaReclamos { get; set; } = new List<PruebaGraficaReclamo>();

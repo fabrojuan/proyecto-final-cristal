@@ -11,9 +11,14 @@ export class TrabajoReclamoFormGenerarComponent implements OnInit {
   @Output() eventoCargaTrabajo: EventEmitter<any> = new EventEmitter();
   descripcionTrabajo : string = "";
   fechaTrabajo: string = "";
-  fechaHastaMaxTrabajo: Date = new Date();
+  fechaHastaMaxTrabajo?: string;
+  lang?: string;
 
-  constructor(public activeModal: NgbActiveModal) { }
+  constructor(public activeModal: NgbActiveModal) {
+    const hoy = new Date();
+    this.fechaHastaMaxTrabajo = hoy.toISOString().split('T')[0];
+    this.lang = 'es';
+   }
 
   ngOnInit(): void { }
 

@@ -14,4 +14,6 @@ public partial class PrioridadReclamo
     public string? Descripcion { get; set; }
 
     public int TiempoMaxTratamiento { get; set; }
+
+    public virtual ICollection<Reclamo> Reclamos { get; set; } = new List<Reclamo>();
 }

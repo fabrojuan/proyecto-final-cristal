@@ -78,12 +78,17 @@
                         <tbody>
                             <tr *ngFor="let reclamo of ReclamosFiltrados | paginate: { itemsPerPage: 11, currentPage: p }">
                                 <td>{{reclamo.nroReclamo}}</td>
-                                <td>{{reclamo.fecha | date: 'dd/MM/yyyy HH:mm'}}</td>
+                                <td>{{reclamo.fecha | date: 'dd/MM/yyyy'}}</td>
                                 <td>{{reclamo.estadoReclamo}}</td>
                                 <td>{{reclamo.tipoReclamo}}</td>
                                 <td>{{reclamo.prioridad}}</td>
                                 <td>{{reclamo.empleadoAsignado}}</td>
-                                <a class="dropdown-item" [routerLink]="['/reclamo-form-consultar',reclamo.nroReclamo]" role="button"><i class="bi bi-pencil-square"></i></a>
+                                <td>
+                                    <!-- <a class="dropdown-item" [routerLink]="['/reclamo-form-consultar',reclamo.nroReclamo]" role="button"><i class="bi bi-pencil-square"></i></a> -->
+                                    <button type="button" class="btn btn-outline-primary btn-sm" [routerLink]="['/reclamo-form-consultar',reclamo.nroReclamo]" title="Modificar"><i class="bi bi-pencil"></i></button>
+                                </td>
+                                
+                                
                                 <!-- <td class="text-center" *ngIf="isMantenimiento==true">
                                     <div class="dropdown">
                                         <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">

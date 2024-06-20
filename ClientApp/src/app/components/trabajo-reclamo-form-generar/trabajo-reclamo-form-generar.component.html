@@ -11,7 +11,7 @@
         <div class="row mb-3">
             <label class="col-sm-3 col-form-label">(*) Fecha Trabajo</label>
             <div class="col-sm-3">
-                <input type="date" class="form-control" [(ngModel)]="fechaTrabajo" lang="es">
+                <input type="date" class="form-control" [(ngModel)]="fechaTrabajo" [max]="fechaHastaMaxTrabajo" [lang]="lang">
             </div>
         </div>
 

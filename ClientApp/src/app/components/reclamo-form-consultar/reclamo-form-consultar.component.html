@@ -21,7 +21,9 @@
                 <button type="button" class="btn btn-warning col-md-2 m-1" 
                     (click)="mostrarTrabajosReclamo()" *ngIf="opcionesReclamo.puedeVerTrabajos"><i class="bi bi-list-task"></i> Trabajos</button>
                 <button type="button" class="btn btn-warning col-md-2 m-1" 
-                    (click)="asignarAreaReclamo()" *ngIf="opcionesReclamo.puedeFinalizar"><i class="bi bi-check2-all"></i> Finalizar</button>
+                    (click)="finalizarReclamo()" *ngIf="opcionesReclamo.puedeFinalizar"><i class="bi bi-check2-all"></i> Finalizar</button>
+                <button type="button" class="btn btn-warning col-md-2 m-1" 
+                    (click)="suspenderReclamo()" *ngIf="opcionesReclamo.puedeSuspender"><i class="bi bi-pause-fill"></i> Suspender</button>
             <!-- </div> -->
 
             

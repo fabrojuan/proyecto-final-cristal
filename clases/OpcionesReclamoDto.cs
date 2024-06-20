@@ -17,6 +17,7 @@ namespace MVPSA_V2022.clases
         public Boolean puedeCargarTrabajo { get; set; }
         public Boolean puedeVerObservaciones { get; set; }
         public Boolean puedeVerTrabajos { get; set; }
+        public Boolean puedeSuspender { get; set; }
     }
 }
 
