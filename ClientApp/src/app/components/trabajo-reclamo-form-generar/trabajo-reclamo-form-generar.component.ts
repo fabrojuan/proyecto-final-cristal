@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-trabajo-reclamo-form-generar',
@@ -14,7 +15,7 @@ export class TrabajoReclamoFormGenerarComponent implements OnInit {
   fechaHastaMaxTrabajo?: string;
   lang?: string;
 
-  constructor(public activeModal: NgbActiveModal) {
+  constructor(public activeModal: NgbActiveModal, public _toastService: ToastService) {
     const hoy = new Date();
     this.fechaHastaMaxTrabajo = hoy.toISOString().split('T')[0];
     this.lang = 'es';
@@ -23,11 +24,15 @@ export class TrabajoReclamoFormGenerarComponent implements OnInit {
   ngOnInit(): void { }
 
   confirmarAsignacion() {
-    console.log("Desde dentro del modal. " + this.descripcionTrabajo + " " + this.fechaTrabajo);
-    this.eventoCargaTrabajo.emit( {
-      fechaTrabajo: this.fechaTrabajo,
-      descripcionTrabajo: this.descripcionTrabajo   
-    });
+    if (this.fechaTrabajo && this.fechaTrabajo.length > 0 && this.descripcionTrabajo && this.descripcionTrabajo.length > 0) {
+      this.eventoCargaTrabajo.emit( {
+        fechaTrabajo: this.fechaTrabajo,
+        descripcionTrabajo: this.descripcionTrabajo   
+      });
+    } else {
+      this._toastService.showError("Debe indicar una fecha y descripción del trabajo");
+    }
+    
   }
 
   cancelarAsignacion() {

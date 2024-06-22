@@ -33,4 +33,12 @@ export class ReclamoCabeceraComponent implements OnInit {
     return this.areas.filter(area => area.nroArea == nroArea)[0].nombre || "Sin Valor";
   }
 
+  getInternoDescripcion(): string {
+    if (this.reclamo.interno == "S") {
+      return "Si";
+    } else {
+      return "No";
+    }
+  }
+
 }

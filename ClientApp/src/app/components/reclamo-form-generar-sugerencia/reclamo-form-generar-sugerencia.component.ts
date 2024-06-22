@@ -5,6 +5,7 @@ import { Area } from 'src/app/modelos_Interfaces/Area';
 import { AreasService } from 'src/app/services/areas.service';
 import { ReclamoService } from 'src/app/services/reclamo.service';
 import { SugerenciaService } from 'src/app/services/sugerencia.service';
+import { ToastService } from 'src/app/services/toast.service';
 import { VecinoService } from 'src/app/services/vecino.service';
 
 @Component({
@@ -32,7 +33,8 @@ export class ReclamoFormGenerarSugerenciaComponent implements OnInit {
               private _areasService: AreasService,
               private _activatedRouter: ActivatedRoute,
               private sugerenciaService: SugerenciaService,
-              private router: Router
+              private router: Router,
+              public _toastService: ToastService
   ) {
     this.Reclamo = new FormGroup(
       {
@@ -100,12 +102,14 @@ export class ReclamoFormGenerarSugerenciaComponent implements OnInit {
         nroReclamoGenerado = data.nroReclamo;
       },
       error => {
-        this.mostrarMensajeError(error.error);
+        //this.mostrarMensajeError(error.error);
+        this._toastService.showError(error.error);
       },
       () => {
         this.limpiarFormulario();
         this.isFormSubmitted = false;
-        this.mostrarMensajeOk(`Se registró con éxito el requerimiento nro: ${nroReclamoGenerado}`);
+        //this.mostrarMensajeOk(`Se registró con éxito el requerimiento nro: ${nroReclamoGenerado}`);
+        this._toastService.showOk(`Se registró con éxito el requerimiento nro: ${nroReclamoGenerado}`);
       }
     );
   }

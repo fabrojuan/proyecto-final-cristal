@@ -11,6 +11,7 @@ import { TrabajoReclamoFormGenerarComponent } from '../trabajo-reclamo-form-gene
 import { TrabajosReclamoTablaComponent } from '../trabajos-reclamo-tabla/trabajos-reclamo-tabla.component';
 import { ReclamoSuspenderComponent } from '../reclamo-suspender/reclamo-suspender.component';
 import { ReclamoFinalizarComponent } from '../reclamo-finalizar/reclamo-finalizar.component';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-reclamo-form-consultar',
@@ -29,12 +30,12 @@ export class ReclamoFormConsultarComponent implements OnInit {
   constructor(private _activatedRouter: ActivatedRoute,
               private _router: Router,
               private modalService: NgbModal,
-              private reclamoService: ReclamoService) { 
+              private reclamoService: ReclamoService,
+              public _toastService: ToastService) { 
 
     this._activatedRouter.params.subscribe(params => {
       this.nroReclamo = params['id'];
       this.reclamoService.getReclamo(this.nroReclamo).subscribe(datosReclamo => {
-        console.log(datosReclamo);
         this.reclamo = datosReclamo;
       });
       this.reclamoService.getOpcionesReclamo(this.nroReclamo).subscribe(opciones => {
@@ -125,7 +126,7 @@ export class ReclamoFormConsultarComponent implements OnInit {
       aplicarAccion.codAccion = "RECHAZAR";
       aplicarAccion.observacion = descripcionMotivoRechazo;
       this.reclamoService.aplicarAccion(this.nroReclamo, aplicarAccion).subscribe(resp => {
-        alert("Se registró correctamente el rechazo del requerimiento");
+        this._toastService.showOk("Se registró correctamente el rechazo del requerimiento");
 
         this.reclamoService.getReclamo(this.nroReclamo).subscribe(datosReclamo => {
           this.reclamo = datosReclamo;
@@ -136,13 +137,12 @@ export class ReclamoFormConsultarComponent implements OnInit {
 
         return;
       }, error => {
-        console.error(error);
-        alert("Ocurrió un error al registrar el rechazo del requerimiento");
+        this._toastService.showError("Ocurrió un error al registrar el rechazo del requerimiento");
         return;
       });
       
     } else {
-      alert("Debe ingresar el motivo del rechazo");
+      this._toastService.showError("Debe ingresar el motivo del rechazo");
     }
     
   }
@@ -153,7 +153,7 @@ export class ReclamoFormConsultarComponent implements OnInit {
       aplicarAccion.codAccion = resultado;
       aplicarAccion.observacion = descripcion;
       this.reclamoService.aplicarAccion(this.nroReclamo, aplicarAccion).subscribe(resp => {
-        alert("Se registró correctamente la finalización del requerimiento");
+        this._toastService.showOk("Se registró correctamente la finalización del requerimiento");
 
         this.reclamoService.getReclamo(this.nroReclamo).subscribe(datosReclamo => {
           this.reclamo = datosReclamo;
@@ -164,12 +164,11 @@ export class ReclamoFormConsultarComponent implements OnInit {
 
         return;
       }, error => {
-        console.error(error);
-        alert("Ocurrió un error al registrar la finalización del requerimiento");
+        this._toastService.showError("Ocurrió un error al registrar la finalización del requerimiento");
         return;
       });
     } else {
-      alert("Debe indicar un resultado y descripción");
+      this._toastService.showError("Debe indicar un resultado y descripción");
     }
   }
 
@@ -177,17 +176,16 @@ export class ReclamoFormConsultarComponent implements OnInit {
     if (nroArea) {
 
       if (nroArea == this.reclamo.nroArea) {
-        alert("No se puede asignar el requerimiento a la misma área que tiene actualmente.");
+        this._toastService.showError('No se puede asignar el requerimiento a el mismo área que tiene actualmente');
         return;
       }
 
-      console.log("Reclamo asignado al area " + nroArea + " por el siguiente motivo: " + descripcionMotivoAsignacion);
       let aplicarAccion: AplicarAccion = {};
       aplicarAccion.codAccion = "ASIGNAR";
       aplicarAccion.codArea = nroArea;
       aplicarAccion.observacion = descripcionMotivoAsignacion;
       this.reclamoService.aplicarAccion(this.nroReclamo, aplicarAccion).subscribe(resp => {
-        alert("Se registró correctamente la asignación del requerimiento");
+        this._toastService.showOk('Se registró correctamente la asignación del requerimiento');
 
         this.reclamoService.getReclamo(this.nroReclamo).subscribe(datosReclamo => {
           this.reclamo = datosReclamo;
@@ -198,14 +196,13 @@ export class ReclamoFormConsultarComponent implements OnInit {
 
         return;
       }, error => {
-        console.error(error);
-        alert("Ocurrió un error al registrar el rechazo del requerimiento");
+        this._toastService.showError('Ocurrió un error al registrar el rechazo del requerimiento');
         return;
       });
 
 
     } else {
-      alert("Debe asignar una área");
+      this._toastService.showError("Debe asignar un área");
     }    
     
   }
@@ -217,7 +214,7 @@ export class ReclamoFormConsultarComponent implements OnInit {
       aplicarAccion.codAccion = "SUSPENDER";
       aplicarAccion.observacion = descripcion;
       this.reclamoService.aplicarAccion(this.nroReclamo, aplicarAccion).subscribe(resp => {
-        alert("Se registró correctamente la asignación del requerimiento");
+        this._toastService.showOk("Se registró correctamente la suspensión del requerimiento");
 
         this.reclamoService.getReclamo(this.nroReclamo).subscribe(datosReclamo => {
           this.reclamo = datosReclamo;
@@ -228,14 +225,13 @@ export class ReclamoFormConsultarComponent implements OnInit {
 
         return;
       }, error => {
-        console.error(error);
-        alert("Ocurrió un error al registrar la suspensión del requerimiento");
+        this._toastService.showError("Ocurrió un error al registrar la suspensión del requerimiento");
         return;
       });
 
 
     } else {
-      alert("Debe cargar una descripción");
+      this._toastService.showError("Debe cargar una descripción");
     }    
     
   }
@@ -245,15 +241,14 @@ export class ReclamoFormConsultarComponent implements OnInit {
       this.reclamoService.guardarTrabajoReclamo(this.nroReclamo, 
                                                 {"fechaTrabajo": fechaTrabajo, "descripcion": descripcionTrabajo})
         .subscribe(resp => {
-          alert("Se registró correctamente la carga del trabajo");                                         
+          this._toastService.showOk("Se registró correctamente la carga del trabajo");                                         
           return;
         }, error => {
-          console.error(error);
-          alert("Ocurrió un error al registrar el trabajo del requerimiento");
+          this._toastService.showError("Ocurrió un error al registrar el trabajo del requerimiento");
           return;
         });
     } else {
-      alert("Debe indicar una fecha y descripción del trabajo");
+      this._toastService.showError("Debe indicar una fecha y descripción del trabajo");
     }
   }
 

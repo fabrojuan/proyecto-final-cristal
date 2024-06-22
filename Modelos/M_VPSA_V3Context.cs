@@ -737,6 +737,9 @@ namespace MVPSA_V2022.Modelos
             entity.Property(e => e.Fecha)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
+            entity.Property(e => e.FechaCierre)
+                .HasColumnType("date")
+                .HasColumnName("fecha_cierre");
             entity.Property(e => e.IdSugerenciaOrigen).HasColumnName("id_sugerencia_origen");
             entity.Property(e => e.IdUsuarioResponsable).HasColumnName("id_usuario_responsable");
             entity.Property(e => e.Interno)

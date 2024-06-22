@@ -12,8 +12,30 @@
         <input type="text" class="form-control" id="tipoReclamo" value="{{reclamo.tipoReclamo}}" readonly>
     </div>
     <div class="col-md-4">
-        <label class="form-label" for="firstName">Area</label>
+        <label class="form-label" for="firstName">Área</label>
         <input type="text" class="form-control" id="tipoReclamo" value="{{getAreaDescripcion(reclamo.nroArea)}}" readonly>
+    </div>
+
+
+    <div class="col-md-2">
+        <label class="form-label" for="firstName">Fecha Alta</label>
+        <input type="text" class="form-control" id="interno" value="{{reclamo.fecha | date: 'dd/MM/yyyy'}}" readonly>
+    </div>
+    <div class="col-md-2">
+        <label class="form-label" for="firstName">Fecha Cierre</label>
+        <input type="text" class="form-control" id="interno" value="{{reclamo.fechaCierre | date: 'dd/MM/yyyy'}}" readonly>
+    </div>
+    <div class="col-md-2">
+        <label class="form-label" for="firstName">Nro. Sugerencia</label>
+        <input type="text" class="form-control" id="interno" value="{{reclamo.idSugerenciaOrigen}}" readonly>
+    </div>
+    <div class="col-md-2">
+        <label class="form-label" for="firstName">Prioridad</label>
+        <input type="text" class="form-control" id="interno" value="{{reclamo.prioridad}}" readonly>
+    </div>
+    <div class="col-md-1">
+        <label class="form-label" for="firstName">Interno</label>
+        <input type="text" class="form-control" id="interno" value="{{getInternoDescripcion()}}" readonly>
     </div>
     <!--<div class="col-6">
 <label class="form-label" for="Id_Vecino">Id Vecino</label>
@@ -26,7 +48,7 @@
 
     <div class="col-12">
         <label class="form-label" for="firstName">Descripci&oacute;n Requerimiento</label>
-        <textarea type="text" class="form-control" id="descripcionReclamo" value="{{reclamo.descripcion}}" readonly rows="1"></textarea>
+        <textarea type="text" class="form-control" id="descripcionReclamo" value="{{reclamo.descripcion}}" readonly rows="3"></textarea>
     </div>
 
 </div>

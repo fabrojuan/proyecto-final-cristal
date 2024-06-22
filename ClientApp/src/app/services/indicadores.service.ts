@@ -31,6 +31,24 @@ export class IndicadoresService {
   public FechaTrabajosEnDenuncias(): Observable<any> {
     return this.http.get(this.urlBase + 'api/Indicadores/FechaTrabajosEnDenuncias').pipe(map(res => res));
   }
-  
+
+  /**
+   * Reclamos
+   */
+  public getReclamosCerradosPorMesYTipoCierre(): Observable<any> {
+    return this.http.get(this.urlBase + "api/Indicadores/reclamos-cerrados-por-mes-y-tipo-cierre").pipe(map(res => res));
+  }
+
+  public getReclamosNuevosPorMes(): Observable<any> {
+    return this.http.get(this.urlBase + "api/Indicadores/reclamos-nuevos-por-mes").pipe(map(res => res));
+  }
+
+  public getReclamosAbiertosPorEstado(): Observable<any> {
+    return this.http.get(this.urlBase + "api/Indicadores/reclamos-abiertos-por-estado").pipe(map(res => res));
+  }
+
+  public getTrabajosReclamosPorAreaYMes(): Observable<any> {
+    return this.http.get(this.urlBase + "api/Indicadores/trabajos-reclamos-por-area-y-mes").pipe(map(res => res));
+  }
 
 }

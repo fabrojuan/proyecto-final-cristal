@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Chart } from 'chart.js';
+import { IndicadoresService } from 'src/app/services/indicadores.service';
 
 @Component({
   selector: 'app-charts-reclamos',
@@ -8,93 +9,125 @@ import { Chart } from 'chart.js';
 })
 export class ChartsReclamosComponent implements OnInit {
 
-  chartReclamosCerradosPorMes: Chart;
+  chartReclamosCerradosPorMes?: Chart;
+  chartReclamosNuevosPorMes?: Chart;
+  chartReclamosAbiertosPorEstado?: any;
+  chartTrabajosReclamosPorAreaYMes?: any;
+  dataChartReclamosCerradosPorMes: any;
+  dataChartReclamosNuevosPorMes: any;
+  dataChartReclamosAbiertosPorEstado: any;
+  dataChartTrabajosReclamosPorAreaYMes: any;
 
-  constructor() { 
-    this.chartReclamosCerradosPorMes = new Chart("chartReclamosCerradosPorMes", {
-      type: 'bar',
-      data: {
-        labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Junio'],
-        datasets: [{
-            label: 'Solucionados',
-            data: [75, 15, 18, 48, 74],
-            backgroundColor: 'rgb(255, 99, 132)',
+  constructor(private indicadoresService: IndicadoresService) { 
+
+    this.indicadoresService.getReclamosCerradosPorMesYTipoCierre().subscribe(resp => {
+
+      this.dataChartReclamosCerradosPorMes = resp;
+      console.log(resp);
+      this.chartReclamosCerradosPorMes = new Chart("chartReclamosCerradosPorMes", {
+        type: 'bar',
+        data: this.dataChartReclamosCerradosPorMes,
+        options: {
+          plugins: {
+            title: {
+              display: false,
+              text: 'Últimos 6 meses'
+            },
           },
-          {
-            label: 'Cancelados',
-            data: [11, 1, 12, 62, 95],
-            backgroundColor: 'rgb(75, 192, 192)',
-          },
-          {
-            label: 'Rechazados',
-            data: [44, 5, 22, 35, 62],
-            backgroundColor: 'rgb(255, 205, 86)',
-          },
-        ]
-      },
-      options: {
-        plugins: {
-          title: {
-            display: true,
-            text: 'Chart.js Bar Chart - Stacked'
-          },
-        },
-        responsive: true,
-        scales: {
-          x: {
-            stacked: true,
-          },
-          y: {
-            stacked: true
+          responsive: true,
+          scales: {
+            x: {
+              stacked: true,
+            },
+            y: {
+              stacked: true
+            }
           }
         }
-      }
+      });      
+
+    });
+    
+    
+    this.indicadoresService.getReclamosNuevosPorMes().subscribe(resp => {
+
+      this.dataChartReclamosNuevosPorMes = resp;
+
+      this.chartReclamosNuevosPorMes = new Chart("chartReclamosNuevosPorMes", {
+
+        type: 'line',
+        data: this.dataChartReclamosNuevosPorMes,
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          },
+          plugins: {
+            title: {
+              display: false,
+              text: 'Últimos 6 meses'
+            },
+          }
+        }
+      
+      });
+
+    });    
+
+    this.indicadoresService.getReclamosAbiertosPorEstado().subscribe(resp => {
+
+      this.dataChartReclamosAbiertosPorEstado = resp;
+
+      this.chartReclamosAbiertosPorEstado = new Chart("chartReclamosAbiertosPorEstado", {
+        type: 'doughnut',
+        data: this.dataChartReclamosAbiertosPorEstado,
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'top',
+            },
+            title: {
+              display: false
+            }
+          }
+        }
+      });
+
+    });  
+
+
+    this.indicadoresService.getTrabajosReclamosPorAreaYMes().subscribe(resp => {
+
+      this.dataChartTrabajosReclamosPorAreaYMes = resp;
+      console.log(resp);
+      this.chartReclamosCerradosPorMes = new Chart("chartTrabajosReclamosPorAreaYMes", {
+        type: 'bar',
+        data: this.dataChartTrabajosReclamosPorAreaYMes,
+        options: {
+          plugins: {
+            title: {
+              display: false,
+              text: 'Últimos 6 meses'
+            },
+          },
+          responsive: true,
+          scales: {
+            x: {
+              stacked: true,
+            },
+            y: {
+              stacked: true
+            }
+          }
+        }
+      });      
+
     });
 
   }
 
-  ngOnInit(): void {
-
-    this.chartReclamosCerradosPorMes = new Chart("chartReclamosCerradosPorMes", {
-      type: 'bar',
-      data: {
-        labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Junio'],
-        datasets: [{
-            label: 'Solucionados',
-            data: [75, 15, 18, 48, 74],
-            backgroundColor: 'rgb(255, 99, 132)',
-          },
-          {
-            label: 'Cancelados',
-            data: [11, 1, 12, 62, 95],
-            backgroundColor: 'rgb(75, 192, 192)',
-          },
-          {
-            label: 'Rechazados',
-            data: [44, 5, 22, 35, 62],
-            backgroundColor: 'rgb(255, 205, 86)',
-          },
-        ]
-      },
-      options: {
-        plugins: {
-          title: {
-            display: true,
-            text: 'Chart.js Bar Chart - Stacked'
-          },
-        },
-        responsive: true,
-        scales: {
-          x: {
-            stacked: true,
-          },
-          y: {
-            stacked: true
-          }
-        }
-      }
-    });
-
-  }
+  ngOnInit(): void { }
 
 }

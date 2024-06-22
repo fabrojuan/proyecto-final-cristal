@@ -3,6 +3,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Area } from 'src/app/modelos_Interfaces/Area';
 import { ClaveValor } from 'src/app/modelos_Interfaces/ClaveValor';
 import { AreasService } from 'src/app/services/areas.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-reclamo-finalizar',
@@ -16,17 +17,21 @@ export class ReclamoFinalizarComponent implements OnInit {
   resultados: ClaveValor[] = [{clave : "CANCELAR", valor : "Cancelado"}, {clave : "SOLUCIONAR", valor : "Solucionado"}];
   resultadoSeleccionado: string = "SOLUCIONAR";
 
-  constructor(public activeModal: NgbActiveModal) { }
+  constructor(public activeModal: NgbActiveModal, public _toastService: ToastService) { }
 
   ngOnInit(): void {
   }
 
   confirmarAsignacion() {
-    console.log("Desde dentro del modal. " + this.descripcion);
-    this.eventoFinalizacionConfirmado.emit( {
-      resultado: this.resultadoSeleccionado,
-      descripcion: this.descripcion   
-    });
+    if (this.resultadoSeleccionado && this.resultadoSeleccionado.length > 1 && this.descripcion && this.descripcion.length > 1) {
+      this.eventoFinalizacionConfirmado.emit( {
+        resultado: this.resultadoSeleccionado,
+        descripcion: this.descripcion   
+      });
+    } else {
+      this._toastService.showError("Debe indicar un resultado y descripción");
+    }
+    
   }
 
   cancelarAsignacion() {

@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AreasService } from 'src/app/services/areas.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-reclamo-suspender',
@@ -13,16 +14,21 @@ export class ReclamoSuspenderComponent implements OnInit {
   descripcion : string = "";
 
   constructor(public activeModal: NgbActiveModal,
-              private _areasService: AreasService
+              private _areasService: AreasService,
+              public _toastService: ToastService
   ) { }
 
   ngOnInit(): void { }
 
   confirmarSuspension() {
-    console.log("Desde dentro del modal. " + this.descripcion);
-    this.eventoSuspensionConfirmado.emit( {
-      descripcion: this.descripcion   
-    });
+
+    if (this.descripcion && this.descripcion.length > 0) {
+      this.eventoSuspensionConfirmado.emit( {
+        descripcion: this.descripcion   
+      });
+    } else {
+      this._toastService.showError("Debe cargar una descripción");
+    }    
   }
 
   cancelarSuspension() {

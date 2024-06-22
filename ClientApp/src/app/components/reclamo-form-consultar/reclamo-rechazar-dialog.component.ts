@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-reclamo-rechazar-dialog',
@@ -11,15 +12,17 @@ export class ReclamoRechazarDialogComponent implements OnInit {
   @Output() eventoRechazoConfirmado: EventEmitter<any> = new EventEmitter();
   descripcionMotivoRechazo : string = "";
 
-  constructor(public activeModal: NgbActiveModal) { }
+  constructor(public activeModal: NgbActiveModal, public _toastService: ToastService) { }
 
   ngOnInit(): void {
   }
 
   confirmarRechazo() {
-    console.log("Desde dentro del modal. " + this.descripcionMotivoRechazo);
-    this.eventoRechazoConfirmado.emit(this.descripcionMotivoRechazo);
-    //this.activeModal.close(this.descripcionMotivoRechazo);
+    if (this.descripcionMotivoRechazo.length == 0) {
+      this._toastService.showError("Debe ingresar el motivo del rechazo");
+    } else {
+      this.eventoRechazoConfirmado.emit(this.descripcionMotivoRechazo);
+    }    
   }
 
   cancelarRechazo() {

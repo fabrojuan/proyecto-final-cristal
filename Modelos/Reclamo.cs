@@ -43,6 +43,8 @@ public partial class Reclamo
 
     public string Interno { get; set; } = null!;
 
+    public DateTime? FechaCierre { get; set; }
+
     public virtual EstadoReclamo? CodEstadoReclamoNavigation { get; set; }
 
     public virtual TipoReclamo? CodTipoReclamoNavigation { get; set; }
