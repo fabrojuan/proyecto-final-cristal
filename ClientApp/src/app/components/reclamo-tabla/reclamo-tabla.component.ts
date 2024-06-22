@@ -14,7 +14,7 @@ export class ReclamoTablaComponent implements OnInit {
   Reclamos: any[] = [];
   ReclamosFiltrados: any[] = [];
   p: number = 1;
-  cabeceras: string[] = ["Número", "Fecha Generado", "Estado", "Tipo", "Prioridad", "Asignado a"];
+  cabeceras: string[] = ["Número", "Fecha Generado", "Estado", "Tipo", "Prioridad", "Área"];
   listaPrioridades: ClaveValor[] = [];
   prioridadSeleccionada: ClaveValor = {clave : "0", valor : "Todas"};
   TiposReclamo: any;

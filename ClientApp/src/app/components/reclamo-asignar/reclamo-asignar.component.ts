@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Area } from 'src/app/modelos_Interfaces/Area';
 import { AreasService } from 'src/app/services/areas.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-reclamo-asignar',
@@ -16,7 +17,8 @@ export class ReclamoAsignarComponent implements OnInit {
   areaSelected: number = 0;
 
   constructor(public activeModal: NgbActiveModal,
-              private _areasService: AreasService
+              private _areasService: AreasService,
+              public _toastService: ToastService
   ) { }
 
   ngOnInit(): void {
@@ -30,7 +32,12 @@ export class ReclamoAsignarComponent implements OnInit {
   }
 
   confirmarAsignacion() {
-    console.log("Desde dentro del modal. " + this.descripcionMotivoAsignacion);
+
+    if (this.areaSelected == 0) {
+      this._toastService.showError("Debe asignar un área");
+      return;
+    }
+
     this.eventoAsignacionConfirmado.emit( {
       codArea: this.areaSelected,
       descripcionMotivoAsignacion: this.descripcionMotivoAsignacion   

@@ -63,11 +63,6 @@
                     <h5 class="card-title">Tablero Gestión de Requerimientos</h5>
                 </div>
 
-                <div class="card-header">
-
-                                        
-                </div>
-
                 <div class="card-body">
                     <!-- <h5 class="card-title">Tablero Gestión de Requerimientos</h5> -->
 
@@ -81,29 +76,29 @@
                         </thead>
 
                         <tbody>
-                            <tr *ngFor="let reclamo of ReclamosFiltrados | paginate: { itemsPerPage: 10, currentPage: p }">
+                            <tr *ngFor="let reclamo of ReclamosFiltrados | paginate: { itemsPerPage: 11, currentPage: p }">
                                 <td>{{reclamo.nroReclamo}}</td>
-                                <td>{{reclamo.fecha | date: 'dd/MM/yyyy HH:mm'}}</td>
+                                <td>{{reclamo.fecha | date: 'dd/MM/yyyy'}}</td>
                                 <td>{{reclamo.estadoReclamo}}</td>
                                 <td>{{reclamo.tipoReclamo}}</td>
                                 <td>{{reclamo.prioridad}}</td>
                                 <td>{{reclamo.empleadoAsignado}}</td>
-                                <td class="text-center" *ngIf="isMantenimiento==true">
+                                <td>
+                                    <!-- <a class="dropdown-item" [routerLink]="['/reclamo-form-consultar',reclamo.nroReclamo]" role="button"><i class="bi bi-pencil-square"></i></a> -->
+                                    <button type="button" class="btn btn-outline-primary btn-sm" [routerLink]="['/reclamo-form-consultar',reclamo.nroReclamo]" title="Modificar"><i class="bi bi-pencil"></i></button>
+                                </td>
+                                
+                                
+                                <!-- <td class="text-center" *ngIf="isMantenimiento==true">
                                     <div class="dropdown">
                                         <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                           Acciones
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                             <li><a class="dropdown-item" [routerLink]="['/reclamo-form-consultar',reclamo.nroReclamo]" role="button">Consultar</a></li>
-                                            <!-- <li><a class="dropdown-item" [routerLink]="['/reclamo-trabajo-tabla',reclamo.nroReclamo]" role="button">Ver Trabajos</a></li>
-                                            <li><a class="dropdown-item" href="#">Tomar Reclamo</a></li>
-                                            <li><a class="dropdown-item" [routerLink]="['/reclamo-derivar', reclamo.nroReclamo]">Derivar Reclamo</a></li>
-                                            <li><a class="dropdown-item" [routerLink]="['/reclamo-trabajo-form' ,reclamo.nroReclamo]">Cargar Trabajo</a></li>
-                                            <li><a class="dropdown-item" href="#">Suspender</a></li>
-                                            <li><a class="dropdown-item" [routerLink]="['/reclamo-cambiar-prioridad', reclamo.nroReclamo]">Cambiar Prioridad</a></li> -->
                                         </ul>
                                     </div>
-                                </td>
+                                </td> -->
                             </tr>
                         </tbody>
                     </table>

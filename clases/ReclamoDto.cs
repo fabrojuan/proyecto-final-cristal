@@ -31,7 +31,8 @@ namespace MVPSA_V2022.clases
 
         public int? nroArea { get; set; }
         public string interno { get; set; }
-
+        public DateTime? fechaCierre { get; set; }
+        public int? idSugerenciaOrigen { get; set; }
 
     }
 }

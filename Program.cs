@@ -41,9 +41,10 @@ builder.Services.AddDbContext<M_VPSA_V3Context>(options
         => options.UseLazyLoadingProxies().UseSqlServer("Server=localhost;Database=cristal;User Id=sa;Password=pepito1#;TrustServerCertificate=True;"));
 
 builder.Services.AddScoped<IReclamoService, ReclamoService>();
+builder.Services.AddScoped<ITrabajoReclamoService, TrabajoReclamoService>();
 builder.Services.AddSingleton<IDenunciaService, DenunciaService>();
 builder.Services.AddSingleton<IPagoService, PagoService>();
-builder.Services.AddSingleton<IindicadoresService, IndicadoresService>();
+builder.Services.AddScoped<IindicadoresService, IndicadoresService>();
 builder.Services.AddSingleton<IUsuarioService, UsuarioService>();
 builder.Services.AddSingleton<IImpuestoService, ImpuestoService>();
 builder.Services.AddScoped<ITrabajoService,TrabajoService>();

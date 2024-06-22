@@ -31,7 +31,7 @@
 
                 <div class="col-md-6">
                     <label for="formGroupExampleInput" class="form-label">(*) Nombre calle</label>
-                    <input type="text" class="form-control" [ngClass]="{'is-invalid' : calleNoValido}" id="calle" formControlName="Calle" value="">
+                    <input type="text" class="form-control" [ngClass]="{'is-invalid' : calleNoValido}" id="calle" formControlName="calle" value="">
                     <div class="invalid-feedback" *ngIf="calleNoValido">
                         El nombre de calle es requerido y no puede superar los 50 caracteres.
                     </div>
@@ -39,7 +39,7 @@
 
                 <div class="col-md-6">
                     <label for="formGroupExampleInput" class="form-label">(*) Altura aproximada</label>
-                    <input type="text" class="form-control" [ngClass]="{'is-invalid' : alturaNoValido}" id="altura" formControlName="Altura" value="">
+                    <input type="text" class="form-control" [ngClass]="{'is-invalid' : alturaNoValido}" id="altura" formControlName="altura" value="">
                     <div class="invalid-feedback" *ngIf="alturaNoValido">
                         La altura aproximada es requerida y no puede superar los 6 caracteres.
                     </div>
@@ -55,7 +55,7 @@
 
                 <div class="col-12">
                     <label for="descripcion" class="form-label">(*) Descripción</label>
-                    <textarea type="text" class="form-control" [ngClass]="{'is-invalid' : descripcionNoValido}" id="descripcion" formControlName="Descripcion" value="" rows="3" placeholder="Descripcion del reclamo del servicio, circunstancias que lo generaron. Puede incluir nombres de personas implicadas para mayor trazabilidad."></textarea>
+                    <textarea type="text" class="form-control" [ngClass]="{'is-invalid' : descripcionNoValido}" id="descripcion" formControlName="descripcion" value="" rows="3" placeholder="Descripcion del reclamo del servicio, circunstancias que lo generaron. Puede incluir nombres de personas implicadas para mayor trazabilidad."></textarea>
                     <div class="invalid-feedback" *ngIf="descripcionNoValido">
                         La descripción es requerida y no puede superar los 200 caracteres.
                     </div>

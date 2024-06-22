@@ -737,6 +737,9 @@ namespace MVPSA_V2022.Modelos
             entity.Property(e => e.Fecha)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
+            entity.Property(e => e.FechaCierre)
+                .HasColumnType("date")
+                .HasColumnName("fecha_cierre");
             entity.Property(e => e.IdSugerenciaOrigen).HasColumnName("id_sugerencia_origen");
             entity.Property(e => e.IdUsuarioResponsable).HasColumnName("id_usuario_responsable");
             entity.Property(e => e.Interno)
@@ -782,6 +785,10 @@ namespace MVPSA_V2022.Modelos
             entity.HasOne(d => d.NroAreaNavigation).WithMany(p => p.Reclamos)
                 .HasForeignKey(d => d.NroArea)
                 .HasConstraintName("FK__RECLAMO__nro_are__531856C7");
+
+            entity.HasOne(d => d.NroPrioridadNavigation).WithMany(p => p.Reclamos)
+                .HasForeignKey(d => d.NroPrioridad)
+                .HasConstraintName("FK_reclamo_prioridad");
         });
 
         modelBuilder.Entity<Rol>(entity =>
@@ -857,7 +864,7 @@ namespace MVPSA_V2022.Modelos
 
             entity.HasOne(d => d.EstadoNavigation).WithMany(p => p.Sugerencia)
                 .HasForeignKey(d => d.Estado)
-                .OnDelete(DeleteBehavior.Cascade)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Estado");
         });
 

@@ -1,6 +1,6 @@
 <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title">Asignar Requerimiento</h5>
+        <h5 class="modal-title">Finalizar Requerimiento</h5>
 
         <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
             <span aria-hidden="true">&times;</span>
@@ -9,19 +9,18 @@
     <div class="modal-body">
 
         <div class="row mb-3">
-            <label class="col-sm-2 col-form-label">(*) Area</label>
+            <label class="col-sm-2 col-form-label">(*) Resultado</label>
             <div class="col-sm-10">
-                <select id="Tipo_Reclamo" class="form-select" [(ngModel)]="areaSelected">
-                    <option value="0">--Seleccione Opción--</option>
-                    <option [ngValue]="area.nroArea" *ngFor="let area of areas">{{area.nombre}}</option>
+                <select id="Tipo_Reclamo" class="form-select" [(ngModel)]="resultadoSeleccionado">
+                    <option [ngValue]="resultado.clave" *ngFor="let resultado of resultados">{{resultado.valor}}</option>
                 </select>
             </div>
         </div>
 
         <div class="row mb-3">
-            <label class="col-sm-2 col-form-label">Observación</label>
+            <label class="col-sm-2 col-form-label">(*) Observación</label>
             <div class="col-sm-10"> 
-                <textarea type="text" class="form-control"  [(ngModel)]="descripcionMotivoAsignacion" rows="3"></textarea>
+                <textarea type="text" class="form-control"  [(ngModel)]="descripcion" rows="3"></textarea>
             </div>                
         </div>
     </div>
@@ -29,7 +28,7 @@
     
 
     <div class="modal-footer">
-        <button (click)="confirmarAsignacion()" type="submit" class="btn btn-primary">Confirmar Asignación</button>
+        <button (click)="confirmarAsignacion()" type="submit" class="btn btn-primary">Confirmar Resultado</button>
         <button (click)="cancelarAsignacion()" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
     </div>
 </div>

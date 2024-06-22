@@ -99,4 +99,22 @@ export class ReclamoService {
     return this.http.get<Array<EstadoReclamo>>(this.urlBase + 'api/reclamos/estados').pipe(map(res => res));
   }
 
+  /**
+   * Trabajos Reclamos
+   */
+  public guardarTrabajoReclamo(nroReclamo: number, datosTrabajo: any): Observable<any> {
+    return this.http.post<any>(this.urlBase + 'api/reclamos/' + nroReclamo + '/trabajos', datosTrabajo).pipe(map(res => res));
+  }
+
+  public getTrabajosReclamo(nroReclamo: number): Observable<Array<any>> {
+    return this.http.get<Array<any>>(this.urlBase + 'api/reclamos/' + nroReclamo + '/trabajos').pipe(map(res => res));
+  }
+
+  /**
+   * Opciones
+   */
+  public getOpcionesReclamo(nroReclamo: number): Observable<any> {
+    return this.http.get<any>(this.urlBase + 'api/reclamos/' + nroReclamo + '/opciones').pipe(map(res => res));
+  }
+
 }

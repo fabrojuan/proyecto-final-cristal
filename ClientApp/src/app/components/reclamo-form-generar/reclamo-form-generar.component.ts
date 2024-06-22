@@ -25,12 +25,11 @@ export class ReclamoFormGenerarComponent implements OnInit {
               public _toastService: ToastService  ) {
     this.Reclamo = new UntypedFormGroup(
       {
-        "Nro_Reclamo": new UntypedFormControl("0"),
         "codTipoReclamo": new UntypedFormControl("", [Validators.required]),
-        "Descripcion": new UntypedFormControl("", [Validators.required, Validators.maxLength(200)]),
-        "Calle": new UntypedFormControl("", [Validators.required, Validators.maxLength(50)]),
+        "descripcion": new UntypedFormControl("", [Validators.required, Validators.maxLength(200)]),
+        "calle": new UntypedFormControl("", [Validators.required, Validators.maxLength(50)]),
         "entreCalles": new UntypedFormControl("", [Validators.required, Validators.maxLength(50)]),
-        "Altura": new UntypedFormControl("", [Validators.required, Validators.maxLength(6)]),
+        "altura": new UntypedFormControl("", [Validators.required, Validators.maxLength(6)]),
         "foto1": new UntypedFormControl(""),
         "foto2": new UntypedFormControl(""),
         "interno": new UntypedFormControl("N")
@@ -72,11 +71,13 @@ export class ReclamoFormGenerarComponent implements OnInit {
         nroReclamoGenerado = data.nroReclamo;
       },
       error => {
-        this.mostrarMensajeError(error.error);
+        //this.mostrarMensajeError(error.error);
+        this._toastService.showError(error.error);
       },
       () => {
         this.limpiarFormulario();
-        this.mostrarMensajeOk(`Se registró con éxito el requerimiento nro: ${nroReclamoGenerado}`);
+        //this.mostrarMensajeOk(`Se registró con éxito el requerimiento nro: ${nroReclamoGenerado}`);
+        this._toastService.showOk(`Se registró con éxito el requerimiento nro: ${nroReclamoGenerado}`);
       }
     );
   }

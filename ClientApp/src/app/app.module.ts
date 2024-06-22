@@ -106,6 +106,11 @@ import { IndicadoresGraficosComponent } from './components/indicadores-graficos/
 import { ChartsDenunciaComponent } from './components/charts-denuncia/charts-denuncia.component';
 import { EmpleadosyrolesComponent } from './components/empleadosyroles/empleadosyroles.component';
 import { LotesypersonasComponent } from './components/lotesypersonas/lotesypersonas.component';
+import { TrabajoReclamoFormGenerarComponent } from './components/trabajo-reclamo-form-generar/trabajo-reclamo-form-generar.component';
+import { TrabajosReclamoTablaComponent } from './components/trabajos-reclamo-tabla/trabajos-reclamo-tabla.component';
+import { ReclamoSuspenderComponent } from './components/reclamo-suspender/reclamo-suspender.component';
+import { ReclamoFinalizarComponent } from './components/reclamo-finalizar/reclamo-finalizar.component';
+import { ChartsReclamosComponent } from './components/charts-reclamos/charts-reclamos.component';
 
 
 @NgModule({
@@ -183,7 +188,12 @@ import { LotesypersonasComponent } from './components/lotesypersonas/lotesyperso
     ReclamoAsignarComponent,
     ObservacionesReclamoTablaComponent,
     ReclamoFormGenerarSugerenciaComponent,
-    ReportarProblemasComponent
+    ReportarProblemasComponent,
+    TrabajoReclamoFormGenerarComponent,
+    TrabajosReclamoTablaComponent,
+    ReclamoSuspenderComponent,
+    ReclamoFinalizarComponent,
+    ChartsReclamosComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -267,7 +277,7 @@ import { LotesypersonasComponent } from './components/lotesypersonas/lotesyperso
       { path: 'historico-denuncia-trabajos', component: HistoricoDenunciaTrabajosComponent, canActivate: [SeguridadGuard] },
       { path: 'charts-denuncia', component: ChartsDenunciaComponent, canActivate: [SeguridadGuard] },
       { path: 'lotesypersonas', component: LotesypersonasComponent, canActivate: [SeguridadGuard] },
-     
+      { path: 'charts-reclamos', component: ChartsReclamosComponent, canActivate: [SeguridadGuard] },
       { path: 'reclamo-form-consultar/:id', component: ReclamoFormConsultarComponent },
       { path: 'reclamo-form-generar-sugerencia/:id_sugerencia', component: ReclamoFormGenerarSugerenciaComponent },
       { path: '*', redirectTo: '' } //a home

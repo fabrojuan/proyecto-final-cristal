@@ -30,5 +30,7 @@ namespace MVPSA_V2022.Services
 
         public List<EstadoReclamoDto> getEstadosReclamo();
 
+        public OpcionesReclamoDto getOpcionesReclamo(int numeroReclamo, int idUsuario);
+
     }        
 }

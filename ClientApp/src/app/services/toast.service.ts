@@ -12,6 +12,14 @@ export class ToastService {
     this.toasts = this.toasts.filter(t => t !== toast);
   }
 
+  showOk(message: string) {
+    this.show(message, { classname: 'bg-success text-light', delay: 5000 });
+  }
+
+  showError(message: string) {
+    this.show(message, { classname: 'bg-danger text-light', delay: 5000 });
+  }
+
   clear() {
     this.toasts.splice(0, this.toasts.length);
   }

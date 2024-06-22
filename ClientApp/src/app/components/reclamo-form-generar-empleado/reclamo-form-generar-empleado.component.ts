@@ -5,6 +5,7 @@ import { VecinoService } from '../../services/vecino.service';
 import { Area } from 'src/app/modelos_Interfaces/Area';
 import { AreasService } from 'src/app/services/areas.service';
 import { ClaveValor } from 'src/app/modelos_Interfaces/ClaveValor';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-reclamo-form-generar-empleado',
@@ -27,7 +28,7 @@ export class ReclamoFormGenerarEmpleadoComponent implements OnInit {
   opcionesReclamoInterno: ClaveValor[] = [{clave : "N", valor : "No"}, {clave : "S", valor : "Si"}];
 
   constructor(private reclamoservice: ReclamoService, private vecinoService: VecinoService,
-              private _areasService: AreasService
+              private _areasService: AreasService, public _toastService: ToastService
   ) {
     this.Reclamo = new FormGroup({});
     this.crearFormularioRequerimientoExterno();
@@ -73,12 +74,14 @@ export class ReclamoFormGenerarEmpleadoComponent implements OnInit {
         nroReclamoGenerado = data.nroReclamo;
       },
       error => {
-        this.mostrarMensajeError(error.error);
+        //this.mostrarMensajeError(error.error);
+        this._toastService.showError(error.error);
       },
       () => {
         this.limpiarFormulario();
         this.isFormSubmitted = false;
-        this.mostrarMensajeOk(`Se registró con éxito el requerimiento nro: ${nroReclamoGenerado}`);
+        //this.mostrarMensajeOk(`Se registró con éxito el requerimiento nro: ${nroReclamoGenerado}`);
+        this._toastService.showOk(`Se registró con éxito el requerimiento nro: ${nroReclamoGenerado}`);
         this.crearFormularioRequerimientoExterno();
       }
     );
