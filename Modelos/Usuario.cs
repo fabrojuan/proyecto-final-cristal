@@ -41,6 +41,8 @@ public partial class Usuario
 
     public virtual ICollection<Reclamo> ReclamoIdVecinoNavigations { get; set; } = new List<Reclamo>();
 
+    public virtual ICollection<RecuperacionCuentum> RecuperacionCuenta { get; set; } = new List<RecuperacionCuentum>();
+
     public virtual ICollection<Solicitud> SolicitudIdUsuarioNavigations { get; set; } = new List<Solicitud>();
 
     public virtual ICollection<Solicitud> SolicitudIdVecinoNavigations { get; set; } = new List<Solicitud>();

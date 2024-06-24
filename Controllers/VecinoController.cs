@@ -4,20 +4,27 @@ using Microsoft.EntityFrameworkCore;
 using MVPSA_V2022.clases;
 using MVPSA_V2022.Modelos;
 using MVPSA_V2022.Services;
+using OfficeOpenXml.Style;
+using System.Data;
 using System.Security.Cryptography;
 using System.Text;
 using System.Transactions;
 
 namespace MVPSA_V2022.Controllers
 {
+    [ApiController]
+    [Route("api/vecinos")]
     [Authorize]
     public class VecinoController : Controller
     {
         private readonly IJwtAuthenticationService _jwtAuthenticationService;
+        private readonly M_VPSA_V3Context dbContext;
 
-        public VecinoController(IJwtAuthenticationService jwtAuthenticationService)
+        public VecinoController(IJwtAuthenticationService jwtAuthenticationService,
+                                M_VPSA_V3Context dbContext)
         {
             _jwtAuthenticationService = jwtAuthenticationService;
+            this.dbContext = dbContext;
         }
 
         public IActionResult Index()
@@ -28,7 +35,6 @@ namespace MVPSA_V2022.Controllers
         //********************* GUARDAR VECINO ******************************************
         [AllowAnonymous]
         [HttpPost]
-        [Route("api/vecinos")]
         public int GuardarVecino([FromBody] VecinoCLS oVecinoCLS)
         {
             int rpta = 0;
@@ -109,7 +115,7 @@ namespace MVPSA_V2022.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        [Route("api/vecinos/validarCorreo/{id}/{correo}")]
+        [Route("validarCorreo/{id}/{correo}")]
         public int validarCorreo(int id, string correo)
         {
             int rpta = 0;
@@ -139,7 +145,6 @@ namespace MVPSA_V2022.Controllers
         //***************** Listar Personas *************************************
 
         [HttpGet]
-        [Route("api/vecinos")]
         public IEnumerable<PersonaCLS> listarvecinos()
         {
             using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
@@ -173,7 +178,7 @@ namespace MVPSA_V2022.Controllers
 
         //CERRAR SESION
         [HttpGet]
-        [Route("api/vecinos/cerrarSessionVecino")]
+        [Route("cerrarSessionVecino")]
         public SeguridadCLS cerrarSessionVecino()
         {
             SeguridadCLS oSeguridadCLS = new SeguridadCLS();
@@ -191,7 +196,7 @@ namespace MVPSA_V2022.Controllers
         //OBTENER VARIABLE DE SESSION idVecino la variable es vecino
         [AllowAnonymous]
         [HttpGet]
-        [Route("api/vecinos/obtenerVariableSession")]
+        [Route("obtenerVariableSession")]
         public SeguridadCLS obtenerVariableSession([FromHeader(Name = "id_usuario")] int idUsuario)
         {
             SeguridadCLS oSeguridadCLS = new SeguridadCLS();
@@ -206,13 +211,13 @@ namespace MVPSA_V2022.Controllers
             return oSeguridadCLS;
         }
 
-        [AllowAnonymous]
         [HttpPost]
-        [Route("api/vecinos/login")]
-        public IActionResult login([FromBody] VecinoCLS oVecinoCLS)
+        [Route("login")]
+        [AllowAnonymous]
+        public IActionResult login([FromBody] SolicitudLoginDto solicitudLoginDto)
         {
             SHA256Managed sha = new SHA256Managed();
-            byte[] dataNocifrada = Encoding.Default.GetBytes(oVecinoCLS.Contrasenia);
+            byte[] dataNocifrada = Encoding.Default.GetBytes(solicitudLoginDto.usuarioContrasenia);
             byte[] dataCifrada = sha.ComputeHash(dataNocifrada);
             string claveCifrada = BitConverter.ToString(dataCifrada).Replace("-", "");
 
@@ -223,7 +228,7 @@ namespace MVPSA_V2022.Controllers
                                                    join roles in bd.Rols
                                                    on usuarios.IdTipoUsuario equals roles.IdRol
                                                    where usuarios.Bhabilitado == 1
-                                                   && usuarios.NombreUser.ToUpper() == oVecinoCLS.NombreUser.ToUpper()
+                                                   && usuarios.NombreUser.ToUpper() == solicitudLoginDto.usuarioNombre.ToUpper()
                                                    && usuarios.Contrasenia == claveCifrada
                                                    && roles.TipoRol == "VECINO"
                                                    select new TokenUsuarioDto
@@ -246,6 +251,106 @@ namespace MVPSA_V2022.Controllers
                     return Unauthorized();
                 }
             }
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("cuentas/recuperaciones")]
+        public IActionResult recuperarContrasenia([FromBody] RecuperacionContraseniaDto recuperacionContraseniaDto) {
+
+            string email = recuperacionContraseniaDto.email;
+            var usuario = this.dbContext.Usuarios
+                .Where(u => u.IdPersonaNavigation.Mail.ToUpper() == email.ToUpper()).FirstOrDefault();
+
+            if (usuario == null) {
+                return BadRequest("La dirección de correo no se encuentra registrada");
+            }
+            
+            if (usuario.IdPersonaNavigation.Bhabilitado != 1) {
+                return BadRequest("La dirección de correo no se encuentra registrada");
+            }
+
+            if (usuario.IdTipoUsuarioNavigation.TipoRol != "VECINO") {
+                return BadRequest("La dirección de correo no se encuentra registrada");               
+            }
+
+            Guid uuid = Guid.NewGuid();
+            string uuidAsString = uuid.ToString();
+
+            RecuperacionCuentum recuperacionCuenta = new RecuperacionCuentum();
+            recuperacionCuenta.IdUsuario = usuario.IdUsuario;
+            recuperacionCuenta.Mail = email;
+            recuperacionCuenta.Uuid = uuidAsString;
+            recuperacionCuenta.FechaAlta = DateTime.Now;
+
+            this.dbContext.RecuperacionCuenta.Add(recuperacionCuenta);
+            this.dbContext.SaveChanges();
+
+            // enviar mail a usuario con el link
+
+            return Ok();
+
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("cuentas/recuperaciones/{uuid}")]
+        public IActionResult getRecuperacionContrasenia(string uuid) {
+
+            if (esRecuperacionContraseniaValida(uuid)) {
+                return Ok();
+            }
+
+            return NotFound();
+
+        }
+
+        private Boolean esRecuperacionContraseniaValida(string uuid) {
+            var recuperacionContrasenia = this.dbContext.RecuperacionCuenta.Where(c => c.Uuid == uuid)
+                .FirstOrDefault();
+
+            if (recuperacionContrasenia == null) {
+                return false;
+            }
+
+            if (DateTime.Now > recuperacionContrasenia.FechaAlta.AddMinutes(30)) {
+                return false;
+            }
+
+            return true;
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("cuentas/reseteos")]
+        public IActionResult resetearContrasenia([FromBody] ResetearContraseniaDto resetearContraseniaDto) {
+
+
+            if (!esRecuperacionContraseniaValida(resetearContraseniaDto.uuid)) {
+                return BadRequest();
+            }
+
+            var recuperacionContrasenia = this.dbContext.RecuperacionCuenta
+                .Where(rec => rec.Uuid == resetearContraseniaDto.uuid)
+                .FirstOrDefault();
+
+            var usuario = this.dbContext.Usuarios
+                .Where(u => u.IdUsuario == recuperacionContrasenia.IdUsuario).FirstOrDefault();
+
+            SHA256Managed sha = new SHA256Managed();
+            byte[] dataNocifrada = Encoding.Default.GetBytes(resetearContraseniaDto.nuevaContrasenia);
+            byte[] dataCifrada = sha.ComputeHash(dataNocifrada);
+            string claveCifrada = BitConverter.ToString(dataCifrada).Replace("-", "");
+
+            usuario.Contrasenia = claveCifrada;
+            this.dbContext.Usuarios.Update(usuario);
+            this.dbContext.SaveChanges();
+            
+            this.dbContext.RecuperacionCuenta.Remove(recuperacionContrasenia);    
+            this.dbContext.SaveChanges();        
+
+            return Ok(_jwtAuthenticationService.getToken(usuario.IdUsuario, usuario.IdTipoUsuarioNavigation.CodRol));
+
         }
 
     }
