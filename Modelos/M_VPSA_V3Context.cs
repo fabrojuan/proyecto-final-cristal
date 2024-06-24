@@ -69,6 +69,8 @@ namespace MVPSA_V2022.Modelos
 
     public virtual DbSet<Reclamo> Reclamos { get; set; }
 
+    public virtual DbSet<RecuperacionCuentum> RecuperacionCuenta { get; set; }
+
     public virtual DbSet<Rol> Rols { get; set; }
 
     public virtual DbSet<Solicitud> Solicituds { get; set; }
@@ -789,6 +791,32 @@ namespace MVPSA_V2022.Modelos
             entity.HasOne(d => d.NroPrioridadNavigation).WithMany(p => p.Reclamos)
                 .HasForeignKey(d => d.NroPrioridad)
                 .HasConstraintName("FK_reclamo_prioridad");
+        });
+
+        modelBuilder.Entity<RecuperacionCuentum>(entity =>
+        {
+            entity.HasKey(e => e.IdRecuperacionCuenta);
+
+            entity.ToTable("RECUPERACION_CUENTA");
+
+            entity.Property(e => e.IdRecuperacionCuenta).HasColumnName("id_recuperacion_cuenta");
+            entity.Property(e => e.FechaAlta)
+                .HasColumnType("datetime")
+                .HasColumnName("fecha_alta");
+            entity.Property(e => e.IdUsuario).HasColumnName("id_usuario");
+            entity.Property(e => e.Mail)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("mail");
+            entity.Property(e => e.Uuid)
+                .HasMaxLength(1000)
+                .IsUnicode(false)
+                .HasColumnName("uuid");
+
+            entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.RecuperacionCuenta)
+                .HasForeignKey(d => d.IdUsuario)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_RECUPERACION_CUENTA_USUARIO");
         });
 
         modelBuilder.Entity<Rol>(entity =>

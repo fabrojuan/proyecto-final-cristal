@@ -111,6 +111,9 @@ import { TrabajosReclamoTablaComponent } from './components/trabajos-reclamo-tab
 import { ReclamoSuspenderComponent } from './components/reclamo-suspender/reclamo-suspender.component';
 import { ReclamoFinalizarComponent } from './components/reclamo-finalizar/reclamo-finalizar.component';
 import { ChartsReclamosComponent } from './components/charts-reclamos/charts-reclamos.component';
+import { VecinoOlvidoContraseniaComponent } from './components/vecino-olvido-contrasenia/vecino-olvido-contrasenia.component';
+import { VecinoNuevaContraseniaComponent } from './components/vecino-nueva-contrasenia/vecino-nueva-contrasenia.component';
+import { PaginaNoEncontradaComponent } from './components/pagina-no-encontrada/pagina-no-encontrada.component';
 
 
 @NgModule({
@@ -193,7 +196,10 @@ import { ChartsReclamosComponent } from './components/charts-reclamos/charts-rec
     TrabajosReclamoTablaComponent,
     ReclamoSuspenderComponent,
     ReclamoFinalizarComponent,
-    ChartsReclamosComponent
+    ChartsReclamosComponent,
+    VecinoOlvidoContraseniaComponent,
+    VecinoNuevaContraseniaComponent,
+    PaginaNoEncontradaComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -280,6 +286,9 @@ import { ChartsReclamosComponent } from './components/charts-reclamos/charts-rec
       { path: 'charts-reclamos', component: ChartsReclamosComponent, canActivate: [SeguridadGuard] },
       { path: 'reclamo-form-consultar/:id', component: ReclamoFormConsultarComponent },
       { path: 'reclamo-form-generar-sugerencia/:id_sugerencia', component: ReclamoFormGenerarSugerenciaComponent },
+      { path: 'vecino-olvido-contrasenia', component: VecinoOlvidoContraseniaComponent },
+      { path: 'vecino-nueva-contrasenia/:uuid', component: VecinoNuevaContraseniaComponent },
+      { path: 'pagina-no-encontrada', component: PaginaNoEncontradaComponent },
       { path: '*', redirectTo: '' } //a home
 
 

@@ -90,7 +90,7 @@ export class VecinoService {
 
   //   ************** LOGIN *****************
   public login(vecino:any): Observable<any> {
-    return this.http.post(this.urlBase + "api/vecinos/login/", vecino).pipe(
+    return this.http.post(this.urlBase + "api/vecinos/login", vecino).pipe(
       map(res => {
         this.guardarToken(res);
         return res;
@@ -98,7 +98,7 @@ export class VecinoService {
     );
   }
 
-  private guardarToken(authResult: any) {
+  public guardarToken(authResult: any) {
     const expiresAt = moment().add(authResult.expiresAt, 'seconds');
 
     localStorage.setItem('tokenId', authResult.tokenId);
@@ -140,4 +140,16 @@ export class VecinoService {
 
 
 //  //   *************** FIN LOGIN ***************
+
+  public recuperarCuenta(mail: string): Observable<any> {
+    return this.http.post(this.urlBase + 'api/vecinos/cuentas/recuperaciones', {'email': mail}).pipe(map(res => res));
+  }
+
+  public validarRecuperacionCuenta(uuid: string): Observable<any> {
+    return this.http.get(this.urlBase + 'api/vecinos/cuentas/recuperaciones/' + uuid).pipe(map(res => res));
+  }
+
+  public resetearContrasenia(datos: any): Observable<any> {
+    return this.http.post(this.urlBase + 'api/vecinos/cuentas/reseteos', datos).pipe(map(res => res));
+  }
 }

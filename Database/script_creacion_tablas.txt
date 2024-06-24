@@ -441,4 +441,16 @@ ALTER TABLE reclamo ADD CONSTRAINT FK_reclamo_prioridad FOREIGN KEY (Nro_Priorid
 ALTER TABLE [dbo].[RECLAMO]
     ADD [fecha_cierre] DATE NULL;
 
+CREATE TABLE [dbo].[RECUPERACION_CUENTA] (
+    [id_recuperacion_cuenta] INT            IDENTITY (1, 1) NOT NULL,
+    [id_usuario]             INT            NOT NULL,
+    [mail]                   VARCHAR (100)  NOT NULL,
+    [uuid]                   VARCHAR (1000) NOT NULL,
+    [fecha_alta]             DATETIME       NOT NULL,
+    CONSTRAINT [PK_RECUPERACION_CUENTA] PRIMARY KEY CLUSTERED ([id_recuperacion_cuenta] ASC),
+    CONSTRAINT [FK_RECUPERACION_CUENTA_USUARIO] FOREIGN KEY ([id_usuario]) REFERENCES [dbo].[USUARIO] ([idUsuario])
+);
+
+
+
 

@@ -128,7 +128,7 @@ export class UsuarioVecinoFormGenerarComponent implements OnInit {
   }
 
   volverHome() {
-    this.router.navigate(["/"]);
+    this.router.navigate(["/login-vecino"]);
   }
 
   get nombrePersonaNoValido() {

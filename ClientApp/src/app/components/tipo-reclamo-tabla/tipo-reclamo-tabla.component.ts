@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ReclamoService } from '../../services/reclamo.service';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-tipo-reclamo-tabla',
@@ -14,14 +15,11 @@ export class TipoReclamoTablaComponent implements OnInit {
   codTipoReclamoEliminar!: number;
   modalRef: any;
   p: number = 1;
-  mensajeWarning:String|undefined = "";
-  procesoEjecutadoOk:boolean = false;
-  procesoEjecutadoNoOk:boolean = false;
-  mensajeOk:String = "";
 
   constructor(private _reclamoService: ReclamoService,
     private _router: Router,
-    private _modalService: NgbModal) { }
+    private _modalService: NgbModal,
+    public _toastService: ToastService) { }
 
   ngOnInit(): void {
     this._reclamoService.getTipoReclamo().subscribe(
@@ -32,20 +30,16 @@ export class TipoReclamoTablaComponent implements OnInit {
   }
 
   public eliminarTipoReclamo(): void {
-    this.procesoEjecutadoOk = false;
-    this.procesoEjecutadoNoOk = false;
     this._reclamoService.eliminarTipoReclamo(this.codTipoReclamoEliminar).subscribe(
       data => {
       },
       error => {
-        this.procesoEjecutadoNoOk = true;
-        this.mensajeWarning = error.error;
+        this._toastService.showError(error.error);
       },
       () => {
-        this.procesoEjecutadoOk = true;
         this.modalRef.close();
         this.recargarTabla();
-        this.mensajeOk = 'Registro eliminado con éxito.';
+        this._toastService.showOk('Registro eliminado con éxito');
       }
     );
   }
