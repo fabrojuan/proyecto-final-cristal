@@ -83,7 +83,7 @@ namespace MVPSA_V2022.Controllers
                                     Telefono = Persona.Telefono,
                                     Dni = (Persona.Dni.Length > 5) ? Persona.Dni : "-",
                                     Mail = Persona.Mail,
-                                    // FechaNac=(DateTime)Persona.FechaNac,
+                                    FechaNac=(DateTime)Persona.FechaNac,
                                     TiposRol = (int)((Usuario.IdTipoUsuario > 0) ? Usuario.IdTipoUsuario : 5),   //El rol   Ojo con este HARDCODEO DEL TIPO DE USUARIO
                                     Domicilio = Persona.Domicilio,
                                     Altura = Persona.Altura,
@@ -100,9 +100,27 @@ namespace MVPSA_V2022.Controllers
             return oUserCLS;
         }
 
+        [HttpDelete]
+        [Route("api/usuarios/{idUsuario}")]
+        public ActionResult borrarUsuario(int idUsuario)
+        {
+            try {
+                M_VPSA_V3Context dbContext = new M_VPSA_V3Context();
+                var usuarioABorrar = dbContext.Usuarios.Where(x => x.IdUsuario == idUsuario).FirstOrDefault();
+                usuarioABorrar.Bhabilitado = 0;
+                dbContext.Usuarios.Update(usuarioABorrar);
+                dbContext.SaveChanges();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }            
+        }
+
         [HttpPost]
         [Route("api/usuarios")]
-        public int GuardarUsuario([FromBody] UsuarioCLS oUsuarioCLS)
+        public ActionResult GuardarUsuario([FromBody] UsuarioCLS oUsuarioCLS)
         {
             int rpta = 0;
             // int idPersonatem = 0;
@@ -121,10 +139,12 @@ namespace MVPSA_V2022.Controllers
                         oPersona.Domicilio = oUsuarioCLS.Domicilio;
                         oPersona.Altura = oUsuarioCLS.Altura;
                         oPersona.Mail = oUsuarioCLS.Mail;
+                        oPersona.FechaNac = oUsuarioCLS.FechaNac;
+                        oPersona.BtieneUser = 1;
                         bd.Personas.Add(oPersona);
                         bd.SaveChanges();
                         Usuario oUsuario = new Usuario();
-                        oPersona = bd.Personas.Where(p => p.Dni == oUsuarioCLS.Dni).First();
+                        //oPersona = bd.Personas.Where(p => p.Dni == oUsuarioCLS.Dni).First();
                         oUsuario.IdPersona = oPersona.IdPersona;
                         oUsuario.NombreUser = oUsuarioCLS.NombreUser;
                         SHA256Managed sha = new SHA256Managed();
@@ -155,9 +175,9 @@ namespace MVPSA_V2022.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
-                rpta = 0;
+                return BadRequest();
             }
-            return rpta;
+            return Ok(rpta);
         }
 
 

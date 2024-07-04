@@ -62,7 +62,7 @@ namespace MVPSA_V2022.Controllers
                         //REcuperamos la info.
                         Pagina oPagina = bd.Paginas.Where(p => p.IdPagina == oPaginaCLS.idPagina).First();
                         oPagina.Accion = oPaginaCLS.Accion;
-                        oPagina.Mensaje = oPagina.Mensaje;
+                        oPagina.Mensaje = oPaginaCLS.Mensaje;
                         oPagina.Bhabilitado = 1;
                         oPagina.Bvisible = oPaginaCLS.Bvisible;
                         bd.SaveChanges();

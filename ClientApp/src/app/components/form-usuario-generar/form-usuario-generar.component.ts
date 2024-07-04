@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UsuarioService } from '../../services/usuario.service';
 import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { ToastService } from 'src/app/services/toast.service';
+import moment from 'moment';
 
 @Component({
   selector: 'form-usuario-generar',
@@ -14,7 +16,11 @@ export class FormUsuarioGenerarComponent implements OnInit {
   parametro: any;
   TiposRol: any;
   respuesta: any = 0;
-  constructor(private usuarioService: UsuarioService, private router: Router, private activatedRoute: ActivatedRoute) {
+  isFormSubmitted: boolean = false;
+
+  constructor(private usuarioService: UsuarioService, private router: Router, private activatedRoute: ActivatedRoute, 
+              public _toastService: ToastService
+  ) {
     this.activatedRoute.params.subscribe(parametro => {
       this.parametro = parametro["id"]
       if (this.parametro >= 1) {
@@ -37,7 +43,7 @@ export class FormUsuarioGenerarComponent implements OnInit {
         "Domicilio": new UntypedFormControl("", [Validators.required, Validators.maxLength(100)]),
         "Dni": new UntypedFormControl("", [Validators.required, Validators.maxLength(10)]),
         "Altura": new UntypedFormControl("", [Validators.required, Validators.maxLength(5)]),
-        //"FechaNac": new FormControl("")
+        "FechaNac": new UntypedFormControl("", [Validators.required]),
         "TiposRol": new UntypedFormControl("", [Validators.required])
       });
   }
@@ -59,24 +65,51 @@ export class FormUsuarioGenerarComponent implements OnInit {
         this.Usuario.controls["Mail"].setValue(param.mail);
         this.Usuario.controls["Domicilio"].setValue(param.domicilio);
         this.Usuario.controls["Altura"].setValue(param.altura);
+
+        let fechaNac : Date = new Date(param.fechaNac);
+        let formattedFechaNac = (moment(fechaNac)).format('YYYY-MM-DD');
+        this.Usuario.controls["FechaNac"].setValue(formattedFechaNac);
+
         this.Usuario.controls["TiposRol"].setValue(param.tiposRol);  // SACAR ROL PORQUE VA COMO VECINO POR DEFECTO
       });
     } else {
     }
   }
   guardarDatos() {
-    if (this.Usuario.valid == true) {
-      this.respuesta = this.usuarioService.GuardarUsuario(this.Usuario.value).subscribe(data => { });
-      if (this.respuesta == 0) {
-        console.log("No se guardo correcto hubo error")
-      }
-      else {
-        console.log("Se guardo Joya!!!");
-        this.router.navigate(["/usuario-tabla"]);
 
-      }
+    this.isFormSubmitted = true;
+
+    if (this.Usuario.invalid) {
+      Object.values(this.Usuario.controls).forEach(
+        control => {
+          control.markAsTouched();
+        }
+      );
+      return;
     }
+
+    this.usuarioService.GuardarUsuario(this.Usuario.value).subscribe(data => { 
+      this._toastService.showOk("Se registró el usuario correctamente");
+      this.router.navigate(["/usuario-tabla"]);
+    },
+    error => {
+      this._toastService.showError("Ocurrió un error y no se pudo guardar el usuario");
+    });
+
+
+    // if (this.Usuario.valid == true) {
+    //   this.respuesta = this.usuarioService.GuardarUsuario(this.Usuario.value).subscribe(data => { });
+    //   if (this.respuesta == 0) {
+    //     console.log("No se guardo correcto hubo error")
+    //   }
+    //   else {
+    //     console.log("Se guardo Joya!!!");
+    //     this.router.navigate(["/usuario-tabla"]);
+
+    //   }
+    // }
   }
+
   clickMethod() {
     alert("Se registró el usuario correctamente");
     //Luego de presionar click debe redireccionar al home
@@ -87,6 +120,48 @@ export class FormUsuarioGenerarComponent implements OnInit {
     this.router.navigate(["/usuario-tabla"]);
   }
 
+  get nombrePersonaNoValido() {
+    return this.isFormSubmitted && this.Usuario.controls.NombrePersona.errors;
+  }
 
+  get apellidoNoValido() {
+    return this.isFormSubmitted && this.Usuario.controls.Apellido.errors;
+  }
+
+  get telefonoNoValido() {
+    return this.isFormSubmitted && this.Usuario.controls.Telefono.errors;
+  }
+
+  get dniNoValido() {
+    return this.isFormSubmitted && this.Usuario.controls.Dni.errors;
+  }
+
+  get fechaNacimientoNoValido() {
+    return this.isFormSubmitted && this.Usuario.controls.FechaNac.errors;
+  }
+
+  get domicilioNoValido() {
+    return this.isFormSubmitted && this.Usuario.controls.Domicilio.errors;
+  }
+
+  get alturaNoValido() {
+    return this.isFormSubmitted && this.Usuario.controls.Altura.errors;
+  }
+
+  get mailNoValido() {
+    return this.isFormSubmitted && this.Usuario.controls.Mail.errors;
+  }
+
+  get nombreUsuarioNoValido() {
+    return this.isFormSubmitted && this.Usuario.controls.NombreUser.errors;
+  }
+
+  get rolNoValido() {
+    return this.isFormSubmitted && this.Usuario.controls.TiposRol.errors;
+  }
+
+  get contraseniaNoValido() {
+    return this.isFormSubmitted && this.Usuario.controls.Contrasenia.errors;
+  }
 
 }

@@ -107,6 +107,7 @@ BEGIN
 			Estado,
 			ImporteBase,
 			ImporteFinal,
+			InteresValor,
 			IdLote
 			)
 		VALUES (
@@ -117,6 +118,7 @@ BEGIN
 			0,
 			@Valuacion,
 			@TOTAL,
+			0,
 			@lote
 			)
 
@@ -132,6 +134,7 @@ BEGIN
 				Estado,
 				ImporteBase,
 				ImporteFinal,
+				InteresValor,
 				IdLote
 				)
 			VALUES (
@@ -142,6 +145,7 @@ BEGIN
 				0,
 				@Valuacion,
 				@MONTO,
+				0,
 				@lote
 				)
 

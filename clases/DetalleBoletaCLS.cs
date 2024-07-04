@@ -18,5 +18,6 @@ namespace MVPSA_V2022.clases
 
         public int IdBoletaNavigation { get; set; }
         public int IdImpuestoNavigation  { get; set; }
+        public int idLote { get; set; }
     }
 }

@@ -8,6 +8,7 @@ import { Observable, Subscription } from 'rxjs';
 //Validaciones de inputs:
 import { ControlValueAccessor, Validator, AbstractControl, ValidationErrors, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
 import { CampoRequeridoComponent } from '../campo-requerido/campo-requerido.component';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'persona-form-generar',
@@ -31,25 +32,24 @@ export class PersonaFormGenerarComponent implements OnInit, ControlValueAccessor
   
   redirectPersona: number = 0;
   public Persona: UntypedFormGroup;
-  tituloModal: string = "Registro de Persona";
   resultadoGuardadoModal: any = "";
   //Validaciones
   onTouched: () => void = () => { };
   onChange: (value: any) => void = () => { };
   subscriptions: Subscription;
+  isFormSubmitted: boolean=false;
 
+  constructor(private loteservice: LoteService, private router: Router,
+              private vecinoservice: VecinoService, private formBuilder: UntypedFormBuilder,
+              public _toastService: ToastService) {
 
-  @ViewChild("myModalInfo", { static: false }) myModalInfo: TemplateRef<any> | undefined;
-  //Esta linea anterior es para el modal.
-
-  constructor(private loteservice: LoteService, private router: Router, private modalService: NgbModal, private vecinoservice: VecinoService, private formBuilder: UntypedFormBuilder) {
     this.subscriptions = new Subscription();
     this.Persona = this.formBuilder.group(
       {
         "Nombre": new UntypedFormControl("", [Validators.required, Validators.maxLength(65)]),
         "Apellido": new UntypedFormControl("", [Validators.required, Validators.maxLength(65)]),
         'Dni': new UntypedFormControl("", [Validators.required, Validators.maxLength(8), Validators.pattern("^[0-9]{8}")]),
-        "FechaNac": new UntypedFormControl("", [Validators.required, Validators.maxLength(16), Validators.pattern("^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)[0-9]{2}")]),
+        "FechaNac": new UntypedFormControl("", [Validators.required, Validators.maxLength(10), Validators.pattern("^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)[0-9]{2}")]),
         "Mail": new UntypedFormControl("", [Validators.required, Validators.maxLength(100), Validators.pattern("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")]),
         "Telefono": new UntypedFormControl("", [Validators.required, Validators.maxLength(20), Validators.pattern("^[0-9]{1,20}")]),
         "Domicilio": new UntypedFormControl("", [Validators.required, Validators.maxLength(100)]),
@@ -102,34 +102,66 @@ export class PersonaFormGenerarComponent implements OnInit, ControlValueAccessor
   }
 
   guardarDatos() {
-    if (this.Persona.valid == true) {
 
-      console.log(this.Persona.value);
-      this.vecinoservice.GuardarPersona(this.Persona.value).subscribe(data => {
-        if (data) {
-          console.log(data);
+    this.isFormSubmitted = true;
 
-          this.resultadoGuardadoModal = "Se ha registrado la persona correctamente.";
-
+    if (this.Persona.invalid) {
+      Object.values(this.Persona.controls).forEach(
+        control => {
+          control.markAsTouched();
         }
-        else
-          this.resultadoGuardadoModal = "El mail de la persona ya ha sido registrado anteriormente utilice otro correo electrónico por favor.";
-      });
-
-
-      this.modalService.open(this.myModalInfo);
-      this.router.navigate(["/"]);
+      );
+      return;
     }
-  }
 
-  cerrarmodal() {
-    this.modalService.dismissAll(this.myModalInfo);
-    if (this.redirectPersona > 0)
-      this.router.navigate(["/persona-form-generar"]);
+    this.vecinoservice.GuardarPersona(this.Persona.value).subscribe(data => {
+
+      if (data) {
+        this._toastService.showOk("Se ha registrado la persona correctamente");
+        this.router.navigate(["/usuario-tabla"]);
+      }
+      else {
+        this._toastService.showError("El mail de la persona ya ha sido registrado anteriormente, utilice otro correo electrónico por favor");
+      }
+
+    });
+
   }
 
   volverLoteTabla() {
     this.router.navigate(["/lote-tabla"]);
+  }
+
+  get nombreNoValido() {
+    return this.isFormSubmitted && this.Persona.controls.Nombre.errors;
+  }
+
+  get apellidoNoValido() {
+    return this.isFormSubmitted && this.Persona.controls.Apellido.errors;
+  }
+
+  get dniNoValido() {
+    return this.isFormSubmitted && this.Persona.controls.Dni.errors;
+  }
+
+  get fechaNacimientoNoValido() {
+    return this.isFormSubmitted && this.Persona.controls.FechaNac.errors;
+  }
+
+  get mailNoValido() {
+    return this.isFormSubmitted && this.Persona.controls.Mail.errors;
+  }
+
+  get telefonoNoValido() {
+    return this.isFormSubmitted && this.Persona.controls.Telefono.errors;
+  }
+
+  get domicilioNoValido() {
+    return this.isFormSubmitted && this.Persona.controls.Domicilio.errors;
+  }
+
+  get alturaNoValido() {
+    return this.isFormSubmitted && this.Persona.controls.Altura.errors;
   }
 
 

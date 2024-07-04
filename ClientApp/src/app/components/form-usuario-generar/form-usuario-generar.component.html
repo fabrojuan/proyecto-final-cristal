@@ -1,4 +1,129 @@
 <div class="container">
+
+  <div class="card">
+      <div class="card-body">
+        
+          <h5 class="card-title">{{titulo}} Empleado Municipal</h5>
+
+          <form [formGroup]="Usuario" (ngSubmit)="guardarDatos()" class="row g-3">
+
+            <div class="col-md-6">
+              <label for="NombrePersona" class="form-label">(*) Nombre</label>
+              <input type="text" class="form-control" [ngClass]="{'is-invalid' : nombrePersonaNoValido}" id="calle" formControlName="NombrePersona" value="">
+              <div class="invalid-feedback" *ngIf="nombrePersonaNoValido">
+                  El nombre es requerido y no puede superar los 100 caracteres
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="Apellido" class="form-label">(*) Apellido</label>
+              <input type="text" class="form-control" [ngClass]="{'is-invalid' : apellidoNoValido}" id="Apellido" formControlName="Apellido" value="">
+              <div class="invalid-feedback" *ngIf="apellidoNoValido">
+                  El apellido es requerido y no puede superar los 100 caracteres
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="Dni" class="form-label">(*) Nro. Documento</label>
+              <input type="text" class="form-control" [ngClass]="{'is-invalid' : dniNoValido}" id="Dni" formControlName="Dni" value="">
+              <div class="invalid-feedback" *ngIf="dniNoValido">
+                  El número de documento es requerido y no puede superar los 10 caracteres
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="FechaNac" class="form-label">(*) Fecha Nacimiento</label>
+              <input type="date" class="form-control" [ngClass]="{'is-invalid' : fechaNacimientoNoValido}" id="FechaNac" formControlName="FechaNac" value="">
+              <div class="invalid-feedback" *ngIf="fechaNacimientoNoValido">
+                  La fecha de nacimiento es requerida y debe tener un formato válido
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="Domicilio" class="form-label">(*) Calle</label>
+              <input type="text" class="form-control" [ngClass]="{'is-invalid' : domicilioNoValido}" id="Domicilio" formControlName="Domicilio" value="">
+              <div class="invalid-feedback" *ngIf="domicilioNoValido">
+                  La calles es requerida y no puede superar los 100 caracteres
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="Altura" class="form-label">(*) Altura</label>
+              <input type="text" class="form-control" [ngClass]="{'is-invalid' : alturaNoValido}" id="Altura" formControlName="Altura" value="">
+              <div class="invalid-feedback" *ngIf="alturaNoValido">
+                  La altura de la calles es requerida y no puede superar los 5 caracteres
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="Mail" class="form-label">(*) Mail</label>
+              <input type="text" class="form-control" [ngClass]="{'is-invalid' : mailNoValido}" id="Mail" formControlName="Mail" value="">
+              <div class="invalid-feedback" *ngIf="mailNoValido">
+                  El mail es requerido y debe tener un formato válido
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="Telefono" class="form-label">(*) Teléfono</label>
+              <input type="text" class="form-control" [ngClass]="{'is-invalid' : telefonoNoValido}" id="Telefono" formControlName="Telefono" value="">
+              <div class="invalid-feedback" *ngIf="telefonoNoValido">
+                  El teléfono es requerido y no puede superar los 50 caracteres
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <label for="NombreUser" class="form-label">(*) Nombre usuario</label>
+              <input type="text" class="form-control" [ngClass]="{'is-invalid' : nombreUsuarioNoValido}" id="NombreUser" formControlName="NombreUser" value="">
+              <div class="invalid-feedback" *ngIf="nombreUsuarioNoValido">
+                  El nombre de usuario es requerido y no puede superar los 100 caracteres
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <label for="Contrasenia" class="form-label">(*) Contraseña</label>
+              <input type="password" class="form-control" [ngClass]="{'is-invalid' : contraseniaNoValido}" id="Contrasenia" formControlName="Contrasenia" value="">
+              <div class="invalid-feedback" *ngIf="contraseniaNoValido">
+                  La contraseña es requerida, y debe tener entre 8 y 100 caracteres
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <label for="TiposRol" class="form-label">(*) Rol del Empleado</label>
+              <select id="TiposRol" formControlName="TiposRol" class="form-select" [ngClass]="{'is-invalid' : rolNoValido}">
+                  <option value="">--Seleccione Rol--</option>
+                  <option [ngValue]="Rol.iidRol" *ngFor="let Rol of TiposRol">{{Rol.nombreRol}}</option>
+              </select>
+              <div class="invalid-feedback" *ngIf="rolNoValido">
+                  El rol es requerido
+              </div>
+          </div>
+
+              <div class="col-md-12 order-md-1">
+
+                  <div class="row">
+                      <hr class="mb-4">
+                      <div class="form-group col-md-12 mb-3 pt-3">
+                          <input type="submit" value="Generar" class="btn btn-primary col-md-4 offset-md-1 " />
+                          <button type="button" class="btn btn-secondary col-md-4 offset-md-1" (click)="volver()">Cancelar</button>
+                      </div>
+
+                  </div>
+
+              </div>
+
+          </form>
+      </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+<!-- 
+<div class="container">
   <div class="card">
     <div class="card-body">
       <form [formGroup]="Usuario" (ngSubmit)="guardarDatos()">
@@ -85,7 +210,6 @@
               </div>
             </div>
             <div class=" col-md-6 mb-3">
-              <!--#tipo (change)="filtrar(tipo)-->
               <label style='margin-bottom: 0.4em'><strong>(*) Rol del Empleado :</strong></label>
               <select class="form-group d-block w-100" id="TiposRol" formControlName="TiposRol">
                 <option value="">&nbsp;&nbsp;--&nbsp;&nbsp;Seleccione Rol&nbsp;&nbsp; --&nbsp;</option>
@@ -102,13 +226,6 @@
                 Contrasenia is required.
               </div>
             </div>
-            <!--<div class="form-group col-md-6 mb-3">         RECORDAR QUE ESTE CAMPO ES REPETIR CONTRASEÑA
-              <label for="lastName">Repetir Contraseña</label>
-              <input type="password" id="Contrasenia" formControlName="Contrasenia" class="form-control" placeholder="Password" required>
-              <div class="invalid-feedback">
-                Valid last name is required.
-              </div>
-            </div>-->
           </div>
 
           <div class="row p-3 my-2">
@@ -141,5 +258,5 @@
   </div>
 
   <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
-</div>
+</div> -->
 

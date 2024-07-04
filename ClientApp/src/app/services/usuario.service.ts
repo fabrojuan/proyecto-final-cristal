@@ -79,6 +79,10 @@ export class UsuarioService {
     return this.http.post(url, Usuario).pipe(map(res => res));
   }
 
+  public borrarUsuario(idUsuario: number): Observable<any> {
+    return this.http.delete(this.urlBase + 'api/usuarios/' + idUsuario).pipe(map(res => res));
+  }
+
   public validarCorreo(id:any, correo:any): Observable<any> {
     return this.http.get(this.urlBase + "api/vecinos/validarCorreo/" + id + "/" + correo).pipe(map(res => res));
   }

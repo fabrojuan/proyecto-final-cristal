@@ -89,6 +89,7 @@ namespace MVPSA_V2022.Controllers
         //Impuestos Por Lote 
         [HttpGet]
         [Route("api/Impuestos/ListarImpuestosAdeudados/{idLote}")]
+        [AllowAnonymous]
         public IEnumerable<ImpuestoInmobiliarioCLS> ListarTrabajos(int idLote)
         {
             List<ImpuestoInmobiliarioCLS> listaImpuestos;
@@ -105,13 +106,13 @@ namespace MVPSA_V2022.Controllers
                                       anio = (int)impuestoinmobiliario.Año,
                                       importeBase = (decimal)impuestoinmobiliario.ImporteBase,
                                       interesValor = (decimal)impuestoinmobiliario.InteresValor,
-                                      importeFinal = (decimal)impuestoinmobiliario.ImporteFinal
+                                      importeFinal = (decimal)impuestoinmobiliario.ImporteFinal,
+                                      periodo = impuestoinmobiliario.Mes == 0 ?  impuestoinmobiliario.Año.ToString() : 
+                                      impuestoinmobiliario.Año.ToString() + "/" + impuestoinmobiliario.Mes.ToString(),
+                                      fechaVencimiento = (DateTime)impuestoinmobiliario.FechaVencimiento,
+                                      cuota = impuestoinmobiliario.Mes == 0 ? "Única" : impuestoinmobiliario.Mes .ToString()
                                   }).ToList();
-                if (listaImpuestos != null && listaImpuestos.Count > 0)
-                {
-                    //Seteo de ID de Lote seleccionado para traer el correo de la persona cuando pague la boleta.
-                    HttpContext.Session.SetString("idLoteaPagar", idLote.ToString());
-                }
+
                 return listaImpuestos;
             }
         }
@@ -143,6 +144,7 @@ namespace MVPSA_V2022.Controllers
 
         [HttpPost]
         [Route("api/Impuestos/guardarBoleta")]
+        [AllowAnonymous]
         public async Task<ActionResult> guardarBoleta([FromBody] DetalleBoletaCLS oDetalleBoletaCLS)
         //  public async Task<IActionResult> guardarBoleta([FromBody] DetalleBoletaCLS oDetalleBoletaCLS)
 
@@ -156,7 +158,7 @@ namespace MVPSA_V2022.Controllers
             {
                 using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
                 {
-                    int idLoteaPagar = int.Parse(HttpContext.Session.GetString("idLoteaPagar"));
+                    int idLoteaPagar = oDetalleBoletaCLS.idLote;
 
                     oPersonaCLS = (from Lote in bd.Lotes
                                    join Persona in bd.Personas
@@ -175,7 +177,7 @@ namespace MVPSA_V2022.Controllers
                     customer.identification = oPersonaCLS.Dni;
                     customer.name = oPersonaCLS.Nombre + " " + oPersonaCLS.apellido;
                     //AL finalizar la obtencion dinamica de la persona ahora eliminaremos la sesion temporal del backend 
-                    HttpContext.Session.Remove("idLoteaPagar");
+                    
                     //Usaremos transacciones porque tocaremos dos tablas imultaneamente.
                     using (var transaccion = new TransactionScope())
                     {
@@ -216,8 +218,6 @@ namespace MVPSA_V2022.Controllers
                         // bd.Database.ExecuteSqlCommand("GENERACION_IMPORTE_BOLETA"); reeemplazado por
                         bd.Database.ExecuteSqlRaw("GENERACION_IMPORTE_BOLETA");
                         Boletum oBoleta2 = bd.Boleta.OrderBy(idBoleta => idBoleta).Last();
-                        // EN LA SIGUIETNE LINEA NO UTILIZADA POR ESO LA COMENTO
-                        // HttpContext.Session.SetString("idBoleta", oBoleta2.IdBoleta.ToString());
                         transaccion.Complete();
                     }
                 }
@@ -245,8 +245,8 @@ namespace MVPSA_V2022.Controllers
             oBolMobexx.reference = oBoletaCLS.idBoleta;
             oBolMobexx.currency = "ARS";
             oBolMobexx.test = true;
-            oBolMobexx.return_url = "https://7272-45-231-156-25.ngrok-free.app";
-            oBolMobexx.webhook = "https://7272-45-231-156-25.ngrok-free.app.sa.ngrok.io/api/pagos/mobbex";
+            oBolMobexx.return_url = "https://67e0-181-4-128-134.ngrok-free.app";
+            oBolMobexx.webhook = "https://67e0-181-4-128-134.ngrok-free.app/api/pagos/mobbex";
             var jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(oBolMobexx);
             using (var httpClient = new HttpClient())
             {
@@ -327,6 +327,7 @@ namespace MVPSA_V2022.Controllers
 
         [HttpGet]
         [Route("api/Impuestos/obtenerUrlMobbexx2")]
+        [AllowAnonymous]
         public UrlMobexx obtenerUrlMobbexx2()
         {
             UrlMobexx oUrlMbx = new UrlMobexx();

@@ -451,6 +451,17 @@ CREATE TABLE [dbo].[RECUPERACION_CUENTA] (
     CONSTRAINT [FK_RECUPERACION_CUENTA_USUARIO] FOREIGN KEY ([id_usuario]) REFERENCES [dbo].[USUARIO] ([idUsuario])
 );
 
+update [dbo].[ROL]
+set NombreRol = 'Tribunal de Cuentas'
+where idRol = 3;
+
+update [dbo].[ROL]
+set NombreRol = 'Operador Técnico'
+where idRol = 1;
+
+update [dbo].[ROL]
+set NombreRol = 'Administrador de Sistema'
+where idRol = 1002;
 
 
 

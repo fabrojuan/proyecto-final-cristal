@@ -178,7 +178,7 @@
             </li>
             <!-- End Messages Nav -->
 
-            <li class="nav-item dropdown pe-3" *ngIf="loginVecino==true">
+            <li class="nav-item dropdown pe-3" *ngIf="esVecinoLogueado()">
 
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
                     <img src="../../../assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
@@ -310,12 +310,12 @@
       </a>
       <ul id="icons-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
-          <a [routerLink]="['/login']" *ngIf="login==false">
+          <a [routerLink]="['/login']" *ngIf="esUsuarioLogueado()==false">
             <i class="bi bi-circle"></i><span>Inicie Sesi&oacute;n</span>
           </a>
         </li>
         <li>
-          <a (click)="cerrarSession()" *ngIf="login==true">
+          <a (click)="cerrarSession()" *ngIf="esUsuarioLogueado()">
             <i class="bi bi-circle"></i><span>Cerrar Sesi&oacute;n</span>
           </a>
         </li>
@@ -345,16 +345,16 @@
   </li> -->
     <!-- End Contact Page Nav -->
 
-    <li class="nav-item">
-      <a class="nav-link collapsed" [routerLink]="['/usuario-vecino-form-generar']" *ngIf="loginVecino==false && login==false">
+    <!-- <li class="nav-item">
+      <a class="nav-link collapsed" [routerLink]="['/usuario-vecino-form-generar']" *ngIf="esUsuarioLogueado()==false && esVecinoLogueado()==false">
         <i class="bi bi-card-list"></i>
         <span>Registrarse</span>
       </a>
-    </li>
+    </li> -->
     <!-- End Register Page Nav -->
 
     <li class="nav-item">
-      <a class="nav-link collapsed" [routerLink]="['/login-vecino']" *ngIf="loginVecino==false && login==false">
+      <a class="nav-link collapsed" [routerLink]="['/login-vecino']" *ngIf="esUsuarioLogueado()==false && esVecinoLogueado()==false">
         <i class="bi bi-box-arrow-in-right"></i>
         <span>Iniciar Sesi&oacute;n</span>
       </a>

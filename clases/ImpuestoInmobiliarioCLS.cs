@@ -17,6 +17,8 @@ namespace MVPSA_V2022.clases
         public decimal importeFinal { get; set; }
         public int bhabilitado { get; set; }
         public int idLote { get; set; }
+        public string? periodo { get; set; }
+        public string? cuota { get; set; }
         
     }
 }

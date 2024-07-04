@@ -14,7 +14,7 @@
     
               <tr>
                 <th class="text-center" *ngFor="let cabecera of cabeceras ">{{cabecera}} </th>
-                <th class="text-center" *ngIf="isMantenimiento==true">Operaciones modificar/borrar</th>
+                <th class="text-center" *ngIf="isMantenimiento==true">Acciones</th>
               </tr>
             </thead>
     
@@ -25,7 +25,7 @@
                 <td>{{pagina.accion}}</td>
                 <td class="text-center" *ngIf="isMantenimiento==true">
                   <button type="button" class="btn btn-outline-primary btn-sm" [routerLink]="['/pagina-form-generar',pagina.idPagina]" title="Modificar"><i class="bi bi-pencil"></i></button>
-                  <button type="button" class="btn btn-outline-danger btn-sm ms-1" title="Borrar"><i class="bi bi-trash"></i></button>
+                  <button type="button" class="btn btn-outline-danger btn-sm ms-1" (click)="preguntarEliminarPagina(pagina.idPagina)" title="Borrar"><i class="bi bi-trash"></i></button>
                 </td>
               </tr>
             </tbody>
@@ -47,7 +47,7 @@
           <div class="row">
             <hr class="mb-4">
             <div class="form-group col-md-12">
-              <button type="button" value="Nuevo" class="btn btn-success col-md-4 offset-md-1 " [routerLink]="['/pagina-form-generar']"> Nuevo</button>
+              <button type="button" value="Nuevo" class="btn btn-primary col-md-4 offset-md-1 " [routerLink]="['/pagina-form-generar']"> Nuevo</button>
               <button type="button" class="btn btn-secondary col-md-4 offset-md-1" (click)="volverHome()">Volver</button>
     
             </div>
