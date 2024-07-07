@@ -23,7 +23,7 @@ export class UsuarioTablaComponent implements OnInit {
 
 
   ngOnInit() {
-    this.usuarioservice.getUsuarios().subscribe(data => this.usuarios = data);
+    this.usuarioservice.getUsuariosEmpleados().subscribe(data => this.usuarios = data);
     //console.log(this.usuarios);
   }
   volverHome() {
@@ -46,7 +46,7 @@ export class UsuarioTablaComponent implements OnInit {
         this.usuarioservice.borrarUsuario(this.idUsuarioEliminar)
           .subscribe(res => {
             this._toastService.showOk("El empleado fue dado de baja exitosamente");
-            this.usuarioservice.getUsuarios().subscribe(data => this.usuarios = data);
+            this.usuarioservice.getUsuariosEmpleados().subscribe(data => this.usuarios = data);
           }, error => {
             this._toastService.showError("No se pudo dar de baja al empleado");
           });

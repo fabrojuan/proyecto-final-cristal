@@ -97,6 +97,7 @@ namespace MVPSA_V2022.Controllers
             {
                 listaImpuestos = (from impuestoinmobiliario in bd.Impuestoinmobiliarios
                                   where impuestoinmobiliario.IdLote == idLote
+                                  && impuestoinmobiliario.Estado != 1
                                   select new ImpuestoInmobiliarioCLS
 
                                   {
@@ -245,7 +246,7 @@ namespace MVPSA_V2022.Controllers
             oBolMobexx.reference = oBoletaCLS.idBoleta;
             oBolMobexx.currency = "ARS";
             oBolMobexx.test = true;
-            oBolMobexx.return_url = "https://67e0-181-4-128-134.ngrok-free.app";
+            oBolMobexx.return_url = "https://3517-181-4-128-134.ngrok-free.app";
             oBolMobexx.webhook = "https://67e0-181-4-128-134.ngrok-free.app/api/pagos/mobbex";
             var jsonString = Newtonsoft.Json.JsonConvert.SerializeObject(oBolMobexx);
             using (var httpClient = new HttpClient())

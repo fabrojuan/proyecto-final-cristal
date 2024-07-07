@@ -49,7 +49,7 @@ export class LoginVecinoComponent implements OnInit {
         this._toastService.showError("Usuario y/o contraseña no válidos");
       }
       else {
-        window.location.href = this.urlBase + "bienvenida-vecino";
+        window.location.href = this.urlBase /*+ "bienvenida-vecino"*/;
       }
 
     }, error => {

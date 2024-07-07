@@ -66,6 +66,12 @@ export class UsuarioService {
     return this.http.get(this.urlBase + 'api/usuarios')
       .pipe(map(res => res));
   }
+
+  public getUsuariosEmpleados(): Observable<any> {
+    return this.http.get(this.urlBase + 'api/usuarios/empleados')
+      .pipe(map(res => res));
+  }
+
   public getFiltrarUsuarioPorTipo(idTipo:any): Observable<any> {
     return this.http.get(this.urlBase + 'api/usuarios/filtrarUsuarioPorTipo/' + idTipo);
   }
@@ -94,6 +100,11 @@ export class UsuarioService {
 
   public listarPaginas(): Observable<any> {
     return this.http.get(this.urlBase + 'api/usuarios/paginas')
+      .pipe(map(res => res));
+  }
+
+  public listarPaginasMenu(): Observable<any> {
+    return this.http.get(this.urlBase + 'api/usuarios/paginas/menu')
       .pipe(map(res => res));
   }
 

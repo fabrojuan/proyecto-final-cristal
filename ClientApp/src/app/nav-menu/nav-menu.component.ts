@@ -26,7 +26,7 @@ export class NavMenuComponent implements OnInit {
     this.usuarioService.ObtenerSession().subscribe(data => {
       if (data) {
         // Llamar a Listar Paginas....
-        this.usuarioService.listarPaginas().subscribe(dato => {
+        this.usuarioService.listarPaginasMenu().subscribe(dato => {
           this.menus = dato;
         });
 
@@ -49,6 +49,7 @@ export class NavMenuComponent implements OnInit {
     this.usuarioService.cerrarSession();
     sessionStorage.clear();
     this.router.navigate(["/"]);
+    this.menus = undefined;
   }
   //No reparado
 

@@ -463,5 +463,15 @@ update [dbo].[ROL]
 set NombreRol = 'Administrador de Sistema'
 where idRol = 1002;
 
+update [dbo].[ROL]
+set BHabilitado = 1
+where idRol = 1;
+
+update [dbo].[ROL]
+set BHabilitado = 0
+where idRol = 3;
+
+
+
 
 

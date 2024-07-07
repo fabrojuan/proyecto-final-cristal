@@ -12,6 +12,6 @@ namespace MVPSA_V2022.clases
         public DateTime fechaGenerada { get; set; }
 
         public int codestado { get; set; }
-        public string estado { get; set; }
+        public string? estado { get; set; }
     }
 }

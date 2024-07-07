@@ -18,7 +18,7 @@ export class SugerenciaTablaComponent implements OnInit {
   dtoptions: DataTables.Settings = {};
   
   dtTrigger: Subject<any> = new Subject<any>();
-  cabeceras: string[] = ["Id Sugerencia", "Descripcion", "Fecha Generada", "Estado"];
+  cabeceras: string[] = ["Número", "Descripción", "Fecha", "Estado"];
   constructor(private sugerenciaservice: SugerenciaService, private usuarioService: UsuarioService, private formBuilder: UntypedFormBuilder) {
     this.form = new UntypedFormGroup({
       //'NombreUser': new FormControl("", Validators.required),
@@ -36,6 +36,7 @@ export class SugerenciaTablaComponent implements OnInit {
     };
    
     this.sugerenciaservice.getSugerencia().subscribe(data => {
+      console.log(data);
       this.Sugerencias = data;
       this.dtTrigger.next(null);
     });
@@ -45,5 +46,9 @@ export class SugerenciaTablaComponent implements OnInit {
     });
 
   }
+
+   mostrarOpcionCrearRequerimiento(estado: string) {
+    return estado == "Considerado";
+   }
  
 }

@@ -25,6 +25,42 @@ namespace MVPSA_V2022.Controllers
         }
 
         [HttpGet]
+        [Route("api/usuarios/empleados")]
+        public IEnumerable<UsuarioCLS> ListarUsuariosEmpleados()
+        {
+            try
+            { 
+            List<UsuarioCLS> listaUsuario;
+            using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
+            {
+                listaUsuario = (from usuario in bd.Usuarios
+                                join rol in bd.Rols
+                                on usuario.IdTipoUsuario equals rol.IdRol
+                                join persona in bd.Personas
+                                on usuario.IdPersona equals persona.IdPersona
+                                where usuario.Bhabilitado == 1 
+                                && rol.TipoRol == "EMPLEADO"
+                                select new UsuarioCLS
+                                {
+                                    IdUsuario = usuario.IdUsuario,
+                                    NombreUser = usuario.NombreUser!,
+                                    NombreTipoUsuario = rol.NombreRol!,
+                                    NombreCompleto = persona.Apellido + ", " + persona.Nombre,
+                                    FechaAlta = (DateTime)usuario.FechaAlta
+                                }).ToList();
+                
+            }
+                return listaUsuario;
+            }
+            catch (Exception ex)
+            {
+               UsuarioCLS oUserCLS= new UsuarioCLS();   
+                oUserCLS.Error = ex.Message;
+                return (IEnumerable<UsuarioCLS>)NotFound(oUserCLS);
+            }
+        }
+
+        [HttpGet]
         [Route("api/usuarios")]
         public IEnumerable<UsuarioCLS> ListarUsuarios()
         {
@@ -161,11 +197,24 @@ namespace MVPSA_V2022.Controllers
 
                     }
                     else
-                    {    //FaltaTerminar LA EDICION
+                    {   
+                        //FaltaTerminar LA EDICION
                         Usuario oUsuario = bd.Usuarios.Where(p => p.IdUsuario == oUsuarioCLS.IdUsuario).First();
                         oUsuario.NombreUser = oUsuarioCLS.NombreUser;
                         oUsuario.Contrasenia = oUsuarioCLS.Contrasenia;
                         oUsuario.IdTipoUsuario = oUsuarioCLS.TiposRol;
+
+                        var oPersona = bd.Personas.Where(p => p.IdPersona == oUsuario.IdPersona).FirstOrDefault();
+                        oPersona.Nombre = oUsuarioCLS.NombrePersona;
+                        oPersona.Apellido = oUsuarioCLS.Apellido;
+                        oPersona.Telefono = oUsuarioCLS.Telefono;
+                        oPersona.Dni = oUsuarioCLS.Dni;
+                        oPersona.Domicilio = oUsuarioCLS.Domicilio;
+                        oPersona.Altura = oUsuarioCLS.Altura;
+                        oPersona.Mail = oUsuarioCLS.Mail;
+                        oPersona.FechaNac = oUsuarioCLS.FechaNac;
+                        bd.Personas.Update(oPersona);
+
                         bd.SaveChanges();
 
                     }
@@ -198,6 +247,36 @@ namespace MVPSA_V2022.Controllers
                                //&&   esta linea anterior es para uqe no se visualicen los que no deben verse activar cuando terminemos.
                                usuario.IdUsuario == idUsuario
                                //&& pagina.Bvisible == 1
+                               select new PaginaCLS
+                               {
+                                   idPagina = pagina.IdPagina,
+                                   Accion = pagina.Accion.Substring(1),
+                                   Mensaje = pagina.Mensaje,
+                                   Bvisible=(int)pagina.Bvisible,
+                                   Bhabilitado = (int)pagina.Bhabilitado
+                               }).ToList();
+                return listaPagina;
+            }
+        }
+
+        [HttpGet]
+        [Route("api/usuarios/paginas/menu")]
+        public List<PaginaCLS> ListarPaginasMenu([FromHeader(Name = "id_usuario")] int idUsuario)
+        {
+            List<PaginaCLS> listaPagina = new List<PaginaCLS>();    
+            using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
+            {
+                listaPagina = (from paginaRol in bd.Paginaxrols
+                               join pagina in bd.Paginas
+                               on paginaRol.IdPagina equals pagina.IdPagina
+                               join usuario in bd.Usuarios
+                               on paginaRol.IdRol equals usuario.IdTipoUsuario
+                               where //paginaRol.Bhabilitado == 1
+                               //&&   esta linea anterior es para uqe no se visualicen los que no deben verse activar cuando terminemos.
+                               usuario.IdUsuario == idUsuario
+                               && pagina.Bvisible == 1
+                               & pagina.Bhabilitado == 1
+                               orderby pagina.Mensaje
                                select new PaginaCLS
                                {
                                    idPagina = pagina.IdPagina,

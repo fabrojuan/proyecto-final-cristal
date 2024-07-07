@@ -27,7 +27,7 @@
               </div>
             </div>
 
-            <div class="col-md-9">
+            <div class="col-md-8">
               <label for="Accion" class="form-label">(*) Ruta</label>
               <input type="text" class="form-control" [ngClass]="{'is-invalid' : rutaNoValido}" id="Accion" formControlName="Accion" 
                       value="" placeholder="Debe comenzar con /">
@@ -36,13 +36,21 @@
               </div>
             </div>
 
-              <div class="col-md-3">
-                  <label for="Bvisible" class="form-label">(*) Visible</label>
+              <div class="col-md-2">
+                  <label for="Bvisible" class="form-label">(*) Visible en Menú</label>
                   <select id="Bvisible" formControlName="Bvisible" class="form-select">
                       <option value="1">Si</option>
                       <option value="0">No</option>
                   </select>
-              </div>              
+              </div>      
+              
+              <div class="col-md-2">
+                <label for="Bhabilitado" class="form-label">(*) Habilitada</label>
+                <select id="Bhabilitado" formControlName="Bhabilitado" class="form-select">
+                    <option value="1">Si</option>
+                    <option value="0">No</option>
+                </select>
+              </div>
 
               <div class="col-md-12 order-md-1">
 

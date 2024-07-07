@@ -57,6 +57,7 @@ export class PaginaFormGenerarComponent implements OnInit {
         this.Pagina.controls["Accion"].setValue(data.accion);
         this.Pagina.controls["Mensaje"].setValue(data.mensaje);
         this.Pagina.controls["Bvisible"].setValue(data.bvisible);
+        this.Pagina.controls["Bhabilitado"].setValue(data.bhabilitado);
 
       }
 
