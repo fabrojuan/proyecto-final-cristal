@@ -1,29 +1,83 @@
-<!--<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Rol Paginas</title>
-  <style>
-    .bd-placeholder-img {
-      font-size: 1.125rem;
-      text-anchor: middle;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-    }
-
-    @media (min-width: 900px) {
-      .bd-placeholder-img-lg {
-        font-size: 3.5rem;
-      }
-    }
-  </style>
-
-</head>-->
-
-
 <div class="container">
+
+  <div class="card">
+      <div class="card-body">
+        
+          <h5 class="card-title">Alta/Edición de Roles</h5>
+
+          <form [formGroup]="Rol" (ngSubmit)="guardarDatos()" class="row g-3">
+
+            <div class="col-md-2">
+              <label for="CodRol" class="form-label">(*) Código</label>
+              <input type="text" class="form-control" [ngClass]="{'is-invalid' : codRolNoValido}" id="CodRol" formControlName="CodRol" value="">
+              <div class="invalid-feedback" *ngIf="codRolNoValido">
+                  El código de rol es requerido y no puede superar los 15 caracteres
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="NombreRol" class="form-label">(*) Nombre</label>
+              <input type="text" class="form-control" [ngClass]="{'is-invalid' : nombreRolNoValido}" id="NombreRol" formControlName="NombreRol" value="">
+              <div class="invalid-feedback" *ngIf="nombreRolNoValido">
+                  El nombre de rol es requerido y no puede superar los 100 caracteres
+              </div>
+            </div>
+
+            <div class="col-md-2">
+              <label for="TipoRol" class="form-label">(*) Tipo</label>
+              <select id="TipoRol" formControlName="TipoRol" class="form-select">
+                  <option value="EMPLEADO">Empleado</option>
+                  <option value="VECINO">Vecino</option>
+              </select>
+            </div>
+
+            <div class="col-md-2">
+              <label for="BHabilitado" class="form-label">(*) Habilitado</label>
+              <select id="BHabilitado" formControlName="BHabilitado" class="form-select">
+                  <option value="1">Si</option>
+                  <option value="0">No</option>
+              </select>
+            </div>
+
+            
+
+            <div class="col-12">
+              <p class="card-title">Páginas habilitadas:</p>
+              <div class="form-group col-md-10">
+                <label> </label>
+                <div *ngFor="let pagina of paginas">
+                  <input class="check" [name]="pagina.idPagina" (change)="verCheck()" type="checkbox" />
+                  <label>
+                    &nbsp; &nbsp; {{pagina.mensaje}}
+                  </label>
+                </div>
+              </div>
+            </div>
+
+              <div class="col-md-12 order-md-1">
+
+                  <div class="row">
+                      <hr class="mb-4">
+                      <div class="form-group col-md-12 mb-3 pt-3">
+                          <input type="submit" value="Generar" class="btn btn-primary col-md-4 offset-md-1 " />
+                          <button type="button" class="btn btn-secondary col-md-4 offset-md-1" (click)="volverHome()">Cancelar</button>
+                      </div>
+
+                  </div>
+
+              </div>
+
+          </form>
+      </div>
+
+  </div>
+
+</div>
+
+
+
+
+<!-- <div class="container">
   <div class="card">
     <div class="card-body">
    
@@ -112,4 +166,4 @@
   </div>
 
   <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
-</div>
+</div> -->

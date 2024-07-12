@@ -114,6 +114,8 @@ import { ChartsReclamosComponent } from './components/charts-reclamos/charts-rec
 import { VecinoOlvidoContraseniaComponent } from './components/vecino-olvido-contrasenia/vecino-olvido-contrasenia.component';
 import { VecinoNuevaContraseniaComponent } from './components/vecino-nueva-contrasenia/vecino-nueva-contrasenia.component';
 import { PaginaNoEncontradaComponent } from './components/pagina-no-encontrada/pagina-no-encontrada.component';
+import { ModalSiNoComponent } from './components/modal-si-no/modal-si-no.component';
+import { CabeceraTituloComponent } from './components/cabecera-titulo/cabecera-titulo.component';
 
 
 @NgModule({
@@ -199,7 +201,9 @@ import { PaginaNoEncontradaComponent } from './components/pagina-no-encontrada/p
     ChartsReclamosComponent,
     VecinoOlvidoContraseniaComponent,
     VecinoNuevaContraseniaComponent,
-    PaginaNoEncontradaComponent
+    PaginaNoEncontradaComponent,
+    ModalSiNoComponent,
+    CabeceraTituloComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -222,6 +226,7 @@ import { PaginaNoEncontradaComponent } from './components/pagina-no-encontrada/p
       { path: 'ejecucion-procesos', component: EjecucionProcesosComponent, canActivate: [SeguridadGuard] },
       { path: 'error-pagina-login', component: ErrorPaginLoginComponent },
       { path: 'form-usuario-generar', component: FormUsuarioGenerarComponent, canActivate: [SeguridadGuard] },
+      { path: 'form-usuario-generar/:id', component: FormUsuarioGenerarComponent, canActivate: [SeguridadGuard] },
       { path: 'impuesto-pago-send', component: ImpuestoPagoSendComponent },
       { path: 'impuestos-vecino-adeuda-tabla', component: ImpuestosVecinoAdeudaTablaComponent },
       { path: 'impuestos-vecino-adeuda-tabla/:id', component: ImpuestosVecinoAdeudaTablaComponent },

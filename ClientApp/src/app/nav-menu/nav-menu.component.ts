@@ -11,8 +11,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./nav-menu.component.css']
 })
 export class NavMenuComponent implements OnInit {
-  login: boolean = false;//ojo con esta linea
-  loginVecino: boolean = false;//ojo con esta linea
   menus: any; //array de menus
   constructor(private usuarioService: UsuarioService, private vecinoService: VecinoService, private router: Router) { }
   isExpanded = false;
@@ -27,34 +25,17 @@ export class NavMenuComponent implements OnInit {
   ngOnInit() {
     this.usuarioService.ObtenerSession().subscribe(data => {
       if (data) {
-        this.login = true;
         // Llamar a Listar Paginas....
-        this.usuarioService.listarPaginas().subscribe(dato => {
+        this.usuarioService.listarPaginasMenu().subscribe(dato => {
           this.menus = dato;
         });
 
-      }
-      else {
-        this.login = false;
-        //this.router.navigate(["/login"]);
       }
     });
 
 
     //Mañana meter aca el login del vecino sino no tendre nunca el login = a Treu pero cambiar nombres
     this.vecinoService.ObtenerSession().subscribe(data => {
-      if (data) {
-        this.loginVecino = true;
-        // Llamar a Listar Paginas....
-        //this.usuarioService.listarPaginas().subscribe(dato => {
-        //  this.menus = dato;
-        //});
-
-      }
-      else {
-        this.loginVecino = false;
-        //this.router.navigate(["/login"]);
-      }
     });
 
 
@@ -62,12 +43,13 @@ export class NavMenuComponent implements OnInit {
 
 
   }
+
   //No Reparado
   cerrarSession() {
-    this.login = false;
     this.usuarioService.cerrarSession();
     sessionStorage.clear();
     this.router.navigate(["/"]);
+    this.menus = undefined;
   }
   //No reparado
 
@@ -79,16 +61,17 @@ export class NavMenuComponent implements OnInit {
   cerrarSessionVecino() {
     this.vecinoService.cerrarSessionVecino().subscribe((res: any) => {
       if (res.valor == "OK") {
-        this.loginVecino = false;
         this.router.navigate(["/"]);
-
       }
-      else {
-        this.loginVecino = true;
-
-      }
-
     });
+  }
+
+  esUsuarioLogueado(): boolean {
+    return this.usuarioService.isLoggedIn();
+  }
+
+  esVecinoLogueado(): boolean {
+    return this.vecinoService.isLoggedIn();
   }
 
 

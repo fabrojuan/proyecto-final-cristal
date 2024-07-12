@@ -3,6 +3,7 @@ import { Validators } from '@angular/forms';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ImpuestoService } from '../../services/impuesto.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'impuestos-vecino-adeuda-tabla',
@@ -14,11 +15,13 @@ export class ImpuestosVecinoAdeudaTablaComponent implements OnInit {
   titulo: any = "";
   impuestos: any;
   p: number = 1;
-  FGimpuestos: any;
   suma_actual: number = 0;
   value: any;
-  cabeceras: string[] = ["Mes", "Año", "Importe Base", "Interés Acumulado", "Importe Final", "Seleccionado"];
-  constructor(private impuestoService: ImpuestoService, private router: Router, private activatedRoute: ActivatedRoute) {
+  cabeceras: string[] = ["Periodo", "Cuota", "Vencimiento", "Nominal", "Recargo", "Importe Final", "Seleccionado"];
+  impuestosSeleccionados?: string;
+
+  constructor(private impuestoService: ImpuestoService, private router: Router, private activatedRoute: ActivatedRoute,
+              public _toastService: ToastService) {
     this.activatedRoute.params.subscribe(parametro => {
       this.parametro = parametro["id"]
       if (this.parametro >= 1) {
@@ -29,13 +32,6 @@ export class ImpuestosVecinoAdeudaTablaComponent implements OnInit {
         this.titulo = "Añadir";
       }
     });
-    this.FGimpuestos = new UntypedFormGroup(
-      {
-        "Valores": new UntypedFormControl(""),
-
-      }
-    );
-
   }
 
   ngOnInit() {
@@ -72,23 +68,22 @@ export class ImpuestosVecinoAdeudaTablaComponent implements OnInit {
 
     if (seleccionados != "") {
       seleccionados = seleccionados.substring(0, seleccionados.length - 1)  //Aqui elimino el utlimo caracter de seleccionados que eá un - y el ultimo tiene que ser un nro.
-      this.FGimpuestos.controls["Valores"].setValue(seleccionados);
+      this.impuestosSeleccionados = seleccionados;
     }
   }
+  
   guardarDatos() {
-    if (this.FGimpuestos.valid == true) {
-      //  this.respuesta =
-      this.impuestoService.guardarBoleta(this.FGimpuestos.value).subscribe(data => {
-        this.router.navigate(["/"]);
-      })
-      this.router.navigate(["/impuesto-pago-send"]);
-      //  if (this.respuesta == 0) {
-      //    console.log("No se guardo correcto hubo error");
+
+    if (this.suma_actual == 0) {
+      this._toastService.showError("Debe seleccionar algún impuesto");
+      return;
     }
-    else {
-      // console.log("Se guardo Joya!!!");
+
+    this.impuestoService.guardarBoleta({"Valores": this.impuestosSeleccionados, "idLote": this.parametro}).subscribe(data => {
       this.router.navigate(["/"]);
-    }
+    })
+    this.router.navigate(["/impuesto-pago-send"]);
+
   }
 
 

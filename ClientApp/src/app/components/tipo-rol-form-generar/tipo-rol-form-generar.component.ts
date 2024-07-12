@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { UsuarioService } from '../../services/usuario.service';
 import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import { ToastService } from 'src/app/services/toast.service';
 //import { resolve } from 'url';
 
 @Component({
@@ -16,7 +17,11 @@ export class TipoRolFormGenerarComponent implements OnInit {
   parametro: any;
   respuesta: any = 0;
   paginas: any;
-  constructor(private usuarioService: UsuarioService, private router: Router, private activatedRoute: ActivatedRoute) {
+  isFormSubmitted: boolean = false;
+
+  constructor(private usuarioService: UsuarioService, private router: Router, private activatedRoute: ActivatedRoute,
+              public _toastService: ToastService
+  ) {
     this.activatedRoute.params.subscribe(parametro => {
       this.parametro = parametro["id"]
       if (this.parametro >= 1) {
@@ -30,7 +35,9 @@ export class TipoRolFormGenerarComponent implements OnInit {
       {
         "IidRol": new UntypedFormControl("0"),
         "NombreRol": new UntypedFormControl("", [Validators.required, Validators.maxLength(100)]),
-        "BHabilitado": new UntypedFormControl("0", [Validators.required, Validators.maxLength(1), Validators.pattern("[0-1]{1,}")]),
+        "BHabilitado": new UntypedFormControl("1", [Validators.required, Validators.maxLength(1), Validators.pattern("[0-1]{1,}")]),
+        "CodRol": new UntypedFormControl("", [Validators.required, Validators.maxLength(15)]),
+        "TipoRol": new UntypedFormControl("EMPLEADO", [Validators.required, Validators.maxLength(15)]),
         "Valores": new UntypedFormControl(""),
 
       }
@@ -46,6 +53,8 @@ export class TipoRolFormGenerarComponent implements OnInit {
         this.Rol.controls["IidRol"].setValue(res.iidRol);
         this.Rol.controls["NombreRol"].setValue(res.nombreRol);
         this.Rol.controls["BHabilitado"].setValue(res.bHabilitado);
+        this.Rol.controls["CodRol"].setValue(res.codRol);
+        this.Rol.controls["TipoRol"].setValue(res.tipoRol);
         var listaPaginas = res.listaPagina.map((p:any) => p.idPagina);
         //var listaPaginas = res.listaPagina.pipe(map((p: any) => p.idPagina));    //.pipe(map((res: any)
         //Pintaremos la info.
@@ -78,18 +87,25 @@ export class TipoRolFormGenerarComponent implements OnInit {
 
   }
   guardarDatos() {
-    if (this.Rol.valid == true) {
-      //  this.respuesta =
-      this.usuarioService.guardarROL(this.Rol.value).subscribe(data => {
-        this.router.navigate(["/tipo-rol-form-generar"]);
-      })
-      //  if (this.respuesta == 0) {
-      //    console.log("No se guardo correcto hubo error");
+
+    this.isFormSubmitted = true;
+
+    if (this.Rol.invalid) {
+      Object.values(this.Rol.controls).forEach(
+        control => {
+          control.markAsTouched();
+        }
+      );
+      return;
     }
-    else {
-      console.log("Se guardo Joya!!!");
-      this.router.navigate(["/"]);
-    }
+
+    this.usuarioService.guardarROL(this.Rol.value).subscribe(data => {
+      this._toastService.showOk("El rol se guardó con éxito");
+      this.router.navigate(["/tipo-rol-tabla"]);
+    }, error => {
+      this._toastService.showError("No se pudo guardar el rol");
+    });
+
   }
 
   verCheck() {
@@ -122,7 +138,15 @@ export class TipoRolFormGenerarComponent implements OnInit {
   }
 
   volverHome() {
-    this.router.navigate(["/"]);
+    this.router.navigate(["/tipo-rol-tabla"]);
+  }
+
+  get codRolNoValido() {
+    return this.isFormSubmitted && this.Rol.controls.CodRol.errors;
+  }
+
+  get nombreRolNoValido() {
+    return this.isFormSubmitted && this.Rol.controls.NombreRol.errors;
   }
 
 }

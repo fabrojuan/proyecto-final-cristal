@@ -46,15 +46,15 @@ export class LoginVecinoComponent implements OnInit {
 
     this.vecinoService.login(this.vecino.value).subscribe(res => {
       if (res.idVecino == 0 || res.idVecino == "") {
-        this._toastService.showError("Usuario y/o contraseña no válido");
+        this._toastService.showError("Usuario y/o contraseña no válidos");
       }
       else {
-        window.location.href = this.urlBase + "bienvenida-vecino";
+        window.location.href = this.urlBase /*+ "bienvenida-vecino"*/;
       }
 
     }, error => {
       console.log(error);
-      this._toastService.showError("Email y/o contraseńa no válidos");
+      this._toastService.showError("Usuario y/o contraseńa no válidos");
     });
     
   }

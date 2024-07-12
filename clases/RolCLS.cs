@@ -6,6 +6,8 @@ namespace MVPSA_V2022.clases
     {
         public int IidRol { get; set; }
         public string NombreRol { get; set; }
+        public string TipoRol { get; set; }
+        public string CodRol { get; set; }
         public int BHabilitado { get; set; }
         public string Valores { get; set; } //Para agregar
         public List<PaginaCLS> ListaPagina { get; set; } //Para Editar Paginas de Accesso

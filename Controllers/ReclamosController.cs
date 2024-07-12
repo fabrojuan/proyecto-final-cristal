@@ -141,14 +141,14 @@ namespace MVPSA_V2022.Controllers
 
         [HttpGet]
         public IActionResult ListarReclamos([FromHeader(Name = "id_usuario")] string idUsuarioAlta,
-                                            [FromQuery] int tipo,
+                                            [FromQuery] int area,
                                             [FromQuery] int estado,
                                             [FromQuery] int numero,
                                             [FromQuery(Name = "nom_ape_vecino")] string? nomApeVecino)
         {
             try
             {
-                return Ok(reclamoService.listarReclamos(Int32.Parse(idUsuarioAlta), tipo, estado, numero, nomApeVecino));
+                return Ok(reclamoService.listarReclamos(Int32.Parse(idUsuarioAlta), area, estado, numero, nomApeVecino));
             } catch (Exception ex) {
                 return NotFound(ex.Message);
             }

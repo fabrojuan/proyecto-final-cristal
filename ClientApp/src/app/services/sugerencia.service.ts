@@ -20,6 +20,12 @@ export class SugerenciaService {
     return this.http.post(url, Sugerencia).pipe(map(res => res));
   }
 
+  public actualizarSugerencia(sugerencia: any) {
+
+    var url = this.urlBase + 'api/Sugerencia/actualizarSugerencia';
+    return this.http.put(url + "/" + sugerencia.idSugerencia, sugerencia).pipe(map(res => res));
+  }
+
   public getSugerencia() {
     return this.http.get(this.urlBase + 'api/Sugerencia/listarSugerencias').pipe(map(res => res));
   }

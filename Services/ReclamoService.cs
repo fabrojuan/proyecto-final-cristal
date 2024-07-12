@@ -126,7 +126,7 @@ namespace MVPSA_V2022.Services
             return  Conversor.convertToReclamoDto(reclamo);
         }
 
-        public IEnumerable<ReclamoDto> listarReclamos(int idUsuarioConectado, int tipo, int estado, int numero,
+        public IEnumerable<ReclamoDto> listarReclamos(int idUsuarioConectado, int area, int estado, int numero,
                                                       String nomApeVecino)
         {           
 
@@ -134,13 +134,13 @@ namespace MVPSA_V2022.Services
             String codRolUsuarioConectado = usuarioConectado.IdTipoUsuarioNavigation.CodRol;
 
             var query = dbContext.Reclamos.Where(rec => rec.Bhabilitado == 1);
-            if (codRolUsuarioConectado != "MDE" && codRolUsuarioConectado != "INT"
+            /*if (codRolUsuarioConectado != "MDE" && codRolUsuarioConectado != "INT"
                 && codRolUsuarioConectado != "ADS") {
                 query = query.Where(rec => rec.NroArea == usuarioConectado.NroArea);
-            }
+            }*/
 
-            if (tipo != 0) {
-                query = query.Where(rec => rec.CodTipoReclamo == tipo);
+            if (area != 0) {
+                query = query.Where(rec => rec.NroArea == area);
             }
 
             if (estado != 0) {
