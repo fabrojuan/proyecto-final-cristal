@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.ObjectPool;
 using MVPSA_V2022.clases;
+using MVPSA_V2022.Exceptions;
 using MVPSA_V2022.Modelos;
 using MVPSA_V2022.Services;
 using OfficeOpenXml.Style;
@@ -35,9 +37,8 @@ namespace MVPSA_V2022.Controllers
         //********************* GUARDAR VECINO ******************************************
         [AllowAnonymous]
         [HttpPost]
-        public int GuardarVecino([FromBody] VecinoCLS oVecinoCLS)
+        public ActionResult GuardarVecino([FromBody] VecinoCLS oVecinoCLS)
         {
-            int rpta = 0;
 
             try
             {
@@ -47,6 +48,10 @@ namespace MVPSA_V2022.Controllers
                     {
                         if (oVecinoCLS.IdVecino == 0)
                         {
+
+                            if ( bd.Personas.Where(per => oVecinoCLS.Mail.ToUpper().Equals(per.Mail.ToUpper())).Count() != 0 ) {
+                                throw new BusinessException("Ya existe una persona registrada con ese correo electrónico");
+                            }
 
                             Rol rolVecino = bd.Rols.Where(vec => vec.CodRol == "VEC").First();
 
@@ -84,7 +89,7 @@ namespace MVPSA_V2022.Controllers
 
                             transaccion.Complete();
                             //Para el caso de edicion no hace falta hacer nada porque la relacion a persona ya esta                     
-                            rpta = 1;
+
                         }
                         else
                         {    //FaltaTerminar LA EDICION
@@ -93,21 +98,26 @@ namespace MVPSA_V2022.Controllers
                             oUsuario.Contrasenia = oVecinoCLS.Contrasenia;
                             bd.SaveChanges();
                             transaccion.Complete();
-                            rpta = 1;
+
                         }
                     }
                 }
-                rpta = 1;
+                
+                return Ok();
+
+            }
+            catch (BusinessException be) {
+                return BadRequest(be.Message);
             }
             catch (DbUpdateException ex)
             {
                 ModelState.AddModelError("", "No pueden salvarse los cambios. " +
                         "Intentalo de nuevo cambiando todos los valores " +
                         "si el problema persiste llamalo a Roman..");
-                rpta = 0;
                 Console.WriteLine(ex.ToString());
+                return BadRequest("Ocurrió un error y no se pudieron guardar los cambios");
             }
-            return rpta;
+
         }
         //********************* Fin GUARDAR VECINO ******************************************
 

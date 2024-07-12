@@ -26,7 +26,6 @@ export class ImpuestosVecinoAdeudaTablaComponent implements OnInit {
       this.parametro = parametro["id"]
       if (this.parametro >= 1) {
         this.titulo = "Editar";
-        console.log('El id de lote es' + this.parametro);
 
       } else {
         this.titulo = "Añadir";

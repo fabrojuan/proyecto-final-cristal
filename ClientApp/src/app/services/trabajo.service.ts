@@ -22,7 +22,6 @@ export class TrabajoService {
 
   public GuardarTrabajo(Trabajo:any) {
     var url = this.urlBase + 'api/Trabajo/guardarTrabajo/';
-    console.log(Trabajo);
     return this.http.post(url, Trabajo).pipe(map(res => res));
   }
 

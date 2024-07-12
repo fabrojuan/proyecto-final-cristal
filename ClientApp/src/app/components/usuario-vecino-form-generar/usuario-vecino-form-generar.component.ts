@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UsuarioService } from '../../services/usuario.service';
 import { UntypedFormGroup, UntypedFormControl, FormBuilder, Validators } from '@angular/forms';
+import { ToastService } from 'src/app/services/toast.service';
 //import { resolve } from 'url';
 
 @Component({
@@ -17,7 +18,9 @@ export class UsuarioVecinoFormGenerarComponent implements OnInit {
   yaExiste: boolean=false;
   isFormSubmitted: boolean=false
 
-  constructor(private usuarioService: UsuarioService, private router: Router, private activatedRoute: ActivatedRoute) {
+  constructor(private usuarioService: UsuarioService, private router: Router, private activatedRoute: ActivatedRoute,
+              public _toastService: ToastService
+  ) {
     this.activatedRoute.params.subscribe(parametro => {
       this.parametro = parametro["id"]
       if (this.parametro >= 1) {
@@ -79,16 +82,13 @@ export class UsuarioVecinoFormGenerarComponent implements OnInit {
       return;
     }
 
-    this.respuesta = this.usuarioService.GuardarVecino(this.Usuario.value).subscribe(data => {})
-    if (this.respuesta == 0) {
-      console.log("No se guardo correcto hubo error");
-    }
-    else {
-      console.log("Se guardo Joya!!!");
+    this.usuarioService.GuardarVecino(this.Usuario.value).subscribe(data => {
+      this._toastService.showOk("El vecino se registró con éxito");
       this.router.navigate(["/"]);
-    }
-
-    alert("Se registró el usuario correctamente");   
+    }, error => {
+      console.log(error);
+      this._toastService.showError(error.error);
+    }); 
 
   }
 

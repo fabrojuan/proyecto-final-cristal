@@ -23,7 +23,6 @@ export class ChartsReclamosComponent implements OnInit {
     this.indicadoresService.getReclamosCerradosPorMesYTipoCierre().subscribe(resp => {
 
       this.dataChartReclamosCerradosPorMes = resp;
-      console.log(resp);
       this.chartReclamosCerradosPorMes = new Chart("chartReclamosCerradosPorMes", {
         type: 'bar',
         data: this.dataChartReclamosCerradosPorMes,
@@ -101,7 +100,6 @@ export class ChartsReclamosComponent implements OnInit {
     this.indicadoresService.getTrabajosReclamosPorAreaYMes().subscribe(resp => {
 
       this.dataChartTrabajosReclamosPorAreaYMes = resp;
-      console.log(resp);
       this.chartReclamosCerradosPorMes = new Chart("chartTrabajosReclamosPorAreaYMes", {
         type: 'bar',
         data: this.dataChartTrabajosReclamosPorAreaYMes,
