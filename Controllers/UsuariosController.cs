@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MVPSA_V2022.clases;
+using MVPSA_V2022.Exceptions;
 using MVPSA_V2022.Modelos;
 using MVPSA_V2022.Services;
 using System;
@@ -159,7 +160,6 @@ namespace MVPSA_V2022.Controllers
         [Route("api/usuarios")]
         public ActionResult GuardarUsuario([FromBody] UsuarioCLS oUsuarioCLS)
         {
-            int rpta = 0;
             // int idPersonatem = 0;
             try
             {
@@ -167,6 +167,11 @@ namespace MVPSA_V2022.Controllers
                 {
                     if (oUsuarioCLS.IdUsuario == 0)
                     {
+
+                        if ( bd.Personas.Where(per => oUsuarioCLS.Mail.ToUpper().Equals(per.Mail.ToUpper())).Count() != 0 ) {
+                            throw new BusinessException("Ya existe una persona registrada con ese correo electrónico");
+                        }
+
                         Persona oPersona = new Persona(); //Es igual que new persona() pero en la base
                         oPersona.Nombre = oUsuarioCLS.NombrePersona;
                         oPersona.Apellido = oUsuarioCLS.Apellido;
@@ -222,14 +227,17 @@ namespace MVPSA_V2022.Controllers
 
                     }
                 }
-                rpta = 1;
+                return Ok();
+            }
+            catch (BusinessException be) {
+                return BadRequest(be.Message);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
                 return BadRequest();
             }
-            return Ok(rpta);
+
         }
 
 

@@ -103,7 +103,7 @@ export class FormUsuarioGenerarComponent implements OnInit {
       this.router.navigate(["/usuario-tabla"]);
     },
     error => {
-      this._toastService.showError("Ocurrió un error y no se pudo guardar el usuario");
+      this._toastService.showError(error.error);
     });
 
 
