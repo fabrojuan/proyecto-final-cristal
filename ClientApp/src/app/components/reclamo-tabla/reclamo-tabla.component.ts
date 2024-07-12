@@ -3,6 +3,8 @@ import { ReclamoService } from '../../services/reclamo.service';
 import { ClaveValor } from 'src/app/modelos_Interfaces/ClaveValor';
 import { EstadoReclamo } from 'src/app/modelos_Interfaces/EstadoReclamo';
 import { HttpParams } from '@angular/common/http';
+import { Area } from 'src/app/modelos_Interfaces/Area';
+import { AreasService } from 'src/app/services/areas.service';
 
 @Component({
   selector: 'reclamo-tabla',
@@ -23,8 +25,10 @@ export class ReclamoTablaComponent implements OnInit {
   estadoReclamoSeleccionado: number = 0;
   nroReclamoFiltro: string = '';
   nomApeVecinoFiltro: string = '';
+  areaSeleccionada: number = 0;
+  areas: Area[] = [];
 
-  constructor(private reclamoservice: ReclamoService) {
+  constructor(private reclamoservice: ReclamoService, private areaService: AreasService) {
   }
 
   ngOnInit() {
@@ -43,6 +47,8 @@ export class ReclamoTablaComponent implements OnInit {
       this.reclamoservice.getTipoReclamo().subscribe(data => this.TiposReclamo = data);
 
       this.reclamoservice.getEstados().subscribe(data => this.estadosReclamo = data);
+
+      this.areaService.getAreas().subscribe(data => this.areas = data);
 
   }
   
@@ -73,6 +79,11 @@ export class ReclamoTablaComponent implements OnInit {
     if (this.nomApeVecinoFiltro && this.nomApeVecinoFiltro.length != 0) {
       queryParams = queryParams.append("nom_ape_vecino", this.nomApeVecinoFiltro);
     }
+
+    if (this.areaSeleccionada && this.areaSeleccionada != 0) {
+      queryParams = queryParams.append("area", this.areaSeleccionada);
+    }
+
 
     this.reclamoservice.getReclamosConFiltros(queryParams).subscribe(data => 
       { 

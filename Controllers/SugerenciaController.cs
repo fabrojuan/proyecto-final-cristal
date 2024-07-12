@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using MVPSA_V2022.clases;
 using MVPSA_V2022.Modelos;
 using MVPSA_V2022.Utils;
+using Org.BouncyCastle.Asn1.Bsi;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -74,6 +75,27 @@ namespace MVPSA_V2022.Controllers
             }
             return rpta;
         }
+
+        [HttpPut]
+        [Route("actualizarSugerencia/{idSugerencia}")]
+        [AllowAnonymous]
+        public ActionResult actualizarSugerencia(int idSugerencia, [FromBody] SugerenciaCLS sugerenciaCLS)
+        {
+            try {
+                M_VPSA_V3Context bd = new M_VPSA_V3Context();
+                var sugerenciaActualizar = bd.Sugerencia.Where(x => x.IdSugerencia == idSugerencia).FirstOrDefault();
+                sugerenciaActualizar.Estado = sugerenciaCLS.codestado;
+                bd.Sugerencia.Update(sugerenciaActualizar);
+                bd.SaveChanges();
+
+                return Ok();
+            } catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return BadRequest();
+            }            
+        }
+
         [HttpGet]
         [Route("listarSugerencias")]
         public IEnumerable<SugerenciaCLS> listarSugerencias()
@@ -84,6 +106,8 @@ namespace MVPSA_V2022.Controllers
                 List<SugerenciaCLS> listaSugerencia = (from sugerencia in bd.Sugerencia join esugere in bd.EstadoSugerencia
                                                              on sugerencia.Estado equals esugere.CodEstadoSugerencia
                                                        where sugerencia.Bhabilitado == 1 && sugerencia.Estado == esugere.CodEstadoSugerencia
+                                                             && sugerencia.Estado != 4
+                                                       orderby sugerencia.FechaGenerada descending
                                                        select new SugerenciaCLS
                                                        {
                                                            idSugerencia = sugerencia.IdSugerencia,

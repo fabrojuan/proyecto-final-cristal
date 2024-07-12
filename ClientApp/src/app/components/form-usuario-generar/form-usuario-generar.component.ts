@@ -4,6 +4,8 @@ import { UsuarioService } from '../../services/usuario.service';
 import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { ToastService } from 'src/app/services/toast.service';
 import moment from 'moment';
+import { AreasService } from 'src/app/services/areas.service';
+import { Area } from 'src/app/modelos_Interfaces/Area';
 
 @Component({
   selector: 'form-usuario-generar',
@@ -17,9 +19,10 @@ export class FormUsuarioGenerarComponent implements OnInit {
   TiposRol: any;
   respuesta: any = 0;
   isFormSubmitted: boolean = false;
+  areas: Area[] = [];
 
   constructor(private usuarioService: UsuarioService, private router: Router, private activatedRoute: ActivatedRoute, 
-              public _toastService: ToastService
+              public _toastService: ToastService, private areaService: AreasService
   ) {
     this.activatedRoute.params.subscribe(parametro => {
       this.parametro = parametro["id"]
@@ -44,20 +47,26 @@ export class FormUsuarioGenerarComponent implements OnInit {
         "Dni": new UntypedFormControl("", [Validators.required, Validators.maxLength(10)]),
         "Altura": new UntypedFormControl("", [Validators.required, Validators.maxLength(5)]),
         "FechaNac": new UntypedFormControl("", [Validators.required]),
-        "TiposRol": new UntypedFormControl("", [Validators.required])
+        "TiposRol": new UntypedFormControl("", [Validators.required]),
+        "NroArea": new UntypedFormControl("", [Validators.required])
       });
   }
 
   ngOnInit() {
-    //Aqui recuperamos la info para luego editarla.
-    // DEbo traer el combo de a quien derivar...
+
     this.usuarioService.listarRoles().subscribe(data => this.TiposRol = data);
+    this.areaService.getAreas().subscribe(data => this.areas = data);
+
     if (this.parametro >= 1) {
       this.usuarioService.RecuperarUsuario(this.parametro).subscribe(param => {
 
         this.Usuario.controls["IdUsuario"].setValue(param.idUsuario);
         this.Usuario.controls["NombreUser"].setValue(param.nombreUser);
+
         this.Usuario.controls["Contrasenia"].setValue(param.contrasenia);
+        this.Usuario.controls['Contrasenia'].setValidators([])
+        this.Usuario.controls['Contrasenia'].updateValueAndValidity()
+
         this.Usuario.controls["NombrePersona"].setValue(param.nombrePersona);
         this.Usuario.controls["Apellido"].setValue(param.apellido);
         this.Usuario.controls["Telefono"].setValue(param.telefono);
@@ -70,7 +79,8 @@ export class FormUsuarioGenerarComponent implements OnInit {
         let formattedFechaNac = (moment(fechaNac)).format('YYYY-MM-DD');
         this.Usuario.controls["FechaNac"].setValue(formattedFechaNac);
 
-        this.Usuario.controls["TiposRol"].setValue(param.tiposRol);  // SACAR ROL PORQUE VA COMO VECINO POR DEFECTO
+        this.Usuario.controls["TiposRol"].setValue(param.tiposRol);  
+        this.Usuario.controls["NroArea"].setValue(param.nroArea);
       });
     } else {
     }
@@ -161,7 +171,17 @@ export class FormUsuarioGenerarComponent implements OnInit {
   }
 
   get contraseniaNoValido() {
+    // Si es una edicion y no esta mandando la contrasenia esta bien, se deja la que ya tenia
+    // if (this.isFormSubmitted && this.Usuario.controls.IdUsuario.value != 0 
+    //   && (this.Usuario.controls.Contrasenia.value == null || this.Usuario.controls.Contrasenia.value == "")) {
+    //   return false;
+    // }
+
     return this.isFormSubmitted && this.Usuario.controls.Contrasenia.errors;
+  }
+
+  get areaNoValido() {
+    return this.isFormSubmitted && this.Usuario.controls.NroArea.errors;
   }
 
 }

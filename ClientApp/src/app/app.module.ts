@@ -115,6 +115,7 @@ import { VecinoOlvidoContraseniaComponent } from './components/vecino-olvido-con
 import { VecinoNuevaContraseniaComponent } from './components/vecino-nueva-contrasenia/vecino-nueva-contrasenia.component';
 import { PaginaNoEncontradaComponent } from './components/pagina-no-encontrada/pagina-no-encontrada.component';
 import { ModalSiNoComponent } from './components/modal-si-no/modal-si-no.component';
+import { CabeceraTituloComponent } from './components/cabecera-titulo/cabecera-titulo.component';
 
 
 @NgModule({
@@ -201,7 +202,8 @@ import { ModalSiNoComponent } from './components/modal-si-no/modal-si-no.compone
     VecinoOlvidoContraseniaComponent,
     VecinoNuevaContraseniaComponent,
     PaginaNoEncontradaComponent,
-    ModalSiNoComponent
+    ModalSiNoComponent,
+    CabeceraTituloComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

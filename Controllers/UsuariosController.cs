@@ -123,8 +123,9 @@ namespace MVPSA_V2022.Controllers
                                     TiposRol = (int)((Usuario.IdTipoUsuario > 0) ? Usuario.IdTipoUsuario : 5),   //El rol   Ojo con este HARDCODEO DEL TIPO DE USUARIO
                                     Domicilio = Persona.Domicilio,
                                     Altura = Persona.Altura,
-                                    Contrasenia = Usuario.Contrasenia,
-                                    BHabilitado = (int)Usuario.Bhabilitado
+                                    //Contrasenia = Usuario.Contrasenia,
+                                    BHabilitado = (int)Usuario.Bhabilitado,
+                                    NroArea = Usuario.NroArea
                                 }).First();
 
                 }
@@ -183,15 +184,12 @@ namespace MVPSA_V2022.Controllers
                         //oPersona = bd.Personas.Where(p => p.Dni == oUsuarioCLS.Dni).First();
                         oUsuario.IdPersona = oPersona.IdPersona;
                         oUsuario.NombreUser = oUsuarioCLS.NombreUser;
-                        SHA256Managed sha = new SHA256Managed();
-                        byte[] dataNocifrada = Encoding.Default.GetBytes(oUsuarioCLS.Contrasenia);
-                        byte[] dataCifrada = sha.ComputeHash(dataNocifrada);
-                        string claveCifrada = BitConverter.ToString(dataCifrada).Replace("-", "");
-                        oUsuario.Contrasenia = claveCifrada;
+                        oUsuario.Contrasenia = cifrarContrasenia(oUsuarioCLS.Contrasenia);
 
                         //oUsuario.Contrasenia = oUsuarioCLS.Contrasenia;
                         oUsuario.Bhabilitado = 1;
                         oUsuario.IdTipoUsuario = oUsuarioCLS.TiposRol;
+                        oUsuario.NroArea = oUsuarioCLS.NroArea;
                         bd.Usuarios.Add(oUsuario);
                         bd.SaveChanges();
 
@@ -201,8 +199,13 @@ namespace MVPSA_V2022.Controllers
                         //FaltaTerminar LA EDICION
                         Usuario oUsuario = bd.Usuarios.Where(p => p.IdUsuario == oUsuarioCLS.IdUsuario).First();
                         oUsuario.NombreUser = oUsuarioCLS.NombreUser;
-                        oUsuario.Contrasenia = oUsuarioCLS.Contrasenia;
+
+                        if (oUsuarioCLS.Contrasenia != null && oUsuarioCLS.Contrasenia != "") {
+                            oUsuario.Contrasenia = cifrarContrasenia(oUsuarioCLS.Contrasenia);
+                        }
+                        
                         oUsuario.IdTipoUsuario = oUsuarioCLS.TiposRol;
+                        oUsuario.NroArea = oUsuarioCLS.NroArea;
 
                         var oPersona = bd.Personas.Where(p => p.IdPersona == oUsuario.IdPersona).FirstOrDefault();
                         oPersona.Nombre = oUsuarioCLS.NombrePersona;
@@ -373,6 +376,13 @@ namespace MVPSA_V2022.Controllers
             }
 
             return Unauthorized();
+        }
+
+        private String cifrarContrasenia(String contrasenia) {
+            SHA256Managed sha = new SHA256Managed();
+            byte[] dataNocifrada = Encoding.Default.GetBytes(contrasenia);
+            byte[] dataCifrada = sha.ComputeHash(dataNocifrada);
+            return BitConverter.ToString(dataCifrada).Replace("-", "");                        
         }
 
     }

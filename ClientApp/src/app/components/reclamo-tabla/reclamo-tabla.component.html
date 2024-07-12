@@ -1,10 +1,14 @@
 <div class="container">
     <section class="section">
 
-        <div class="row">
+        <!-- <div class="row">
             <div class="card">
                 <div class="card-header">
-                    <!-- <h6 class="card-title">Filtros de búsqueda</h6> -->
+
+                    <app-cabecera-titulo [titulo]="'Tablero Gestión de Requerimientos'"
+                               [rutaImagen]="'../../../assets/IconsGoogle/trabajador.svg'"
+                               [link]="'bienvenida'"></app-cabecera-titulo>
+
                     <div class="row" >
                         <div class="col-md-2">
                             <div class="form-floating">                                
@@ -16,11 +20,74 @@
 
                         <div class="col-md-3">
                             <div class="form-floating">                                
+                                <select id="area" class="form-select" [(ngModel)]='areaSeleccionada'>
+                                    <option value="0">Todas</option>
+                                    <option [ngValue]="area.nroArea" *ngFor="let area of areas">{{area.nombre}}</option>
+                                </select>
+                                <label for="exampleInputEmail1" class="form-label">Área Asignada</label>
+                            </div>                            
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-floating">                                
+                                <select id="Tipo_Reclamo" class="form-select" [(ngModel)]='estadoReclamoSeleccionado'>
+                                    <option value="0">Todos</option>
+                                    <option [ngValue]="estado.codEstadoReclamo" *ngFor="let estado of estadosReclamo">{{estado.nombre}}</option>
+                                </select>
+                                <label for="exampleInputEmail1" class="form-label">Estado</label>
+                            </div>                            
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-floating">                                
+                                <input type="text" class="form-control" id="calle" [(ngModel)]='nomApeVecinoFiltro' value="" >
+                                <label for="exampleInputEmail1" class="form-label">Vecino</label>
+                            </div>                            
+                        </div>
+
+                        <button type="button" class="btn btn-primary col-md-1" (click)="aplicarFiltrado()"><i class="bi bi-search"></i> Filtrar</button>
+                   
+                        
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+        <div class="row">
+            <div class="card">
+
+                <div class="card-header">
+
+                    <app-cabecera-titulo [titulo]="'Tablero de Gestión de Requerimientos'"
+                               [rutaImagen]="'../../../assets/IconsGoogle/trabajador.svg'"
+                               [link]="'bienvenida'"></app-cabecera-titulo>
+
+                    <div class="row" >
+                        <div class="col-md-2">
+                            <div class="form-floating">                                
+                                <input type="number" class="form-control" id="calle" [(ngModel)]='nroReclamoFiltro' value="" 
+                                (keydown.enter)="aplicarFiltroNroReclamo($event)" >
+                                <label for="exampleInputEmail1" class="form-label">Número</label>
+                            </div>                            
+                        </div>
+
+                        <!-- <div class="col-md-3">
+                            <div class="form-floating">                                
                                 <select id="Tipo_Reclamo" class="form-select" [(ngModel)]='tipoReclamoSeleccionado'>
                                     <option value="0">Todos</option>
                                     <option [ngValue]="TipoReclamo.cod_Tipo_Reclamo" *ngFor="let TipoReclamo of TiposReclamo">{{TipoReclamo.nombre}}</option>
                                 </select>
                                 <label for="exampleInputEmail1" class="form-label">Tipo de Requerimiento</label>
+                            </div>                            
+                        </div> -->
+
+                        <div class="col-md-3">
+                            <div class="form-floating">                                
+                                <select id="area" class="form-select" [(ngModel)]='areaSeleccionada'>
+                                    <option value="0">Todas</option>
+                                    <option [ngValue]="area.nroArea" *ngFor="let area of areas">{{area.nombre}}</option>
+                                </select>
+                                <label for="exampleInputEmail1" class="form-label">Área Asignada</label>
                             </div>                            
                         </div>
 
@@ -54,14 +121,6 @@
                         
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="card-title">Tablero Gestión de Requerimientos</h5>
-                </div>
 
                 <div class="card-body">
                     <!-- <h5 class="card-title">Tablero Gestión de Requerimientos</h5> -->
@@ -83,7 +142,7 @@
                                 <td>{{reclamo.tipoReclamo}}</td>
                                 <td>{{reclamo.prioridad}}</td>
                                 <td>{{reclamo.empleadoAsignado}}</td>
-                                <td>
+                                <td class="text-center">
                                     <!-- <a class="dropdown-item" [routerLink]="['/reclamo-form-consultar',reclamo.nroReclamo]" role="button"><i class="bi bi-pencil-square"></i></a> -->
                                     <button type="button" class="btn btn-outline-primary btn-sm" [routerLink]="['/reclamo-form-consultar',reclamo.nroReclamo]" title="Modificar"><i class="bi bi-pencil"></i></button>
                                 </td>

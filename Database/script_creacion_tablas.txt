@@ -471,6 +471,13 @@ update [dbo].[ROL]
 set BHabilitado = 0
 where idRol = 3;
 
+SET IDENTITY_INSERT [dbo].[AREA] ON;
+
+INSERT INTO AREA (nro_area, nombre, cod_area, bhabilitado)
+VALUES(6, 'SISTEMAS Y TELECOMUNICACIONES', 'SI', 1);
+
+SET IDENTITY_INSERT [dbo].[AREA] OFF;
+
 
 
 

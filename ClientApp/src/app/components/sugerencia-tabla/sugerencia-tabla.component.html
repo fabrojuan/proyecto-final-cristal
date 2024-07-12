@@ -11,7 +11,11 @@
             </div>
           </div> -->
 
-          <h5 class="card-title">Tablero de Gestión de Sugerencias</h5>
+          <app-cabecera-titulo [titulo]="'Tablero de Gestión de Sugerencias'"
+                               [rutaImagen]="'../../../assets/IconsGoogle/patch-plus-fll.svg'"
+                               [link]="'bienvenida'"></app-cabecera-titulo>
+
+          <!-- <h5 class="card-title">Tablero de Gestión de Sugerencias</h5> -->
 
          <table datatable class="table table-striped table-sm">
             <thead>    
@@ -28,11 +32,23 @@
                 <td>{{Sugerencia.fechaGenerada| date: 'dd/MM/yyyy'}}</td>
                 <td>{{Sugerencia.estado}}</td>
                 <td class="text-center" *ngIf="isMantenimiento==true">
+                  <button type="button" class="btn btn-outline-success btn-sm" 
+                          (click)="considerarSugerencia(Sugerencia.idSugerencia)"
+                          title="Considerar"
+                          *ngIf="mostrarOpcionConsiderarSugerencia(Sugerencia.estado)">
+                          <i class="bi bi-check-lg"></i>
+                  </button>
                   <button type="button" class="btn btn-outline-primary btn-sm" 
-                          [routerLink]="['/reclamo-form-generar-sugerencia', Sugerencia.idSugerencia]" 
-                          title="Generar Requerimiento a partir de esta sugerencia"
+                          [routerLink]="['/reclamo-form-generar-sugerencia', Sugerencia.idSugerencia]"                           
+                          title="Convertir en Requerimiento"
                           *ngIf="mostrarOpcionCrearRequerimiento(Sugerencia.estado)">
                           <i class="bi bi-gear"></i>
+                  </button>
+                  <button type="button" class="btn btn-outline-danger btn-sm" 
+                          (click)="descartarSugerencia(Sugerencia.idSugerencia)"
+                          title="Descartar"
+                          *ngIf="mostrarOpcionDescartarSugerencia(Sugerencia.estado)">
+                          <i class="bi bi-trash3"></i>
                   </button>
                 </td>
               </tr>

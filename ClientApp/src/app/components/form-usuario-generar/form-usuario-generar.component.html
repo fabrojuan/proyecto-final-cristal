@@ -71,7 +71,7 @@
               </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-6">
               <label for="NombreUser" class="form-label">(*) Nombre usuario</label>
               <input type="text" class="form-control" [ngClass]="{'is-invalid' : nombreUsuarioNoValido}" id="NombreUser" formControlName="NombreUser" value="">
               <div class="invalid-feedback" *ngIf="nombreUsuarioNoValido">
@@ -79,7 +79,7 @@
               </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-6">
               <label for="Contrasenia" class="form-label">(*) Contraseña</label>
               <input type="password" class="form-control" [ngClass]="{'is-invalid' : contraseniaNoValido}" id="Contrasenia" formControlName="Contrasenia" value="">
               <div class="invalid-feedback" *ngIf="contraseniaNoValido">
@@ -87,7 +87,7 @@
               </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-6">
               <label for="TiposRol" class="form-label">(*) Rol del Empleado</label>
               <select id="TiposRol" formControlName="TiposRol" class="form-select" [ngClass]="{'is-invalid' : rolNoValido}">
                   <option value="">--Seleccione Rol--</option>
@@ -96,7 +96,18 @@
               <div class="invalid-feedback" *ngIf="rolNoValido">
                   El rol es requerido
               </div>
-          </div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="area" class="form-label">(*) Área del Empleado</label>
+              <select id="area" formControlName="NroArea" class="form-select" [ngClass]="{'is-invalid' : areaNoValido}">
+                  <option value="">--Seleccione Área--</option>
+                  <option [ngValue]="area.nroArea" *ngFor="let area of areas">{{area.nombre}}</option>
+              </select>
+              <div class="invalid-feedback" *ngIf="areaNoValido">
+                  La área es requerida
+              </div>
+            </div>
 
               <div class="col-md-12 order-md-1">
 
