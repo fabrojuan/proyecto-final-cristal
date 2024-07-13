@@ -27,6 +27,10 @@ export class LoteService {
   public getLote() {
     return this.http.get(this.urlBase + 'api/Lote').pipe(map(res => res));
   }
+
+  public getLoteById(idLote: number) {
+    return this.http.get(this.urlBase + 'api/Lote/' + idLote).pipe(map(res => res));
+  }
   
   public getLotePreExistente(idLote: any): Observable<any> {
     return this.http.get(this.urlBase + 'api/Lote/RecuperarLotePreExistente/' + idLote).pipe(map(res => res));//.catch(this.errorHandler);

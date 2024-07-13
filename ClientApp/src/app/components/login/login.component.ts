@@ -55,7 +55,8 @@ export class LoginComponent implements OnInit {
         window.location.href = this.urlBase + "bienvenida";
       }
     }, error => {
-      this._toastService.showError("Usuario y/o contraseńa no válidos");
+      //this._toastService.showError("Usuario y/o contraseńa no válidos");
+      this._toastService.showError(error.error.responseMessage);
     });
   
   }

@@ -5,6 +5,7 @@ import { FormGroup, FormControl, FormBuilder, Validators, UntypedFormGroup } fro
 //import { resolve } from 'url';
 import { NgModule } from '@angular/core';
 import { LoteService } from 'src/app/services/lote.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'impuestos-vecino-identificador',
@@ -16,7 +17,7 @@ export class ImpuestosVecinoIdentificadorComponent implements OnInit {
   formulario: UntypedFormGroup;
   isFormSubmitted: boolean=false;
   
-  constructor(private _router: Router) {
+  constructor(private _router: Router, private loteService: LoteService, public _toastService: ToastService) {
 
     this.formulario = new FormGroup(
       {
@@ -41,15 +42,25 @@ export class ImpuestosVecinoIdentificadorComponent implements OnInit {
     this.isFormSubmitted = true;
 
     if (this.formulario.invalid) {
+
       Object.values(this.formulario.controls).forEach(
         control => {
           control.markAsTouched();
         }
       );
       return;
+
     } else {
-      this._router.navigate(['/impuestos-vecino-adeuda-tabla', this.formulario.controls.nroCuenta.value]);      
+
+        this.loteService.getLoteById(this.formulario.controls.nroCuenta.value)
+          .subscribe(data => {
+            this._router.navigate(['/impuestos-vecino-adeuda-tabla', this.formulario.controls.nroCuenta.value]); 
+          }, error => {
+            this._toastService.showError(error.error.responseMessage);
+          });
+           
     }
+
   }
 
 }

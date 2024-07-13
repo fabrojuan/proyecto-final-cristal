@@ -103,7 +103,8 @@ export class FormUsuarioGenerarComponent implements OnInit {
       this.router.navigate(["/usuario-tabla"]);
     },
     error => {
-      this._toastService.showError(error.error);
+      console.log(error);
+      this._toastService.showError(error.error.responseMessage);
     });
 
 

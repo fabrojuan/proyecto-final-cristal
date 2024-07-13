@@ -32,7 +32,7 @@ namespace MVPSA_V2022.Controllers
         }
 
         [HttpGet]
-        public List<AreaDto> consultarAreas() {
+        public ActionResult consultarAreas() {
             List<AreaDto> areas = new List<AreaDto>();
             dbContext.Areas.OrderBy(area => area.Nombre).ToList()
                 .ForEach(area => {
@@ -41,7 +41,7 @@ namespace MVPSA_V2022.Controllers
                     areaDto.Nombre = area.Nombre;
                     areas.Add(areaDto);
                 });
-            return areas;
+            return Ok(areas);
         }
 
     }

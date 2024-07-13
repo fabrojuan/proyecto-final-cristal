@@ -124,7 +124,6 @@ namespace MVPSA_V2022.Controllers
                                     TiposRol = (int)((Usuario.IdTipoUsuario > 0) ? Usuario.IdTipoUsuario : 5),   //El rol   Ojo con este HARDCODEO DEL TIPO DE USUARIO
                                     Domicilio = Persona.Domicilio,
                                     Altura = Persona.Altura,
-                                    //Contrasenia = Usuario.Contrasenia,
                                     BHabilitado = (int)Usuario.Bhabilitado,
                                     NroArea = Usuario.NroArea
                                 }).First();
@@ -160,83 +159,74 @@ namespace MVPSA_V2022.Controllers
         [Route("api/usuarios")]
         public ActionResult GuardarUsuario([FromBody] UsuarioCLS oUsuarioCLS)
         {
-            // int idPersonatem = 0;
-            try
+
+            using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
             {
-                using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
+                if (oUsuarioCLS.IdUsuario == 0)
                 {
-                    if (oUsuarioCLS.IdUsuario == 0)
-                    {
 
-                        if ( bd.Personas.Where(per => oUsuarioCLS.Mail.ToUpper().Equals(per.Mail.ToUpper())).Count() != 0 ) {
-                            throw new BusinessException("Ya existe una persona registrada con ese correo electrónico");
-                        }
-
-                        Persona oPersona = new Persona(); //Es igual que new persona() pero en la base
-                        oPersona.Nombre = oUsuarioCLS.NombrePersona;
-                        oPersona.Apellido = oUsuarioCLS.Apellido;
-                        oPersona.Telefono = oUsuarioCLS.Telefono;
-                        oPersona.Dni = oUsuarioCLS.Dni;
-                        oPersona.Bhabilitado = 1;
-                        oPersona.Domicilio = oUsuarioCLS.Domicilio;
-                        oPersona.Altura = oUsuarioCLS.Altura;
-                        oPersona.Mail = oUsuarioCLS.Mail;
-                        oPersona.FechaNac = oUsuarioCLS.FechaNac;
-                        oPersona.BtieneUser = 1;
-                        bd.Personas.Add(oPersona);
-                        bd.SaveChanges();
-                        Usuario oUsuario = new Usuario();
-                        //oPersona = bd.Personas.Where(p => p.Dni == oUsuarioCLS.Dni).First();
-                        oUsuario.IdPersona = oPersona.IdPersona;
-                        oUsuario.NombreUser = oUsuarioCLS.NombreUser;
-                        oUsuario.Contrasenia = cifrarContrasenia(oUsuarioCLS.Contrasenia);
-
-                        //oUsuario.Contrasenia = oUsuarioCLS.Contrasenia;
-                        oUsuario.Bhabilitado = 1;
-                        oUsuario.IdTipoUsuario = oUsuarioCLS.TiposRol;
-                        oUsuario.NroArea = oUsuarioCLS.NroArea;
-                        bd.Usuarios.Add(oUsuario);
-                        bd.SaveChanges();
-
+                    if ( bd.Personas.Where(per => oUsuarioCLS.Mail.ToUpper().Equals(per.Mail.ToUpper())).Count() != 0 ) {
+                        throw new BusinessException(MensajesError.EMAIL_YA_REGISTRADO);
                     }
-                    else
-                    {   
-                        //FaltaTerminar LA EDICION
-                        Usuario oUsuario = bd.Usuarios.Where(p => p.IdUsuario == oUsuarioCLS.IdUsuario).First();
-                        oUsuario.NombreUser = oUsuarioCLS.NombreUser;
 
-                        if (oUsuarioCLS.Contrasenia != null && oUsuarioCLS.Contrasenia != "") {
-                            oUsuario.Contrasenia = cifrarContrasenia(oUsuarioCLS.Contrasenia);
-                        }
-                        
-                        oUsuario.IdTipoUsuario = oUsuarioCLS.TiposRol;
-                        oUsuario.NroArea = oUsuarioCLS.NroArea;
+                    Persona oPersona = new Persona(); //Es igual que new persona() pero en la base
+                    oPersona.Nombre = oUsuarioCLS.NombrePersona;
+                    oPersona.Apellido = oUsuarioCLS.Apellido;
+                    oPersona.Telefono = oUsuarioCLS.Telefono;
+                    oPersona.Dni = oUsuarioCLS.Dni;
+                    oPersona.Bhabilitado = 1;
+                    oPersona.Domicilio = oUsuarioCLS.Domicilio;
+                    oPersona.Altura = oUsuarioCLS.Altura;
+                    oPersona.Mail = oUsuarioCLS.Mail;
+                    oPersona.FechaNac = oUsuarioCLS.FechaNac;
+                    oPersona.BtieneUser = 1;
+                    bd.Personas.Add(oPersona);
+                    bd.SaveChanges();
+                    Usuario oUsuario = new Usuario();
+                    //oPersona = bd.Personas.Where(p => p.Dni == oUsuarioCLS.Dni).First();
+                    oUsuario.IdPersona = oPersona.IdPersona;
+                    oUsuario.NombreUser = oUsuarioCLS.NombreUser;
+                    oUsuario.Contrasenia = cifrarContrasenia(oUsuarioCLS.Contrasenia);
 
-                        var oPersona = bd.Personas.Where(p => p.IdPersona == oUsuario.IdPersona).FirstOrDefault();
-                        oPersona.Nombre = oUsuarioCLS.NombrePersona;
-                        oPersona.Apellido = oUsuarioCLS.Apellido;
-                        oPersona.Telefono = oUsuarioCLS.Telefono;
-                        oPersona.Dni = oUsuarioCLS.Dni;
-                        oPersona.Domicilio = oUsuarioCLS.Domicilio;
-                        oPersona.Altura = oUsuarioCLS.Altura;
-                        oPersona.Mail = oUsuarioCLS.Mail;
-                        oPersona.FechaNac = oUsuarioCLS.FechaNac;
-                        bd.Personas.Update(oPersona);
+                    //oUsuario.Contrasenia = oUsuarioCLS.Contrasenia;
+                    oUsuario.Bhabilitado = 1;
+                    oUsuario.IdTipoUsuario = oUsuarioCLS.TiposRol;
+                    oUsuario.NroArea = oUsuarioCLS.NroArea;
+                    bd.Usuarios.Add(oUsuario);
+                    bd.SaveChanges();
 
-                        bd.SaveChanges();
-
-                    }
                 }
-                return Ok();
+                else
+                {   
+                    //FaltaTerminar LA EDICION
+                    Usuario oUsuario = bd.Usuarios.Where(p => p.IdUsuario == oUsuarioCLS.IdUsuario).First();
+                    oUsuario.NombreUser = oUsuarioCLS.NombreUser;
+
+                    if (oUsuarioCLS.Contrasenia != null && oUsuarioCLS.Contrasenia != "") {
+                        oUsuario.Contrasenia = cifrarContrasenia(oUsuarioCLS.Contrasenia);
+                    }
+                    
+                    oUsuario.IdTipoUsuario = oUsuarioCLS.TiposRol;
+                    oUsuario.NroArea = oUsuarioCLS.NroArea;
+
+                    var oPersona = bd.Personas.Where(p => p.IdPersona == oUsuario.IdPersona).FirstOrDefault();
+                    oPersona.Nombre = oUsuarioCLS.NombrePersona;
+                    oPersona.Apellido = oUsuarioCLS.Apellido;
+                    oPersona.Telefono = oUsuarioCLS.Telefono;
+                    oPersona.Dni = oUsuarioCLS.Dni;
+                    oPersona.Domicilio = oUsuarioCLS.Domicilio;
+                    oPersona.Altura = oUsuarioCLS.Altura;
+                    oPersona.Mail = oUsuarioCLS.Mail;
+                    oPersona.FechaNac = oUsuarioCLS.FechaNac;
+                    bd.Personas.Update(oPersona);
+
+                    bd.SaveChanges();
+
+                }
             }
-            catch (BusinessException be) {
-                return BadRequest(be.Message);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-                return BadRequest();
-            }
+
+            return Ok();
+            
 
         }
 
@@ -335,55 +325,46 @@ namespace MVPSA_V2022.Controllers
         [Route("api/usuarios/login")]
         public IActionResult loginNuevo([FromBody] SolicitudLoginDto solicitudLoginDto)
         {
-            int rpta = 0;
-            try
+
+            SHA256Managed sha = new SHA256Managed();
+            byte[] dataNocifrada = Encoding.Default.GetBytes(solicitudLoginDto.usuarioContrasenia);
+            byte[] dataCifrada = sha.ComputeHash(dataNocifrada);
+            string claveCifrada = BitConverter.ToString(dataCifrada).Replace("-", "");
+
+
+            using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
             {
 
-                SHA256Managed sha = new SHA256Managed();
-                byte[] dataNocifrada = Encoding.Default.GetBytes(solicitudLoginDto.usuarioContrasenia);
-                byte[] dataCifrada = sha.ComputeHash(dataNocifrada);
-                string claveCifrada = BitConverter.ToString(dataCifrada).Replace("-", "");
+                TokenUsuarioDto tokenUsuarioDto = (from usuarios in bd.Usuarios
+                                    join roles in bd.Rols
+                                    on usuarios.IdTipoUsuario equals roles.IdRol
+                                    where usuarios.Bhabilitado == 1
+                                    &&
+                                    usuarios.NombreUser == solicitudLoginDto.usuarioNombre.ToUpper()
+                                    && usuarios.Contrasenia == claveCifrada
+                                    && roles.TipoRol == "EMPLEADO"
+                                    select new TokenUsuarioDto
+                                    {
+                                        idUsuario = usuarios.IdUsuario,
+                                        usuarioNombre = usuarios.NombreUser,
+                                        idRol = roles.IdRol,
+                                        codRol = roles.CodRol,
+                                        tipoRol = roles.TipoRol
+
+                                    }
+                    ).FirstOrDefault();
 
 
-                using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
+                if (tokenUsuarioDto != null)
                 {
-
-                    TokenUsuarioDto tokenUsuarioDto = (from usuarios in bd.Usuarios
-                                       join roles in bd.Rols
-                                       on usuarios.IdTipoUsuario equals roles.IdRol
-                                       where usuarios.Bhabilitado == 1
-                                       &&
-                                       usuarios.NombreUser == solicitudLoginDto.usuarioNombre.ToUpper()
-                                       && usuarios.Contrasenia == claveCifrada
-                                       && roles.TipoRol == "EMPLEADO"
-                                       select new TokenUsuarioDto
-                                       {
-                                           idUsuario = usuarios.IdUsuario,
-                                           usuarioNombre = usuarios.NombreUser,
-                                           idRol = roles.IdRol,
-                                           codRol = roles.CodRol,
-                                           tipoRol = roles.TipoRol
-
-                                       }
-                     ).FirstOrDefault();
-
-
-                    if (tokenUsuarioDto != null)
-                    {
-                        return Ok(_jwtAuthenticationService.getToken(tokenUsuarioDto.idUsuario, tokenUsuarioDto.codRol));
-                    }
-                    else
-                    {
-                        return Unauthorized();
-                    }
+                    return Ok(_jwtAuthenticationService.getToken(tokenUsuarioDto.idUsuario, tokenUsuarioDto.codRol));
+                }
+                else
+                {
+                    throw new LoginException(MensajesError.USUARIO_CONTRASENIA_NO_VALIDOS);
                 }
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
-
-            return Unauthorized();
+            
         }
 
         private String cifrarContrasenia(String contrasenia) {
