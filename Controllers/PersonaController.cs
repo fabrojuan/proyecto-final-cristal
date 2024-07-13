@@ -15,7 +15,7 @@ namespace MVPSA_V2022.Controllers
 
         //********************* Registrar Persona ******************************************
         [HttpPost]
-        [Route("api/Persona/guardarPersona")]
+        [Route("api/personas")]
         public int guardarPersona([FromBody] PersonaLoteCLS oPersonaCLS)
         {
             if (oPersonaCLS is null)

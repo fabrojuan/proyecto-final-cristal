@@ -17,7 +17,7 @@ namespace MVPSA_V2022.Controllers
         }
 
         [HttpGet]
-        [Route("api/Pagina/listarTodasPaginas")]
+        [Route("api/paginas")]
         public List<PaginaCLS> listarTodasPaginas()
         {
             List<PaginaCLS> listaPagina = new List<PaginaCLS>();
@@ -37,7 +37,7 @@ namespace MVPSA_V2022.Controllers
         }
 
         [HttpPost]
-        [Route("api/Pagina/guardarPagina")]
+        [Route("api/paginas")]
         public int guardarPagina([FromBody] PaginaCLS oPaginaCLS)
         {
             int rpta = 0;
@@ -79,7 +79,7 @@ namespace MVPSA_V2022.Controllers
         }
 
         [HttpGet]
-        [Route("api/Pagina/recuperarPagina/{idPagina}")]
+        [Route("api/paginas/{idPagina}")]
         public PaginaCLS recuperarPagina(int idPagina)
         {
             PaginaCLS oPaginaCLS = new PaginaCLS();
@@ -108,8 +108,9 @@ namespace MVPSA_V2022.Controllers
             }
             return oPaginaCLS;
         }
-        [HttpGet]
-        [Route("api/Pagina/eliminarPagina/{idPagina}")]
+
+        [HttpDelete]
+        [Route("api/paginas/{idPagina}")]
         public int eliminarPagina(int idPagina)
         {
             int rpta = 0;
@@ -132,9 +133,6 @@ namespace MVPSA_V2022.Controllers
             }
             return rpta;
         }
-
-
-
 
     }
 }

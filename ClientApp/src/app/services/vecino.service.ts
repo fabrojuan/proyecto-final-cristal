@@ -81,7 +81,7 @@ export class VecinoService {
   }
 
   public GuardarPersona(Persona: any): Observable<any> {
-    var url = this.urlBase + 'api/Persona/GuardarPersona/';
+    var url = this.urlBase + 'api/personas';
     return this.http.post(url, Persona).pipe(map(res => res));
   }
 

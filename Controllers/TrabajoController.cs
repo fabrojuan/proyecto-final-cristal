@@ -392,31 +392,6 @@ namespace MVPSA_V2022.Controllers
             ReclamoDto oReclamoCLS = new ReclamoDto();
             return oReclamoCLS;
 
-            /*using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
-            {
-                ReclamoDto oReclamoCLS = (from reclamo in bd.Reclamos
-                                          join estadoReclamo in bd.EstadoReclamos 
-                                            on reclamo.CodEstadoReclamo equals estadoReclamo.CodEstadoReclamo
-                                          join usuarioVecino in bd.UsuarioVecinos
-                                            on reclamo.IdVecino equals usuarioVecino.IdVecino
-                                          join persona in bd.Personas
-                                            on usuarioVecino.IdPersona equals persona.IdPersona
-                                          where reclamo.Bhabilitado == 1
-                                            && reclamo.NroReclamo == idReclamo && reclamo.IdVecino == usuarioVecino.IdVecino
-                                            && usuarioVecino.IdPersona == persona.IdPersona
-                                          select new ReclamoDto
-                                          {
-                                              nroReclamo = (int)reclamo.NroReclamo,
-                                              idUsuario = (int)((reclamo.IdUsuario > 0) ? reclamo.IdUsuario : 7),
-                                              estadoReclamo = estadoReclamo.Nombre,
-                                              idVecino = (int)reclamo.IdVecino,
-                                              nombreYapellido = persona.Nombre + " " + persona.Apellido
-                                          }).First();
-                return oReclamoCLS;
-            }*/
-
-            // MemberAccessException FALTA AGRWGAR ID VECINO que es el veciono que lo genera al reclamo
-
         }
         //Probar este metodo de juan para listados de datos con servicios.
         [HttpGet]
