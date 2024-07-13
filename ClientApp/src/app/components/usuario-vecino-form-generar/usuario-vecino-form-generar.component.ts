@@ -3,7 +3,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { UsuarioService } from '../../services/usuario.service';
 import { UntypedFormGroup, UntypedFormControl, FormBuilder, Validators } from '@angular/forms';
 import { ToastService } from 'src/app/services/toast.service';
-//import { resolve } from 'url';
 
 @Component({
   selector: 'usuario-vecino-form-generar',
@@ -15,11 +14,11 @@ export class UsuarioVecinoFormGenerarComponent implements OnInit {
   titulo: string = "";
   parametro: any;
   respuesta: any = 0;
-  yaExiste: boolean=false;
-  isFormSubmitted: boolean=false
+  yaExiste: boolean = false;
+  isFormSubmitted: boolean = false
 
   constructor(private usuarioService: UsuarioService, private router: Router, private activatedRoute: ActivatedRoute,
-              public _toastService: ToastService
+    public _toastService: ToastService
   ) {
     this.activatedRoute.params.subscribe(parametro => {
       this.parametro = parametro["id"]
@@ -41,13 +40,13 @@ export class UsuarioVecinoFormGenerarComponent implements OnInit {
         "BHabilitado": new UntypedFormControl("1"),
         "Telefono": new UntypedFormControl("", [Validators.required, Validators.maxLength(20), Validators.pattern("[0-9]{9,}")]),
         "Mail": new UntypedFormControl("", [Validators.required, Validators.pattern("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"), Validators.maxLength(100)/*, this.noRepetirMail.bind(this)*/]),
-        "Domicilio": new UntypedFormControl("", [Validators.required, Validators.maxLength(100)]),        
+        "Domicilio": new UntypedFormControl("", [Validators.required, Validators.maxLength(100)]),
         "Dni": new UntypedFormControl("", [Validators.required, Validators.maxLength(8), Validators.minLength(7), Validators.pattern("[0-9]{7,8}")]),
         "Altura": new UntypedFormControl("", [Validators.required, Validators.maxLength(5)]),
         "FechaNac": new UntypedFormControl("", [Validators.required])
       }
     );
-    //
+
   }
 
   ngOnInit() {
@@ -69,8 +68,9 @@ export class UsuarioVecinoFormGenerarComponent implements OnInit {
     } else {
     }
   }
+
   guardarDatos() {
-  
+
     this.isFormSubmitted = true;
 
     if (this.Usuario.invalid) {
@@ -88,7 +88,7 @@ export class UsuarioVecinoFormGenerarComponent implements OnInit {
     }, error => {
       console.log(error);
       this._toastService.showError(error.error);
-    }); 
+    });
 
   }
 
@@ -119,8 +119,7 @@ export class UsuarioVecinoFormGenerarComponent implements OnInit {
         })
 
       }
-      else
-      {
+      else {
         resolve({ yaExiste: true });
       }
     });
@@ -135,48 +134,39 @@ export class UsuarioVecinoFormGenerarComponent implements OnInit {
     return this.isFormSubmitted && this.Usuario.controls.NombrePersona.errors;
   }
 
-  get apellidoNoValido()
-  {
+  get apellidoNoValido() {
     return this.isFormSubmitted && this.Usuario.controls.Apellido.errors;
   }
 
-  get telefonoNoValido()
-  {
+  get telefonoNoValido() {
     return this.isFormSubmitted && this.Usuario.controls.Telefono.errors;
   }
 
-  get mailNoValido()
-  {
+  get mailNoValido() {
     return this.isFormSubmitted && this.Usuario.controls.Mail.errors;
   }
 
-  get domicilioNoValido()
-  {
+  get domicilioNoValido() {
     return this.isFormSubmitted && this.Usuario.controls.Domicilio.errors;
-  }  
+  }
 
-  get alturaNoValido()
-  {
+  get alturaNoValido() {
     return this.isFormSubmitted && this.Usuario.controls.Altura.errors;
-  }  
+  }
 
-  get nombreUserNoValido()
-  {
+  get nombreUserNoValido() {
     return this.isFormSubmitted && this.Usuario.controls.NombreUser.errors;
-  } 
+  }
 
-  get contraseniaNoValido()
-  {
+  get contraseniaNoValido() {
     return this.isFormSubmitted && this.Usuario.controls.Contrasenia.errors;
-  } 
-  
-  get dniNoValido()
-  {
+  }
+
+  get dniNoValido() {
     return this.isFormSubmitted && this.Usuario.controls.Dni.errors;
   }
 
-  get fechaNacNoValido()
-  {
+  get fechaNacNoValido() {
     return this.isFormSubmitted && this.Usuario.controls.FechaNac.errors;
   }
 }

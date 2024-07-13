@@ -21,6 +21,7 @@ export class ChartsDenunciaComponent implements OnInit {
   denunciasCerradas: any = 0;
   cantFechaTrabajosEnDenuncias: any;
   Fecha: Date = new Date();
+  
   constructor(private indicadoresService: IndicadoresService, private router: Router) {
     const data = {
       labels: [
@@ -43,7 +44,7 @@ export class ChartsDenunciaComponent implements OnInit {
       data // datos 
     })
 
-   
+
   }
   //fuera del constructor
 
@@ -59,7 +60,6 @@ export class ChartsDenunciaComponent implements OnInit {
       if (abiertas) { this.denunciasAbiertas = abiertas; }
       this.indicadoresService.CantidadDenunciasCerradas().subscribe(cerradas => {
         if (cerradas) { this.denunciasCerradas = cerradas; }
-        //console.log("Trae la cantidad de denuncias Cerradas:" + this.denunciasCerradas);
         this.chart = new Chart("chart", {
           type: 'pie' as ChartType, // tipo de la gráfica 
           data: this.getChartData() // datos 
@@ -75,13 +75,12 @@ export class ChartsDenunciaComponent implements OnInit {
           console.log(this.chartdata[i]);
           this.labeldata.push(this.formatFecha(this.chartdata[i].fecha));
           this.realdata.push(this.chartdata[i].cantidadPorFecha);
-         this.colordata.push(this.chartdata[i].colorcode);
+          this.colordata.push(this.chartdata[i].colorcode);
         }
         this.RenderChart(this.labeldata, this.realdata, this.colordata, 'bar', 'barchart');
-       // this.RenderChart(this.labeldata, this.realdata, this.colordata, 'pie', 'piechart');
-        }
+      }
     });
-    
+
   }
 
   formatFecha(dateString: string): string {
@@ -123,7 +122,6 @@ export class ChartsDenunciaComponent implements OnInit {
         label: 'Denuncias',
         data: [this.denunciasAbiertas, this.denunciasCerradas],
         backgroundColor: [
-          // 'rgb(255, 99, 132)',
           'rgb(54, 162, 235)',
           'rgb(255, 205, 86)'
         ],
@@ -142,14 +140,3 @@ export class ChartsDenunciaComponent implements OnInit {
   }
 
 }
-
-
-
-
-
-//  }//fin ngoninit
-
-
-
-
-

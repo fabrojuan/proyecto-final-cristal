@@ -37,15 +37,7 @@ namespace MVPSA_V2022.Controllers
         [Route("tipos-reclamo/{codTipoReclamo}")]
         public IActionResult consultarTipoReclamo(int codTipoReclamo)
         {
-            try
-            {
-                return Ok(this.reclamoService.getTipoReclamo(codTipoReclamo));
-            }
-            catch (TipoReclamoNotFoundException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
+            return Ok(this.reclamoService.getTipoReclamo(codTipoReclamo));
         }
 
         [HttpGet]
@@ -59,16 +51,8 @@ namespace MVPSA_V2022.Controllers
         [Route("tipos-reclamo/{codTipoReclamo}")]
         public IActionResult emininarTipoReclamo(int codTipoReclamo)
         {
-            try
-            {
-                this.reclamoService.eliminarTipoReclamo(codTipoReclamo);
-                return Ok();
-            }
-            catch (TipoReclamoEnUsoException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
+            this.reclamoService.eliminarTipoReclamo(codTipoReclamo);
+            return Ok();
         }
 
         [HttpPost]
@@ -129,14 +113,7 @@ namespace MVPSA_V2022.Controllers
         public IActionResult guardarReclamo([FromHeader(Name = "id_usuario")] string idUsuarioAlta,
                                   [FromBody] CrearReclamoRequestDto reclamoCLS)
         {
-            try
-            {
-                return Ok(reclamoService.guardarReclamo(reclamoCLS, Int32.Parse(idUsuarioAlta)));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return Ok(reclamoService.guardarReclamo(reclamoCLS, Int32.Parse(idUsuarioAlta)));
         }
 
         [HttpGet]
@@ -146,26 +123,14 @@ namespace MVPSA_V2022.Controllers
                                             [FromQuery] int numero,
                                             [FromQuery(Name = "nom_ape_vecino")] string? nomApeVecino)
         {
-            try
-            {
-                return Ok(reclamoService.listarReclamos(Int32.Parse(idUsuarioAlta), area, estado, numero, nomApeVecino));
-            } catch (Exception ex) {
-                return NotFound(ex.Message);
-            }
+            return Ok(reclamoService.listarReclamos(Int32.Parse(idUsuarioAlta), area, estado, numero, nomApeVecino));
         }
 
         [HttpGet]
         [Route("{nroReclamo}")]
         public IActionResult getReclamo(int nroReclamo)
         {
-            try
-            {
-                return Ok(reclamoService.getReclamo(nroReclamo));
-            }
-            catch (Exception ex)
-            {
-                return NotFound(ex.Message);
-            }
+            return Ok(reclamoService.getReclamo(nroReclamo));
         }
 
         [HttpPut]
@@ -181,14 +146,7 @@ namespace MVPSA_V2022.Controllers
         [Route("prioridades")]
         public IActionResult getPrioridades()
         {
-            try
-            {
-                    return Ok(reclamoService.getPrioridades());
-            }
-            catch (Exception ex)
-            {
-                return NotFound(ex.Message);
-            }
+            return Ok(reclamoService.getPrioridades());
         }
 
         [HttpPost]
@@ -218,14 +176,7 @@ namespace MVPSA_V2022.Controllers
         [HttpGet]
         [Route("estados")]
         public IActionResult getEstadosReclamos() {
-            try
-            {
-                    return Ok(reclamoService.getEstadosReclamo());
-            }
-            catch (Exception ex)
-            {
-                return NotFound(ex.Message);
-            }
+            return Ok(reclamoService.getEstadosReclamo());
         }
 
         [HttpGet]

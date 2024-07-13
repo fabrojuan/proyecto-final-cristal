@@ -372,7 +372,7 @@ namespace MVPSA_V2022.Services
                     bd.TipoReclamos.Where(tr => tr.CodTipoReclamo == codTipoReclamoEliminar).FirstOrDefault();
 
                 if (tipoReclamoEliminar == null) {
-                    throw new TipoReclamoEnUsoException("No se puede eliminar el Tipo de Reclamo, hay Reclamos cargados con dicho tipo.");
+                    throw new ResourceIsBeingUsedException(MensajesError.TIPO_RECLAMO_SIENDO_USADO);
                 }
 
                 bd.TipoReclamos.Remove(tipoReclamoEliminar);
@@ -388,42 +388,11 @@ namespace MVPSA_V2022.Services
                 .FirstOrDefault();
 
             if (tipoReclamoDomain == null) {
-                throw new TipoReclamoNotFoundException("No se encontro un Tipo de Reclamo con codigo: " + codTipoReclamo);
+                throw new ResourceNotFoundException("No se encontró un Tipo de Reclamo con código: " + codTipoReclamo);
             }
-
-            // Esto es para que me traiga datos de las entidades relacionadas.
-            // por ahora no encontre otra forma de hacerlo. En teoria existe
-            // un metodo include() que permite hacerlo pero no aparece como disponible.
-            //dbContext.Entry(tipoReclamoDomain).Reference(s => s.IdUsuarioAltaNavigation).Load();
-            //dbContext.Entry(tipoReclamoDomain).Reference(s => s.IdUsuarioModificacionNavigation).Load();
 
             return mapper.Map<TipoReclamoDto>(tipoReclamoDomain);
 
-            //using (M_VPSA_V3Context bd = new M_VPSA_V3Context()) {
-            //    tipoReclamoResponse = (from tipoReclamoQuery in bd.TipoReclamos
-            //                           join usuarioAlta in bd.Usuarios
-            //                             on tipoReclamoQuery.IdUsuarioAlta equals usuarioAlta.IdUsuario
-            //                           join usuarioModificacion in bd.Usuarios
-            //                             on tipoReclamoQuery.IdUsuarioModificacion equals usuarioModificacion.IdUsuario
-            //                           where tipoReclamoQuery.CodTipoReclamo == codTipoReclamo
-            //                           select new TipoReclamoDto
-            //                           {
-            //                               cod_Tipo_Reclamo = tipoReclamoQuery.CodTipoReclamo,
-            //                               nombre = tipoReclamoQuery.Nombre,
-            //                               descripcion = tipoReclamoQuery.Descripcion,
-            //                               tiempo_Max_Tratamiento = tipoReclamoQuery.TiempoMaxTratamiento == null ? 0 : (int)tipoReclamoQuery.TiempoMaxTratamiento,
-            //                               fechaAlta = (DateTime)tipoReclamoQuery.FechaAlta,
-            //                               fechaModificacion = (DateTime)tipoReclamoQuery.FechaModificacion,
-            //                               usuarioAlta = usuarioAlta.NombreUser,
-            //                               usuarioModificacion = usuarioModificacion.NombreUser
-            //                           }).Single();
-            //}
-
-            //if (tipoReclamoResponse == null) {
-            //    throw new TipoReclamoNotFoundException("No se encontro un Tipo de Reclamo con codigo: " + codTipoReclamo);
-            //}
-
-            //return tipoReclamoResponse;
         }
 
         public IEnumerable<PrioridadReclamoDto> getPrioridades()
