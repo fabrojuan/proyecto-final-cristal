@@ -11,14 +11,11 @@ import { VecinoService } from 'src/app/services/vecino.service';
 })
 export class VecinoOlvidoContraseniaComponent implements OnInit {
 
-  urlBase: string = "";
   vecino: UntypedFormGroup;
   isFormSubmitted: boolean=false;
 
-  constructor(private vecinoService: VecinoService, private router: Router, @Inject('BASE_URL') baseUrl: string,
-              public _toastService: ToastService) {
+  constructor(private vecinoService: VecinoService, private router: Router, public _toastService: ToastService) {
 
-    this.urlBase = baseUrl;
     this.vecino = new UntypedFormGroup({
       'usuarioNombre': new UntypedFormControl("", Validators.required)
     });
@@ -38,9 +35,7 @@ export class VecinoOlvidoContraseniaComponent implements OnInit {
         }
       );
       return;
-    }
-
-    
+    }    
 
     this.vecinoService.recuperarCuenta(this.vecino.controls.usuarioNombre.value).subscribe(res => {
       this._toastService.showOk("Se enviará un correo a la dirección de email. Por favor siga las instrucciones");
@@ -49,19 +44,6 @@ export class VecinoOlvidoContraseniaComponent implements OnInit {
       console.log(error);
       this._toastService.showError(error.error);
     });
-
-    // this.vecinoService.login(this.vecino.value).subscribe(res => {
-    //   if (res.idVecino == 0 || res.idVecino == "") {
-    //     this._toastService.showError("Usuario y/o contraseña no válido");
-    //   }
-    //   else {
-    //     window.location.href = this.urlBase + "bienvenida-vecino";
-    //   }
-
-    // }, error => {
-    //   console.log(error);
-    //   this._toastService.showError("Email y/o contraseńa no válidos");
-    // });
     
   }
 

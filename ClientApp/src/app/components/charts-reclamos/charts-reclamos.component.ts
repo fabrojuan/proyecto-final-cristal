@@ -18,7 +18,7 @@ export class ChartsReclamosComponent implements OnInit {
   dataChartReclamosAbiertosPorEstado: any;
   dataChartTrabajosReclamosPorAreaYMes: any;
 
-  constructor(private indicadoresService: IndicadoresService) { 
+  constructor(private indicadoresService: IndicadoresService) {
 
     this.indicadoresService.getReclamosCerradosPorMesYTipoCierre().subscribe(resp => {
 
@@ -43,11 +43,11 @@ export class ChartsReclamosComponent implements OnInit {
             }
           }
         }
-      });      
+      });
 
     });
-    
-    
+
+
     this.indicadoresService.getReclamosNuevosPorMes().subscribe(resp => {
 
       this.dataChartReclamosNuevosPorMes = resp;
@@ -69,10 +69,10 @@ export class ChartsReclamosComponent implements OnInit {
             },
           }
         }
-      
+
       });
 
-    });    
+    });
 
     this.indicadoresService.getReclamosAbiertosPorEstado().subscribe(resp => {
 
@@ -94,7 +94,7 @@ export class ChartsReclamosComponent implements OnInit {
         }
       });
 
-    });  
+    });
 
 
     this.indicadoresService.getTrabajosReclamosPorAreaYMes().subscribe(resp => {
@@ -120,7 +120,7 @@ export class ChartsReclamosComponent implements OnInit {
             }
           }
         }
-      });      
+      });
 
     });
 

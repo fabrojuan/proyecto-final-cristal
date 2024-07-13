@@ -3,6 +3,7 @@ using System.Text.Json;
 using iText.Commons.Actions.Confirmations;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using MVPSA_V2022.Exceptions;
+using MVPSA_V2022.Modelos;
 
 namespace MVPSA_V2022.Interceptors
 {
@@ -34,6 +35,11 @@ namespace MVPSA_V2022.Interceptors
                     response.StatusCode = (int) HttpStatusCode.BadRequest;
                     exModel.responseMessage = ex.Message;
                     break;
+                case ResourceIsBeingUsedException ex:
+                    exModel.responseCode = (int) HttpStatusCode.BadRequest;
+                    response.StatusCode = (int) HttpStatusCode.BadRequest;
+                    exModel.responseMessage = ex.Message;
+                    break;
                 case LoginException ex:
                     exModel.responseCode = (int) HttpStatusCode.Unauthorized;
                     response.StatusCode = (int) HttpStatusCode.Unauthorized;
@@ -47,7 +53,7 @@ namespace MVPSA_V2022.Interceptors
                 default:
                     exModel.responseCode = (int) HttpStatusCode.InternalServerError;
                     response.StatusCode = (int) HttpStatusCode.InternalServerError;
-                    exModel.responseMessage = "Ocurrió un error, por favor contacte al administrador del sistema";
+                    exModel.responseMessage = MensajesError.ERROR_INESPERADO;
                     break;
             }
             
@@ -56,6 +62,6 @@ namespace MVPSA_V2022.Interceptors
 
         }
 
-
     }
+
 }

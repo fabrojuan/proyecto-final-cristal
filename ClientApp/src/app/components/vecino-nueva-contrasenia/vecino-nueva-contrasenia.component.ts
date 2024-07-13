@@ -11,15 +11,13 @@ import { VecinoService } from 'src/app/services/vecino.service';
 })
 export class VecinoNuevaContraseniaComponent implements OnInit {
 
-  urlBase: string = "";
   vecino: UntypedFormGroup;
   isFormSubmitted: boolean=false;
   uuid: string = "";
 
-  constructor(private vecinoService: VecinoService, private router: Router, @Inject('BASE_URL') baseUrl: string,
-              public _toastService: ToastService, private _activatedRouter: ActivatedRoute) {
+  constructor(private vecinoService: VecinoService, private router: Router, public _toastService: ToastService, 
+              private _activatedRouter: ActivatedRoute) {
 
-    this.urlBase = baseUrl;
     this.vecino = new UntypedFormGroup({
       'nuevaContrasenia': new UntypedFormControl("", Validators.required),
       'nuevaContrasenia2': new UntypedFormControl("", Validators.required),

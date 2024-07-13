@@ -37,8 +37,6 @@ import { PaginaFormGenerarComponent } from './components/pagina-form-generar/pag
 import { PaginaTablaComponent } from './components/pagina-tabla/pagina-tabla.component';
 import { ReclamoFormGenerarComponent } from './components/reclamo-form-generar/reclamo-form-generar.component';
 import { ReclamoTablaComponent } from './components/reclamo-tabla/reclamo-tabla.component';
-import { ReclamoTrabajoFormComponent } from './components/reclamo-trabajo-form/reclamo-trabajo-form.component';
-import { ReclamoTrabajoTablaComponent } from './components/reclamo-trabajo-tabla/reclamo-trabajo-tabla.component';
 import { SugerenciaFormGenerarComponent } from './components/sugerencia-form-generar/sugerencia-form-generar.component';
 import { SugerenciaTablaComponent } from './components/sugerencia-tabla/sugerencia-tabla.component';
 import { TablaDenunciaComponent } from './components/tabla-denuncia/tabla-denuncia.component';
@@ -90,8 +88,6 @@ import { TasasImpositivasComponent } from './components/tasas-impositivas/tasas-
 import { GeneracionDatasetsComponent } from './components/generacion-datasets/generacion-datasets.component';
 import { DatosFinanzasEconomicosBorradoComponent } from './components/datos-finanzas-economicos-borrado/datos-finanzas-economicos-borrado.component';
 import { ReclamoCabeceraComponent } from './components/reclamo-cabecera/reclamo-cabecera.component';
-import { ReclamoCambiarPrioridadComponent } from './components/reclamo-cambiar-prioridad/reclamo-cambiar-prioridad.component';
-import { ReclamoDerivarComponent } from './components/reclamo-derivar/reclamo-derivar.component';
 import { ReclamoFormGenerarEmpleadoComponent } from './components/reclamo-form-generar-empleado/reclamo-form-generar-empleado.component';
 import { HistoricoDenunciaTablaComponent } from './components/historico-denuncia-tabla/historico-denuncia-tabla.component';
 import { HistoricoDenunciaTrabajosComponent } from './components/historico-denuncia-trabajos/historico-denuncia-trabajos.component';
@@ -148,8 +144,6 @@ import { CabeceraTituloComponent } from './components/cabecera-titulo/cabecera-t
     PaginaTablaComponent,
     ReclamoFormGenerarComponent,
     ReclamoTablaComponent,
-    ReclamoTrabajoFormComponent,
-    ReclamoTrabajoTablaComponent,
     SugerenciaFormGenerarComponent,
     SugerenciaTablaComponent,
     TablaDenunciaComponent,
@@ -178,8 +172,6 @@ import { CabeceraTituloComponent } from './components/cabecera-titulo/cabecera-t
     GeneracionDatasetsComponent,
     DatosFinanzasEconomicosBorradoComponent,
     ReclamoCabeceraComponent,
-    ReclamoCambiarPrioridadComponent,
-    ReclamoDerivarComponent,
     ReclamoFormGenerarEmpleadoComponent,
     HistoricoDenunciaTablaComponent,
     HistoricoDenunciaTrabajosComponent,
@@ -243,7 +235,6 @@ import { CabeceraTituloComponent } from './components/cabecera-titulo/cabecera-t
       { path: 'pagina-tabla', component: PaginaTablaComponent, canActivate: [SeguridadGuard] },
       { path: 'reclamo-form-generar', component: ReclamoFormGenerarComponent, canActivate: [SeguridadVecinoGuard] },
       { path: 'reclamo-tabla', component: ReclamoTablaComponent, canActivate: [SeguridadGuard] },
-      { path: 'reclamo-trabajo-form/:id', component: ReclamoTrabajoFormComponent, canActivate: [SeguridadGuard] },
       // Revisar si reclamo-trabajo-form/:id funciona sin id..
       { path: 'sugerencia-form-generar', component: SugerenciaFormGenerarComponent },
       { path: 'sugerencia-tabla', component: SugerenciaTablaComponent, canActivate: [SeguridadGuard] },
@@ -277,8 +268,6 @@ import { CabeceraTituloComponent } from './components/cabecera-titulo/cabecera-t
       { path: 'generacion-datasets', component: GeneracionDatasetsComponent, canActivate: [SeguridadGuard] },
       { path: 'datos-finanzas-economicos-borrado', component: DatosFinanzasEconomicosBorradoComponent, canActivate: [SeguridadGuard] },
       { path: 'datos-finanzas-economicos-borrado/:id', component: DatosFinanzasEconomicosBorradoComponent, canActivate: [SeguridadGuard] },
-      { path: 'reclamo-cambiar-prioridad/:id', component: ReclamoCambiarPrioridadComponent },
-      { path: 'reclamo-derivar/:id', component: ReclamoDerivarComponent },
       { path: 'reclamo-form-generar-empleado', component: ReclamoFormGenerarEmpleadoComponent/*, canActivate: [SeguridadGuard] */},
       { path: 'pagina-form-generar', component: PaginaFormGenerarComponent, canActivate: [SeguridadGuard] },
       { path: 'historico-denuncia-tabla', component: HistoricoDenunciaTablaComponent, canActivate: [SeguridadGuard] },
