@@ -19,7 +19,7 @@ namespace MVPSA_V2022.Controllers
         }
         //EL rol ya esta listado desde el usuario controller voy a listarlo tambien de aqui para modificar el rol. 
         [HttpGet]
-        [Route("api/Rol/listarRoles")]
+        [Route("api/roles")]
         public List<RolCLS> listarRoles()
         {
             List<RolCLS> listaRol;
@@ -41,7 +41,7 @@ namespace MVPSA_V2022.Controllers
         }
 
         [HttpGet]
-        [Route("api/Rol/listarPaginasTipoRol")]
+        [Route("api/roles/paginas")]
         public List<PaginaCLS> listarPaginasTipoRol()
         {
             List<PaginaCLS> listaPagina = new List<PaginaCLS>();
@@ -60,7 +60,7 @@ namespace MVPSA_V2022.Controllers
             }
         }
         [HttpGet]
-        [Route("api/Rol/listarPaginasRecuperar/{idRol}")]
+        [Route("api/roles/{idRol}/paginas")]
         public RolCLS listarPaginasRecuperar(int idRol)
         {
             RolCLS oUsuarioRolCLS = new RolCLS();
@@ -91,7 +91,7 @@ namespace MVPSA_V2022.Controllers
         }
 
         [HttpPost]
-        [Route("api/Rol/guardarROL")]
+        [Route("api/roles")]
         public ActionResult guardarROL([FromBody] RolCLS oRolCLS)
         {
             int rpta = 0;
@@ -110,7 +110,7 @@ namespace MVPSA_V2022.Controllers
                             oRol.CodRol = oRolCLS.CodRol.ToUpper();
                             oRol.TipoRol = oRolCLS.TipoRol;
                             bd.Rols.Add(oRol);
-                            int idTipoRol = oRol.IdRol;
+                            bd.SaveChanges();
 
                             if (!oRolCLS.Valores.IsNullOrEmpty()) {
                                 String[] idsPaginas = oRolCLS.Valores.Split("-"); //Separo los valores obtenidos enla variable que tienen el guion como separador y los transformo en un array de objetos separados por coma.
@@ -118,7 +118,7 @@ namespace MVPSA_V2022.Controllers
                                 {
                                     Paginaxrol oPaginaxrol = new Paginaxrol();
                                     oPaginaxrol.IdPagina = int.Parse(idsPaginas[i]);
-                                    oPaginaxrol.IdRol = idTipoRol;
+                                    oPaginaxrol.IdRol = oRol.IdRol;
                                     oPaginaxrol.Bhabilitado = 1;
                                     bd.Paginaxrols.Add(oPaginaxrol);
                                 }
@@ -136,7 +136,7 @@ namespace MVPSA_V2022.Controllers
                             oRol.CodRol = oRolCLS.CodRol.ToUpper();
                             oRol.TipoRol = oRolCLS.TipoRol;
                             oRol.Bhabilitado = oRolCLS.BHabilitado;
-                            bd.SaveChanges();
+                            //bd.SaveChanges();
 
                             if (!oRolCLS.Valores.IsNullOrEmpty()) {
                                 String[] idsPaginas = oRolCLS.Valores.Split("-");
@@ -188,8 +188,8 @@ namespace MVPSA_V2022.Controllers
             return Ok();
         }
 
-        [HttpGet]
-        [Route("api/Rol/eliminarRol/{idRol}")]
+        [HttpDelete]
+        [Route("api/roles/{idRol}")]
         public int eliminarRol(int idRol)
         {
             int rpta = 0;

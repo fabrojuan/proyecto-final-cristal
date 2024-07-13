@@ -23,44 +23,47 @@ export class UsuarioService {
 
   //Modificacion de Roles
   public listarRoles(): Observable<any> {
-    return this.http.get(this.urlBase + 'api/Rol/listarRoles').pipe(map(res => res));
+    return this.http.get(this.urlBase + 'api/roles').pipe(map(res => res));
   }
 
   //Listado de paginasTipo Rol
   public listarPaginasTipoRol(): Observable<any> {
-    return this.http.get(this.urlBase + 'api/Rol/listarPaginasTipoRol').pipe(map(res => res));
+    return this.http.get(this.urlBase + 'api/roles/paginas').pipe(map(res => res));
   }
   public listarPaginasRecuperar(idRol: any): Observable<any> {
-    return this.http.get(this.urlBase + 'api/Rol/listarPaginasRecuperar/' + idRol).pipe(map(res => res));
+    return this.http.get(this.urlBase + 'api/roles/' + idRol + '/paginas').pipe(map(res => res));
   }
+  
   public listarTodasPaginas(): Observable<any> {
-    return this.http.get(this.urlBase + 'api/Pagina/listarTodasPaginas').pipe(map(res => res));
+    return this.http.get(this.urlBase + 'api/paginas').pipe(map(res => res));
   }
 
   public guardarPagina(oPaginaCLS: any) :Observable<any> {
 
-    var url = this.urlBase + 'api/Pagina/guardarPagina';
+    var url = this.urlBase + 'api/paginas';
     return this.http.post(url, oPaginaCLS).pipe(map(res => res));
 
   }
+
   public recuperarPagina(idPagina:any): Observable<any> {
-    return this.http.get(this.urlBase + 'api/Pagina/recuperarPagina/ ' + idPagina).pipe(map(res => res));
+    return this.http.get(this.urlBase + 'api/paginas/' + idPagina).pipe(map(res => res));
   }
+
   public eliminarPagina(idPagina:any): Observable<any> {
-    return this.http.get(this.urlBase + 'api/Pagina/eliminarPagina/ ' + idPagina).pipe(map(res => res));
+    return this.http.delete(this.urlBase + 'api/paginas/' + idPagina).pipe(map(res => res));
   }
 
 
 
   public guardarROL(oRolCLS: any) {
 
-    var url = this.urlBase + 'api/Rol/guardarROL/';
+    var url = this.urlBase + 'api/roles';
     return this.http.post(url, oRolCLS).pipe(map(res => res));
 
   }
 
   public eliminarRol(idRol:any ): Observable<any> {
-    return this.http.get(this.urlBase + 'api/Rol/eliminarRol/' + idRol).pipe(map(res => res));
+    return this.http.delete(this.urlBase + 'api/roles/' + idRol).pipe(map(res => res));
   }
   public getUsuarios(): Observable<any> {
     return this.http.get(this.urlBase + 'api/usuarios')

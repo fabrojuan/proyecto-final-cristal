@@ -50,7 +50,7 @@ namespace MVPSA_V2022.Controllers
                         {
 
                             if ( bd.Personas.Where(per => oVecinoCLS.Mail.ToUpper().Equals(per.Mail.ToUpper())).Count() != 0 ) {
-                                throw new BusinessException("Ya existe una persona registrada con ese correo electrónico");
+                                throw new BusinessException(MensajesError.EMAIL_YA_REGISTRADO);
                             }
 
                             Rol rolVecino = bd.Rols.Where(vec => vec.CodRol == "VEC").First();
