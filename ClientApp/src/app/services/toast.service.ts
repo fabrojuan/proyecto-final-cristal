@@ -13,11 +13,11 @@ export class ToastService {
   }
 
   showOk(message: string) {
-    this.show(message, { classname: 'bg-success text-light', delay: 5000 });    
+    this.show(message, { classname: 'bg-success text-light', delay: 10000 });    
   }
 
   showError(message: string) {
-    this.show(message, { classname: 'bg-danger text-light', delay: 5000 });    
+    this.show(message, { classname: 'bg-danger text-light', delay: 10000 });    
   }
 
   clear() {

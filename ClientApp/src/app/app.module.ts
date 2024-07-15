@@ -113,6 +113,8 @@ import { PaginaNoEncontradaComponent } from './components/pagina-no-encontrada/p
 import { ModalSiNoComponent } from './components/modal-si-no/modal-si-no.component';
 import { CabeceraTituloComponent } from './components/cabecera-titulo/cabecera-titulo.component';
 
+import { TitulosServiceService } from './services/titulos-service.service';
+
 
 @NgModule({
   declarations: [
@@ -288,7 +290,7 @@ import { CabeceraTituloComponent } from './components/cabecera-titulo/cabecera-t
 
     ])
   ],
-  providers: [UsuarioService, DenunciaService, TrabajoService, SeguridadGuard, VecinoService, SeguridadVecinoGuard, PruebaGraficaService, IndicadoresService, ImpuestoService, LoteService, ToastService,
+  providers: [UsuarioService, DenunciaService, TrabajoService, SeguridadGuard, VecinoService, SeguridadVecinoGuard, PruebaGraficaService, IndicadoresService, ImpuestoService, LoteService, ToastService, TitulosServiceService, 
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
    
   ],
