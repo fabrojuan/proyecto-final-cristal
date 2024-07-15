@@ -7,9 +7,7 @@
         <div class="card-body">
           <!-- <h5 class="card-title">Ver y Pagar impuestos de Lote</h5> -->
 
-          <app-cabecera-titulo [titulo]="'Ver y Pagar impuestos de Lote'"
-                               [rutaImagen]="'../../../assets/IconsGoogle/patch-plus-fll.svg'"
-                               [link]="'bienvenida'"></app-cabecera-titulo>
+          <app-cabecera-titulo [nombreComponente]="'ImpuestosVecinoIdentificadorComponent'"></app-cabecera-titulo>
 
           <form [formGroup]="formulario" (ngSubmit)="irVerImpuestos()" class="row g-3">
 

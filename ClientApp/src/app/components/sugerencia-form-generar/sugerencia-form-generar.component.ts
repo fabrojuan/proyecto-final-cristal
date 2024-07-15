@@ -47,7 +47,7 @@ export class SugerenciaFormGenerarComponent implements OnInit {
     }
 
     this.sugerenciaservice.agregarSugerencia(this.Sugerencia.value).subscribe(data => {
-      this._toastService.showOk("La sugerencia ha sido guardado con éxito");
+      this._toastService.showOk("La sugerencia ha sido guardada con éxito");
       this.router.navigate(["/"]);
     }, error => {
       this._toastService.showError("Ocurrió un error y no se pudo guardar la sugerencia");
