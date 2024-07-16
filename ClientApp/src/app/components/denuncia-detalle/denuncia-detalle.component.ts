@@ -95,7 +95,7 @@ export class DenunciaDetalleComponent implements OnInit {
       this.denunciaService.DerivaPriorizaDenuncia(this.Trabajo.value).subscribe(data => {
         if (data) {
           this.tituloModal = "Gestion Realizada!"
-          this.resultadoGuardadoModal = "La denuncia se derivó al área correspondiente";
+          this.resultadoGuardadoModal = "La denuncia se derivó al Inspector o Empleado correspondiente";
           this.redirectModal = 1;
         }
         else

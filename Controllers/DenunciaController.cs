@@ -65,6 +65,22 @@ namespace MVPSA_V2022.Controllers
             }
 
         }
+        //con Filtros hay que modificar la consulta con los filtros a la denuncia service
+        [HttpGet]
+        [Route("listarDenunciasconFiltros")]
+        public IActionResult listarDenunciasconFiltros([FromHeader(Name = "id_usuario")] string idUsuarioAlta,
+                                           [FromQuery] int tipo,
+                                           [FromQuery] int estado)
+        {
+            try
+            {
+                return Ok(denunciaService.listarDenunciasconFiltros(Int32.Parse(idUsuarioAlta), tipo, estado));
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
         [HttpGet]
         [Route("listarEstadosDenuncia")]
         public IEnumerable<DenunciaCLS> listarEstadosDenuncia()

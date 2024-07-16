@@ -98,6 +98,8 @@ namespace MVPSA_V2022.Modelos
 
         public virtual DbSet<VwReclamo> VwReclamos { get; set; }
 
+        public virtual DbSet<VwDenuncium> VwDenuncia { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
             => optionsBuilder.UseSqlServer("Data Source=ROMANS;Initial Catalog=cristal;Integrated Security=True ;TrustServerCertificate=true");
@@ -617,7 +619,7 @@ namespace MVPSA_V2022.Modelos
             {
                 entity.HasKey(e => e.NroPrioridad).HasName("PK__PRIORIDA__07C3E6AEEA9A30B4");
 
-                entity.ToTable("PRIORIDAD");
+                entity.ToTable("Prioridad");
 
                 entity.Property(e => e.NroPrioridad).HasColumnName("Nro_Prioridad");
                 entity.Property(e => e.Bhabilitado).HasColumnName("BHabilitado");
@@ -634,7 +636,7 @@ namespace MVPSA_V2022.Modelos
             {
                 entity.HasKey(e => e.NroPrioridad).HasName("PK__PRIORIDA__07C3E6AE8405AF9C");
 
-                entity.ToTable("PRIORIDAD_RECLAMO");
+                entity.ToTable("Prioridad_RECLAMO");
 
                 entity.Property(e => e.NroPrioridad).HasColumnName("Nro_Prioridad");
                 entity.Property(e => e.Bhabilitado).HasColumnName("BHabilitado");
@@ -1146,7 +1148,7 @@ namespace MVPSA_V2022.Modelos
                 entity.Property(e => e.PrioridadReclamo)
                     .HasMaxLength(50)
                     .IsUnicode(false)
-                    .HasColumnName("prioridad_reclamo");
+                    .HasColumnName("Prioridad_reclamo");
                 entity.Property(e => e.TelefonoVecino)
                     .HasMaxLength(50)
                     .IsUnicode(false);

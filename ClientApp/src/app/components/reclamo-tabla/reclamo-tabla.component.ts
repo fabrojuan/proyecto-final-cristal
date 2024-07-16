@@ -14,7 +14,7 @@ export class ReclamoTablaComponent implements OnInit {
   p: number = 1;
   cabeceras: string[] = ["Número", "Fecha Generado", "Estado", "Tipo", "Prioridad", "Asignado a"];
   listaPrioridades: ClaveValor[] = [];
-  prioridadSeleccionada: ClaveValor = {clave : "0", valor : "Todas"};
+  PrioridadSeleccionada: ClaveValor = {clave : "0", valor : "Todas"};
 
   constructor(private reclamoservice: ReclamoService) {
   }
@@ -34,10 +34,10 @@ export class ReclamoTablaComponent implements OnInit {
   }
 
   filtrarPrioridad() {
-    if (this.prioridadSeleccionada.clave == "0") {
+    if (this.PrioridadSeleccionada.clave == "0") {
       this.ReclamosFiltrados = this.Reclamos;
     } else {
-      this.ReclamosFiltrados = this.Reclamos.filter(p => p.nroPrioridad == this.prioridadSeleccionada.clave);
+      this.ReclamosFiltrados = this.Reclamos.filter(p => p.nroPrioridad == this.PrioridadSeleccionada.clave);
     }
   }
 

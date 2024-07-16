@@ -90,7 +90,7 @@ import { TasasImpositivasComponent } from './components/tasas-impositivas/tasas-
 import { GeneracionDatasetsComponent } from './components/generacion-datasets/generacion-datasets.component';
 import { DatosFinanzasEconomicosBorradoComponent } from './components/datos-finanzas-economicos-borrado/datos-finanzas-economicos-borrado.component';
 import { ReclamoCabeceraComponent } from './components/reclamo-cabecera/reclamo-cabecera.component';
-import { ReclamoCambiarPrioridadComponent } from './components/reclamo-cambiar-prioridad/reclamo-cambiar-prioridad.component';
+import { ReclamoCambiarPrioridadComponent } from './components/reclamo-cambiar-Prioridad/reclamo-cambiar-Prioridad.component';
 import { ReclamoDerivarComponent } from './components/reclamo-derivar/reclamo-derivar.component';
 import { ReclamoFormGenerarEmpleadoComponent } from './components/reclamo-form-generar-empleado/reclamo-form-generar-empleado.component';
 import { HistoricoDenunciaTablaComponent } from './components/historico-denuncia-tabla/historico-denuncia-tabla.component';
@@ -100,6 +100,7 @@ import { IndicadoresGraficosComponent } from './components/indicadores-graficos/
 import { ChartsDenunciaComponent } from './components/charts-denuncia/charts-denuncia.component';
 import { EmpleadosyrolesComponent } from './components/empleadosyroles/empleadosyroles.component';
 import { LotesypersonasComponent } from './components/lotesypersonas/lotesypersonas.component';
+import { CabeceraTituloComponent } from './components/cabecera-titulo/cabecera-titulo.component';
 
 
 @NgModule({
@@ -171,7 +172,8 @@ import { LotesypersonasComponent } from './components/lotesypersonas/lotesyperso
     IndicadoresGraficosComponent,
     ChartsDenunciaComponent,
     EmpleadosyrolesComponent,
-    LotesypersonasComponent
+    LotesypersonasComponent,
+    CabeceraTituloComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -243,7 +245,7 @@ import { LotesypersonasComponent } from './components/lotesypersonas/lotesyperso
       { path: 'generacion-datasets', component: GeneracionDatasetsComponent, canActivate: [SeguridadGuard] },
       { path: 'datos-finanzas-economicos-borrado', component: DatosFinanzasEconomicosBorradoComponent, canActivate: [SeguridadGuard] },
       { path: 'datos-finanzas-economicos-borrado/:id', component: DatosFinanzasEconomicosBorradoComponent, canActivate: [SeguridadGuard] },
-      { path: 'reclamo-cambiar-prioridad/:id', component: ReclamoCambiarPrioridadComponent },
+      { path: 'reclamo-cambiar-Prioridad/:id', component: ReclamoCambiarPrioridadComponent },
       { path: 'reclamo-derivar/:id', component: ReclamoDerivarComponent },
       { path: 'reclamo-form-generar-empleado', component: ReclamoFormGenerarEmpleadoComponent, canActivate: [SeguridadGuard] },
       { path: 'pagina-form-generar', component: PaginaFormGenerarComponent, canActivate: [SeguridadGuard] },

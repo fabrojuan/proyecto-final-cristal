@@ -1,21 +1,12 @@
 <div class="container">
   <div class="card">
     <div class="card-body">
-
-
+      <cabecera-titulo [titulo]="'Formulario de Denuncia'"
+                       [rutaImagen]="'../../../assets/IconsGoogle/Justicia.svg'"
+                       [tooltipIcono]="'Click para ir a home'"
+                       [link]="''"></cabecera-titulo>
       <div class="container pt-4">
         <form [formGroup]="Denuncia" (ngSubmit)="guardarDatos()" class="row g-3">
-
-          <div class="d-flex align-items-center ">
-            <img src="../../../assets/IconsGoogle/Justicia.svg" alt="" width="48" height="48" class="mb-2">
-
-            <div class="card-title text-center form-group col-md-7 offset-md-1">
-              <p> Formulario de Denuncia</p>
-            </div>
-          </div>
-
-
-
           <div class="col-md-6">
             <label>(*) Tipo de Denuncia&nbsp;</label>
             <select id="Tipo_Denuncia" formControlName="codTipoDenuncia" class="form-select">
@@ -23,9 +14,7 @@
               <option [ngValue]="TipoDenuncia.cod_Tipo_Denuncia" *ngFor="let TipoDenuncia of TiposDenuncia">{{TipoDenuncia.nombre}}</option>
             </select>
           </div>
-
-
-          <div class="col-md-6">
+        <div class="col-md-6">
             <label for="formGroupExampleInput">(*) Calle</label>
             <input type="text" class="form-control" id="formGroupExampleInput" placeholder=" Calle del hecho" formControlName="Calle">
           </div>
@@ -52,16 +41,8 @@
             <div class="invalid-feedback" *ngIf="isFormSubmitted && Denuncia.controls['Descripcion'].errors?.maxlength">
               El DNI ingresado es incorrecto, verifique por favor.
             </div>
-            <!--<div class="invalid-feedback" *ngIf="isFormSubmitted && Denuncia.controls['Descripcion'].errors?.pattern">
-      El DNI solo puede estar compuesto por números.
-    </div>-->
+            
           </div>
-
-
-
-
-
-
 
 
           <div class="col-md-6">
@@ -75,7 +56,7 @@
           </div>
 
           <div class="d-flex align-items-center bg-light shadow mb-3 rounded shadow-sm card-title">
-            <div class="form-group mx-md-n5 col-md-12 text-center">  <img src="../../../assets/IconsGoogle/camera.svg" alt="" width="45" height="45"> &nbsp;&nbsp;&nbsp; Puede añadir hasta 3 imágenes como prueba </div>
+            <div class="form-group mx-md-n5 col-md-12 text-center">  <img src="../../../assets/IconsGoogle/camera.svg" alt="" width="40" height="40"> &nbsp;&nbsp;&nbsp; Puede añadir hasta 3 imágenes como prueba </div>
           </div>
 
           <div class="col-md-4">
@@ -85,8 +66,8 @@
               </div>
               <img src="{{foto1Url}}" class="card-img-top" height="240" />
               <div class="card-body">
-                    <input type="file" class="form-control custom-file-input" id="fupFoto" lang="es" (change)="changeFoto()" accept="image/*">
-             
+                <input type="file" class="form-control custom-file-input" id="fupFoto" lang="es" (change)="changeFoto()" accept="image/*">
+
               </div>
             </div>
           </div>
@@ -119,7 +100,7 @@
 
 
           <div class="d-flex align-items-center bg-light shadow mb-3 rounded shadow-sm card-title">
-            <div class="form-group mx-md-n5 col-md-12 text-center" title="datos opcionales del denunciante para contacto personalizado con el hecho">  <img src="../../../assets/icons/people.svg" alt="" width="45" height="45" title="datos opcionales del denunciante para contacto personalizado con el hecho"> &nbsp;&nbsp;&nbsp; Informaci&oacute;n de contacto opcional </div>
+            <div class="form-group mx-md-n5 col-md-12 text-center" title="datos opcionales del denunciante para contacto personalizado con el hecho">  <img src="../../../assets/icons/people.svg" alt="" width="40" height="40" title="datos opcionales del denunciante para contacto personalizado con el hecho"> &nbsp;&nbsp;&nbsp; Informaci&oacute;n de contacto opcional </div>
           </div>
 
           <div class="col-md-6">
@@ -142,8 +123,8 @@
 
 
           <div class="form-group justify-content-around offset-md-2">
-            <input [disabled]="!Denuncia.valid" type="submit" value="Generar" class="btn btn-success col-md-2 offset-md-1" />
-            <button type="button" class="btn btn-light col-md-2 offset-md-1">Cancelar</button>
+            <input [disabled]="!Denuncia.valid" type="submit" value="Generar" class="btn btn-primary col-md-2 offset-md-1" />
+            <button type="button" class="btn btn-secondary col-md-2 offset-md-1" (click)="volver()">Cancelar</button>
           </div>
 
 

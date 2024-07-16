@@ -19,6 +19,8 @@ export class BienvenidaComponent implements OnInit {
   totalDenuncias: any;
   totalDenunAsignaEmpleado: any;
   totalDenunCerradas: any;
+  totalLotes: any;
+  totalVecinos: any;
 
   
 
@@ -39,6 +41,12 @@ export class BienvenidaComponent implements OnInit {
       this.totalDenunCerradas = chartDenuncia.totalDenuncias;
       this.totalDenunAsignaEmpleado = chartDenuncia.totalDenunAsignaEmpleado;
       console.log(this.idEmpleado, this.nombreEmpleado, this.totalDenuncias, this.totalDenunAsignaEmpleado);
+    });
+    this.indicadoresService.getLotesCargados().subscribe(chartLotes => {
+      this.totalLotes = chartLotes.totalLotes;
+      this.totalVecinos = chartLotes.totalVecinos;
+     
+      console.log("total de lotes"+this.totalLotes);
     });
 /////////////*******charts************ */
     // datos

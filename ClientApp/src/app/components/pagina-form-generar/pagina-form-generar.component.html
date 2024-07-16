@@ -7,7 +7,7 @@
         <div class="d-flex align-items-center p-2 my-2 bg-purple bg-light shadow p-2 mb-5 rounded shadow-sm">
           <img src="../../../assets/Imagenes/book.svg" alt="" width="58" height="58">
           <div class="card-title text-center form-group col-md-8 offset-md-1">
-            <p> Registrar Página {{titulo}}</p>
+            <p>  {{titulo}} Página</p>
           </div>
         </div>
 
@@ -63,7 +63,7 @@
 
        
           <div class="form-group justify-content-around offset-md-4"style="margin-top:3em;">
-            <input [disabled]="!Pagina.valid" type="submit" value="Generar" class="btn btn-success col-md-2 offset-md-2" (click)="clickMethod()" />
+            <input [disabled]="!Pagina.valid" type="submit" value="Guardar" class="btn btn-secondary col-md-2 offset-md-2" (click)="clickMethod()" />
             <button type="button" [routerLink]="['/pagina-tabla']" class="btn btn-light col-md-2 offset-md-1">Cancelar</button>
           </div>
         

@@ -133,6 +133,10 @@ export class DenunciaFormGenerarComponent implements OnInit {
     }
     return "../../../../assets/Imagenes/Image_not_available.png";
   }
+  volver() {
+    //this.mostrarModal = false; // Ocultar el modal al navegar
+    this.router.navigate([""]);
+  }
   //Continuar aqui con las validaciones. 
   get DescripcionNoValido() {
     return this.isFormSubmitted && this.Denuncia.controls.Descripcion.errors;

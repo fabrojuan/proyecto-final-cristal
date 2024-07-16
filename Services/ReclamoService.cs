@@ -108,7 +108,7 @@ namespace MVPSA_V2022.Services
                                                      nroPrioridad = (int)reclamo.NroPrioridad,
                                                      usuarioAsignado = reclamo.Usuario,
                                                      empleadoAsignado = reclamo.Empleado,
-                                                     prioridad = reclamo.PrioridadReclamo
+                                                     Prioridad = reclamo.PrioridadReclamo
                                                  }).ToList();
 
                 return listaReclamo;
@@ -141,7 +141,7 @@ namespace MVPSA_V2022.Services
                                                   nroPrioridad = (int)reclamo.NroPrioridad,
                                                   usuarioAsignado = reclamo.Usuario,
                                                   empleadoAsignado = reclamo.Empleado,
-                                                  prioridad = reclamo.PrioridadReclamo
+                                                  Prioridad = reclamo.PrioridadReclamo
                                               }).Single();
 
 
@@ -355,8 +355,8 @@ namespace MVPSA_V2022.Services
 
         public IEnumerable<PrioridadReclamoDto> getPrioridades()
         {
-            var prioridadesModelo = dbContext.PrioridadReclamos.Where(pri => pri.Bhabilitado == 1).ToList();
-            return mapper.Map<List<PrioridadReclamoDto>>(prioridadesModelo);
+            var PrioridadesModelo = dbContext.PrioridadReclamos.Where(pri => pri.Bhabilitado == 1).ToList();
+            return mapper.Map<List<PrioridadReclamoDto>>(PrioridadesModelo);
         }
 
         private int getPrioridadReclamoSegunTipoReclamo(int codTipoReclamo) {
@@ -366,23 +366,23 @@ namespace MVPSA_V2022.Services
                 dbContext.TipoReclamos.Where(tr => tr.CodTipoReclamo == codTipoReclamo)
                 .FirstOrDefault();
 
-            // Busco para el tiempo max de tratamiento del tipo de reclamo cual es la prioridad
+            // Busco para el tiempo max de tratamiento del tipo de reclamo cual es la Prioridad
             // que le corresponde.
-            PrioridadReclamo prioridadReclamo = dbContext.PrioridadReclamos
+            PrioridadReclamo PrioridadReclamo = dbContext.PrioridadReclamos
                 .Where(pr => tipoReclamo.TiempoMaxTratamiento <= pr.TiempoMaxTratamiento)
                 .OrderBy(pr => pr.TiempoMaxTratamiento)
                 .FirstOrDefault();
 
-            // si no encontro uno se queda con la prioridad que tenga el tiempo max de tratamiento
+            // si no encontro uno se queda con la Prioridad que tenga el tiempo max de tratamiento
             // mas alta
-            if (prioridadReclamo == null)
+            if (PrioridadReclamo == null)
             {
-                prioridadReclamo = dbContext.PrioridadReclamos
+                PrioridadReclamo = dbContext.PrioridadReclamos
                 .OrderByDescending(pr => pr.TiempoMaxTratamiento)
                 .FirstOrDefault();
             }
 
-            return prioridadReclamo.NroPrioridad;
+            return PrioridadReclamo.NroPrioridad;
         }
 
         public ReclamoDto modificarReclamo(int nroReclamo, ModificarReclamoRequestDto reclamoDto)

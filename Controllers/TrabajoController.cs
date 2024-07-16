@@ -64,13 +64,13 @@ namespace MVPSA_V2022.Controllers
             List<PrioridadCLS> listaPrioridad;
             using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
             {
-                listaPrioridad = (from prioridad in bd.Prioridads
-                                  where prioridad.Bhabilitado == 1
+                listaPrioridad = (from Prioridad in bd.Prioridads
+                                  where Prioridad.Bhabilitado == 1
                                   select new PrioridadCLS
                                   {
-                                      NroPrioridad = prioridad.NroPrioridad,
-                                      NombrePrioridad = prioridad.NombrePrioridad,
-                                      Descripcion = prioridad.Descripcion
+                                      NroPrioridad = Prioridad.NroPrioridad,
+                                      NombrePrioridad = Prioridad.NombrePrioridad,
+                                      Descripcion = Prioridad.Descripcion
                                   }).ToList();
                 return listaPrioridad;
             }

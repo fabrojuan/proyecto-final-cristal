@@ -19,7 +19,7 @@ import { Subject } from 'rxjs';
   p: number = 1;
   dtoptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject<any>();
-  cabeceras: string[] = ["Id Denuncia", "Fecha Generada", "Tipo Denuncia", "Estado Denuncia", "Prioridad", "Cerrada por"];
+  cabeceras: string[] = ["Id Denuncia", "Fecha Generada", "Tipo Denuncia", "Estado Denuncia", "Cerrada por"];
   constructor(private denunciaservice: DenunciaService, private usuarioService: UsuarioService, private formBuilder: UntypedFormBuilder) {
     this.form = new UntypedFormGroup({
       //'NombreUser': new FormControl("", Validators.required),

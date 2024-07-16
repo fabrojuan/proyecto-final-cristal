@@ -67,22 +67,22 @@ update dbo.RECLAMO SET Nro_Prioridad = 4;
 
 
 
-DELETE FROM PRIORIDAD_RECLAMO;
+DELETE FROM Prioridad_RECLAMO;
 
-  SET IDENTITY_INSERT PRIORIDAD_RECLAMO ON;
+  SET IDENTITY_INSERT Prioridad_RECLAMO ON;
 
-  ALTER TABLE PRIORIDAD_RECLAMO ADD Tiempo_Max_Tratamiento int NOT NULL;
+  ALTER TABLE Prioridad_RECLAMO ADD Tiempo_Max_Tratamiento int NOT NULL;
 
-  INSERT INTO PRIORIDAD_RECLAMO (Nro_Prioridad, Nombre_Prioridad, BHabilitado, Descripcion, Tiempo_Max_Tratamiento)
+  INSERT INTO Prioridad_RECLAMO (Nro_Prioridad, Nombre_Prioridad, BHabilitado, Descripcion, Tiempo_Max_Tratamiento)
   values(1, 'Alta', 1, '', 1);
 
-  INSERT INTO PRIORIDAD_RECLAMO (Nro_Prioridad, Nombre_Prioridad, BHabilitado, Descripcion, Tiempo_Max_Tratamiento)
+  INSERT INTO Prioridad_RECLAMO (Nro_Prioridad, Nombre_Prioridad, BHabilitado, Descripcion, Tiempo_Max_Tratamiento)
   values(2, 'Media', 1, '', 2);
 
-  INSERT INTO PRIORIDAD_RECLAMO (Nro_Prioridad, Nombre_Prioridad, BHabilitado, Descripcion, Tiempo_Max_Tratamiento)
+  INSERT INTO Prioridad_RECLAMO (Nro_Prioridad, Nombre_Prioridad, BHabilitado, Descripcion, Tiempo_Max_Tratamiento)
   values(3, 'Baja', 1, '', 7);
 
-  SET IDENTITY_INSERT PRIORIDAD_RECLAMO OFF;
+  SET IDENTITY_INSERT Prioridad_RECLAMO OFF;
 
 
 
@@ -109,7 +109,7 @@ create view dbo.vw_reclamo as
 select rec.*, 
        tre.Nombre tipo_reclamo, 
 	   est.Nombre estado_reclamo, 
-	   pre.Nombre_Prioridad prioridad_reclamo,
+	   pre.Nombre_Prioridad Prioridad_reclamo,
 	   usu.NombreUser usuario, 
 	   case 
 		when usu.NombreUser is null then 'Sin Asignar' 
@@ -117,7 +117,7 @@ select rec.*,
 	   end  empleado
 from dbo.RECLAMO rec join M_VPSA_V3.dbo.TIPO_RECLAMO tre on tre.Cod_Tipo_Reclamo = rec.Cod_Tipo_Reclamo
 join dbo.ESTADO_RECLAMO est on est.Cod_Estado_Reclamo = rec.Cod_Estado_Reclamo
-join dbo.PRIORIDAD_RECLAMO pre on pre.Nro_Prioridad = rec.Nro_Prioridad
+join dbo.Prioridad_RECLAMO pre on pre.Nro_Prioridad = rec.Nro_Prioridad
 left outer join dbo.USUARIO usu on usu.idUsuario = rec.IdUsuario
 left outer join dbo.PERSONA per on per.idPersona = usu.idPersona;
 
@@ -160,13 +160,13 @@ rec.MailVecino,
 rec.TelefonoVecino, 
 tre.Nombre AS tipo_reclamo ,
 est.Nombre AS estado_reclamo , 
-pre.Nombre_Prioridad AS prioridad_reclamo  ,
+pre.Nombre_Prioridad AS Prioridad_reclamo  ,
 usu.NombreUser AS usuario, 
 CASE WHEN usu.NombreUser IS NULL THEN 'Sin Asignar' ELSE concat(per.Apellido, ', ', per.Nombre) END AS empleado
 FROM            dbo.RECLAMO AS rec INNER JOIN
                          dbo.TIPO_RECLAMO AS tre ON tre.Cod_Tipo_Reclamo = rec.Cod_Tipo_Reclamo INNER JOIN
                          dbo.ESTADO_RECLAMO AS est ON est.Cod_Estado_Reclamo = rec.Cod_Estado_Reclamo INNER JOIN
-                         dbo.PRIORIDAD_RECLAMO AS pre ON pre.Nro_Prioridad = rec.Nro_Prioridad LEFT OUTER JOIN
+                         dbo.Prioridad_RECLAMO AS pre ON pre.Nro_Prioridad = rec.Nro_Prioridad LEFT OUTER JOIN
                          dbo.USUARIO AS usu ON usu.idUsuario = rec.IdUsuario LEFT OUTER JOIN
                          dbo.PERSONA AS per ON per.idPersona = usu.idPersona;
 

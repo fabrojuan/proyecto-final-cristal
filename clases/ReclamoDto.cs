@@ -27,7 +27,7 @@ namespace MVPSA_V2022.clases
         public int nroPrioridad { get; set; }
         public string usuarioAsignado { get; set; }
         public string empleadoAsignado { get; set; }
-        public string prioridad { get; set; }
+        public string Prioridad { get; set; }
 
 
     }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DenunciaService } from '../../services/denuncia.service';
 import { UsuarioService } from '../../services/usuario.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -48,11 +48,15 @@ export class ChartsDenunciaComponent implements OnInit {
   //fuera del constructor
 
   chartdata: any;
+  chartdataTipo: any;
   labeldata: any[] = [];
   realdata: any[] = [];
   colordata: any[] = ['rgb(54, 162, 235)',
     'rgb(255, 205, 86)', 'rgb(153, 0, 153)', 'rgb(255,255, 51)'];
-
+  labeldata2: any[] = [];
+  realdata2: any[] = [];
+  colordata2: any[] = ['rgb(54, 162, 235)',
+    'rgb(255, 205, 86)', 'rgb(153, 0, 153)', 'rgb(255,255, 51)'];
 
   ngOnInit() {
     this.indicadoresService.CantidadDenunciasAbiertas().subscribe(abiertas => {
@@ -70,6 +74,8 @@ export class ChartsDenunciaComponent implements OnInit {
 
     this.indicadoresService.FechaTrabajosEnDenuncias().subscribe(result => {
       this.chartdata = result;
+      this.labeldata.splice(0, this.labeldata.length);
+      this.realdata.splice(0, this.realdata.length);
       if (this.chartdata != null) {
         for (let i = 0; i < this.chartdata.length; i++) {
           console.log(this.chartdata[i]);
@@ -81,6 +87,25 @@ export class ChartsDenunciaComponent implements OnInit {
        // this.RenderChart(this.labeldata, this.realdata, this.colordata, 'pie', 'piechart');
         }
     });
+    
+  
+  this.indicadoresService.Denunciasportipo().subscribe(result => {
+    this.chartdataTipo = result;
+    if (this.chartdataTipo != null) {
+      this.labeldata.splice(0, this.labeldata.length);
+      this.realdata.splice(0, this.realdata.length);
+
+      for (let i = 0; i < this.chartdataTipo.length; i++) {
+        console.log(this.chartdataTipo[i]);
+       
+        this.labeldata.push(this.chartdataTipo[i].tipoDenuncia);
+        this.realdata.push(this.chartdataTipo[i].cantidadporTipo);
+        this.colordata.push(this.chartdataTipo[i].colorcode);
+      }
+      this.RenderChartTipo(this.labeldata, this.realdata, this.colordata, 'bar', 'barchart2');
+      // this.RenderChart(this.labeldata, this.realdata, this.colordata, 'pie', 'piechart');
+    }
+  });
     
   }
 
@@ -95,7 +120,7 @@ export class ChartsDenunciaComponent implements OnInit {
       data: {
         labels: labeldata,
         datasets: [{
-          label: '#Cantidad de trabajosxMes',
+          label: '#Cantidad de trabajos x Mes',
           data: maindata,
           backgroundColor: colordata,
           borderColor: [
@@ -131,7 +156,30 @@ export class ChartsDenunciaComponent implements OnInit {
       }]
     };
   }
-
+  RenderChartTipo(labeldata: any, maindata: any, colordata: any, type: any, id: any) {
+    const myChart = new Chart(id, {
+      type: type,
+      data: {
+        labels: labeldata,
+        datasets: [{
+          label: '#Tipos de Denuncias',
+          data: maindata,
+          backgroundColor: colordata,
+          borderColor: [
+            'rgba(215, 99, 132, 1)'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  }
 
   volver() {
     this.router.navigate(["/bienvenida"]);
@@ -139,6 +187,10 @@ export class ChartsDenunciaComponent implements OnInit {
 
   volverAtras() {
     this.router.navigate(["/indicadores-graficos"]);
+  }
+  ngOnDestroy() {
+    // Cancelar la suscripción cuando se destruya el componente
+  // this.indicadoresService.Denunciasportipo().unsubscribe();
   }
 
 }

@@ -27,5 +27,7 @@
         public string? DniTitular { get; set; }
         public int? IdPersona { get; set; }
 
+        public string? ApellidoTitular { get; set; }
+
     }
 }

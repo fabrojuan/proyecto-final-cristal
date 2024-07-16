@@ -1,4 +1,9 @@
-﻿using MVPSA_V2022.clases;
+﻿using AutoMapper;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using MVPSA_V2022.clases;
+using MVPSA_V2022.clases.Mobbex;
+using MVPSA_V2022.Enums;
 using MVPSA_V2022.Exceptions;
 using MVPSA_V2022.Modelos;
 
@@ -6,6 +11,20 @@ namespace MVPSA_V2022.Services
 {
     public class DenunciaService : IDenunciaService
     {
+        public readonly IMapper mapper;
+        public readonly IUsuarioService usuarioService;
+        private readonly M_VPSA_V3Context dbContext;
+       // private readonly CristalContext dbContext;
+
+        public DenunciaService(IMapper mapper, IUsuarioService usuarioService,
+       M_VPSA_V3Context dbContext)
+   ///  reeemplazar por este sino funca              M_VPSA_V3Context dbContext)
+
+        {
+            this.mapper = mapper;
+            this.usuarioService = usuarioService;
+            this.dbContext = dbContext;
+        }
 
         void IDenunciaService.eliminarTipoDenuncia(int codTipoDenunciaEliminar)
         {
@@ -80,22 +99,6 @@ namespace MVPSA_V2022.Services
                 bd.TipoDenuncia.Add(tipoDenuncia);
                 bd.SaveChanges();
 
-                /*tipoDenunciaDto = (from tipoDenunciaQuery in bd.TipoDenuncia
-                                   join usuarioAlta in bd.Usuarios
-                                     on tipoDenunciaQuery.IdUsuarioAlta equals usuarioAlta.IdUsuario
-                                   join usuarioModificacion in bd.Usuarios
-                                     on tipoDenunciaQuery.IdUsuarioModificacion equals usuarioModificacion.IdUsuario
-                                   where tipoDenunciaQuery.CodTipoDenuncia == tipoDenuncia.CodTipoDenuncia
-                                   select new TipoDenunciaCLS
-                                   {
-                                       Cod_Tipo_Denuncia = tipoDenunciaQuery.CodTipoDenuncia,
-                                       Nombre = tipoDenunciaQuery.Nombre,
-                                       Descripcion = tipoDenunciaQuery.Descripcion,
-                                       Tiempo_Max_Tratamiento = tipoDenunciaQuery.TiempoMaxTratamiento == null ? 0 : (int)tipoDenuncia.TiempoMaxTratamiento,
-                                       usuarioAlta = usuarioAlta.NombreUser,
-                                       usuarioModificacion = usuarioModificacion.NombreUser
-                                   })
-                                    .Single();*/
             }
 
             return tipoDenunciaDto;
@@ -125,8 +128,6 @@ namespace MVPSA_V2022.Services
                                     .ToList();
                 return listaTiposDenuncia;
             }
-
-
         }
 
          IEnumerable<DenunciaCLS2> IDenunciaService.ListarDenunciasCerradas()
@@ -162,6 +163,52 @@ namespace MVPSA_V2022.Services
 
         }
 
+                //Con filtros
+        public IEnumerable<DenunciaCLS2> listarDenunciasconFiltros(int idUsuarioConectado, int tipo, int estado)
+        {
+
+             var usuarioConectado = dbContext.Usuarios.Where(usu => usu.IdUsuario == idUsuarioConectado).FirstOrDefault();
+            String codRolUsuarioConectado = usuarioConectado.IdTipoUsuarioNavigation.NombreRol;
+
+
+            var query1 = dbContext.VwDenuncia;
+                //.Where(den => den.Bhabilitado >= 0);
+
+            var query = dbContext.Denuncia.Where(den => den.Bhabilitado == 1);
+            //if (codRolUsuarioConectado != "MDE" && codRolUsuarioConectado != "INT"
+            //    && codRolUsuarioConectado != "ADS")
+            //{
+            //    query = query.Where(den => den. == usuarioConectado.IdTipoUsuario);
+            //}
+
+            if (tipo != 0)
+            {
+                query = query.Where(den => den.CodTipoDenuncia == tipo);
+            }
+
+            if (estado != 0)
+            {
+                query = query.Where(den => den.CodEstadoDenuncia == estado);
+            }
+
+            List<DenunciaCLS2> listaDenuncia = new List<DenunciaCLS2>();
+            query.ToList().ForEach(denuncia =>
+            {
+                DenunciaCLS2 denunciaCLS2 = new DenunciaCLS2
+                {
+                    Nro_Denuncia = denuncia.NroDenuncia,
+                    Fecha = (DateTime)denuncia.Fecha,
+                    Estado_Denuncia = denuncia?.CodEstadoDenunciaNavigation?.Nombre,
+                    Tipo_Denuncia = denuncia?.CodTipoDenunciaNavigation?.Nombre,
+                    Prioridad = denuncia?.NroPrioridadNavigation?.NombrePrioridad,
+                    IdUsuario = (int)((denuncia.IdUsuario.HasValue) ? denuncia.IdUsuario : 0),
+                    NombreUser = denuncia?.IdUsuarioNavigation?.NombreUser
+
+            };
+                listaDenuncia.Add(denunciaCLS2);
+            });
+            return listaDenuncia;
+        }
 
         void validarTipoDenuncia(TipoDenunciaCLS tipoDenuncia)
         {

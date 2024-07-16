@@ -11,7 +11,7 @@ export class PaginaTablaComponent implements OnInit {
   @Input() isMantenimiento = true;
   Paginas: any;
   p: number = 1;
-  cabeceras: string[] = ["Cód.", "Nombre", "Ruta"];
+  cabeceras: string[] = [ "Nombre", "Ruta"];
 
   constructor(private usuarioservice: UsuarioService, private router: Router) { }
 

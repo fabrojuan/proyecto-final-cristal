@@ -8,7 +8,7 @@
 
 
       <div class="d-flex align-items-center p-3 my-3 bg-purple bg-light shadow p-2 mb-5 rounded shadow-sm container">
-        <i class="bi bi-person-rolodex text-dark" style="font-size: 2.5em;" title="Listado de Denuncias Activas."></i>
+        <i class="bi bi-person-rolodex text-dark" [routerLink]="['/empleadosyroles']" style="font-size: 2.5em;" title="Volvers a las opciones de gestion de personal."></i>
         <div class="card-title text-center form-group col-md-8 offset-md-1">
           <p>Tablero de Gestión de Roles</p>
         </div>
@@ -41,7 +41,7 @@
       <div class="row">
           <hr class="mb-4">
           <div class="form-group col-md-12">
-            <button type="button" value="Nuevo" class="btn btn-success col-md-4 offset-md-1 " [routerLink]="['/tipo-rol-form-generar']"> Nuevo</button>
+            <button type="button" value="Nuevo" class="btn btn-secondary col-md-4 offset-md-1 " [routerLink]="['/tipo-rol-form-generar']"> Nuevo</button>
             <button type="button" class="btn btn-secondary col-md-4 offset-md-1" (click)="volverHome()">Volver</button>
 
           </div>

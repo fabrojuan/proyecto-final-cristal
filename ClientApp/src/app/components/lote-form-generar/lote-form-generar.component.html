@@ -1,15 +1,13 @@
 <div class="container">
   <div class="card">
     <div class="card-body">
+      <cabecera-titulo [titulo]="'Registracion de Lote'"
+                       [rutaImagen]="'../../../assets/IconsGoogle/lote_px.png'"
+                       [tooltipIcono]="'Click para volver al escritorio'"
+                       [link]="'lote-tabla'"></cabecera-titulo>
 
       <form [formGroup]="Lote" (ngSubmit)="guardarDatos()">
         <div class="container-fluid">
-          <div class="d-flex align-items-center p-2 my-2">
-            <img src="../../../assets/IconsGoogle/lote_px.png" alt="Lote" width="58" height="58">
-            <div class="tituloFormulario text-center form-group col-md-8 offset-md-1">
-              <p> Registracion de Lote</p>
-            </div>
-          </div>
 
           <div class="row">
             <div class="pt-4 col-md-4 offset-md-1">
@@ -88,8 +86,8 @@
           </div>
 
           <div class="pb-5 mt-5 form-group justify-content-around offset-md-3">
-            <input [disabled]="!Lote.valid" type="submit" value="Generar" class="btn btn-success col-md-2 offset-md-1" />
-            <button type="button" class="btn btn-light col-md-2 offset-md-1" (click)="volverLoteTabla()">Cancelar</button>
+            <input [disabled]="!Lote.valid" type="submit" value="Generar" class="btn btn-primary col-md-2 offset-md-1" />
+            <button type="button" class="btn btn-secondary col-md-2 offset-md-1" (click)="volverLoteTabla()">Cancelar</button>
           </div>
         </div>
         <ng-template #myModalInfo let-modal>

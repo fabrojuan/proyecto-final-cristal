@@ -1,15 +1,4 @@
 /*-------------------------aca el nuevo -----------------------*/
-.texto-blanco {
-  color: white;
-  font-size: 1.12em;
-}
-
-.tituloFormulario {
-  font-family: "Times New Roman", Times, serif;
-  font-size: 2em;
-}
-
-
 .tooltip {
   position: relative;
   display: inline-block;

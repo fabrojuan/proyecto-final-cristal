@@ -1,13 +1,13 @@
 <div class="container">
-    <h1 class="text-center">Cambiar prioridad de Reclamo</h1>
+    <h1 class="text-center">Cambiar Prioridad de Reclamo</h1>
 
     <app-reclamo-cabecera></app-reclamo-cabecera>
 
     <div class="row">
         <div class="col col-md-4">
             <label for="exampleFormControlInput1" class="form-label">Prioridad</label>
-            <select class="form-select" aria-label="Seleccione una prioridad" name="selectPrioridades" [(ngModel)]="prioridadSeleccionada">
-                <option [ngValue]="prioridad" *ngFor="let prioridad of listaPrioridades">{{prioridad.nombrePrioridad}}</option>
+            <select class="form-select" aria-label="Seleccione una Prioridad" name="selectPrioridades" [(ngModel)]="PrioridadSeleccionada">
+                <option [ngValue]="Prioridad" *ngFor="let Prioridad of listaPrioridades">{{Prioridad.nombrePrioridad}}</option>
             </select>
         </div>
     </div>

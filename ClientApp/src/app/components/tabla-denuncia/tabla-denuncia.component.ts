@@ -5,6 +5,9 @@ import { UsuarioService } from '../../services/usuario.service';
 import espaniolDatatables from 'src/assets/espaniolDatatables.json';
 import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { HttpParams } from '@angular/common/http'; //para los filtros
+import { Router } from '@angular/router';
+
 
 
 @Component({
@@ -19,11 +22,19 @@ export class TablaDenunciaComponent implements OnInit {
   Usuarios: any;
   TiposDenuncia: any;
   DenunciasFiltradas: any;
+  EstadosDenuncia: any;
   p: number = 1;
+  //filtros
+  nroReclamoFiltro: string = ''; //este debo reemplazarlo por algo de la denuncia aca y en el html
+  tipoDenunciaSeleccionado: number = 0;
+  estadoDenunciaSeleccionado: number = 0;
+  nomApeVecinoFiltro: string = '';
+  //fin filtros
+
   dtoptions: DataTables.Settings = {};
   dtTrigger: Subject<any> = new Subject<any>();
   cabeceras: string[] = ["Id Denuncia", "Fecha Generada","Tipo Denuncia", "Estado Denuncia", "Prioridad", "Asignada a Empleado"];
-  constructor(private denunciaservice: DenunciaService, private usuarioService: UsuarioService, private formBuilder: FormBuilder) {
+  constructor(private denunciaservice: DenunciaService, private router: Router, private usuarioService: UsuarioService, private formBuilder: FormBuilder) {
     this.form = this.formBuilder.group(
       {
         Tipo_Denuncia: new FormControl(""),
@@ -44,6 +55,7 @@ export class TablaDenunciaComponent implements OnInit {
       this.Denuncias = data
       this.dtTrigger.next(null);
     });
+    this.denunciaservice.getEstadoDenuncia().subscribe(data => this.EstadosDenuncia = data);
     this.denunciaservice.getTipoDenuncia().subscribe(data => this.TiposDenuncia = data);
     this.usuarioService.getUsuarios().subscribe(data => this.Usuarios = data);
     this.form = this.formBuilder.group({
@@ -52,11 +64,43 @@ export class TablaDenunciaComponent implements OnInit {
     });
     
   }
-  //isTipoDenuncia(cabecera: string): boolean {
-  //  console.log("thiene la cabecera" + this.cabecera);
-  //  return this.cabecera === 'Tipo Denuncia';
-   
-  //}
+
+  //FILTROSSSSS
+  aplicarFiltrado() {
+    let queryParams = new HttpParams();
+
+    if (this.estadoDenunciaSeleccionado && this.estadoDenunciaSeleccionado != 0) {
+      queryParams = queryParams.append("estado", this.estadoDenunciaSeleccionado);
+    }
+
+    if (this.tipoDenunciaSeleccionado && this.tipoDenunciaSeleccionado != 0) {
+      queryParams = queryParams.append("tipo", this.tipoDenunciaSeleccionado);
+    }
+
+    //if (this.nroReclamoFiltro && this.nroReclamoFiltro.length != 0) {
+    //  queryParams = queryParams.append("numero", this.nroReclamoFiltro);
+    //}
+
+    //if (this.nomApeVecinoFiltro && this.nomApeVecinoFiltro.length != 0) {
+    //  queryParams = queryParams.append("nom_ape_vecino", this.nomApeVecinoFiltro);
+    //}
+
+    this.denunciaservice.getDenunciasConFiltros(queryParams).subscribe(data => {
+      this.Denuncias = data;
+      this.DenunciasFiltradas = data;
+    });
+
+
+  }
+
+  volver() {
+    //this.mostrarModal = false; // Ocultar el modal al navegar
+    this.router.navigate(["/bienvenida"]);
+  }
+  //reeemplazar por algun filtro de denuncia tambien
+  aplicarFiltroNroReclamo(event: any) {
+    this.aplicarFiltrado();
+  }
 }
 
 

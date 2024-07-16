@@ -8,6 +8,9 @@ namespace MVPSA_V2022.Services
         public int DenunciasAbiertas();
         public int DenunciasCerradas();
        public IEnumerable<CantTrabajosEnDenunciaCLS> FechaTrabajosEnDenuncias();
+        public IEnumerable<TrabajosEnDenunciaporTipoCLS> DenunciasporTipo();
+
+        
 
         //el total de las denuncias se obtinene de la suma de estas dos
 

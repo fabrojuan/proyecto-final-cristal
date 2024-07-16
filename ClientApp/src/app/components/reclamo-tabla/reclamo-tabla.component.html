@@ -20,7 +20,7 @@
                                 <td>{{reclamo.fecha | date: 'dd/MM/yyyy HH:mm'}}</td>
                                 <td>{{reclamo.estadoReclamo}}</td>
                                 <td>{{reclamo.tipoReclamo}}</td>
-                                <td>{{reclamo.prioridad}}</td>
+                                <td>{{reclamo.Prioridad}}</td>
                                 <td>{{reclamo.empleadoAsignado}}</td>
                                 <td class="text-center" *ngIf="isMantenimiento==true">
 
@@ -63,7 +63,7 @@
                     <td class="text-center">{{reclamo.fecha | date: 'dd/MM/yyyy HH:mm' }}</td>
                     <td class="text-center">{{reclamo.estadoReclamo}}</td>
                     <td class="text-center">{{reclamo.tipoReclamo}}</td>
-                    <td class="text-center">{{reclamo.prioridad}}</td>
+                    <td class="text-center">{{reclamo.Prioridad}}</td>
                     <td class="text-center">{{reclamo.empleadoAsignado}}</td>
                     <td class="text-center" *ngIf="isMantenimiento==true">
   
@@ -77,7 +77,7 @@
                                 <li><a class="dropdown-item" [routerLink]="['/reclamo-derivar', reclamo.nroReclamo]">Derivar Reclamo</a></li>
                                 <li><a class="dropdown-item" [routerLink]="['/reclamo-trabajo-form' ,reclamo.nroReclamo]">Cargar Trabajo</a></li>
                                 <li><a class="dropdown-item" href="#">Suspender</a></li>
-                                <li><a class="dropdown-item" [routerLink]="['/reclamo-cambiar-prioridad', reclamo.nroReclamo]">Cambiar Prioridad</a></li>
+                                <li><a class="dropdown-item" [routerLink]="['/reclamo-cambiar-Prioridad', reclamo.nroReclamo]">Cambiar Prioridad</a></li>
                             </ul>
                         </div>
                     </td>

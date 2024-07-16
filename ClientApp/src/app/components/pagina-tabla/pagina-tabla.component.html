@@ -2,7 +2,7 @@
   <div class="card">
     <div class="card-body">
       <div class="d-flex align-items-center p-3 my-3 bg-purple bg-light shadow p-2 mb-5 rounded shadow-sm container">
-        <i class="bi bi-book text-dark" style="font-size: 2.5em;" title="Listado de Denuncias Activas."></i>
+        <i class="bi bi-book text-dark" [routerLink]="['/empleadosyroles']" style="font-size: 2.5em;" title="Gestiones de usuarios y componentes."></i>
         <div class="card-title text-center form-group col-md-8 offset-md-1">
           <p>Tablero de Gestión de Paginas</p>
         </div>
@@ -18,7 +18,7 @@
 
         <tbody class="textoTabla">
           <tr *ngFor="let pagina of Paginas | paginate: { itemsPerPage: 15, currentPage: p }">
-            <td>{{pagina.idPagina}}</td>
+            <!--<td>{{pagina.idPagina}}</td>-->
             <td>{{pagina.mensaje}}</td>
             <td>{{pagina.accion}}</td>
             <td class="text-center" *ngIf="isMantenimiento==true">
@@ -34,14 +34,14 @@
 
 
       <!--hasta aca edicion de tabla borrar luego esta linea-->
-      <div class="row text-center">
+      <!--<div class="row text-center">
         <pagination-controls (pageChange)="p = $event"></pagination-controls>
-      </div>
+      </div>-->
 
       <div class="row">
         <hr class="mb-4">
         <div class="form-group col-md-12">
-          <button type="button" value="Nuevo" class="btn btn-success col-md-4 offset-md-1 " [routerLink]="['/pagina-form-generar']"> Nuevo</button>
+          <button type="button" value="Nuevo" class="btn btn-secondary col-md-4 offset-md-1 " [routerLink]="['/pagina-form-generar']"> Nuevo</button>
           <button type="button" class="btn btn-secondary col-md-4 offset-md-1" (click)="volverHome()">Volver</button>
 
         </div>

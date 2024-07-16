@@ -9,11 +9,27 @@
   border-bottom-left-radius: 2em;
   border-bottom-right-radius: 2em;
 }
+.tarjeta2 {
+  position: relative;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s;
+  border-top-left-radius: 2em;
+  border-top-right-radius: 2em;
+  border-bottom-left-radius: 2em;
+  border-bottom-right-radius: 2em;
+}
 
   .tarjeta:hover {
     transform: translateY(-3px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
   }
+
+.tarjeta2:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+}
 
   .tarjeta::before {
     content: "";
@@ -26,11 +42,27 @@
     border-radius: 10px;
     z-index: -1;
   }
+.tarjeta2::before {
+  content: "";
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  background-color: #fff;
+  border-radius: 10px;
+  z-index: -1;
+}
 
 .tarjeta {
   flex: 0 0 auto;
   width: 40%;
   max-height: 300px;
+}
+.tarjeta2 {
+  flex: 0 0 auto;
+  width: 50%;
+  max-height: 500px;
 }
 
 .titulo {

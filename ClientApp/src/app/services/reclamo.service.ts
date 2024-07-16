@@ -66,7 +66,7 @@ export class ReclamoService {
   }
 
   public getPrioridades(): Observable<Array<Prioridad>> {
-    return this.http.get<Array<Prioridad>>(this.urlBase + 'api/reclamos/prioridades').pipe(map(res => res));
+    return this.http.get<Array<Prioridad>>(this.urlBase + 'api/reclamos/Prioridades').pipe(map(res => res));
   }
 
 }

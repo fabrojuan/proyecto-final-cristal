@@ -1,21 +1,8 @@
-/*-------------------------aca el nuevo -----------------------*/
-.texto-blanco {
-  color: white;
-  font-size: 1.12em;
-}
-
-.tituloFormulario {
-  font-family: "Times New Roman", Times, serif;
-  font-size: 2em;
-}
-
-
 .tooltip {
   position: relative;
   display: inline-block;
   border-bottom: 1px dotted black;
 }
-
 .tooltiper .tooltiptext {
   /*visibility: hidden;*/
   width: 120px;
@@ -33,20 +20,22 @@
   visibility: visible;
 }
 
-.Tipo_Denuncia {
+/*.Tipo_Denuncia {
   margin-right: 1.5em;
 }
-
+*/
 .textoTabla {
   font-family: "Times New Roman", Times, serif;
   font-size: 1em;
   color: #000000;
 }
-
-
 .tituloTabla {
   font-size: 0.9em;
 }
+
+.tituloTabla {
+  font-size: 0.9em;
+}*/
 
 .combobox {
   font-family: "Times New Roman", Times, serif;

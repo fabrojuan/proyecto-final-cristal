@@ -35,15 +35,13 @@ var authenticationKey = "esta es la clave secreta para autenticar usuarios";
 Console.WriteLine("###### VPSAConnectionString ######");
 Console.WriteLine(builder.Configuration.GetConnectionString("VPSAConnectionString"));
 
-//builder.Services.AddDbContext<M_VPSA_V3Context>(options
-//        => options.UseSqlServer(builder.Configuration.GetConnectionString("VPSAConnectionString")));
 
 builder.Services.AddDbContext<M_VPSA_V3Context>(options
-      => options.UseSqlServer("Data Source=RomanS;Initial Catalog=cristal;Encrypt=False;Integrated Security=True"));
+      => options.UseLazyLoadingProxies().UseSqlServer("Data Source=RomanS;Initial Catalog=cristal;Encrypt=False;Integrated Security=True"));
 //  => options.UseSqlServer("Server=tcp:cristal-sql.database.windows.net,1433;Initial Catalog=M_VPSA_V3;Persist Security Info=False;User ID=cristal;Password=pepito1#;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"));
 
 builder.Services.AddScoped<IReclamoService, ReclamoService>();
-builder.Services.AddSingleton<IDenunciaService, DenunciaService>();
+builder.Services.AddScoped<IDenunciaService, DenunciaService>();
 builder.Services.AddSingleton<IPagoService, PagoService>();
 builder.Services.AddSingleton<IindicadoresService, IndicadoresService>();
 builder.Services.AddSingleton<IUsuarioService, UsuarioService>();
