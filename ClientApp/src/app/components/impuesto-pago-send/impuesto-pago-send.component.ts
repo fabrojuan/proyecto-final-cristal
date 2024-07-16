@@ -13,7 +13,7 @@ export class ImpuestoPagoSendComponent implements OnInit {
   mobexx2: any;
   generarCupon: boolean = true;
   generarPago: boolean = false;
-  titulo: any = "Pulse el boton generar pago para iniciar el proceso con nuestro gateway de Pago Mobbex ";
+  titulo: any = `Pulse el botón "Generar Cupón" para iniciar el proceso de pagos`;
   constructor(private impuestoService: ImpuestoService, private router: Router) { }
 
   GenerarCupon() {
@@ -39,7 +39,7 @@ export class ImpuestoPagoSendComponent implements OnInit {
   sendToMbx2() {
     this.generarPago = true;
     this.generarCupon = false;
-    this.titulo = "Ahora pulse el boton generar pago para ser redireccionado al sitio de pago";
+    this.titulo = `Ahora pulse el botón "Generar Pago" para ser redireccionado al sitio de pagos`;
 //  this.respuesta =
     this.impuestoService.obtenerUrlMobbexx2().subscribe(data => {
       this.mobexx2 = data;
