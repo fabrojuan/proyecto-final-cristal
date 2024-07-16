@@ -150,6 +150,7 @@ export class TrabajoFormGenerarComponent implements OnInit {
     this.tituloModal = "Denuncia en proceso de Solucion";
     this.resultadoGuardadoModal = "La denuncia se ha etiquetado para que sea finalizada por personal de mesa de Ayuda";
     if (this.parametro >= 1) {
+      
       this.denunciaService.solucionarDenuncia(this.Trabajo.value).subscribe(data => { })
       this.modalService.open(this.myModalInfo);
       this.router.navigate(["/tabla-denuncia"]);

@@ -1,4 +1,49 @@
 <div class="container">
+
+
+    <!-- Card with titles, buttons, and links -->
+    <div class="card">
+        <!-- <img src="assets/img/card-inmobiliario.jpg" class="card-img-top" alt="..." style="height: 220px;"> -->
+        <div class="card-body">
+          <!-- <h5 class="card-title">Ver y Pagar impuestos de Lote</h5> -->
+
+          <app-cabecera-titulo [nombreComponente]="'ImpuestosVecinoIdentificadorComponent'"></app-cabecera-titulo>
+
+          <form [formGroup]="formulario" (ngSubmit)="irVerImpuestos()" class="row g-3">
+
+              <div class="col-4">
+                  <label for="formGroupExampleInput" class="form-label">(*) Número de Cuenta</label>
+                  <input type="number" class="form-control" [ngClass]="{'is-invalid' : nroCuentaNoValido}" id="nroCuenta" formControlName="nroCuenta" value="">
+                  <div class="invalid-feedback" *ngIf="nroCuentaNoValido">
+                      El número de cuenta es requerido
+                  </div>
+              </div>
+
+              <div class="col-md-12 order-md-1">
+
+                  <div class="row">
+                      <hr class="mb-4">
+                      <div class="form-group col-md-12 mb-3 pt-3">
+                          <input type="submit" value="Buscar" class="btn btn-primary col-md-4 offset-md-4 " />
+                      </div>
+
+                  </div>
+
+              </div>
+
+          </form>
+        </div>
+    </div>
+    <!-- End Card with titles, buttons, and links -->
+
+</div>
+
+
+
+
+
+
+<!-- <div class="container">
   <div class="card">
     <div class="card-body">
 
@@ -18,7 +63,7 @@
           </div>
         </div>
       </div>
-      <!--</div>-->
+
 
       <div class="row p-3 my-2">
         <hr class="mb-4">
@@ -28,7 +73,6 @@
           <button type="button" class="btn btn-secondary col-md-4 offset-md-1" (click)="volverHome()">Volver</button>
         </div>
 
-        <!--[routerLink]="['/trabajo-form-generar',Denuncia.nro_Denuncia]"-->
       </div>
 
       <div style="margin:1em; color:white" class="form-group col-md-12 justify-content-around">
@@ -39,9 +83,7 @@
     </div>
   </div>
   <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
-</div>
+</div> -->
 
 
-<!--</body>
 
-</html>-->

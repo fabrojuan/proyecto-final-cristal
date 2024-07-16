@@ -3,6 +3,7 @@ import { ReclamoService } from '../../services/reclamo.service';
 import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { UsuarioService } from '../../services/usuario.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'pagina-form-generar',
@@ -16,7 +17,11 @@ export class PaginaFormGenerarComponent implements OnInit {
   nombreVecino: any;
   idVecino: any;
   Pagina: UntypedFormGroup;
-  constructor(private usuarioService: UsuarioService, private router: Router, private activatedRoute: ActivatedRoute) {
+  isFormSubmitted: boolean = false;
+
+  constructor(private usuarioService: UsuarioService, private router: Router, private activatedRoute: ActivatedRoute,
+              public _toastService: ToastService
+  ) {
     this.activatedRoute.params.subscribe(parametro => {
       this.parametro = parametro["id"]
       if (this.parametro >= 1) {
@@ -52,6 +57,7 @@ export class PaginaFormGenerarComponent implements OnInit {
         this.Pagina.controls["Accion"].setValue(data.accion);
         this.Pagina.controls["Mensaje"].setValue(data.mensaje);
         this.Pagina.controls["Bvisible"].setValue(data.bvisible);
+        this.Pagina.controls["Bhabilitado"].setValue(data.bhabilitado);
 
       }
 
@@ -60,20 +66,43 @@ export class PaginaFormGenerarComponent implements OnInit {
   }
 
   guardarDatos() {
-    //this.Pagina.controls["idPagina"].setValue(this.idPagina);
-    if (this.Pagina.valid == true) {
-      this.usuarioService.guardarPagina(this.Pagina.value).subscribe(data => {
-        this.router.navigate(["/pagina-tabla"]);
-      });
+
+    this.isFormSubmitted = true;
+
+    if (this.Pagina.invalid) {
+      Object.values(this.Pagina.controls).forEach(
+        control => {
+          control.markAsTouched();
+        }
+      );
+      return;
     }
+
+    this.usuarioService.guardarPagina(this.Pagina.value).subscribe(data => {
+      this._toastService.showOk("La página se guardó exitosamente");
+      this.router.navigate(["/pagina-tabla"]);
+    }, error => {
+      this._toastService.showError("Ocurrió un error y no se pudo guardar la página");
+    });
+
   }
 
 
-  clickMethod() {
-    alert("La pagina se ha generada correctamente");
-    //Luego de presionar click debe redireccionar al home
+  cancelar() {
+    this.router.navigate(["/pagina-tabla"]);
   }
 
+  esEdicionDePagina() {
+    return this.Pagina.controls.idPagina.value != 0;
+  }
+
+  get nombreNoValido() {
+    return this.isFormSubmitted && this.Pagina.controls.Mensaje.errors;
+  }
+
+  get rutaNoValido() {
+    return this.isFormSubmitted && this.Pagina.controls.Accion.errors;
+  }
 
 }
 

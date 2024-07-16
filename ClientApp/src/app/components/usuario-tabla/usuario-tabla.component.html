@@ -1,4 +1,75 @@
 <div class="container">
+  <section class="section">
+    <div class="row">
+      <div class="card">
+        <!-- <div class="card-header">
+          <h5 class="card-title">Tablero de Empleados</h5>
+        </div> -->
+
+        <div class="card-body">
+          <!-- <div class="d-flex align-items-center p-3 my-3 bg-purple bg-light shadow p-2 mb-5 rounded shadow-sm container">
+            <img class="ms-3 " src="../../../assets/IconsGoogle/trabajador.svg" alt="" width="60" height="60">
+            <div class="card-title text-center form-group col-md-8 offset-md-1">
+              <p>Tablero de Empleados</p>
+            </div>
+          </div> -->
+
+          <app-cabecera-titulo [nombreComponente]="'UsuarioTablaComponent'"></app-cabecera-titulo>
+
+          <!-- <h5 class="card-title">Tablero de Empleados</h5> -->
+
+         <table datatable class="table table-striped table-sm">
+            <thead>
+    
+              <tr>
+                <th class="text-center" *ngFor="let cabecera of cabeceras ">{{cabecera}} </th>
+                <th class="text-center" *ngIf="isMantenimiento==true">Acciones</th>
+              </tr>
+            </thead>
+    
+            <tbody>
+              <tr *ngFor="let usuario of usuarios | paginate: { itemsPerPage: 10, currentPage: p }">
+                <td>{{usuario.idUsuario}}</td>
+                <td>{{usuario.nombreUser}}</td>
+                <td>{{usuario.fechaAlta| date: 'dd/MM/yyyy'}}</td>
+                <td>{{usuario.nombreTipoUsuario}}</td>
+                <td *ngIf="isMantenimiento==true" class="text-center">
+                  <button type="button" class="btn btn-outline-primary btn-sm" [routerLink]="['/form-usuario-generar',usuario.idUsuario]" title="Editar Usuario"><i class="bi bi-pencil"></i></button>
+                  <button type="button" class="btn btn-outline-danger btn-sm ms-1" (click)="preguntarEliminarUsuario(usuario.idUsuario)" title="Eliminar Usuario"><i class="bi bi-trash"></i></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="row text-center">
+            <pagination-controls previousLabel="Anteriores" nextLabel="Siguientes" (pageChange)="p = $event"></pagination-controls>
+          </div>
+    
+          <div class="row">
+            <hr class="mb-4">
+            <div class="form-group col-md-12">
+              <button type="button" value="Nuevo" class="btn btn-primary col-md-4 offset-md-1 " [routerLink]="['/form-usuario-generar']">Nuevo</button>
+              <button type="button" class="btn btn-secondary col-md-4 offset-md-1" (click)="volverHome()">Volver</button>
+            </div>
+    
+          </div>
+    
+        </div>
+    
+      </div>
+    </div>
+  </section>
+
+  
+
+</div>
+
+
+
+
+
+
+<!-- <div class="container">
   <div class="card">
     <div class="card-body">
 
@@ -49,4 +120,4 @@
   </div>
 
   <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
-</div>
+</div> -->

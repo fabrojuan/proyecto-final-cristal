@@ -26,10 +26,18 @@ BEGIN
 	     FROM BOLETA
 	     WHERE IdBoleta = @IdBoleta_par)
 		 THROW 50000, 'No existe la Boleta', 1
+-------------------- busca el importe de la boleta ------------------------
+    SELECT 
+        @Importe = importe
+    FROM 
+        BOLETA
+    WHERE 
+         IdBoleta = @IdBoleta_par;
 -------------------- actualizo la tabla boleta ------------------
 	UPDATE BOLETA
 	SET FechaPago = @FechaPago
 	WHERE IdBoleta = @IdBoleta_par
+    
 -------------------- actualizo las tablas IMPUESTOINMOBILIARIO Y DETALLEBOLETA ------------------
 	DECLARE @IdDetalleBoleta INT
 	DECLARE @IdImpuesto INT
@@ -108,3 +116,4 @@ BEGIN
  		@body = @body_1,
  		@body_format = 'HTML';
 END
+GO

@@ -39,6 +39,12 @@ public partial class Reclamo
 
     public int? IdUsuarioResponsable { get; set; }
 
+    public int? IdSugerenciaOrigen { get; set; }
+
+    public string Interno { get; set; } = null!;
+
+    public DateTime? FechaCierre { get; set; }
+
     public virtual EstadoReclamo? CodEstadoReclamoNavigation { get; set; }
 
     public virtual TipoReclamo? CodTipoReclamoNavigation { get; set; }
@@ -50,6 +56,8 @@ public partial class Reclamo
     public virtual Usuario? IdVecinoNavigation { get; set; }
 
     public virtual Area? NroAreaNavigation { get; set; }
+
+    public virtual PrioridadReclamo? NroPrioridadNavigation { get; set; }
 
     public virtual ICollection<ObservacionReclamo> ObservacionReclamos { get; set; } = new List<ObservacionReclamo>();
 

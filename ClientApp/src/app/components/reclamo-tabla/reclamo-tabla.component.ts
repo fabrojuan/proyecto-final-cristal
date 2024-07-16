@@ -1,6 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ReclamoService } from '../../services/reclamo.service';
 import { ClaveValor } from 'src/app/modelos_Interfaces/ClaveValor';
+import { EstadoReclamo } from 'src/app/modelos_Interfaces/EstadoReclamo';
+import { HttpParams } from '@angular/common/http';
+import { Area } from 'src/app/modelos_Interfaces/Area';
+import { AreasService } from 'src/app/services/areas.service';
 
 @Component({
   selector: 'reclamo-tabla',
@@ -12,11 +16,18 @@ export class ReclamoTablaComponent implements OnInit {
   Reclamos: any[] = [];
   ReclamosFiltrados: any[] = [];
   p: number = 1;
-  cabeceras: string[] = ["Número", "Fecha Generado", "Estado", "Tipo", "Prioridad", "Asignado a"];
+  cabeceras: string[] = ["Número", "Fecha Generado", "Estado", "Tipo", "Prioridad", "Área"];
   listaPrioridades: ClaveValor[] = [];
-  PrioridadSeleccionada: ClaveValor = {clave : "0", valor : "Todas"};
-
-  constructor(private reclamoservice: ReclamoService) {
+  prioridadSeleccionada: ClaveValor = {clave : "0", valor : "Todas"};
+  TiposReclamo: any;
+  tipoReclamoSeleccionado: number = 0;
+  estadosReclamo: EstadoReclamo[] = [];
+  estadoReclamoSeleccionado: number = 0;
+  nroReclamoFiltro: string = '';
+  nomApeVecinoFiltro: string = '';
+  areaSeleccionada: number = 0;
+  areas: Area[] = [];
+  constructor(private reclamoservice: ReclamoService, private areaService: AreasService) {
   }
 
   ngOnInit() {
@@ -31,7 +42,15 @@ export class ReclamoTablaComponent implements OnInit {
         this.Reclamos = data; 
         this.ReclamosFiltrados = data;
       });
+
+      this.reclamoservice.getTipoReclamo().subscribe(data => this.TiposReclamo = data);
+
+      this.reclamoservice.getEstados().subscribe(data => this.estadosReclamo = data);
+
+      this.areaService.getAreas().subscribe(data => this.areas = data);
+
   }
+  
 
   filtrarPrioridad() {
     if (this.PrioridadSeleccionada.clave == "0") {
@@ -39,6 +58,43 @@ export class ReclamoTablaComponent implements OnInit {
     } else {
       this.ReclamosFiltrados = this.Reclamos.filter(p => p.nroPrioridad == this.PrioridadSeleccionada.clave);
     }
+  }
+
+  aplicarFiltrado() {
+    let queryParams = new HttpParams();
+
+    if (this.estadoReclamoSeleccionado && this.estadoReclamoSeleccionado != 0) {
+      queryParams = queryParams.append("estado", this.estadoReclamoSeleccionado);
+    }
+
+    if (this.tipoReclamoSeleccionado && this.tipoReclamoSeleccionado != 0) {
+      queryParams = queryParams.append("tipo", this.tipoReclamoSeleccionado);
+    }
+
+    if (this.nroReclamoFiltro && this.nroReclamoFiltro.length != 0) {
+      queryParams = queryParams.append("numero", this.nroReclamoFiltro);
+    }
+
+    if (this.nomApeVecinoFiltro && this.nomApeVecinoFiltro.length != 0) {
+      queryParams = queryParams.append("nom_ape_vecino", this.nomApeVecinoFiltro);
+    }
+
+    if (this.areaSeleccionada && this.areaSeleccionada != 0) {
+      queryParams = queryParams.append("area", this.areaSeleccionada);
+    }
+
+
+    this.reclamoservice.getReclamosConFiltros(queryParams).subscribe(data => 
+      { 
+        this.Reclamos = data; 
+        this.ReclamosFiltrados = data;
+      });
+
+    
+  }
+
+  aplicarFiltroNroReclamo(event: any) {
+      this.aplicarFiltrado(); 
   }
 
 }

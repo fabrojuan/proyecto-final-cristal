@@ -21,6 +21,8 @@ public partial class Usuario
 
     public DateTime? FechaBaja { get; set; }
 
+    public int NroArea { get; set; }
+
     public virtual ICollection<Denuncium> Denuncia { get; set; } = new List<Denuncium>();
 
     public virtual Persona? IdPersonaNavigation { get; set; }
@@ -38,6 +40,8 @@ public partial class Usuario
     public virtual ICollection<Reclamo> ReclamoIdUsuarioResponsableNavigations { get; set; } = new List<Reclamo>();
 
     public virtual ICollection<Reclamo> ReclamoIdVecinoNavigations { get; set; } = new List<Reclamo>();
+
+    public virtual ICollection<RecuperacionCuentum> RecuperacionCuenta { get; set; } = new List<RecuperacionCuentum>();
 
     public virtual ICollection<Solicitud> SolicitudIdUsuarioNavigations { get; set; } = new List<Solicitud>();
 

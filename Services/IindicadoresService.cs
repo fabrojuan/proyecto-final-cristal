@@ -12,6 +12,11 @@ namespace MVPSA_V2022.Services
 
         
 
+       public ChartDataDto getDatosChartReclamosCerradosPorMesyTipoCierre();
+       public ChartDataDto getDatosChartReclamosNuevosPorMes();
+       public ChartDataDto getDatosChartReclamosAbiertosPorEstado();
+       public ChartDataDto getDatosChartTrabajosReclamosPorAreaYMes();
+
         //el total de las denuncias se obtinene de la suma de estas dos
 
     }

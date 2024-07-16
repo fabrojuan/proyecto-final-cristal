@@ -13,6 +13,7 @@ import { CampoRequeridoComponent } from '../campo-requerido/campo-requerido.comp
 import { __values } from 'tslib';
 import { ResultadoEjecucionProceso } from 'src/app/modelos/ResultadoEjecucionProceso';
 import { SolicitudGeneracionImpuestos } from 'src/app/modelos/SolicitudGeneracionImpuestos';
+import { ToastService } from 'src/app/services/toast.service';
 
 
 @Component({
@@ -63,11 +64,9 @@ export class EjecucionProcesosComponent implements OnInit /*, ControlValueAccess
   esquina: any = 0;
   asfaltado: any = 0;
   DatosRegistrados: any;
-  procesoYaFueEjecutado= false;
-  mensajeWarning:String|undefined = "";
-  procesoEjecutadoOk:boolean = false;
-  mensajeOk:String = "";
-  constructor(private impuestoService: ImpuestoService, private router: Router, @Inject('BASE_URL') baseUrl: string, private modalService: NgbModal, private formBuilder: UntypedFormBuilder)
+  constructor(private impuestoService: ImpuestoService, private router: Router, @Inject('BASE_URL') baseUrl: string, 
+              private modalService: NgbModal, private formBuilder: UntypedFormBuilder,
+              public _toastService: ToastService)
   {
     
     //this.subscriptions = new Subscription();
@@ -104,14 +103,6 @@ export class EjecucionProcesosComponent implements OnInit /*, ControlValueAccess
     value && this.Valuacion.setValue(value, { emitEvent: false });
   }
 
-  /*registerOnChange(onChange: (value: any) => void): void {
-    this.subscriptions.add(this.Valuacion.valueChanges.subscribe(onChange));
-  }
-
-  registerOnTouched(onTouched: () => void): void {
-    this.onTouched = onTouched;
-  }*/
-
   setDisabledState(disabled: boolean): void {
     disabled ? this.Valuacion.disable() : this.Valuacion.enable();
   }
@@ -124,21 +115,15 @@ export class EjecucionProcesosComponent implements OnInit /*, ControlValueAccess
   //CONFIRMACION DE BOLETAS DIARIAS
   getConfirmacionBoletas() {
 
-    this.procesoYaFueEjecutado = false;
-    this.procesoEjecutadoOk = false;
 
     this.impuestoService.confirmarBoletas()
       .subscribe(response => {
         this.resultadoEjecucionProceso = response;
 
         if (this.resultadoEjecucionProceso?.resultado === "OK") {
-          this.procesoEjecutadoOk = true;
-          this.mensajeOk = "La confirmacion de boletas se realizó exitosamente";
-          //alert("La confirmacion de boletas se realizó exitosamente");
+          this._toastService.showOk("La confirmacion de boletas se realizó exitosamente");
         } else {
-          this.procesoYaFueEjecutado = true;
-          this.mensajeWarning = this.resultadoEjecucionProceso?.mensaje;
-          //alert(this.resultadoEjecucionProceso?.mensaje);
+          this._toastService.showError(this.resultadoEjecucionProceso?.mensaje?.toString() || "");
         }
       });
   }
@@ -146,21 +131,14 @@ export class EjecucionProcesosComponent implements OnInit /*, ControlValueAccess
   //Generacion de Interes Mensual.
   getinteresMensual() {
 
-    this.procesoYaFueEjecutado = false;
-    this.procesoEjecutadoOk = false;
-
     this.impuestoService.generarInteresesMensuales()
       .subscribe(response => {
         this.resultadoEjecucionProceso = response;
 
         if (this.resultadoEjecucionProceso?.resultado === "OK") {
-          this.procesoEjecutadoOk = true;
-          this.mensajeOk = "La generación de Intereses Mensuales se realizó exitosamente";
-          //alert("La generación de Intereses Mensuales se realizó exitosamente");
+          this._toastService.showOk("La generación de Intereses Mensuales se realizó exitosamente");
         } else {
-          this.procesoYaFueEjecutado = true;
-          this.mensajeWarning = this.resultadoEjecucionProceso?.mensaje;
-          //alert(this.resultadoEjecucionProceso?.mensaje);
+          this._toastService.showError(this.resultadoEjecucionProceso?.mensaje?.toString() || "");
         }
       });
   }
@@ -176,9 +154,6 @@ export class EjecucionProcesosComponent implements OnInit /*, ControlValueAccess
   //Este guardar datos pertenece al impuesto inmobiliario y hay que hace el procesamiento alli.
   //Valuacion Impuestos. y generacion impuesto Anual.
   guardarDatos() {
-
-    this.procesoYaFueEjecutado = false;
-    this.procesoEjecutadoOk = false;
 
     this.DatosRegistrados = this.Valuacion.value;
     this.isFormSubmitted = true;
@@ -202,13 +177,9 @@ export class EjecucionProcesosComponent implements OnInit /*, ControlValueAccess
           this.resultadoEjecucionProceso = response;
   
           if (this.resultadoEjecucionProceso?.resultado === "OK") {
-            this.procesoEjecutadoOk = true;
-            this.mensajeOk = "La generacion de Impuestos se realizó exitosamente";
-            //alert("La generacion de Impuestos se realizó exitosamente");
+            this._toastService.showOk("La generacion de Impuestos se realizó exitosamente")
           } else {
-            this.procesoYaFueEjecutado = true;
-            this.mensajeWarning = this.resultadoEjecucionProceso?.mensaje;
-            //alert(this.resultadoEjecucionProceso?.mensaje);
+            this._toastService.showError(this.resultadoEjecucionProceso?.mensaje?.toString() || "");
           }
         });
     }

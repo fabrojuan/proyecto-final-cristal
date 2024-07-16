@@ -89,7 +89,7 @@ export class DenunciaDetalleComponent implements OnInit {
   guardarDatos() {
 
     if (this.Trabajo.valid == true) {
-
+      
       // Aca preguntar si el combo esta activado para derivar.
       //   Y para realizar todo el tratamiento de los estados de la denuncia.
       this.denunciaService.DerivaPriorizaDenuncia(this.Trabajo.value).subscribe(data => {

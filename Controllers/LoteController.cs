@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MimeKit.Cryptography;
 using MVPSA_V2022.clases;
+using MVPSA_V2022.Exceptions;
 using MVPSA_V2022.Modelos;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,6 +56,34 @@ namespace MVPSA_V2022.Controllers
                 return listaLote;
             }
         }
+
+        [HttpGet]
+        [Route("api/Lote/{idLote}")]
+        public ActionResult buscarLoteById(int idLote)
+        {
+            M_VPSA_V3Context bd = new M_VPSA_V3Context();
+            var lote = bd.Lotes.Where(lote => lote.IdLote == idLote && lote.Bhabilitado == 1).FirstOrDefault();
+            if (lote == null) {
+                throw new ResourceNotFoundException(MensajesError.LOTE_NO_ENCONTRADO);
+            }
+
+            return Ok(new LoteCLS() {
+                IdLote = lote.IdLote,
+                Calle = lote.Calle,
+                Altura = lote.Altura,
+                Manzana = lote.Manzana,
+                NomenclaturaCatastral = lote.NomenclaturaCatastral,
+                SupTerreno = lote.SupTerreno,
+                SupEdificada = lote.SupEdificada,
+                BaseImponible = lote.BaseImponible,
+                EstadoDeuda = lote.EstadoDeuda,
+                ValuacionTotal = lote.ValuacionTotal,
+                IdPersona = lote.IdPersona,
+                NroLote = lote.NroLote
+            });
+
+        }
+
         [HttpGet]
         [Route("api/Lote/listarTiposLote")]
         public IEnumerable<TipoLoteCLS> listarTiposLote()

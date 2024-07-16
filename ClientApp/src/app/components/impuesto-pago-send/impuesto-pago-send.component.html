@@ -1,16 +1,62 @@
-<div class="cardcss">
+<div class="container">
+
+  <div class="card">
+
+      <div class="card-body">
+        
+        <h5 class="card-title"> {{titulo}} </h5>
+
+        <div class="col-12 pt-3 pb-3 text-center">
+          <img src="../../../assets/Imagenes/mobbex.png" alt="" width="400" height="75" class="mt-2 mb-2">
+        </div>
+          
+
+          <div class="col-md-12">
+
+            <div class="row">
+                <hr class="mb-4">
+                <div class="form-group col-md-12 mb-3 pt-3">
+                    <button type="button" value="Generar" class="btn btn-primary col-md-4 offset-md-1 " 
+                      (click)="sendToMbx2()" *ngIf="generarCupon">Generar Cupón</button>
+
+                    <button type="button" value="Generar" class="btn btn-outline-primary col-md-4 offset-md-1 " 
+                      (click)="sendToMbx2()" *ngIf="generarPago">
+                      <a href={{mobexx2.urlMobexx}} target="_blank" rel="noopener noreferrer">Generar Pago</a>
+                    </button>
+
+                    <button type="button" class="btn btn-secondary col-md-4 offset-md-1" (click)="volver()">Volver</button>
+                </div>
+
+            </div>
+
+          </div>
+
+          
+      </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="cardcss">
   <div class="card text-center sombras">
     <div class="card-header tituloTabla ">
       <p class="card-text textopago mb-3">
         {{titulo}}
       </p>
-      <!--Diálogo de Confirmación de Pago-->
+
     </div>
     <div class="card-body">
 
-      <!--<p class="card-text textopago">
-        {{titulo}}
-      </p>-->
       <div class="col-md-3 offset-4 p-3">
         <button *ngIf="generarCupon" class="btn btn-primary mt-2" (click)="sendToMbx2()">1-Generar cupón </button>
          
@@ -18,7 +64,6 @@
        
       <div class="col-md-3 offset-4 mb-2">
 
-        <!-- <p>URL: {{mobexx2.urlMobexx}} <a href={{mobexx2.urlMobexx}} target={{mobexx2.urlMobexx}}></a></p>-->
         <p><button *ngIf="generarPago" class="btn btn-dark"> <a href={{mobexx2.urlMobexx}} target="_blank" rel="noopener noreferrer">2- Generar Pago</a></button></p>
       </div>
 
@@ -32,9 +77,4 @@
       <button type="button" class="btn btn-secondary col-md-4 offset-md-1" (click)="volver()">Volver</button>
     </div>
   </div>
-</div>
-
-
-<!--<button accesskey="getAllTasks()">getAllTasks!</button>
-<button accesskey="getTask()">getTask!</button>
-<button accesskey="createTask()" (click)="createTask()" >CreateTask!</button>-->
+</div> -->

@@ -1,0 +1,22 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">Confirmación</h5>
+
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+
+        <div class="row mb-3">
+            <h5> {{mensajeMostrar}} </h5>
+        </div>
+        
+    </div>   
+
+    <div class="modal-footer">
+        <button (click)="opcionSi()" type="submit" class="btn btn-primary">Sí</button>
+        <button (click)="opcionNo()" type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+    </div>
+</div>

@@ -20,30 +20,24 @@ namespace MVPSA_V2022.Controllers
     public class ReclamosController : Controller
     {
         private readonly IReclamoService reclamoService;
+        private readonly ITrabajoReclamoService trabajoReclamoService;
 
         public IActionResult Index()
         {
             return View();
         }
 
-        public ReclamosController(IReclamoService reclamoService)
+        public ReclamosController(IReclamoService reclamoService, ITrabajoReclamoService trabajoReclamoService)
         {
             this.reclamoService = reclamoService;
+            this.trabajoReclamoService = trabajoReclamoService;
         }
 
         [HttpGet]
         [Route("tipos-reclamo/{codTipoReclamo}")]
         public IActionResult consultarTipoReclamo(int codTipoReclamo)
         {
-            try
-            {
-                return Ok(this.reclamoService.getTipoReclamo(codTipoReclamo));
-            }
-            catch (TipoReclamoNotFoundException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
+            return Ok(this.reclamoService.getTipoReclamo(codTipoReclamo));
         }
 
         [HttpGet]
@@ -57,16 +51,8 @@ namespace MVPSA_V2022.Controllers
         [Route("tipos-reclamo/{codTipoReclamo}")]
         public IActionResult emininarTipoReclamo(int codTipoReclamo)
         {
-            try
-            {
-                this.reclamoService.eliminarTipoReclamo(codTipoReclamo);
-                return Ok();
-            }
-            catch (TipoReclamoEnUsoException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
+            this.reclamoService.eliminarTipoReclamo(codTipoReclamo);
+            return Ok();
         }
 
         [HttpPost]
@@ -127,39 +113,24 @@ namespace MVPSA_V2022.Controllers
         public IActionResult guardarReclamo([FromHeader(Name = "id_usuario")] string idUsuarioAlta,
                                   [FromBody] CrearReclamoRequestDto reclamoCLS)
         {
-            try
-            {
-                return Ok(reclamoService.guardarReclamo(reclamoCLS, Int32.Parse(idUsuarioAlta)));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return Ok(reclamoService.guardarReclamo(reclamoCLS, Int32.Parse(idUsuarioAlta)));
         }
 
         [HttpGet]
-        public IActionResult ListarReclamos()
+        public IActionResult ListarReclamos([FromHeader(Name = "id_usuario")] string idUsuarioAlta,
+                                            [FromQuery] int area,
+                                            [FromQuery] int estado,
+                                            [FromQuery] int numero,
+                                            [FromQuery(Name = "nom_ape_vecino")] string? nomApeVecino)
         {
-            try
-            {
-                return Ok(reclamoService.listarReclamos());
-            } catch (Exception ex) {
-                return NotFound(ex.Message);
-            }
+            return Ok(reclamoService.listarReclamos(Int32.Parse(idUsuarioAlta), area, estado, numero, nomApeVecino));
         }
 
         [HttpGet]
         [Route("{nroReclamo}")]
         public IActionResult getReclamo(int nroReclamo)
         {
-            try
-            {
-                return Ok(reclamoService.getReclamo(nroReclamo));
-            }
-            catch (Exception ex)
-            {
-                return NotFound(ex.Message);
-            }
+            return Ok(reclamoService.getReclamo(nroReclamo));
         }
 
         [HttpPut]
@@ -175,15 +146,64 @@ namespace MVPSA_V2022.Controllers
         [Route("Prioridades")]
         public IActionResult getPrioridades()
         {
-            try
-            {
-                    return Ok(reclamoService.getPrioridades());
-            }
-            catch (Exception ex)
-            {
-                return NotFound(ex.Message);
-            }
+            return Ok(reclamoService.getPrioridades());
         }
 
-     }
+        [HttpPost]
+        [Route("{nroReclamo}/acciones")]
+        public IActionResult aplicarAccion([FromHeader(Name = "id_usuario")] string idUsuarioAccion,
+                                                        int nroReclamo,
+                                                       [FromBody] AplicarAccionDto aplicarAccionDto) {
+
+            aplicarAccionDto.nroReclamo = nroReclamo;
+            aplicarAccionDto.idUsuario = idUsuarioAccion;
+            reclamoService.aplicarAccion(aplicarAccionDto);
+            return Ok();
+        }
+
+        /**
+         * Observaciones reclamos
+         */
+
+        [HttpGet]
+        [Route("{nroReclamo}/observaciones")]
+        public IActionResult buscarObservaciones([FromHeader(Name = "id_usuario")] string idUsuarioAccion,
+                                                  int nroReclamo)
+        {
+            return Ok(reclamoService.obtenerObservacionesDeReclamo(nroReclamo));            
+        }
+
+        [HttpGet]
+        [Route("estados")]
+        public IActionResult getEstadosReclamos() {
+            return Ok(reclamoService.getEstadosReclamo());
+        }
+
+        [HttpGet]
+        [Route("{nroReclamo}/trabajos")]
+        public IActionResult listarTrabajos([FromHeader(Name = "id_usuario")] string idUsuarioAlta,
+                                             int nroReclamo) {
+            return Ok(trabajoReclamoService.obtenerTrabajosReclamo(nroReclamo));
+        }
+
+        [HttpPost]
+        [Route("{nroReclamo}/trabajos")]
+        public IActionResult guardarTrabajo([FromHeader(Name = "id_usuario")] string idUsuarioAlta,
+                                             int nroReclamo,
+                                             [FromBody] TrabajoReclamoCreacionRequestDto trabajoReclamoDto) {
+
+            trabajoReclamoDto.nroReclamo = nroReclamo;                                    
+            trabajoReclamoService.guardarTrabajo(trabajoReclamoDto, Int32.Parse(idUsuarioAlta));
+            return Ok();
+            
+        }
+
+        [HttpGet]
+        [Route("{nroReclamo}/opciones")]
+        public IActionResult getOpcionesReclamo([FromHeader(Name = "id_usuario")] string idUsuario,
+                                                 int nroReclamo) {
+            return Ok(this.reclamoService.getOpcionesReclamo(nroReclamo, Int32.Parse(idUsuario)));
+        }
+
+    }
 }

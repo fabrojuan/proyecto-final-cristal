@@ -70,6 +70,7 @@ namespace MVPSA_V2022.Controllers
                 return NotFound(ex.Message);
             }
         }
+
         [HttpGet]
         [Route("DenunciasporTipo")]
         public IActionResult DenunciasporTipo()
@@ -83,5 +84,31 @@ namespace MVPSA_V2022.Controllers
                 return NotFound(ex.Message);
             }
         }
+
+        [HttpGet]
+        [Route("reclamos-cerrados-por-mes-y-tipo-cierre")]
+        public IActionResult getDatosChartReclamosCerradosPorMesyTipoCierre() {
+            return Ok(this.indicadoresService.getDatosChartReclamosCerradosPorMesyTipoCierre());
+        }
+
+        [HttpGet]
+        [Route("reclamos-nuevos-por-mes")]
+        public IActionResult getDatosChartReclamosNuevosPorMes() {
+            return Ok(this.indicadoresService.getDatosChartReclamosNuevosPorMes());
+        }
+
+        [HttpGet]
+        [Route("reclamos-abiertos-por-estado")]
+        public IActionResult getDatosChartReclamosAbiertosPorEstado() {
+            return Ok(this.indicadoresService.getDatosChartReclamosAbiertosPorEstado());
+        }
+
+        [HttpGet]
+        [Route("trabajos-reclamos-por-area-y-mes")]
+        public IActionResult getDatosChartTrabajosReclamosPorAreaYMes() {
+            return Ok(this.indicadoresService.getDatosChartTrabajosReclamosPorAreaYMes());
+        }
+
+
     }
 }

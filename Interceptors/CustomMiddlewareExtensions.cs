@@ -3,7 +3,7 @@
     public static class CustomMiddlewareExtensions
     {
         public static IApplicationBuilder UseUserMiddleware(this IApplicationBuilder builder) {
-            return builder.UseMiddleware<RequestUserMiddleware>();
+            return builder.UseMiddleware<RequestUserMiddleware>().UseMiddleware<GlobalExceptionHandlingMiddleware>();
         }
     }
 }

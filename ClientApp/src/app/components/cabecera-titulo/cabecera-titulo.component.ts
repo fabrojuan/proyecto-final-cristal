@@ -1,22 +1,29 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { TipoImagenEnum, Titulo } from 'src/app/modelos_Interfaces/Titulo';
+import { TitulosServiceService } from 'src/app/services/titulos-service.service';
 
 @Component({
-  selector: 'cabecera-titulo',
+  selector: 'app-cabecera-titulo',
   templateUrl: './cabecera-titulo.component.html',
   styleUrls: ['./cabecera-titulo.component.css']
 })
 export class CabeceraTituloComponent implements OnInit {
 
-  @Input() titulo: string = "";
-  @Input() rutaImagen: string = "";
-  @Input() link: string = "";
-  @Input() tooltipIcono: string = "";
-  linkFinal: string = ""
+  @Input() nombreComponente: string = "";
+  configuracionTitulo?: Titulo;
 
-  constructor() { }
+  constructor(private tituloService: TitulosServiceService) { }
 
   ngOnInit(): void {
-    this.linkFinal = "/" + this.link
+    this.configuracionTitulo = this.tituloService.getConfiguracion(this.nombreComponente);
+  }
+
+  esIcono(): boolean {
+    return this.configuracionTitulo?.tipoImagen == TipoImagenEnum.ICONO;
+  }
+
+  esFoto(): boolean {
+    return this.configuracionTitulo?.tipoImagen == TipoImagenEnum.FOTO;
   }
 
 }

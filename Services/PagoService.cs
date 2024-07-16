@@ -33,7 +33,7 @@ namespace MVPSA_V2022.Services
                     SqlParameter parameterBoletaId = new SqlParameter("@IdBoleta_par", boletaId);
                     SqlParameter parameterEmail = new SqlParameter("@mail", email);
                     SqlParameter parameterFechaPago = new SqlParameter("@FechaPago", fechaPago);
-                    bd.Database.ExecuteSqlRaw("ACTUALIZACION_DETALLES_E_IMPUESTOS @IdBoleta_par, @mail, @FechaPago " +
+                    bd.Database.ExecuteSqlRaw("ACTUALIZACION_DETALLES_E_IMPUESTOS @IdBoleta_par, @mail, @FechaPago ",
                                                   parameterBoletaId, parameterEmail, parameterFechaPago);
 
                     bd.SaveChanges();

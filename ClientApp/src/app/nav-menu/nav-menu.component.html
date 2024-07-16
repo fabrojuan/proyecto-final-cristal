@@ -8,6 +8,23 @@
         <a (click)="mostrarUOcultarMenuLateral()">
             <i class="bi bi-list toggle-sidebar-btn"></i>
         </a>
+
+        <!-- <a (click)="mostrarUOcultarMenuLateral()">
+          <i class="fs-4 bi bi-graph-down"></i>
+        </a>
+
+        <a (click)="mostrarUOcultarMenuLateral()">
+          <i class="fs-5 bi bi-graph-up-arrow"></i>
+        </a>
+
+        <a (click)="mostrarUOcultarMenuLateral()">
+          <i class="fs-5 bi bi-file-bar-graph-fill"></i>
+        </a> -->
+
+        <!-- <a (click)="mostrarUOcultarMenuLateral()">
+          <i class="fs-4 ms-3 bi bi-house"></i>
+        </a> -->      
+        
     </div>
 
     <nav class="header-nav ms-auto">
@@ -178,7 +195,7 @@
             </li>
             <!-- End Messages Nav -->
 
-            <li class="nav-item dropdown pe-3" *ngIf="loginVecino==true">
+            <li class="nav-item dropdown pe-3" *ngIf="esVecinoLogueado()">
 
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
                     <img src="../../../assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
@@ -257,18 +274,34 @@
     </li>
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-layout-text-window-reverse"></i><span>Servicios</span><i class="bi bi-chevron-down ms-auto"></i>
+        <i class="bi bi-people-fill"></i><span>Vecinos</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
 
       <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-        <li>
+        <!-- <li>
           <a [routerLink]="['/solicitud-form-generar']">
             <i class="bi bi-circle"></i><span>Solicitudes</span>
+          </a>
+        </li> -->
+        <li class="nav-item">
+          <a class="nav-link collapsed" [routerLink]="['/login-vecino']" *ngIf="esUsuarioLogueado()==false && esVecinoLogueado()==false">
+            <i class="bi bi-box-arrow-in-right"></i>
+            <span>Iniciar Sesi&oacute;n</span>
           </a>
         </li>
         <li>
           <a [routerLink]="['/sugerencia-form-generar']">
             <i class="bi bi-circle"></i><span>Sugerencias</span>
+          </a>
+        </li>        
+        <li *ngIf="esUsuarioLogueado()">
+          <a [routerLink]="['/reclamo-form-generar']">
+            <i class="bi bi-circle"></i><span>Requerimientos</span>
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/denuncia-form-generar']">
+            <i class="bi bi-circle"></i><span>Denuncias</span>
           </a>
         </li>
         <li>
@@ -277,15 +310,11 @@
           </a>
         </li>
         <li>
-          <a [routerLink]="['/reclamo-form-generar']">
-            <i class="bi bi-circle"></i><span>Generar Reclamo</span>
+          <a [routerLink]="['/impuestos-vecino-identificador']">
+            <i class="bi bi-circle"></i><span>Pago de Impuestos</span>
           </a>
         </li>
-        <li>
-          <a [routerLink]="['/denuncia-form-generar']">
-            <i class="bi bi-circle"></i><span>Generar Denuncia</span>
-          </a>
-        </li>
+        
       </ul>
     </li>
     <!-- End Tables Nav -->
@@ -306,23 +335,19 @@
 
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-tools"></i><span>Empleados</span><i class="bi bi-chevron-down ms-auto"></i>
+        <i class="bi bi-person-fill-gear"></i><span>Empleados</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="icons-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
-          <a [routerLink]="['/login']" *ngIf="login==false">
-            <i class="bi bi-circle"></i><span>Inicie Sesi&oacute;n</span>
+          <a [routerLink]="['/login']" *ngIf="esUsuarioLogueado()==false">
+            <i class="bi bi-circle"></i><span>Iniciar Sesi&oacute;n</span>
           </a>
         </li>
-        <li>
-          <a (click)="cerrarSession()" *ngIf="login==true">
-            <i class="bi bi-circle"></i><span>Cerrar Sesi&oacute;n</span>
-          </a>
-        </li>
+        
         <li *ngFor="let menu of menus">
           <a  [routerLink]="[menu.accion]">
             <span> <i class="bi bi-circle"></i>{{menu.mensaje}}</span>
-            <span><i class="bi bi-circle"></i>{{menu.bvisible}}</span>
+            <!-- <span><i class="bi bi-circle"></i>{{menu.bvisible}}</span> -->
 
           </a>
 
@@ -333,6 +358,13 @@
 
           </a>-->
 
+        </li>
+
+        <li>
+          <a (click)="cerrarSession()" *ngIf="esUsuarioLogueado()">
+            <!-- <i class="bi bi-circle"></i><span>Cerrar Sesi&oacute;n</span> -->
+            <span> <i class="bi bi-circle"></i>Cerrar Sesi&oacute;n</span>
+          </a>
         </li>
       </ul>
     </li>
@@ -345,20 +377,15 @@
   </li> -->
     <!-- End Contact Page Nav -->
 
-    <li class="nav-item">
-      <a class="nav-link collapsed" [routerLink]="['/usuario-vecino-form-generar']" *ngIf="loginVecino==false && login==false">
+    <!-- <li class="nav-item">
+      <a class="nav-link collapsed" [routerLink]="['/usuario-vecino-form-generar']" *ngIf="esUsuarioLogueado()==false && esVecinoLogueado()==false">
         <i class="bi bi-card-list"></i>
         <span>Registrarse</span>
       </a>
-    </li>
+    </li> -->
     <!-- End Register Page Nav -->
 
-    <li class="nav-item">
-      <a class="nav-link collapsed" [routerLink]="['/login-vecino']" *ngIf="loginVecino==false && login==false">
-        <i class="bi bi-box-arrow-in-right"></i>
-        <span>Iniciar Sesi&oacute;n</span>
-      </a>
-    </li>
+    
     <!-- End Login Page Nav -->
 
   </ul>

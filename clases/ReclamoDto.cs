@@ -29,6 +29,10 @@ namespace MVPSA_V2022.clases
         public string empleadoAsignado { get; set; }
         public string Prioridad { get; set; }
 
+        public int? nroArea { get; set; }
+        public string interno { get; set; }
+        public DateTime? fechaCierre { get; set; }
+        public int? idSugerenciaOrigen { get; set; }
 
     }
 }

@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace MVPSA_V2022.Modelos;
 
 public partial class EstadoSugerencium
 {
-    [Key]
     public int CodEstadoSugerencia { get; set; }
 
     public string Nombre { get; set; } = null!;

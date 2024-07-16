@@ -1,0 +1,32 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">Cargar Trabajo a Requerimiento</h5>
+
+        <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">(*) Fecha Trabajo</label>
+            <div class="col-sm-3">
+                <input type="date" class="form-control" [(ngModel)]="fechaTrabajo" [max]="fechaHastaMaxTrabajo" [lang]="lang">
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">(*) Descripción</label>
+            <div class="col-sm-9"> 
+                <textarea type="text" class="form-control"  [(ngModel)]="descripcionTrabajo" rows="6"></textarea>
+            </div>                
+        </div>
+    </div>
+    
+    
+
+    <div class="modal-footer">
+        <button (click)="confirmarAsignacion()" type="submit" class="btn btn-primary">Confirmar Trabajo</button>
+        <button (click)="cancelarAsignacion()" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+    </div>
+</div>
