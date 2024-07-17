@@ -35,20 +35,12 @@ Console.WriteLine(builder.Configuration.GetConnectionString("VPSAConnectionStrin
 
 
 builder.Services.AddDbContext<M_VPSA_V3Context>(options
-<<<<<<< HEAD
       => options.UseLazyLoadingProxies().UseSqlServer("Data Source=RomanS;Initial Catalog=cristal;Encrypt=False;Integrated Security=True"));
-//  => options.UseSqlServer("Server=tcp:cristal-sql.database.windows.net,1433;Initial Catalog=M_VPSA_V3;Persist Security Info=False;User ID=cristal;Password=pepito1#;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"));
 
 builder.Services.AddScoped<IReclamoService, ReclamoService>();
 builder.Services.AddScoped<IDenunciaService, DenunciaService>();
-=======
-        //=> options.UseLazyLoadingProxies().UseSqlServer("Server=tcp:cristal-sql.database.windows.net,1433;Initial Catalog=M_VPSA_V3;Persist Security Info=False;User ID=cristal;Password=pepito1#;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"));
-        => options.UseLazyLoadingProxies().UseSqlServer("Server=localhost;Database=cristal;User Id=sa;Password=pepito1#;TrustServerCertificate=True;"));
-
 builder.Services.AddScoped<IReclamoService, ReclamoService>();
 builder.Services.AddScoped<ITrabajoReclamoService, TrabajoReclamoService>();
-builder.Services.AddSingleton<IDenunciaService, DenunciaService>();
->>>>>>> e86cf41a700ed7140f5604a4d7351e329ea3a123
 builder.Services.AddSingleton<IPagoService, PagoService>();
 builder.Services.AddScoped<IindicadoresService, IndicadoresService>();
 builder.Services.AddSingleton<IUsuarioService, UsuarioService>();

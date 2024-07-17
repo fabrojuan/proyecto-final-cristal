@@ -1,9 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace MVPSA_V2022.Modelos;
-[Keyless]
+
 public partial class VwDenuncium
 {
     public int NroDenuncia { get; set; }

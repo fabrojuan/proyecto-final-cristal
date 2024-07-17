@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.VisualBasic;
 using MVPSA_V2022.clases;
@@ -300,7 +301,6 @@ namespace MVPSA_V2022.Services
             using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
             {
                 DateTime diasatras = DateTime.Now.AddDays(-60);
->>>>>>> e86cf41a700ed7140f5604a4d7351e329ea3a123
                 int denunciasAbiertas = bd.Denuncia
                     .Where(denuncia => denuncia.Fecha >= diasatras && denuncia.CodEstadoDenuncia != 8)
                     .Count();
@@ -313,24 +313,12 @@ namespace MVPSA_V2022.Services
                 return denunciasAbiertas;
 
             }
-
-         int IindicadoresService.DenunciasCerradas()
-        {
-        using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
-        {
-            DateTime diasatras = DateTime.Now.AddDays(-180);
-            int denunciasCerradas = bd.Denuncia
-                .Where(denuncia => denuncia.Fecha >= diasatras && denuncia.CodEstadoDenuncia == 8)
-                .Count();
-
         }
-
-
-        int IindicadoresService.DenunciasCerradas()
+        public int DenunciasCerradas()
         {
             using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
             {
-                DateTime diasatras = DateTime.Now.AddDays(-60);
+                DateTime diasatras = DateTime.Now.AddDays(-180);
                 int denunciasCerradas = bd.Denuncia
                     .Where(denuncia => denuncia.Fecha >= diasatras && denuncia.CodEstadoDenuncia == 8)
                     .Count();
@@ -343,12 +331,11 @@ namespace MVPSA_V2022.Services
                 return denunciasCerradas;
             }
         }
-        //////////////////***************///////////////////
 
-        [HttpGet]
+       [HttpGet]
         [Route("FechaTrabajosEnDenuncias")]
-        IEnumerable<CantTrabajosEnDenunciaCLS> IindicadoresService.FechaTrabajosEnDenuncias()
-        {
+            public IEnumerable<CantTrabajosEnDenunciaCLS> FechaTrabajosEnDenuncias()
+            {
             try
             {
                 using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
@@ -397,7 +384,7 @@ namespace MVPSA_V2022.Services
 
         [HttpGet]
         [Route("DenunciasporTipo")]
-        IEnumerable<TrabajosEnDenunciaporTipoCLS> IindicadoresService.DenunciasporTipo()
+        public IEnumerable<TrabajosEnDenunciaporTipoCLS> DenunciasporTipo()
         {
             try
             {
@@ -441,19 +428,8 @@ namespace MVPSA_V2022.Services
     }
 }
 
-        public int DenunciasCerradas()
-        {
-            throw new NotImplementedException();
-        }
+   
 
-        public IEnumerable<CantTrabajosEnDenunciaCLS> FechaTrabajosEnDenuncias()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<TrabajosEnDenunciaporTipoCLS> DenunciasporTipo()
-        {
-            throw new NotImplementedException();
-        }
-    }
+        
+    
 
