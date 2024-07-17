@@ -13,15 +13,15 @@
           <app-cabecera-titulo [nombreComponente]="'PaginaTablaComponent'"></app-cabecera-titulo>
 
 
-         <table datatable class="table table-striped table-sm">
+          <table datatable class="table table-striped table-sm">
             <thead>
-    
+
               <tr>
                 <th class="text-center" *ngFor="let cabecera of cabeceras ">{{cabecera}} </th>
                 <th class="text-center" *ngIf="isMantenimiento==true">Acciones</th>
               </tr>
             </thead>
-    
+
             <tbody>
               <tr *ngFor="let pagina of Paginas | paginate: { itemsPerPage: 10, currentPage: p }">
                 <td>{{pagina.idPagina}}</td>
@@ -38,23 +38,23 @@
           <div class="row text-center">
             <pagination-controls previousLabel="Anteriores" nextLabel="Siguientes" (pageChange)="p = $event"></pagination-controls>
           </div>
-    
+
           <div class="row">
             <hr class="mb-4">
             <div class="form-group col-md-12">
               <button type="button" value="Nuevo" class="btn btn-primary col-md-4 offset-md-1 " [routerLink]="['/pagina-form-generar']"> Nuevo</button>
               <button type="button" class="btn btn-secondary col-md-4 offset-md-1" (click)="volverHome()">Volver</button>
-    
+
             </div>
-    
+
           </div>
-    
+
         </div>
-    
+
       </div>
     </div>
   </section>
 
-  
+
 
 </div>

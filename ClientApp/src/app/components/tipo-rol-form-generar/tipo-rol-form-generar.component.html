@@ -85,7 +85,7 @@
 
      
             <div class="d-flex align-items-center p-2 my-1 bg-purple bg-light shadow p-2 mb-5 rounded shadow-sm">
-              <img src="../../../assets/Imagenes/Rol.png" alt="" width="60" height="60">
+              <img src="../../../assets/Imagenes/Rol.png" [routerLink]="['/tipo-rol-tabla']" alt="" width="60" height="60">
               <div class="card-title text-center form-group col-md-8 offset-md-1">
                 <p> Seleccione Las paginas Permitidas para el {{titulo}} Rol.</p>
               </div>
@@ -138,7 +138,7 @@
               <div class="row p-3 my-2">
                 <hr class="mb-4">
                 <div class="form-group col-md-12 mb-3 pt-3">
-                  <input [disabled]="!Rol.valid" type="submit" value="Generar" class="btn btn-success col-md-4 offset-md-1 " (click)="clickMethod()" />
+                  <input [disabled]="!Rol.valid" type="submit" value="Generar" class="btn btn-secondary col-md-4 offset-md-1 " (click)="clickMethod()" />
                   <button type="button" class="btn btn-secondary col-md-4 offset-md-1" (click)="volverHome()">Cancelar</button>
                 </div>
 

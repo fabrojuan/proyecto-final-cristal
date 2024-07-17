@@ -28,7 +28,7 @@ namespace MVPSA_V2022.Modelos
         [Column("estado_reclamo")]
         public string EstadoReclamo { get; set; }
 
-        [Column("prioridad_reclamo")]
+        [Column("Prioridad_reclamo")]
         public string PrioridadReclamo { get; set; }
 
         [Column("usuario")]

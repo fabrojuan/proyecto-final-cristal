@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Client;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.VisualBasic;
 using MVPSA_V2022.clases;
 using MVPSA_V2022.Enums;
@@ -26,6 +28,9 @@ namespace MVPSA_V2022.Services
             {
                 if (meses[i - 1] != 12)
                 {
+
+                DateTime diasatras = DateTime.Now.AddDays(-180);
+
                     meses[i] = meses[i - 1] + 1;
                 }
                 else
@@ -308,15 +313,12 @@ namespace MVPSA_V2022.Services
                 return denunciasAbiertas;
 
             }
-
         }
-
-
-        int IindicadoresService.DenunciasCerradas()
+        public int DenunciasCerradas()
         {
             using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
             {
-                DateTime diasatras = DateTime.Now.AddDays(-60);
+                DateTime diasatras = DateTime.Now.AddDays(-180);
                 int denunciasCerradas = bd.Denuncia
                     .Where(denuncia => denuncia.Fecha >= diasatras && denuncia.CodEstadoDenuncia == 8)
                     .Count();
@@ -329,12 +331,11 @@ namespace MVPSA_V2022.Services
                 return denunciasCerradas;
             }
         }
-        //////////////////***************///////////////////
 
-        [HttpGet]
+       [HttpGet]
         [Route("FechaTrabajosEnDenuncias")]
-        IEnumerable<CantTrabajosEnDenunciaCLS> IindicadoresService.FechaTrabajosEnDenuncias()
-        {
+            public IEnumerable<CantTrabajosEnDenunciaCLS> FechaTrabajosEnDenuncias()
+            {
             try
             {
                 using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
@@ -379,9 +380,56 @@ namespace MVPSA_V2022.Services
             }
         } //Cierre de La CLASE
 
+          //////////////////aca debo devoler la cantidad de denuncias realizadas por tipo///////////////////
+
+        [HttpGet]
+        [Route("DenunciasporTipo")]
+        public IEnumerable<TrabajosEnDenunciaporTipoCLS> DenunciasporTipo()
+        {
+            try
+            {
+                using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
+                {
+
+                    DateTime diasatras = DateTime.Now.AddDays(-180);
+                    List<TrabajosEnDenunciaporTipoCLS> denunciasXTipo = (from tipoDenuncia in bd.TipoDenuncia
+                                                                         join denuncia in bd.Denuncia
+                                                                        on tipoDenuncia.CodTipoDenuncia equals denuncia.CodTipoDenuncia
+                                                                         where denuncia.Fecha >= diasatras
+                                                                         select new TrabajosEnDenunciaporTipoCLS
+                                                                         { 
+                                                                             tipoDenuncia = !String.IsNullOrEmpty(tipoDenuncia.Nombre) ? tipoDenuncia.Nombre : "No tipificada",
+                                                                          }).ToList();
+                    //var fechaActual = DateTime.Now;
+                    //var fechaInicio = fechaActual.AddMonths(-6); // Hace 6 meses desde hoy
+
+                    var resultado = denunciasXTipo
+                        .Where(x => x.tipoDenuncia != "") // Filtrar fechas dentro del rango de los últimos 3 meses
+                        .GroupBy(x => new { x.tipoDenuncia }) // Agrupar por año, mes y quincena
+                        .Select(g => new TrabajosEnDenunciaporTipoCLS
+                        {
+                            cantidadporTipo = g.Count(),
+                            tipoDenuncia= g.Key.tipoDenuncia
+                        }).ToList();
+                    return resultado;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw new Exception("AlgorithmConfiguration salio mal");
+            }
+        } //Cierre de La CLASE
+
+
 
 
 
     }
 }
+
+   
+
+        
+    
 

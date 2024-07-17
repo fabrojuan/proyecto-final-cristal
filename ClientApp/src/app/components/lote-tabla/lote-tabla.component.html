@@ -3,14 +3,14 @@
   <div class="card">
     <div class="card-body">
 
+      <app-cabecera-titulo [nombreComponente]="'LoteTablaComponent'"></app-cabecera-titulo>
 
-
-      <div class="d-flex align-items-center p-1 my-1">
+      <!--<div class="d-flex align-items-center p-1 my-1">
         <img src="../../../assets/Imagenes/construccion_lote.png" alt="" width="70" height="70">
         <div class="card-title text-center form-group col-md-8 offset-md-1">
           <p> Tablero de Gestión de Lotes</p>
         </div>
-      </div>
+      </div>-->
 
       <form [formGroup]="form">
         <!--<div class="row ms-3">
@@ -21,9 +21,7 @@
             </div>
           </div>
         </div>-->
-
-        <br /><br />
-        <table datatable [dtOptions]="dtoptions" [dtTrigger]="dtTrigger" class="table table-hover" style="padding-bottom: 2.5em">
+        <table datatable [dtOptions]="dtoptions" [dtTrigger]="dtTrigger" class="table table-striped table-sm" style="padding-bottom: 1.0em">
           <thead class="thead-dark tituloTabla">
 
 
@@ -33,39 +31,40 @@
             </tr>
           </thead>
 
-          <tbody class="textoTabla">
-            <tr *ngFor="let Lote of Lotes | paginate: { itemsPerPage: 10, currentPage: p }">
-              <td class="text-center">{{Lote.nroLote}}</td>
-              <td class="text-center">{{Lote.calle}}</td>
+          <tbody class="">
+            <tr *ngFor="let Lote of Lotes | paginate: { itemsPerPage: 9, currentPage: p }">
+              <td class="text-center">{{Lote.idLote}}</td>
               <td class="text-center">{{Lote.manzana}}</td>
-              <td class="text-center">{{Lote.supTerreno}}</td>
+              <td class="text-center">{{Lote.nroLote}}</td>
+               <td class="text-center">{{Lote.supTerreno}} mts</td>
               <td class="text-center">{{Lote.baseImponible}}</td>
-              <td class="text-center">{{Lote.valuacionTotal}} </td>
-              <td class="text-center">{{Lote.estadoDeuda}} </td>
-
-              <td class="text-center" *ngIf="isMantenimiento==true">
-                <button type="button" class="btn " [routerLink]="['/lote-detalle',Lote.nroLote]"><img src="../../../assets/IconsGoogle/Mas_info.svg" alt="" width="24" height="24" title="Mas Info del Lote"></button>
+            <td class="text-center">{{Lote.apellidoTitular}} </td>
+              <td class="text-center">{{Lote.dniTitular}} </td>
+              <!-- <td class="text-center" *ngIf="isMantenimiento==true">
+                <button type="button" class="btn btn-light" [routerLink]="['/lote-detalle',Lote.nroLote]"><img src="../../../assets/IconsGoogle/Mas_info.svg" alt="" width="24" height="24" title="Mas Info del Lote"></button>
+              </td> -->
+              <td class="text-center">
+                <button type="button" class="btn btn-outline-primary btn-sm" [routerLink]="['/lote-detalle',Lote.nroLote]" title="Mas Info del Lote"><i class="bi bi-info-lg"></i></button>
               </td>
             </tr>
           </tbody>
         </table>
-        <pagination-controls previousLabel="Anteriores" nextLabel="Siguientes" (pageChange)="p = $event"></pagination-controls>
+
+        <div class="row text-center">
+          <pagination-controls previousLabel="Anteriores" nextLabel="Siguientes" (pageChange)="p = $event"></pagination-controls>  
+        </div>
+        
         <div class="row p-3 my-2">
           <hr class="mb-4">
           <div class="form-group col-md-12 mb-3 pt-3">
-            <button type="button" value="Nuevo" class="btn btn-success col-md-4 offset-md-1 " [routerLink]="['/lote-form-generar']">  <img src="../../../assets/Imagenes/plus-square.svg" alt="" width="24" height="24" title="Añadir lote a base de lotes">&nbsp;&nbsp;Nuevo Lote</button>
+            <button type="button" value="Nuevo" class="btn btn-primary col-md-4 offset-md-1 " [routerLink]="['/lote-form-generar']">  <img src="../../../assets/Imagenes/plus-square.svg" alt="" width="24" height="24" title="Añadir lote a base de lotes">&nbsp;&nbsp;Nuevo Lote</button>
             <button type="button" class="btn btn-secondary col-md-4 offset-md-1" (click)="volverHome()"><img src="../../../assets/IconsGoogle/arrow-bar-left.svg" alt="" width="24" height="24" title="Volver" />&nbsp;&nbsp; Volver</button>
 
           </div>
 
         </div>
-
-
       </form>
     </div>
-
   </div>
-
-  <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
 </div>
 

@@ -22,6 +22,7 @@ namespace MVPSA_V2022.Controllers
         [Route("api/Lote")]
         public IEnumerable<LoteCLS> listarLotes()
         {
+            string nombretemp;
             using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
             {
                 Prioridad oPriorodad = new Prioridad();
@@ -47,6 +48,9 @@ namespace MVPSA_V2022.Controllers
                                                EstadoDeuda = lote.EstadoDeuda,
                                                ValuacionTotal = lote.ValuacionTotal,
                                                IdPersona = lote.IdPersona,
+                                               ApellidoTitular = !String.IsNullOrEmpty(persona.Apellido) ? persona.Apellido : "Sin Dueño",
+                                               DniTitular= !String.IsNullOrEmpty(persona.Dni) ? persona.Dni : "Sin dni",
+
                                                NroLote = lote.NroLote,
                                            }).ToList();
                 return listaLote;
@@ -198,7 +202,45 @@ namespace MVPSA_V2022.Controllers
             return rpta;
         }
 
+        //Continuar ma;ana para largar los lotes cargados en el grafico.
+        [HttpGet]
+        [Route("api/Lote/LotesCargados")]
+        public Chartlotes LotesCargados([FromHeader(Name = "id_usuario")] string idUsuario)
+        {
+            Chartlotes oChartLotes = new Chartlotes();
 
+            try
+            {
+
+                using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
+                {
+                    oChartLotes.totalLotes = (from lote in bd.Lotes
+                                                     where lote.Bhabilitado == 1
+                                                     select new LoteCLS
+                                                     {
+                                                         NroLote = (int)lote.NroLote,
+                                                     }).Count();
+                    oChartLotes.totalVecinos = (from usuario in bd.Usuarios join rol in bd.Rols
+                                              on usuario.IdTipoUsuario equals rol.IdRol
+                                              where rol.CodRol=="VEC"
+                                              select new VecinoCLS
+                                              {
+                                                  IdPersona = (int)usuario.IdPersona,
+                                              }).Count();
+
+                    return oChartLotes;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return oChartLotes;
+                // return (ex.Message);
+            }
+
+
+        }
 
 
 

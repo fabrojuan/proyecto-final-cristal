@@ -27,7 +27,6 @@ export class ReclamoTablaComponent implements OnInit {
   nomApeVecinoFiltro: string = '';
   areaSeleccionada: number = 0;
   areas: Area[] = [];
-
   constructor(private reclamoservice: ReclamoService, private areaService: AreasService) {
   }
 

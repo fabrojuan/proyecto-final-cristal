@@ -24,7 +24,7 @@ export class LoteTablaComponent implements OnInit {
 
   dtTrigger: Subject<any> = new Subject<any>();
 
-  cabeceras: string[] = ["Id Lote", "Nro Lote" ,"Manzana" , "Superficie Terreno", "Base Imponible", "Valuacion Total", "Propietario"];
+  cabeceras: string[] = ["Id Lote", "Mza", "Nro", "Superficie Terreno", "Base Imponible", "Titular", "Dni"];
   constructor(private loteservice: LoteService, private vecinoService: VecinoService, private formBuilder: UntypedFormBuilder, private router: Router) {
     this.form = new UntypedFormGroup({
      

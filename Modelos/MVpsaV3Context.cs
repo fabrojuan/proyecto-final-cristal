@@ -535,7 +535,7 @@ public partial class MVpsaV3Context : DbContext
         {
             entity.HasKey(e => e.NroPrioridad).HasName("PK__PRIORIDA__07C3E6AECD7B0B12");
 
-            entity.ToTable("PRIORIDAD");
+            entity.ToTable("Prioridad");
 
             entity.Property(e => e.NroPrioridad).HasColumnName("Nro_Prioridad");
             entity.Property(e => e.Bhabilitado).HasColumnName("BHabilitado");
@@ -552,7 +552,7 @@ public partial class MVpsaV3Context : DbContext
         {
             entity.HasKey(e => e.NroPrioridad).HasName("PK__PRIORIDA__07C3E6AEAF767DB2");
 
-            entity.ToTable("PRIORIDAD_RECLAMO");
+            entity.ToTable("Prioridad_RECLAMO");
 
             entity.Property(e => e.NroPrioridad).HasColumnName("Nro_Prioridad");
             entity.Property(e => e.Bhabilitado).HasColumnName("BHabilitado");

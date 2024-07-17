@@ -87,6 +87,7 @@
             <th *ngFor="let cabecera of cabeceras" class="text-center">{{cabecera}} </th>
             <th class="text-center" *ngIf="isMantenimiento==true">Operaciones con usuario</th>
           </tr>
+ 
         </thead>
         <tbody class="textoTabla">
           <tr *ngFor="let usuario of usuarios | paginate: { itemsPerPage: 10, currentPage: p }">
@@ -107,7 +108,7 @@
       <div class="row p-3 my-2">
         <hr class="mb-4">
         <div class="form-group col-md-12 mb-3 pt-3">
-          <button type="button" value="Nuevo" class="btn btn-success col-md-4 offset-md-1 " [routerLink]="['/persona-form-generar']">  <img src="../../../assets/Imagenes/plus-square.svg" alt="" width="24" height="24" title="Añadir Persona a base de Personas">&nbsp;&nbsp;Añadir Persona</button>
+          <button type="button" value="Nuevo" class="btn btn-secondary col-md-4 offset-md-1 " [routerLink]="['/form-usuario-generar']">  <img src="../../../assets/Imagenes/plus-square.svg" alt="" width="24" height="24" title="Añadir Persona a base de Personas">&nbsp;&nbsp;Añadir Empleado</button>
           <button type="button" class="btn btn-secondary col-md-4 offset-md-1" (click)="volverHome()"><img src="../../../assets/IconsGoogle/arrow-bar-left.svg" alt="" width="24" height="24" title="Volver" />&nbsp;&nbsp; Volver</button>
 
         </div>

@@ -40,7 +40,7 @@ export class DenunciaService {
   
   
   public getEstadoDenuncia(): Observable<any> {
-    return this.http.get(this.urlBase + 'api/denuncias/listarEstadosDenuncia').pipe(map(res => res));
+    return this.http.get(this.urlBase + 'api/Denuncia/listarEstadosDenuncia').pipe(map(res => res));
   }
   public ListarDenunciasCerradas(): Observable<any> {
     return this.http.get(this.urlBase + 'api/Denuncia/ListarDenunciasCerradas').pipe(map(res => res));
@@ -61,6 +61,11 @@ export class DenunciaService {
   public getDenuncia() {
     return this.http.get(this.urlBase + 'api/Denuncia/listarDenuncias').pipe(map(res => res));
   }
+  //con filtros
+  public getDenunciasConFiltros(queryParams: any): Observable<any> {
+    return this.http.get(this.urlBase + 'api/Denuncia/listarDenunciasconFiltros', { params: queryParams }).pipe(map(res => res));
+  }
+
   public agregarDenuncia(Denuncia: any)
   {
     var url = this.urlBase + 'api/Denuncia/guardarDenuncia';

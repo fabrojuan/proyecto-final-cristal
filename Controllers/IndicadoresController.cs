@@ -56,7 +56,7 @@ namespace MVPSA_V2022.Controllers
                 return NotFound(ex.Message);
             }
         }
-        
+
         [HttpGet]
         [Route("FechaTrabajosEnDenuncias")]
         public IActionResult FechaTrabajosEnDenuncias()
@@ -64,6 +64,20 @@ namespace MVPSA_V2022.Controllers
             try
             {
                 return Ok(indicadoresService.FechaTrabajosEnDenuncias());
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("DenunciasporTipo")]
+        public IActionResult DenunciasporTipo()
+        {
+            try
+            {
+                return Ok(indicadoresService.DenunciasporTipo());
             }
             catch (Exception ex)
             {

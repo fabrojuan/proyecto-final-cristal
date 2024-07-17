@@ -8,12 +8,11 @@
           <p>Charts Denuncias</p>
         </div>
       </div>
-      <!-- Generacion de SET DE DATOS ABIERTOS-->
-      <!-- <div class="row p-2 mt-3 row-cols-1 row-cols-md-2 g-4">-->
-      <div class="row mt-5 row-cols-10 row-cols-md-10 justify-content-center">
-        <div class="tarjeta">
+ 
+      <div class="row mt-5 row-cols-10 row-cols-md-10 align-items-center">
+        <div class="tarjeta offset-md-1">
           <div class="card-body text-center">
-            <h5 class="card-title titulo" title="Click aqui para ayuda Contextual.">Proporción denuncias en los ultimos 30 dias</h5>
+            <h5 class="card-title titulo" title="Click aqui para ayuda Contextual.">Proporción denuncias en los ultimos 6 meses</h5>
             <canvas id="chart">{{ chart }}</canvas>
           </div>
         </div>
@@ -25,7 +24,15 @@
           </div>
         </div>
 
+        <div class="tarjeta2 mt-5 offset-md-1">
+          <div class="card-body text-center">
+            <h5 class="card-title titulo" title="Click aqui para ayuda Contextual.">Denuncias por tipo en los ultimos 6 meses</h5>
+            <canvas id="barchart2"></canvas>
+          </div>
+        </div>
+
       </div>
+ 
 
       <div class="row mt-5 row-cols-4 row-cols-md-4 justify-content-center">
 
@@ -33,7 +40,7 @@
           <button type="button" class="btn btn-secondary col-md-8 offset-md-1" (click)="volver()">Escritorio</button>
         </div>
         <div class=" align-content-start">
-          <button type="button" class="btn btn-success col-md-8 offset-md-1" (click)="volverAtras()">Volver atr&aacute;s</button>
+          <button type="button" class="btn btn-secondary col-md-8 offset-md-1" (click)="volverAtras()">Volver atr&aacute;s</button>
 
         </div>
       </div>

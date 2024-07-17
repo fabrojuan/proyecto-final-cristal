@@ -17,8 +17,8 @@ export class PaginaTablaComponent implements OnInit {
   cabeceras: string[] = ["Número", "Nombre", "Ruta"];
   idPaginaEliminar: number = 0;
 
-  constructor(private usuarioservice: UsuarioService, private router: Router, 
-              public _toastService: ToastService, private modalService: NgbModal) { }
+  constructor(private usuarioservice: UsuarioService, private router: Router,
+    public _toastService: ToastService, private modalService: NgbModal) { }
 
   ngOnInit() {
     this.usuarioservice.listarTodasPaginas().subscribe(data => this.Paginas = data);
@@ -41,18 +41,18 @@ export class PaginaTablaComponent implements OnInit {
   preguntarEliminarPagina(idPagina: number) {
     this.idPaginaEliminar = idPagina;
 
-    const modalRef = this.modalService.open(ModalSiNoComponent, 
+    const modalRef = this.modalService.open(ModalSiNoComponent,
       { animation: false, backdrop: "static", centered: true, keyboard: false });
 
     modalRef.componentInstance.mensajeMostrar = "Está seguro que desea eliminar la página?";
-      
+
     modalRef.componentInstance.eventoModalSiNoResultado.subscribe((opcion: string) => {
       modalRef.close();
 
       if (opcion == "SI") {
 
         this.usuarioservice.eliminarPagina(idPagina).subscribe(data => {
-          this.usuarioservice.listarTodasPaginas().subscribe(data => this.Paginas = data);  
+          this.usuarioservice.listarTodasPaginas().subscribe(data => this.Paginas = data);
           this._toastService.showOk("La página fue dada de baja exitosamente");
         }, error => {
           this._toastService.showError("No se pudo eliminar la página");
@@ -67,7 +67,3 @@ export class PaginaTablaComponent implements OnInit {
 
 
 }
-
-
-
-

@@ -55,7 +55,7 @@
 
                 <div class="col-12">
                     <label for="descripcion" class="form-label">(*) Descripción</label>
-                    <textarea type="text" class="form-control" [ngClass]="{'is-invalid' : descripcionNoValido}" id="descripcion" formControlName="descripcion" value="" rows="3" placeholder="Descripcion del reclamo del servicio, circunstancias que lo generaron. Puede incluir nombres de personas implicadas para mayor trazabilidad."></textarea>
+                    <textarea type="text" class="form-control" [ngClass]="{'is-invalid' : descripcionNoValido}" id="descripcion" formControlName="descripcion" value="" rows="3" placeholder="Detalle aquī todo lo que considere necesario."></textarea>
                     <div class="invalid-feedback" *ngIf="descripcionNoValido">
                         La descripción es requerida y no puede superar los 200 caracteres.
                     </div>
@@ -167,7 +167,7 @@
         </div>
 
         <div class="d-grid gap-4 d-md-flex justify-content-md-center">
-            <input type="submit" value="Generar" class="btn btn-success" />
+            <input type="submit" value="Generar" class="btn btn-secondary" />
             <button type="button" class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
         </div>
 

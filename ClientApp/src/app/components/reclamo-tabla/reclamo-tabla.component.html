@@ -1,171 +1,170 @@
 <div class="container">
-    <section class="section">
+  <section class="section">
 
-        <!-- <div class="row">
-            <div class="card">
-                <div class="card-header">
+    <!-- <div class="row">
+        <div class="card">
+            <div class="card-header">
 
-                    <app-cabecera-titulo [titulo]="'Tablero Gestión de Requerimientos'"
-                               [rutaImagen]="'../../../assets/IconsGoogle/trabajador.svg'"
-                               [link]="'bienvenida'"></app-cabecera-titulo>
+                <app-cabecera-titulo [titulo]="'Tablero Gestión de Requerimientos'"
+                           [rutaImagen]="'../../../assets/IconsGoogle/trabajador.svg'"
+                           [link]="'bienvenida'"></app-cabecera-titulo>
 
-                    <div class="row" >
-                        <div class="col-md-2">
-                            <div class="form-floating">                                
-                                <input type="number" class="form-control" id="calle" [(ngModel)]='nroReclamoFiltro' value="" 
-                                (keydown.enter)="aplicarFiltroNroReclamo($event)" >
-                                <label for="exampleInputEmail1" class="form-label">Número</label>
-                            </div>                            
+                <div class="row" >
+                    <div class="col-md-2">
+                        <div class="form-floating">
+                            <input type="number" class="form-control" id="calle" [(ngModel)]='nroReclamoFiltro' value=""
+                            (keydown.enter)="aplicarFiltroNroReclamo($event)" >
+                            <label for="exampleInputEmail1" class="form-label">Número</label>
                         </div>
-
-                        <div class="col-md-3">
-                            <div class="form-floating">                                
-                                <select id="area" class="form-select" [(ngModel)]='areaSeleccionada'>
-                                    <option value="0">Todas</option>
-                                    <option [ngValue]="area.nroArea" *ngFor="let area of areas">{{area.nombre}}</option>
-                                </select>
-                                <label for="exampleInputEmail1" class="form-label">Área Asignada</label>
-                            </div>                            
-                        </div>
-
-                        <div class="col-md-2">
-                            <div class="form-floating">                                
-                                <select id="Tipo_Reclamo" class="form-select" [(ngModel)]='estadoReclamoSeleccionado'>
-                                    <option value="0">Todos</option>
-                                    <option [ngValue]="estado.codEstadoReclamo" *ngFor="let estado of estadosReclamo">{{estado.nombre}}</option>
-                                </select>
-                                <label for="exampleInputEmail1" class="form-label">Estado</label>
-                            </div>                            
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="form-floating">                                
-                                <input type="text" class="form-control" id="calle" [(ngModel)]='nomApeVecinoFiltro' value="" >
-                                <label for="exampleInputEmail1" class="form-label">Vecino</label>
-                            </div>                            
-                        </div>
-
-                        <button type="button" class="btn btn-primary col-md-1" (click)="aplicarFiltrado()"><i class="bi bi-search"></i> Filtrar</button>
-                   
-                        
                     </div>
-                </div>
-            </div>
-        </div> -->
 
-        <div class="row">
-            <div class="card">
-
-                <div class="card-header">
-
-                    <app-cabecera-titulo [nombreComponente]="'ReclamoTablaComponent'"></app-cabecera-titulo>
-
-                    <div class="row" >
-                        <div class="col-md-2">
-                            <div class="form-floating">                                
-                                <input type="number" class="form-control" id="calle" [(ngModel)]='nroReclamoFiltro' value="" 
-                                (keydown.enter)="aplicarFiltroNroReclamo($event)" >
-                                <label for="exampleInputEmail1" class="form-label">Número</label>
-                            </div>                            
+                    <div class="col-md-3">
+                        <div class="form-floating">
+                            <select id="area" class="form-select" [(ngModel)]='areaSeleccionada'>
+                                <option value="0">Todas</option>
+                                <option [ngValue]="area.nroArea" *ngFor="let area of areas">{{area.nombre}}</option>
+                            </select>
+                            <label for="exampleInputEmail1" class="form-label">Área Asignada</label>
                         </div>
+                    </div>
 
-                        <!-- <div class="col-md-3">
-                            <div class="form-floating">                                
-                                <select id="Tipo_Reclamo" class="form-select" [(ngModel)]='tipoReclamoSeleccionado'>
-                                    <option value="0">Todos</option>
-                                    <option [ngValue]="TipoReclamo.cod_Tipo_Reclamo" *ngFor="let TipoReclamo of TiposReclamo">{{TipoReclamo.nombre}}</option>
-                                </select>
-                                <label for="exampleInputEmail1" class="form-label">Tipo de Requerimiento</label>
-                            </div>                            
-                        </div> -->
-
-                        <div class="col-md-3">
-                            <div class="form-floating">                                
-                                <select id="area" class="form-select" [(ngModel)]='areaSeleccionada'>
-                                    <option value="0">Todas</option>
-                                    <option [ngValue]="area.nroArea" *ngFor="let area of areas">{{area.nombre}}</option>
-                                </select>
-                                <label for="exampleInputEmail1" class="form-label">Área Asignada</label>
-                            </div>                            
-                        </div>
-
-                        <div class="col-md-2">
-                            <div class="form-floating">                                
-                                <select id="Tipo_Reclamo" class="form-select" [(ngModel)]='estadoReclamoSeleccionado'>
-                                    <option value="0">Todos</option>
-                                    <option [ngValue]="estado.codEstadoReclamo" *ngFor="let estado of estadosReclamo">{{estado.nombre}}</option>
-                                </select>
-                                <label for="exampleInputEmail1" class="form-label">Estado</label>
-                            </div>                            
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="form-floating">                                
-                                <input type="text" class="form-control" id="calle" [(ngModel)]='nomApeVecinoFiltro' value="" >
-                                <label for="exampleInputEmail1" class="form-label">Vecino</label>
-                            </div>                            
-                        </div>
-    
-                        <!-- <div class="col-md-3">
-                            <label for="exampleInputEmail1" class="form-label">Estado</label>
+                    <div class="col-md-2">
+                        <div class="form-floating">
                             <select id="Tipo_Reclamo" class="form-select" [(ngModel)]='estadoReclamoSeleccionado'>
                                 <option value="0">Todos</option>
                                 <option [ngValue]="estado.codEstadoReclamo" *ngFor="let estado of estadosReclamo">{{estado.nombre}}</option>
                             </select>
-                        </div> -->
-
-                        <button type="button" class="btn btn-primary col-md-1" (click)="aplicarFiltrado()"><i class="bi bi-search"></i> Filtrar</button>
-                   
-                        
+                            <label for="exampleInputEmail1" class="form-label">Estado</label>
+                        </div>
                     </div>
-                </div>
 
-                <div class="card-body">
-                    <!-- <h5 class="card-title">Tablero Gestión de Requerimientos</h5> -->
+                    <div class="col-md-4">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="calle" [(ngModel)]='nomApeVecinoFiltro' value="" >
+                            <label for="exampleInputEmail1" class="form-label">Vecino</label>
+                        </div>
+                    </div>
 
-                    <!-- Table with stripped rows -->
-                    <table class="table table-striped table-sm">
-                        <thead>
-                            <tr>
-                                <th class="text-center" *ngFor="let cabecera of cabeceras">{{cabecera}} </th>
-                                <th class="text-center" *ngIf="isMantenimiento==true">Acciones</th>
-                            </tr>
-                        </thead>
+                    <button type="button" class="btn btn-primary col-md-1" (click)="aplicarFiltrado()"><i class="bi bi-search"></i> Filtrar</button>
 
-                        <tbody>
-                            <tr *ngFor="let reclamo of ReclamosFiltrados | paginate: { itemsPerPage: 9, currentPage: p }">
-                                <td>{{reclamo.nroReclamo}}</td>
-                                <td>{{reclamo.fecha | date: 'dd/MM/yyyy'}}</td>
-                                <td>{{reclamo.estadoReclamo}}</td>
-                                <td>{{reclamo.tipoReclamo}}</td>
-                                <td>{{reclamo.prioridad}}</td>
-                                <td>{{reclamo.empleadoAsignado}}</td>
-                                <td class="text-center">
-                                    <!-- <a class="dropdown-item" [routerLink]="['/reclamo-form-consultar',reclamo.nroReclamo]" role="button"><i class="bi bi-pencil-square"></i></a> -->
-                                    <button type="button" class="btn btn-outline-primary btn-sm" [routerLink]="['/reclamo-form-consultar',reclamo.nroReclamo]" title="Modificar"><i class="bi bi-pencil"></i></button>
-                                </td>
-                                
-                                
-                                <!-- <td class="text-center" *ngIf="isMantenimiento==true">
-                                    <div class="dropdown">
-                                        <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                                          Acciones
-                                        </button>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                            <li><a class="dropdown-item" [routerLink]="['/reclamo-form-consultar',reclamo.nroReclamo]" role="button">Consultar</a></li>
-                                        </ul>
-                                    </div>
-                                </td> -->
-                            </tr>
-                        </tbody>
-                    </table>
-                    <!-- End Table with stripped rows -->
+
                 </div>
             </div>
         </div>
-    </section>
+    </div> -->
 
-    <div class="row text-center">
-        <pagination-controls previousLabel="Anteriores" nextLabel="Siguientes" (pageChange)="p = $event"></pagination-controls>
+    <div class="row">
+      <div class="card">
+
+        <div class="card-header">
+
+          <app-cabecera-titulo [nombreComponente]="'ReclamoTablaComponent'"></app-cabecera-titulo>
+
+          <div class="row">
+            <div class="col-md-2">
+              <div class="form-floating">
+                <input type="number" class="form-control" id="calle" [(ngModel)]='nroReclamoFiltro' value=""
+                       (keydown.enter)="aplicarFiltroNroReclamo($event)">
+                <label for="exampleInputEmail1" class="form-label">Número</label>
+              </div>
+            </div>
+
+            <!-- <div class="col-md-3">
+                <div class="form-floating">
+                    <select id="Tipo_Reclamo" class="form-select" [(ngModel)]='tipoReclamoSeleccionado'>
+                        <option value="0">Todos</option>
+                        <option [ngValue]="TipoReclamo.cod_Tipo_Reclamo" *ngFor="let TipoReclamo of TiposReclamo">{{TipoReclamo.nombre}}</option>
+                    </select>
+                    <label for="exampleInputEmail1" class="form-label">Tipo de Requerimiento</label>
+                </div>
+            </div> -->
+
+            <div class="col-md-3">
+              <div class="form-floating">
+                <select id="area" class="form-select" [(ngModel)]='areaSeleccionada'>
+                  <option value="0">Todas</option>
+                  <option [ngValue]="area.nroArea" *ngFor="let area of areas">{{area.nombre}}</option>
+                </select>
+                <label for="exampleInputEmail1" class="form-label">Área Asignada</label>
+              </div>
+            </div>
+
+            <div class="col-md-2">
+              <div class="form-floating">
+                <select id="Tipo_Reclamo" class="form-select" [(ngModel)]='estadoReclamoSeleccionado'>
+                  <option value="0">Todos</option>
+                  <option [ngValue]="estado.codEstadoReclamo" *ngFor="let estado of estadosReclamo">{{estado.nombre}}</option>
+                </select>
+                <label for="exampleInputEmail1" class="form-label">Estado</label>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="form-floating">
+                <input type="text" class="form-control" id="calle" [(ngModel)]='nomApeVecinoFiltro' value="">
+                <label for="exampleInputEmail1" class="form-label">Vecino</label>
+              </div>
+            </div>
+
+            <!-- <div class="col-md-3">
+                <label for="exampleInputEmail1" class="form-label">Estado</label>
+                <select id="Tipo_Reclamo" class="form-select" [(ngModel)]='estadoReclamoSeleccionado'>
+                    <option value="0">Todos</option>
+                    <option [ngValue]="estado.codEstadoReclamo" *ngFor="let estado of estadosReclamo">{{estado.nombre}}</option>
+                </select>
+            </div> -->
+
+            <button type="button" class="btn btn-primary col-md-1" (click)="aplicarFiltrado()"><i class="bi bi-search"></i> Filtrar</button>
+
+
+          </div>
+        </div>
+
+        <div class="card-body">
+          <!-- <h5 class="card-title">Tablero Gestión de Requerimientos</h5> -->
+          <!-- Table with stripped rows -->
+          <table class="table table-striped table-sm">
+            <thead>
+              <tr>
+                <th class="text-center" *ngFor="let cabecera of cabeceras">{{cabecera}} </th>
+                <th class="text-center" *ngIf="isMantenimiento==true">Acciones</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let reclamo of ReclamosFiltrados | paginate: { itemsPerPage: 9, currentPage: p }">
+                <td>{{reclamo.nroReclamo}}</td>
+                <td>{{reclamo.fecha | date: 'dd/MM/yyyy'}}</td>
+                <td>{{reclamo.estadoReclamo}}</td>
+                <td>{{reclamo.tipoReclamo}}</td>
+                <td>{{reclamo.prioridad}}</td>
+                <td>{{reclamo.empleadoAsignado}}</td>
+                <td class="text-center">
+                  <!-- <a class="dropdown-item" [routerLink]="['/reclamo-form-consultar',reclamo.nroReclamo]" role="button"><i class="bi bi-pencil-square"></i></a> -->
+                  <button type="button" class="btn btn-outline-primary btn-sm" [routerLink]="['/reclamo-form-consultar',reclamo.nroReclamo]" title="Modificar"><i class="bi bi-pencil"></i></button>
+                </td>
+
+
+                <!-- <td class="text-center" *ngIf="isMantenimiento==true">
+                    <div class="dropdown">
+                        <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                          Acciones
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><a class="dropdown-item" [routerLink]="['/reclamo-form-consultar',reclamo.nroReclamo]" role="button">Consultar</a></li>
+                        </ul>
+                    </div>
+                </td> -->
+              </tr>
+            </tbody>
+          </table>
+          <!-- End Table with stripped rows -->
+        </div>
+      </div>
     </div>
+  </section>
+
+  <div class="row text-center">
+    <pagination-controls previousLabel="Anteriores" nextLabel="Siguientes" (pageChange)="p = $event"></pagination-controls>
+  </div>
 </div>

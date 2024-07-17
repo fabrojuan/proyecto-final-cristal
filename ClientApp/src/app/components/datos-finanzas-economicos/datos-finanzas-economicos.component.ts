@@ -107,7 +107,14 @@ export class DatosFinanzasEconomicosComponent implements OnInit {
       window.URL.revokeObjectURL(url);
     });
   }
- 
+
+  cambiarColor(event: any) {
+    (event.target as HTMLElement).style.color = 'blue'; // Cambia el color a rojo cuando el mouse entra
+  }
+
+  volverColor(event: any) {
+    (event.target as HTMLElement).style.color = ''; // Vuelve al color original cuando el mouse sale
+  }
 
 }
 

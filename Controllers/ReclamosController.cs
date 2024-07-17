@@ -143,7 +143,7 @@ namespace MVPSA_V2022.Controllers
         }
 
         [HttpGet]
-        [Route("prioridades")]
+        [Route("Prioridades")]
         public IActionResult getPrioridades()
         {
             return Ok(reclamoService.getPrioridades());
