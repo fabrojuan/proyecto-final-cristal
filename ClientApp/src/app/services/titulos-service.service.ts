@@ -127,5 +127,59 @@ export class TitulosServiceService {
     };
     this.configuration.push(tituloImpuestosVecinoIdentificadorComponent);
 
+    /**
+     * TablaDenunciaComponent
+     */
+    var tituloTablaDenunciaComponent: Titulo = {
+      nombreComponente: "TablaDenunciaComponent",
+      titulo: "Tablero de Gestión de Denuncias",
+      tipoImagen: TipoImagenEnum.FOTO,
+      pathImagen: "../../../assets/IconsGoogle/denuncia.png",
+      link: "/tabla-denuncia",
+      tituloLink: "Denuncia generada por el vecino. Click para regresar al tablero"
+    };
+    this.configuration.push(tituloTablaDenunciaComponent  );
+
+    /**
+     * LoteTablaComponent
+     */
+    var tituloLoteTablaComponent: Titulo = {
+      nombreComponente: "LoteTablaComponent",
+      titulo: "Tablero de Gestión de Lotes",
+      tipoImagen: TipoImagenEnum.FOTO,
+      pathImagen: "../../../assets/Imagenes/construccion_lote.png",
+      link: "/lotesypersonas",
+      tituloLink: "Click para ir a home"
+    };
+    this.configuration.push(tituloLoteTablaComponent);
+
+
+    /**
+     * LoteFormGenerarComponent
+     */
+    var tituloLoteFormGenerarComponent: Titulo = {
+      nombreComponente: "LoteFormGenerarComponent",
+      titulo: "Registración de Lote",
+      tipoImagen: TipoImagenEnum.FOTO,
+      pathImagen: "../../../assets/IconsGoogle/lote_px.png",
+      link: "/lote-tabla",
+      tituloLink: "Click para volver al escritorio"
+    };
+    this.configuration.push(tituloLoteFormGenerarComponent);
+
+    /**
+     * DatosFinanzasEconomicosComponent
+     */
+    var tituloDatosFinanzasEconomicosComponent: Titulo = {
+      nombreComponente: "DatosFinanzasEconomicosComponent",
+      titulo: "Descarga de Datos Abiertos Financieros",
+      tipoImagen: TipoImagenEnum.FOTO,
+      pathImagen: "../../../assets/Imagenes/open-data.png",
+      link: "",
+      tituloLink: ""
+    };
+    this.configuration.push(tituloDatosFinanzasEconomicosComponent);
+    
+
   }
 }

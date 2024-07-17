@@ -53,10 +53,10 @@ export class ReclamoTablaComponent implements OnInit {
   
 
   filtrarPrioridad() {
-    if (this.PrioridadSeleccionada.clave == "0") {
+    if (this.prioridadSeleccionada.clave == "0") {
       this.ReclamosFiltrados = this.Reclamos;
     } else {
-      this.ReclamosFiltrados = this.Reclamos.filter(p => p.nroPrioridad == this.PrioridadSeleccionada.clave);
+      this.ReclamosFiltrados = this.Reclamos.filter(p => p.nroPrioridad == this.prioridadSeleccionada.clave);
     }
   }
 

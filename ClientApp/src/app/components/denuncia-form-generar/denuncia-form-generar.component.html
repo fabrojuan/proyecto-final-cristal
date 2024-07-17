@@ -1,10 +1,7 @@
 <div class="container">
   <div class="card">
-    <div class="card-body">
-      <cabecera-titulo [titulo]="'Formulario de Denuncia'"
-                       [rutaImagen]="'../../../assets/IconsGoogle/Justicia.svg'"
-                       [tooltipIcono]="'Click para ir a home'"
-                       [link]="''"></cabecera-titulo>
+    <div class="card-body">      
+      <app-cabecera-titulo [nombreComponente]="'DenunciaFormGenerarComponent'"></app-cabecera-titulo>
       <div class="container pt-4">
         <form [formGroup]="Denuncia" (ngSubmit)="guardarDatos()" class="row g-3">
           <div class="col-md-6">

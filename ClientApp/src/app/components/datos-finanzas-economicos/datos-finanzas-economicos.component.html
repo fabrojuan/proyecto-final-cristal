@@ -3,10 +3,7 @@
   <div class="card">
     <div class="card-body">
 
-      <cabecera-titulo [titulo]="'Descarga de Datos Abiertos Financieros'"
-                       [rutaImagen]="'../../../assets/Imagenes/open-data.png'"
-                       [tooltipIcono]="'Click para volver a los datasets generales'"
-                       [link]="''"></cabecera-titulo>
+      <app-cabecera-titulo [nombreComponente]="'DatosFinanzasEconomicosComponent'"></app-cabecera-titulo>
 
       <!--<div class="d-flex align-items-center ">
         <img class="ms-3 " src="../../../assets/Imagenes/open-data.png" alt="" width="60" height="55">
@@ -105,8 +102,10 @@
         
       </table>
       
+      <div class="row text-center">
+        <pagination-controls *ngIf="mostrarTablaXLS||mostrarTablaPDF||mostrarTablaCSV" (pageChange)="p = $event"></pagination-controls>
+      </div>
       
-      <pagination-controls *ngIf="mostrarTablaXLS||mostrarTablaPDF||mostrarTablaCSV" (pageChange)="p = $event"></pagination-controls>
 
       <div *ngIf="bannerInicial" class="d-flex align-items-center ">
         <div class="card-title text-center form-group col-md-6 offset-md-3">

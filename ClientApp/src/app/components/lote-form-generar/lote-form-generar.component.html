@@ -1,10 +1,7 @@
 <div class="container">
   <div class="card">
     <div class="card-body">
-      <cabecera-titulo [titulo]="'Registracion de Lote'"
-                       [rutaImagen]="'../../../assets/IconsGoogle/lote_px.png'"
-                       [tooltipIcono]="'Click para volver al escritorio'"
-                       [link]="'lote-tabla'"></cabecera-titulo>
+      <app-cabecera-titulo [nombreComponente]="'LoteFormGenerarComponent'"></app-cabecera-titulo>
 
       <form [formGroup]="Lote" (ngSubmit)="guardarDatos()">
         <div class="container-fluid">

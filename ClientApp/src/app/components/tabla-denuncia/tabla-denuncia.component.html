@@ -1,10 +1,7 @@
 <div class="container">
   <div class="card">
     <div class="card-body">
-      <cabecera-titulo [titulo]="'Tablero de Gestión de Denuncias'"
-                       [rutaImagen]="'../../../assets/IconsGoogle/denuncia.png'"
-                       [tooltipIcono]="'Click para volver al escritorio'"
-                       [link]="'bienvenida'"></cabecera-titulo>
+      <app-cabecera-titulo [nombreComponente]="'TablaDenunciaComponent'"></app-cabecera-titulo>
 
       <div class="row">
         <div class="col-md-3">
@@ -17,7 +14,7 @@
           </div>
         </div>
 
-        <div class="col-md-2">
+        <div class="col-md-3">
           <div class="form-floating">
             <select id="Tipo_Reclamo" class="form-select" [(ngModel)]='estadoDenunciaSeleccionado'>
               <option value="0">Todos</option>
@@ -37,11 +34,11 @@
           <thead class="tituloTabla">
             <tr>
               <th class="text-center" *ngFor="let cabecera of cabeceras ">{{cabecera}} </th>
-              <th class="text-center" *ngIf="isMantenimiento==true">Operaciones ver/editar</th>
+              <th class="text-center" *ngIf="isMantenimiento==true">Acciones</th>
             </tr>
           </thead>
 
-          <tbody class="textoTabla">
+          <tbody class="">
             <tr *ngFor="let Denuncia of Denuncias | paginate: { itemsPerPage: 10, currentPage: p }">
               <td class="text-center">{{Denuncia.nro_Denuncia}}</td>
               <td class="text-center">{{Denuncia.fecha| date: 'dd/MM/yyyy HH:MM'}}</td>
@@ -50,70 +47,34 @@
               <td class="text-center">{{Denuncia.prioridad}}</td>
               <td class="text-center">{{Denuncia.nombreUser}} </td>
               <td class="text-center" *ngIf="isMantenimiento==true">
-                <button type="button" class="btn btn-light" [routerLink]="['/trabajo-tabla',Denuncia.nro_Denuncia]"><img src="../../../assets/IconsGoogle/eyeglasses.svg" alt="" width="20" height="20" title="Visualizacion de Trabajos registrados"></button>
-                <button type="button" class="btn btn-outline-primary" [routerLink]="['/trabajo-form-generar',Denuncia.nro_Denuncia]">
-                  <img src="../../../assets/IconsGoogle/gear.svg" alt="" width="20" height="20" title="Registrar Trabajo">
+                <!-- <button type="button" class="btn btn-light" [routerLink]="['/trabajo-tabla',Denuncia.nro_Denuncia]"><img src="../../../assets/IconsGoogle/eyeglasses.svg" alt="" width="20" height="20" title="Visualizacion de Trabajos registrados"></button> -->
+                <button type="button" class="btn btn-outline-primary btn-sm" 
+                          [routerLink]="['/trabajo-tabla',Denuncia.nro_Denuncia]"                           
+                          title="Visualizacion de Trabajos registrados">
+                          <i class="bi bi-eyeglasses"></i>
                 </button>
-                <button type="button" class="btn btn-light" [routerLink]="['/denuncia-detalle',Denuncia.nro_Denuncia]"><img src="../../../assets/IconsGoogle/Mas_info.svg" alt="" width="20" height="20" title="Derivacion y/o Visualizacion denuncia"></button>
+                <!-- <button type="button" class="btn btn-outline-primary" [routerLink]="['/trabajo-form-generar',Denuncia.nro_Denuncia]">
+                  <img src="../../../assets/IconsGoogle/gear.svg" alt="" width="20" height="20" title="Registrar Trabajo">
+                </button> -->
+                <button type="button" class="btn btn-outline-primary btn-sm mx-1" 
+                          [routerLink]="['/trabajo-form-generar',Denuncia.nro_Denuncia]"                           
+                          title="Registrar Trabajo">
+                          <i class="bi bi-gear"></i>
+                </button>
+                <!-- <button type="button" class="btn btn-light" [routerLink]="['/denuncia-detalle',Denuncia.nro_Denuncia]"><img src="../../../assets/IconsGoogle/Mas_info.svg" alt="" width="20" height="20" title="Derivacion y/o Visualizacion denuncia"></button> -->
+                <button type="button" class="btn btn-outline-primary btn-sm" [routerLink]="['/denuncia-detalle',Denuncia.nro_Denuncia]" title="Derivacion y/o Visualizacion denuncia"><i class="bi bi-info-lg"></i></button>
               </td>
             </tr>
           </tbody>
         </table>
         <br />
-        <pagination-controls previousLabel="Anteriores" nextLabel="Siguientes" (pageChange)="p = $event"></pagination-controls>
+        <div class="row text-center">
+          <pagination-controls previousLabel="Anteriores" nextLabel="Siguientes" (pageChange)="p = $event"></pagination-controls>
+        </div>        
 
       </form>
-
-<div class="container">
-  <div class="card">
-    <div class="card-body">
-
-
-      <div class="d-flex align-items-center p-3 my-3 bg-purple bg-light shadow p-2 mb-5 rounded shadow-sm container">
-        <i class="bi bi-shield-lock text-dark" style="font-size: 2.5em;" title="Listado de Denuncias Activas."></i>
-        <div class="card-title text-center form-group col-md-8 offset-md-1">
-          <p>Tablero de Gestión de Denuncias</p>
-        </div>
-      </div>
-      <form [formGroup]="form">
-        
-        <br /><br />
-        <table datatable class="row-border hover table table-hover" style="padding-bottom: 2.5em">
-          <thead class="thead-dark tituloTabla">
-
-
-            <tr>
-              <th class="text-center" *ngFor="let cabecera of cabeceras ">{{cabecera}} </th>
-              <th class="text-center" *ngIf="isMantenimiento==true">Operaciones ver/editar</th>
-            </tr>
-          </thead>
-
-          <tbody class="textoTabla">
-            <tr *ngFor="let Denuncia of Denuncias | paginate: { itemsPerPage: 10, currentPage: p }">
-              <td class="text-center">{{Denuncia.nro_Denuncia}}</td>
-              <td class="text-center">{{Denuncia.fecha| date: 'dd/MM/yyyy HH:MM'}}</td>
-              <td class="text-center">{{Denuncia.tipo_Denuncia}}</td>
-              <td class="text-center">{{Denuncia.estado_Denuncia}}</td>
-              <td class="text-center">{{Denuncia.prioridad}}</td>
-              <td class="text-center">{{Denuncia.nombreUser}} </td>
-              <td class="text-center" *ngIf="isMantenimiento==true">
-                <button type="button" class="btn btn-light" [routerLink]="['/trabajo-tabla',Denuncia.nro_Denuncia]"><img src="../../../assets/IconsGoogle/eyeglasses.svg" alt="" width="20" height="20" title="Visualizacion de Trabajos registrados"></button>
-                <button type="button" class="btn btn-outline-primary" [routerLink]="['/trabajo-form-generar',Denuncia.nro_Denuncia]">
-                  <img src="../../../assets/IconsGoogle/gear.svg" alt="" width="20" height="20" title="Registrar Trabajo">
-                </button>
-                <button type="button" class="btn btn-light" [routerLink]="['/denuncia-detalle',Denuncia.nro_Denuncia]"><img src="../../../assets/IconsGoogle/Mas_info.svg" alt="" width="20" height="20" title="Derivacion y/o Visualizacion denuncia"></button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <pagination-controls previousLabel="Anteriores" nextLabel="Siguientes" (pageChange)="p = $event"></pagination-controls>
-      </form>
-
-    </div>
-    <div class="col-md-2 offset-4  ">
-      <button class="btn btn-primary btn-sm btn-block" (click)="volver()" style="display: flex; justify-content: center; align-items: center;"><i class="bi bi-arrow-left-circle fs-5"></i>&nbsp;Volver</button>
     </div>
   </div>
-  <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
 </div>
+
 
