@@ -14,19 +14,31 @@ export class ReclamoFinalizarComponent implements OnInit {
 
   @Output() eventoFinalizacionConfirmado: EventEmitter<any> = new EventEmitter();
   descripcion : string = "";
-  resultados: ClaveValor[] = [{clave : "CANCELAR", valor : "Cancelado"}, {clave : "SOLUCIONAR", valor : "Solucionado"}];
+  resultados: ClaveValor[] = [{clave : "CANCELAR", valor : "Cancelado"}, {clave : "SOLUCIONAR", valor : "Solucionado"},
+    {clave : "VOLVER_EN_CURSO", valor : "Volver a En Curso"}
+  ];
   resultadoSeleccionado: string = "SOLUCIONAR";
+  areas: Area[] = []; 
+  areaSelected: number = 0;
 
-  constructor(public activeModal: NgbActiveModal, public _toastService: ToastService) { }
+  constructor(public activeModal: NgbActiveModal, public _toastService: ToastService, private _areasService: AreasService) { }
 
   ngOnInit(): void {
+    this._areasService.getAreas().subscribe(
+      data => {
+        this.areas = data;
+      }
+    );
+
+    this.areaSelected = 1;
   }
 
   confirmarAsignacion() {
     if (this.resultadoSeleccionado && this.resultadoSeleccionado.length > 1 && this.descripcion && this.descripcion.length > 1) {
       this.eventoFinalizacionConfirmado.emit( {
         resultado: this.resultadoSeleccionado,
-        descripcion: this.descripcion   
+        descripcion: this.descripcion,
+        nroArea: this.areaSelected  
       });
     } else {
       this._toastService.showError("Debe indicar un resultado y descripción");
@@ -36,6 +48,10 @@ export class ReclamoFinalizarComponent implements OnInit {
 
   cancelarAsignacion() {
     this.activeModal.dismiss();
+  }
+
+  mostrarComboAreas() {
+    return this.resultadoSeleccionado == 'VOLVER_EN_CURSO';
   }
 
 }

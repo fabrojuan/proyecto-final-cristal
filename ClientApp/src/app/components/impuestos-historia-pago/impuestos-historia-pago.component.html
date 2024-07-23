@@ -1,0 +1,50 @@
+<div class="container">
+    <section class="section">
+  
+      <div class="row">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="card-title">Historial Pagos de Impuestos</h5>
+          </div>
+  
+          <div class="card-body">
+  
+            <table class="table table-striped table-sm">
+              <thead>
+                <tr>
+                  <th class="text-center" *ngFor="let cabecera of cabeceras">{{cabecera}} </th>
+                </tr>
+              </thead>
+  
+              <tbody>
+                <tr *ngFor="let impuesto of impuestos | paginate: { itemsPerPage: 11, currentPage: p }">
+                  <td class="text-center">{{impuesto.fechaPago | date: 'dd/MM/yyyy'}}</td>
+                  <td class="text-center">{{impuesto.periodo}}</td>
+                  <td class="text-center">{{impuesto.cuota}}</td>
+                  <td class="text-center">{{impuesto.importePagado|currency:'USD':'symbol'}}</td>
+                </tr>
+              </tbody>
+            </table>
+            <!-- End Table with stripped rows -->
+  
+          </div>
+        </div>
+      </div>
+    </section>
+  
+    <div class="row text-center">
+      <pagination-controls previousLabel="Anteriores" nextLabel="Siguientes" (pageChange)="p = $event"></pagination-controls>
+    </div>
+  
+    <div class="col-md-12 order-md-1">
+  
+      <div class="row">
+        <hr class="mb-4">
+        <div class="form-group col-md-12 mb-4 pt-3">    
+          <button type="button" class="btn btn-secondary col-md-4 offset-md-7" (click)="volver()">Volver</button>
+        </div>
+      </div>
+  
+    </div>
+  
+  </div>  

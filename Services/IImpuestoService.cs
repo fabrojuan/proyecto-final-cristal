@@ -11,5 +11,7 @@ namespace MVPSA_V2022.Services
 
         public ResultadoEjecucionProcesoCLS confirmarBoletas();
 
+        public IEnumerable<ImpuestoPagoDto> listarImpuestosPagados(int idLote);
+
     }
 }

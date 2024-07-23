@@ -280,7 +280,7 @@ namespace MVPSA_V2022.Services
                                          usuarioAlta = usuarioAlta.NombreUser,
                                          usuarioModificacion = usuarioModificacion.NombreUser
                                      })
-                                    .OrderBy(tr => tr.cod_Tipo_Reclamo)
+                                    .OrderBy(tr => tr.nombre)
                                     .ToList();
                 return listaTiposReclamo;
             }
@@ -548,6 +548,25 @@ namespace MVPSA_V2022.Services
                 dbContext.SaveChanges();
             }
 
+            if (aplicarAccionDto.codAccion.Equals("VOLVER_EN_CURSO"))
+            {
+                var reclamo = dbContext.Reclamos.Find(aplicarAccionDto.nroReclamo);
+                reclamo.CodEstadoReclamo = (int)EstadoReclamoEnum.EN_CURSO;
+                reclamo.FechaCierre = DateTime.Today;
+                reclamo.NroArea = aplicarAccionDto.codArea;
+                dbContext.Reclamos.Update(reclamo);
+
+                ObservacionReclamo observacionReclamo = new ObservacionReclamo();
+                observacionReclamo.CodAccion = aplicarAccionDto.codAccion;
+                observacionReclamo.CodEstadoReclamo = (int)EstadoReclamoEnum.SOLUCIONADO;
+                observacionReclamo.IdUsuarioAlta = int.Parse(aplicarAccionDto.idUsuario);
+                observacionReclamo.NroReclamo = aplicarAccionDto.nroReclamo;
+                observacionReclamo.Observacion = "El requerimiento pasa nuevamente a estado En Curso. " + aplicarAccionDto.observacion;
+                dbContext.ObservacionReclamos.Add(observacionReclamo);
+
+                dbContext.SaveChanges();
+            }
+
             if (aplicarAccionDto.codAccion.Equals("ASIGNAR"))
             {
                 var reclamo = dbContext.Reclamos.Find(aplicarAccionDto.nroReclamo);
@@ -571,6 +590,42 @@ namespace MVPSA_V2022.Services
                 observacionReclamo.NroReclamo = aplicarAccionDto.nroReclamo;
                 observacionReclamo.Observacion = "Se asigna requerimiento al área " +
                     area.Nombre + ". " + aplicarAccionDto.observacion;
+                dbContext.ObservacionReclamos.Add(observacionReclamo);
+
+                dbContext.SaveChanges();
+            }
+
+            if (aplicarAccionDto.codAccion.Equals("ACTIVAR"))
+            {
+                var reclamo = dbContext.Reclamos.Find(aplicarAccionDto.nroReclamo);
+                reclamo.CodEstadoReclamo = (int?)EstadoReclamoEnum.EN_CURSO;
+                dbContext.Reclamos.Update(reclamo);
+
+                ObservacionReclamo observacionReclamo = new ObservacionReclamo();
+                observacionReclamo.CodAccion = aplicarAccionDto.codAccion;
+                observacionReclamo.CodEstadoReclamo = (int)reclamo.CodEstadoReclamo;
+                observacionReclamo.IdUsuarioAlta = int.Parse(aplicarAccionDto.idUsuario);
+                observacionReclamo.NroReclamo = aplicarAccionDto.nroReclamo;
+                observacionReclamo.Observacion = "El requerimiento pasa nuevamente a estado EN CURSO."; 
+                dbContext.ObservacionReclamos.Add(observacionReclamo);
+
+                dbContext.SaveChanges();
+            }
+
+            if (aplicarAccionDto.codAccion.Equals("ENVIAR_A_CERRAR"))
+            {
+                var reclamo = dbContext.Reclamos.Find(aplicarAccionDto.nroReclamo);
+                reclamo.CodEstadoReclamo = (int?)EstadoReclamoEnum.PENDIENTE_CIERRE;
+                reclamo.NroArea = this.dbContext.Areas.Where(a => a.CodArea == "ME").First().NroArea;
+                dbContext.Reclamos.Update(reclamo);
+
+                ObservacionReclamo observacionReclamo = new ObservacionReclamo();
+                observacionReclamo.CodAccion = aplicarAccionDto.codAccion;
+                observacionReclamo.CodEstadoReclamo = (int)reclamo.CodEstadoReclamo;
+                observacionReclamo.IdUsuarioAlta = int.Parse(aplicarAccionDto.idUsuario);
+                observacionReclamo.NroReclamo = aplicarAccionDto.nroReclamo;
+                observacionReclamo.Observacion = "El requerimiento pasa a estado PENDIENTE DE CIERRE. " 
+                    + aplicarAccionDto.observacion; 
                 dbContext.ObservacionReclamos.Add(observacionReclamo);
 
                 dbContext.SaveChanges();
@@ -659,8 +714,9 @@ namespace MVPSA_V2022.Services
                 && usuario.IdTipoUsuarioNavigation?.TipoRol == "EMPLEADO";
 
             // Puede Finalizar
-            opciones.puedeFinalizar = codEstadoReclamo == ((int)EstadoReclamoEnum.EN_CURSO)
-                && usuario.IdTipoUsuarioNavigation.CodRol == "MDE";
+            opciones.puedeFinalizar = codEstadoReclamo == ((int)EstadoReclamoEnum.PENDIENTE_CIERRE)
+                && usuario.IdTipoUsuarioNavigation?.TipoRol == "EMPLEADO"; 
+                //&& usuario.IdTipoUsuarioNavigation.CodRol == "MDE";
 
             // Puede Ver Observaciones
             opciones.puedeVerObservaciones = usuario.IdTipoUsuarioNavigation?.TipoRol == "EMPLEADO"
@@ -672,6 +728,12 @@ namespace MVPSA_V2022.Services
 
             // Puede Suspender
             opciones.puedeSuspender = usuario.IdTipoUsuarioNavigation?.TipoRol == "EMPLEADO"
+                && codEstadoReclamo == ((int)EstadoReclamoEnum.EN_CURSO);
+
+            opciones.puedeActivar = usuario.IdTipoUsuarioNavigation?.TipoRol == "EMPLEADO"
+                && codEstadoReclamo == ((int)EstadoReclamoEnum.SUSPENDIDO);
+
+            opciones.puedeEnviarACerrar = usuario.IdTipoUsuarioNavigation?.TipoRol == "EMPLEADO"
                 && codEstadoReclamo == ((int)EstadoReclamoEnum.EN_CURSO);
 
             return opciones;

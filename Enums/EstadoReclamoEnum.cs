@@ -9,7 +9,8 @@ namespace MVPSA_V2022.Enums
         CANCELADO = 4,
         SOLUCIONADO = 5,
         SUSPENDIDO = 6,
-        RECHAZADO = 7
+        RECHAZADO = 7,
+        PENDIENTE_CIERRE = 8
     }
 }
 

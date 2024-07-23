@@ -179,7 +179,20 @@ export class TitulosServiceService {
       tituloLink: ""
     };
     this.configuration.push(tituloDatosFinanzasEconomicosComponent);
-    
+
+    /**
+     * HistoricoDenunciaTablaComponent
+     */
+    var tituloHistoricoDenunciaTablaComponent: Titulo = {
+      nombreComponente: "HistoricoDenunciaTablaComponent",
+      titulo: "Histórico de Denuncias",
+      tipoImagen: TipoImagenEnum.FOTO,
+      pathImagen: "../../../assets/IconsGoogle/denuncia.png",
+      link: "/bienvenida",
+      tituloLink: "Listado de Denuncias Solucionadas. Click para dashboard"
+    };
+    this.configuration.push(tituloHistoricoDenunciaTablaComponent);
+
 
   }
 }

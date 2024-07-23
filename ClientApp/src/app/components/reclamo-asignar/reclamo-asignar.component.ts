@@ -25,8 +25,6 @@ export class ReclamoAsignarComponent implements OnInit {
     this._areasService.getAreas().subscribe(
       data => {
         this.areas = data;
-        console.log(data);
-        console.log(this.areas);
       }
     );
   }

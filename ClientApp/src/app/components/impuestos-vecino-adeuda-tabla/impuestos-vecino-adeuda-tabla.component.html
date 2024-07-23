@@ -26,8 +26,8 @@
             </thead>
 
             <tbody>
-              <tr *ngFor="let impuesto of impuestos | paginate: { itemsPerPage: 11, currentPage: p }">
-                <td class="text-center">{{impuesto.periodo}}</td>
+              <tr *ngFor="let impuesto of impuestos | paginate: { itemsPerPage: 10, currentPage: p }">
+                <td class="text-center">{{impuesto.periodo}} <i *ngIf="impuesto.estaVencido" class="bi bi-exclamation text-danger fs-5" title="Impuesto vencido"></i></td>
                 <td class="text-center">{{impuesto.cuota}}</td>
                 <td class="text-center">{{impuesto.fechaVencimiento | date: 'dd/MM/yyyy'}}</td>
                 <td class="text-center">{{impuesto.importeBase|currency:'USD':'symbol'}}</td>
@@ -59,10 +59,10 @@
     <div class="row">
       <hr class="mb-4">
       <div class="form-group col-md-12 mb-3 pt-3">
-        <button type="button" class="btn btn-primary col-md-4 offset-md-1 " (click)="guardarDatos()">Pagar</button>
+        <button type="button" class="btn btn-primary col-md-4 offset-md-1 " (click)="guardarDatos()">Pagar</button>        
         <button type="button" class="btn btn-secondary col-md-4 offset-md-1" (click)="volver()">Volver</button>
+        <button type="button" class="btn btn-link text-rigth col-2" (click)="verHistorialPago()"><small>Historial de Pagos</small></button>
       </div>
-
     </div>
 
   </div>

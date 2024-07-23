@@ -114,6 +114,9 @@ import { ModalSiNoComponent } from './components/modal-si-no/modal-si-no.compone
 import { CabeceraTituloComponent } from './components/cabecera-titulo/cabecera-titulo.component';
 
 import { TitulosServiceService } from './services/titulos-service.service';
+import { ImpuestosHistoriaPagoComponent } from './components/impuestos-historia-pago/impuestos-historia-pago.component';
+import { ReclamoEnviarFinalizarComponent } from './components/reclamo-enviar-finalizar/reclamo-enviar-finalizar.component';
+import { ImpuestoHistorialPagoComponent } from './components/impuesto-historial-pago/impuesto-historial-pago.component';
 
 
 @NgModule({
@@ -197,7 +200,10 @@ import { TitulosServiceService } from './services/titulos-service.service';
     VecinoNuevaContraseniaComponent,
     PaginaNoEncontradaComponent,
     ModalSiNoComponent,
-    CabeceraTituloComponent
+    CabeceraTituloComponent,
+    ImpuestosHistoriaPagoComponent,
+    ReclamoEnviarFinalizarComponent,
+    ImpuestoHistorialPagoComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -224,6 +230,7 @@ import { TitulosServiceService } from './services/titulos-service.service';
       { path: 'impuesto-pago-send', component: ImpuestoPagoSendComponent },
       { path: 'impuestos-vecino-adeuda-tabla', component: ImpuestosVecinoAdeudaTablaComponent },
       { path: 'impuestos-vecino-adeuda-tabla/:id', component: ImpuestosVecinoAdeudaTablaComponent },
+      { path: 'impuesto-historial-pago/:id', component: ImpuestosHistoriaPagoComponent },
       { path: 'impuestos-vecino-identificador', component: ImpuestosVecinoIdentificadorComponent },
       { path: 'impuestos-vecino-identificador/:id', component: ImpuestosVecinoIdentificadorComponent },
       { path: 'login', component: LoginComponent },
