@@ -134,6 +134,7 @@ namespace MVPSA_V2022.Services
                                   on det.IdBoleta equals bol.IdBoleta
                                   where ii.IdLote == idLote
                                   && bol.FechaPago != null
+                                  && det.Estado == 1
                                   orderby bol.FechaPago descending, ii.Año, ii.Mes
                                   select new ImpuestoPagoDto
                                   {
