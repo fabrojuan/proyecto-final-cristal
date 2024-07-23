@@ -21,7 +21,7 @@
             <thead>
               <tr>
                 <th class="text-center" *ngFor="let cabecera of cabeceras">{{cabecera}} </th>
-                <!-- <th class="text-center"><input class="check" (change)="verCheck()" type="checkbox" title="Todos/Ninguno" /></th> -->
+                <th class="text-center"><input class="check" (change)="seleccionarTodos()" [(ngModel)]="opcionSeleccionarTodo" type="checkbox" title="Todos/Ninguno"/></th>
               </tr>
             </thead>
 
@@ -34,8 +34,12 @@
                 <td class="text-center">{{impuesto.interesValor|currency:'USD':'symbol'}}</td>
                 <td class="text-center">{{impuesto.importeFinal|currency:'USD':'symbol'}}</td>
                 <td class="text-center">
-                  <input class="check" [name]="impuesto.idImpuesto" (change)="verCheck()" [value]="impuesto.importeFinal" type="checkbox" title="Pagar" />
+                  <input class="check" [name]="impuesto.idImpuesto" (change)="seleccionarImpuesto()" [(ngModel)]="impuesto.estaSeleccionado" type="checkbox" title="Pagar" />
                 </td>
+                                
+                <!-- <td class="text-center">
+                  <input class="check" [name]="impuesto.idImpuesto" (change)="verCheck()" [value]="impuesto.importeFinal" type="checkbox" title="Pagar" />
+                </td> -->
               </tr>
             </tbody>
           </table>

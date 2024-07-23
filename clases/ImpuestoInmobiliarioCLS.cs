@@ -20,6 +20,7 @@ namespace MVPSA_V2022.clases
         public string? periodo { get; set; }
         public string? cuota { get; set; }
         public Boolean estaVencido { get; set; }
+        public Boolean estaSeleccionado { get; set; }
         
     }
 }
