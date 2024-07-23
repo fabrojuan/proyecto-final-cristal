@@ -19,6 +19,7 @@ export class ImpuestosVecinoAdeudaTablaComponent implements OnInit {
   cabeceras: string[] = ["Periodo", "Cuota", "Vencimiento", "Nominal", "Recargo", "Importe Final"];
   idsImpuestosSeleccionados?: string;
   opcionSeleccionarTodo: boolean = false;
+  seEstaRedireccionandoAMobbex: boolean = false;
 
   constructor(private impuestoService: ImpuestoService, private router: Router, private activatedRoute: ActivatedRoute,
               public _toastService: ToastService) {
@@ -31,6 +32,7 @@ export class ImpuestosVecinoAdeudaTablaComponent implements OnInit {
     if (this.parametro >= 1) {
       this.impuestoService.ListarImpuestosAdeudados(this.parametro).subscribe(data => this.impuestos = data);
     }
+    this.seEstaRedireccionandoAMobbex = false;
   }
 
   volver() {
@@ -66,11 +68,14 @@ export class ImpuestosVecinoAdeudaTablaComponent implements OnInit {
       }
    
 
+    this.seEstaRedireccionandoAMobbex = true;
     this.idsImpuestosSeleccionados = this.impuestos.filter(item => item.estaSeleccionado).map(item => item.idImpuesto).join("-");
     this.impuestoService.guardarBoleta({"Valores": this.idsImpuestosSeleccionados, "idLote": this.parametro}).subscribe(data => {
-      this.router.navigate(["/"]);
-    })
-    this.router.navigate(["/impuesto-pago-send"]);
+      window.location.href = data.urlMobexx;      
+    }, error => {
+      this.seEstaRedireccionandoAMobbex = false;
+      this._toastService.showError("Ocurrió un error y no se pudo generar el pago");
+    });
 
   }
 

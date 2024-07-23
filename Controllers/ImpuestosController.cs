@@ -15,8 +15,10 @@ using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using System.Transactions;
 using static System.Net.WebRequestMethods;
@@ -159,7 +161,7 @@ namespace MVPSA_V2022.Controllers
         [HttpPost]
         [Route("api/impuestos/guardarBoleta")]
         [AllowAnonymous]
-        public async Task<ActionResult> guardarBoleta([FromBody] DetalleBoletaCLS oDetalleBoletaCLS)
+        public IActionResult guardarBoleta([FromBody] DetalleBoletaCLS oDetalleBoletaCLS)
         //  public async Task<IActionResult> guardarBoleta([FromBody] DetalleBoletaCLS oDetalleBoletaCLS)
 
         {
@@ -273,11 +275,11 @@ namespace MVPSA_V2022.Controllers
                     //request.Content.Headers.Add("Content-Type", "application/json");
                     var uri = "https://api.mobbex.com/p/checkout";
 
-                    var response = await httpClient.PostAsync(uri, new StringContent(jsonString, Encoding.UTF8, "application/json"));
+                    var response = httpClient.PostAsync(uri, new StringContent(jsonString, Encoding.UTF8, "application/json")).Result;
                     if (response.IsSuccessStatusCode)
                     {
                         //LA VARIANLE Cuerpo es la que tiene el Ok devuelto por mobexx y debo redireccionar al site para el pago efectivo.
-                        var cuerpo = await response.Content.ReadAsStringAsync();
+                        var cuerpo = response.Content.ReadAsStringAsync().Result;
                         rtaChMobxx = JsonConvert.DeserializeObject<RespCheckoutMOBXX>(cuerpo);
                         rtaChMobxx = new RespCheckoutMOBXX(rtaChMobxx.data.id, rtaChMobxx.data.url, rtaChMobxx.data.description, rtaChMobxx.data.total, rtaChMobxx.data.created);
                         HttpContext.Session.SetString("urlMobbex", rtaChMobxx.data.url.ToString());
@@ -302,7 +304,7 @@ namespace MVPSA_V2022.Controllers
                     }
                     else
                     {
-                        var cuerpo = await response.Content.ReadAsStringAsync();
+                        var cuerpo = response.Content.ReadAsStringAsync().Result;
                         Console.WriteLine("La respuesta es: " + cuerpo);
                     }
 
@@ -314,7 +316,13 @@ namespace MVPSA_V2022.Controllers
                     Console.WriteLine(ex);
                 }
             }
-            return Redirect(rtaChMobxx!.data.url);  //
+
+
+            var urlMobbex = new UrlMobexx();
+            urlMobbex.urlMobexx = rtaChMobxx!.data.url.ToString();
+            return Ok(urlMobbex);
+            //return Ok(WebUtility.UrlEncode(rtaChMobxx!.data.url.ToString()));
+            //return Ok(UrlEncoder.Create().Encode(rtaChMobxx!.data.url) );  //
 
             //return Ok();
         }   //FIN GUARdar Boleta y enviar a mobex.
