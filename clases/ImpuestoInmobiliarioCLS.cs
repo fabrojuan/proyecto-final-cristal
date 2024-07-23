@@ -19,6 +19,7 @@ namespace MVPSA_V2022.clases
         public int idLote { get; set; }
         public string? periodo { get; set; }
         public string? cuota { get; set; }
+        public Boolean estaVencido { get; set; }
         
     }
 }

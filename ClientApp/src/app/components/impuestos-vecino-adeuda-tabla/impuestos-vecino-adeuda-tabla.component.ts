@@ -85,6 +85,10 @@ export class ImpuestosVecinoAdeudaTablaComponent implements OnInit {
 
   }
 
+  verHistorialPago() {
+    this.router.navigate(["/impuesto-historial-pago/" + this.parametro]);
+  }
+
 
 
 }

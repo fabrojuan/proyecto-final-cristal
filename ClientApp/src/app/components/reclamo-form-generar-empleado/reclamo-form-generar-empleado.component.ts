@@ -25,7 +25,7 @@ export class ReclamoFormGenerarEmpleadoComponent implements OnInit {
   mostrarMensajeUsuario:boolean = false;
   esMensajeOk:boolean = true;
   areas: Area[] = []; 
-  opcionesReclamoInterno: ClaveValor[] = [{clave : "N", valor : "No"}, {clave : "S", valor : "Si"}];
+  opcionesReclamoInterno: ClaveValor[] = [{clave : "N", valor : "No"}, {clave : "S", valor : "Sí"}];
 
   constructor(private reclamoservice: ReclamoService, private vecinoService: VecinoService,
               private _areasService: AreasService, public _toastService: ToastService

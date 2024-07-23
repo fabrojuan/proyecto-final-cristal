@@ -10,7 +10,7 @@ const PROXY_CONFIG = [{
     "/api/Denuncia",
      "/api/vecinos",
         "/api/roles",
-        "/api/Impuestos",
+        "/api/impuestos",
         "/api/reclamos",
         "/api/Trabajo",
         "/api/PruebaGrafica",
