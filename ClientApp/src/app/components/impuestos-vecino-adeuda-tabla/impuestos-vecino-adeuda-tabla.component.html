@@ -30,7 +30,7 @@
                 <td class="text-center">{{impuesto.periodo}} <i *ngIf="impuesto.estaVencido" class="bi bi-exclamation text-danger fs-5" title="Impuesto vencido"></i></td>
                 <td class="text-center">{{impuesto.cuota}}</td>
                 <td class="text-center">{{impuesto.fechaVencimiento | date: 'dd/MM/yyyy'}}</td>
-                <td class="text-center">{{impuesto.importeBase|currency:'USD':'symbol'}}</td>
+                <td class="text-center">{{impuesto.importeNeto|currency:'USD':'symbol'}}</td>
                 <td class="text-center">{{impuesto.interesValor|currency:'USD':'symbol'}}</td>
                 <td class="text-center">{{impuesto.importeFinal|currency:'USD':'symbol'}}</td>
                 <td class="text-center">
