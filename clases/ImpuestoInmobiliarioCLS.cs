@@ -14,6 +14,7 @@ namespace MVPSA_V2022.clases
         public int estado { get; set; }
         public decimal importeBase { get; set; }
         public decimal interesValor { get; set; }
+        public decimal importeNeto { get; set; }
         public decimal importeFinal { get; set; }
         public int bhabilitado { get; set; }
         public int idLote { get; set; }

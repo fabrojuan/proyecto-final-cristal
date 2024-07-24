@@ -112,6 +112,7 @@ namespace MVPSA_V2022.Controllers
                                       anio = (int)impuestoinmobiliario.Año,
                                       importeBase = (decimal)impuestoinmobiliario.ImporteBase,
                                       interesValor = (decimal)impuestoinmobiliario.InteresValor,
+                                      importeNeto = (decimal)impuestoinmobiliario.ImporteFinal - (decimal)impuestoinmobiliario.InteresValor,
                                       importeFinal = (decimal)impuestoinmobiliario.ImporteFinal,
                                       periodo = impuestoinmobiliario.Mes == 0 ?  impuestoinmobiliario.Año.ToString() : 
                                       impuestoinmobiliario.Año.ToString() + "/" + impuestoinmobiliario.Mes.ToString(),

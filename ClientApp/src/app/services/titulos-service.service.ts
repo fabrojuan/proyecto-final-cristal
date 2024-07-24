@@ -69,7 +69,7 @@ export class TitulosServiceService {
       nombreComponente: "PaginaTablaComponent",
       titulo: "Tablero de Gestión de Páginas",
       tipoImagen: TipoImagenEnum.ICONO,
-      pathImagen: "bi bi-book",
+      pathImagen: "bi bi-file-earmark-fill",
       link: "/bienvenida",
       tituloLink: ""
     };
@@ -95,7 +95,7 @@ export class TitulosServiceService {
       nombreComponente: "TipoRolTablaComponent",
       titulo: "Tablero de Gestión de Roles",
       tipoImagen: TipoImagenEnum.ICONO,
-      pathImagen: "bi bi-list-task",
+      pathImagen: "bi bi-person-rolodex",
       link: "/bienvenida",
       tituloLink: ""
     };
@@ -107,8 +107,8 @@ export class TitulosServiceService {
     var tituloSugerenciaTablaComponent: Titulo = {
       nombreComponente: "SugerenciaTablaComponent",
       titulo: "Tablero de Gestión de Sugerencias",
-      tipoImagen: TipoImagenEnum.FOTO,
-      pathImagen: "../../../assets/IconsGoogle/patch-plus-fll.svg",
+      tipoImagen: TipoImagenEnum.ICONO,
+      pathImagen: "bu bi-envelope-paper-heart",
       link: "/bienvenida",
       tituloLink: ""
     };
