@@ -1,6 +1,3 @@
-USE [M_VPSA_V3]
-GO
-/****** Object:  StoredProcedure [dbo].[ACTUALIZACION_DETALLES_E_IMPUESTOS]    Script Date: 30/4/2023 17:11:55 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -80,6 +77,34 @@ BEGIN
 
 	-- LIBERAR EL RECURSO
 	DEALLOCATE MI_CURSOR;
+
+    ------------------ Si se pago una cuota mensual deben anularse la cuota unica -----------------
+    UPDATE IMPUESTOINMOBILIARIO
+    SET Estado = 3
+    FROM IMPUESTOINMOBILIARIO ii
+    INNER JOIN (
+        SELECT ii.IdLote, ii.Año
+        FROM BOLETA bol
+        INNER JOIN DETALLEBOLETA det ON bol.IdBoleta = det.IdBoleta
+        INNER JOIN IMPUESTOINMOBILIARIO ii ON ii.IdImpuesto = det.IdImpuesto
+        WHERE bol.IdBoleta = @IdBoleta_par
+        AND ii.Mes != 0
+    ) subquery ON ii.IdLote = subquery.IdLote AND ii.Año = subquery.Año
+    WHERE ii.Mes = 0;
+
+    ------------------ Si se pago una cuota unica deben anularse las mensuales -----------------
+    UPDATE ii
+    SET ii.Estado = 3
+    FROM IMPUESTOINMOBILIARIO ii
+    INNER JOIN (
+        SELECT ii.IdLote, ii.Año 
+        FROM BOLETA bol
+        INNER JOIN DETALLEBOLETA det ON det.IdBoleta = bol.IdBoleta
+        INNER JOIN IMPUESTOINMOBILIARIO ii ON ii.IdImpuesto = det.IdImpuesto
+        WHERE bol.IdBoleta = @IdBoleta_par
+        AND ii.Mes = 0
+    ) subquery ON ii.IdLote = subquery.IdLote AND ii.Año = subquery.Año
+    WHERE ii.Mes != 0;
 	
 -------------------- nuevo registro en tabla RECIBO ------------------
 	DECLARE @IdRecibo INT

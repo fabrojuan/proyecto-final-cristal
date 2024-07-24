@@ -26,7 +26,7 @@ export class ImpuestoService {
   }
 
   public ListarImpuestosAdeudados(idLote:any): Observable<any> {
-    return this.http.get(this.urlBase + 'api/impuestos/ListarImpuestosAdeudados/' + idLote).pipe(map(res => res));
+    return this.http.get(this.urlBase + 'api/impuestos/' + idLote + "/impagos").pipe(map(res => res));
   }
 
   public listarHistorialPago(idLote:any): Observable<any> {
