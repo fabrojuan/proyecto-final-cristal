@@ -92,7 +92,7 @@ namespace MVPSA_V2022.Controllers
         //Fin ejecucion Confirmacion Boletas.
         //Impuestos Por Lote 
         [HttpGet]
-        [Route("api/impuestos/ListarImpuestosAdeudados/{idLote}")]
+        [Route("api/impuestos/{idLote}/impagos")]
         [AllowAnonymous]
         public IEnumerable<ImpuestoInmobiliarioCLS> ListarTrabajos(int idLote)
         {
@@ -102,7 +102,7 @@ namespace MVPSA_V2022.Controllers
             {
                 listaImpuestos = (from impuestoinmobiliario in bd.Impuestoinmobiliarios
                                   where impuestoinmobiliario.IdLote == idLote
-                                  && impuestoinmobiliario.Estado != 1 
+                                  && impuestoinmobiliario.Estado == 0 
                                   select new ImpuestoInmobiliarioCLS
 
                                   {
