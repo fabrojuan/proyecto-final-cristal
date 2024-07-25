@@ -63,4 +63,11 @@ export class ImpuestosVecinoIdentificadorComponent implements OnInit {
 
   }
 
+  validateNumber(event: any): void {
+    const input = event.target;
+    if (input.value <= 0) {
+      input.value = '';
+    }
+  }
+
 }
