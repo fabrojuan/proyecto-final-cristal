@@ -40,6 +40,8 @@ builder.Services.AddDbContext<M_VPSA_V3Context>(options
 builder.Services.AddScoped<IReclamoService, ReclamoService>();
 builder.Services.AddScoped<IDenunciaService, DenunciaService>();
 builder.Services.AddScoped<IReclamoService, ReclamoService>();
+builder.Services.AddScoped<INotificacionService, NotificacionService>();
+builder.Services.AddScoped<INotificacionVecinoService, NotificacionVecinoService>();
 builder.Services.AddScoped<ITrabajoReclamoService, TrabajoReclamoService>();
 builder.Services.AddSingleton<IPagoService, PagoService>();
 builder.Services.AddScoped<IindicadoresService, IndicadoresService>();

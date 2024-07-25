@@ -15,13 +15,15 @@ namespace MVPSA_V2022.Services
         public readonly IMapper mapper;
         public readonly IUsuarioService usuarioService;
         private readonly M_VPSA_V3Context dbContext;
+        private readonly INotificacionVecinoService notificacionVecinoService;
 
         public ReclamoService(IMapper mapper, IUsuarioService usuarioService,
-            M_VPSA_V3Context dbContext)
+            M_VPSA_V3Context dbContext, INotificacionVecinoService notificacionVecinoService)
         {
             this.mapper = mapper;
             this.usuarioService = usuarioService;
             this.dbContext = dbContext;
+            this.notificacionVecinoService = notificacionVecinoService;
         }
 
         /**
@@ -630,6 +632,8 @@ namespace MVPSA_V2022.Services
 
                 dbContext.SaveChanges();
             }
+
+            notificacionVecinoService.notificarVecinoCambioEstadoReclamo(aplicarAccionDto.nroReclamo);
 
         }
 
