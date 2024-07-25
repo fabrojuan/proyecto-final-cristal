@@ -1486,3 +1486,16 @@ FROM            dbo.RECLAMO AS rec INNER JOIN
                          dbo.PRIORIDAD_RECLAMO AS pre ON pre.Nro_Prioridad = rec.Nro_Prioridad LEFT OUTER JOIN
                          dbo.USUARIO AS usu ON usu.idUsuario = rec.IdUsuario LEFT OUTER JOIN
                          dbo.PERSONA AS per ON per.idPersona = usu.idPersona;
+
+						 /**
+* Envio de Correos
+*/
+CREATE TABLE [dbo].[EmailQueue](
+    Id              int             NOT NULL PRIMARY KEY IDENTITY(1,1),
+    Recipients      varchar(250)    NOT NULL,
+    Cc_recipients   varchar(250)    NULL,
+    Email_Subject   varchar(250)    NOT NULL,
+    Email_body      varchar(max)    NULL,
+    QueueTime       datetime2       NOT NULL,
+    SentTime        datetime2       NULL
+);
