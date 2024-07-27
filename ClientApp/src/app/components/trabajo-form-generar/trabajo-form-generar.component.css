@@ -1,29 +1,14 @@
-/*.container {
-  max-width: 120rem;
-}*/
+
 
 .lh-condensed {
   line-height: 1.25;
 }
 
-/*.tituloFormulario {
-  font-family: "Times New Roman", Times, serif;
-  font-size: 2em;
-}*/
 
 .alert {
   background-color: #2196F3;
 }
-/*Separacion entre campo label symbol text area*/
-/*.letraSubtitulos label {
-  margin-bottom: 0.3em;
-}
-.letraSubtitulos {
-  color: #444444;
-  font-size: 1em;
-  font-weight: 900;*/
-  /*text-shadow: 2px 3px 3px #8d5656;*/
-/*}*/
+
 
 .combobox {
   font-family: "Times New Roman", Times, serif;
@@ -31,32 +16,13 @@
   color: #240f7d;
 }
 
-/*.letraGral {
-  color: #000000;
-  font-size: 0.9em;
-  font-weight: 900;*/
-  /*text-shadow: 3px 4px 5px #555;*/
-  /*font-family: "Times New Roman", Times, serif;
-  font-size: .9em;
-  color: #ffffff;*/
-/*}
 
-.letraGral2 {*/
-  /*font-family: "Times New Roman";*/
-  /*color: #240f7d;
-  font-size: 0.9em;
-  font-weight: 900;*/
-  /*text-shadow: 2px 2px 1px #555;*/
-/*}*/
 
 .letraButton {
   color: rgba(150,224,236,1);
   font-size: 0.8em;
   font-weight: 900;
   text-shadow: 2px 3px 4px #555;
-  /*font-family: "Times New Roman", Times, serif;
-  font-size: .9em;
-  color: #ffffff;*/
 }
 
 
@@ -65,12 +31,6 @@
   box-shadow: none; /* You may want to include this as bootstrap applies these styles too */
   background-color: transparent;
 }
-
-/*.fondo {
-  background: rgb(81,197,245);
-  background: linear-gradient(76deg, rgba(81,197,245,1) 0%, rgba(67,116,237,1) 14%, rgba(150,224,236,1) 100%);*/
-  /*background-color: #a9a2c6;*/
-/*}*/
 
 .sin-borde {
   border: 0;

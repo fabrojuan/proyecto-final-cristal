@@ -117,6 +117,7 @@ import { TitulosServiceService } from './services/titulos-service.service';
 import { ImpuestosHistoriaPagoComponent } from './components/impuestos-historia-pago/impuestos-historia-pago.component';
 import { ReclamoEnviarFinalizarComponent } from './components/reclamo-enviar-finalizar/reclamo-enviar-finalizar.component';
 import { ImpuestoHistorialPagoComponent } from './components/impuesto-historial-pago/impuesto-historial-pago.component';
+import { ReclamoVerImagenesComponent } from './components/reclamo-ver-imagenes/reclamo-ver-imagenes.component';
 
 
 @NgModule({
@@ -203,7 +204,8 @@ import { ImpuestoHistorialPagoComponent } from './components/impuesto-historial-
     CabeceraTituloComponent,
     ImpuestosHistoriaPagoComponent,
     ReclamoEnviarFinalizarComponent,
-    ImpuestoHistorialPagoComponent
+    ImpuestoHistorialPagoComponent,
+    ReclamoVerImagenesComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

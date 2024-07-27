@@ -26,6 +26,10 @@ export class IndicadoresService {
     return this.http.get(this.urlBase + 'api/Lote/LotesCargados').pipe(map(res => res));
   }
 
+  public cantidadDatosAbiertosGenerados(): Observable<any> {
+    return this.http.get(this.urlBase + 'api/DatosAbiertos/cantidadDatosAbiertosGenerados').pipe(map(res => res));
+  }
+
   public CantidadDenunciasAbiertas(): Observable<any> {
     return this.http.get(this.urlBase + 'api/Indicadores/CantidadDenunciasAbiertas').pipe(map(res => res));
   }
@@ -39,6 +43,8 @@ export class IndicadoresService {
  public Denunciasportipo(): Observable<any> {
     return this.http.get(this.urlBase + 'api/Indicadores/DenunciasporTipo').pipe(map(res => res));
   }
+
+
  
   /**
    * Reclamos

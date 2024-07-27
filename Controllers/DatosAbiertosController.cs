@@ -136,27 +136,6 @@ namespace MVPSA_V2022.Controllers
             }
 
         }
-        //[HttpGet]
-        //[Route("api/DatosAbiertos/ListarFinancierosExcel")]
-        //public IEnumerable<DatosAbiertosCLS> ListarFinancierosExcel()
-        //{
-        //    List<DatosAbiertosCLS> listaDatosFincanzas;
-        //    using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
-        //    {
-
-        //        listaDatosFincanzas = (from datosAbiertos in bd.DatosAbiertos
-        //                               where datosAbiertos.Bhabilitado == 1 && datosAbiertos.Extension == "XLSX"
-        //                               select new DatosAbiertosCLS
-        //                               {
-        //                                   idArchivo = datosAbiertos.IdArchivo,
-        //                                   nombreArchivo = !String.IsNullOrEmpty(datosAbiertos.NombreArchivo) ? datosAbiertos.NombreArchivo : "No Posee",
-        //                                   tamaño = datosAbiertos.Tamaño,
-        //                                   ubicacion = !String.IsNullOrEmpty(datosAbiertos.Ubicacion) ? datosAbiertos.Ubicacion : "No Posee"
-        //                               }).ToList();
-        //        return listaDatosFincanzas;
-        //    }
-
-        //}
 
         //funcion para la descarga de archivos desde datos abiertos visibles para los vecinos.
         [HttpGet]
@@ -360,9 +339,6 @@ namespace MVPSA_V2022.Controllers
 
                 return Convert.ToBase64String(buffer);
 
-
-
-
             }
 
         }
@@ -490,9 +466,35 @@ namespace MVPSA_V2022.Controllers
             }
             return rpta;
         }
+        //Cantidad de datos abiertos generados..cantidadDatosAbiertosGenerados
+        [HttpGet]
+        [Route("api/DatosAbiertos/cantidadDatosAbiertosGenerados")]
+        public ChartDatosAbiertos cantidadDatosAbiertosGenerados()
+        {
+            ChartDatosAbiertos oChartDatos = new ChartDatosAbiertos();
+
+            try
+            {
+
+                using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
+                {
+                    oChartDatos.totalDatosAbiertos = (from datosAbiertos in bd.DatosAbiertos
+                                                      where datosAbiertos.Bhabilitado == 1
+                                                      select new DatosAbiertosCLS
+                                                      {
+                                                          idArchivo = (int)datosAbiertos.IdArchivo,
+                                                      }).Count();
 
 
+                    return oChartDatos;
+                }
 
-
-    }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return oChartDatos;
+            }
+        }
+        }
 }

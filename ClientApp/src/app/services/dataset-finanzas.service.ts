@@ -24,9 +24,6 @@ export class DatasetFinanzasService {
   public ListarFinancieros() {
     return this.http.get(this.urlBase + 'api/DatosAbiertos/ListarFinancieros').pipe(map(res => res));
   }
-  //public ListarFinancierosExcel() {
-  //  return this.http.get(this.urlBase + 'api/DatosAbiertos/ListarFinancierosExcel').pipe(map(res => res));
-  //}
 
   public SanitizarUrls() {
     return this.http.get(this.urlBase + 'api/DatosAbiertos/SanitizarUrls').pipe(map(res => res));

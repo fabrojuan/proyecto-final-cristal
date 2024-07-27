@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net.Mime;
 using System.Security.Claims;
 using System.Text;
 
@@ -203,6 +204,14 @@ namespace MVPSA_V2022.Controllers
         public IActionResult getOpcionesReclamo([FromHeader(Name = "id_usuario")] string idUsuario,
                                                  int nroReclamo) {
             return Ok(this.reclamoService.getOpcionesReclamo(nroReclamo, Int32.Parse(idUsuario)));
+        }
+
+        [HttpGet]
+        [Route("{nroReclamo}/imagenes/{nroImagen}")]
+        public IActionResult getImagenReclamo(int nroReclamo, int nroImagen) {
+            // Setting the response content type to plain text
+            Response.ContentType = MediaTypeNames.Text.Plain;
+            return Ok(this.reclamoService.getImagenReclamo(nroReclamo, nroImagen));
         }
 
     }

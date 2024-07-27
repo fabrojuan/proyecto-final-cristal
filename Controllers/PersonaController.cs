@@ -31,15 +31,10 @@ namespace MVPSA_V2022.Controllers
                 {
                     if (oPersonaCLS.Iidpersona == 0)
                     {
-                        //Resolver duplicacion de persona porque tambien lo registro cuando genero un lote, el vecino si se registra luego 
-                        // de generar el lote deberia actualizar solo telefono y mail ya que los otros datos los tendremos por dni.
-#pragma warning disable CS8604 // Posible argumento de referencia nulo
-#pragma warning disable CS8602 // Desreferencia de una referencia posiblemente NULL.
+                       
                         string FechaFormateada = oPersonaCLS.FechaNac.Replace("/", "-");
-#pragma warning restore CS8602 // Desreferencia de una referencia posiblemente NULL.
                         DateTime dt =
                         DateTime.ParseExact(FechaFormateada, "dd-MM-yyyy", CultureInfo.InvariantCulture);
-#pragma warning restore CS8604 //Posible argumento de referencia nulo
                         Persona oPersona = new Persona();
                         oPersona.Nombre = oPersonaCLS.Nombre;
                         oPersona.Apellido = oPersonaCLS.Apellido;
@@ -82,7 +77,7 @@ namespace MVPSA_V2022.Controllers
         //*********************Fin Registrar Persona ******************************************
 
         //********************* Buscar si existe Persona ******************************************
-
+        [HttpGet]
         [Route("api/Persona/RecuperarPersonaPreExistente/{dniTitular}")]
         public int RecuperarPersonaPreExistente(string dniTitular)
         {

@@ -1,13 +1,7 @@
 <div class="container">
   <div class="card">
     <div class="card-body">
-
-      <div class="d-flex align-items-center">
-        <img src="../../../assets/Imagenes/trabajando.svg" alt="" width="40" height="40"[routerLink]="['/tabla-denuncia']" title="Listado de Denuncias Activas.Click para volver al tablero">
-        <div class="card-title text-center form-group col-md-8 offset-md-1">
-          <p>Trabajos realizados en la Denuncia</p>
-        </div>
-      </div>
+      <app-cabecera-titulo [nombreComponente]="'TrabajoTablaComponent'"></app-cabecera-titulo>
       <table class="table table-striped table-sm" style="padding-bottom: 1.0em">
         <thead class="thead-dark tituloTabla">
           <tr>
@@ -24,11 +18,12 @@
             <td class="text-center">{{trabajo.apellidoEmpleado}}</td>
 
             <td class="text-center" *ngIf="isMantenimiento==true">
-              <button type="button" class="btn btn-light" [routerLink]="['/trabajo-form-generar',trabajo.nro_Denuncia]">
-                <img src="../../../assets/IconsGoogle/gear.svg" alt="" width="24" height="24" title="Cargar Trabajo">
+              <button type="button" class="btn btn-outline-primary btn-sm" [routerLink]="['/trabajo-form-generar',trabajo.nro_Denuncia]" title="Registrar nuevo trabajo">
+                <i class="bi bi-gear"></i>
+
               </button>
-              <button type="button" class="btn btn-light" [routerLink]="['/trabajo-detalle-denuncia',trabajo.nro_Trabajo]"><img src="../../../assets/icons/eye.svg" alt="" width="24" height="24" title="Ver Detalles"></button>
-              <!-- <button type="button" class="btn btn-light"><img src="../../../assets/IconsGoogle/pause.svg" alt="" width="24" height="24" title="Suspender"></button>-->
+              <button type="button" class="btn btn-outline-primary btn-sm" [routerLink]="['/trabajo-detalle-denuncia',trabajo.nro_Trabajo]" title="Ver detalle de trabajo realizado"> <i class="bi bi-eye-fill"></i></button>
+             
             </td>
           </tr>
         </tbody>

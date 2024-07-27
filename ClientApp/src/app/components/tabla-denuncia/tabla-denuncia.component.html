@@ -34,20 +34,19 @@
           <thead class="tituloTabla">
             <tr>
               <th class="text-center" *ngFor="let cabecera of cabeceras ">{{cabecera}} </th>
-              <th class="text-center" *ngIf="isMantenimiento==true">Acciones</th>
+              <th class="text-center" *ngIf="isMantenimiento==true">&nbsp; &nbsp; Acciones &nbsp; &nbsp; </th>
             </tr>
           </thead>
 
           <tbody class="">
             <tr *ngFor="let Denuncia of Denuncias | paginate: { itemsPerPage: 10, currentPage: p }">
-              <td class="text-center">{{Denuncia.nro_Denuncia}}</td>
-              <td class="text-center">{{Denuncia.fecha| date: 'dd/MM/yyyy HH:MM'}}</td>
-              <td class="text-center">{{Denuncia.tipo_Denuncia}}</td>
-              <td class="text-center">{{Denuncia.estado_Denuncia}}</td>
-              <td class="text-center">{{Denuncia.prioridad}}</td>
-              <td class="text-center">{{Denuncia.nombreUser}} </td>
-              <td class="text-center" *ngIf="isMantenimiento==true">
-                <!-- <button type="button" class="btn btn-light" [routerLink]="['/trabajo-tabla',Denuncia.nro_Denuncia]"><img src="../../../assets/IconsGoogle/eyeglasses.svg" alt="" width="20" height="20" title="Visualizacion de Trabajos registrados"></button> -->
+              <td class="text-center textoTabla">{{Denuncia.nro_Denuncia}}</td>
+              <td class="text-center textoTabla">{{Denuncia.fecha| date: 'dd/MM/yyyy HH:MM'}}</td>
+              <td class="text-center textoTabla">{{Denuncia.tipo_Denuncia}}</td>
+              <td class="text-center textoTabla">{{Denuncia.estado_Denuncia}}</td>
+              <td class="text-center textoTabla">{{Denuncia.prioridad}}</td>
+              <td class="text-center textoTabla">{{Denuncia.nombreUser}} </td>
+              <td class="text-center textoTabla" *ngIf="isMantenimiento==true">
                 <button type="button" class="btn btn-outline-primary btn-sm" 
                           [routerLink]="['/trabajo-tabla',Denuncia.nro_Denuncia]"                           
                           title="Visualización de trabajos registrados">

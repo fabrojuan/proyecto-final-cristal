@@ -34,5 +34,8 @@ namespace MVPSA_V2022.clases
         public DateTime? fechaCierre { get; set; }
         public int? idSugerenciaOrigen { get; set; }
 
+        public int? idImagen1 { get; set; }
+        public int? idImagen2 { get; set; }
+
     }
 }
