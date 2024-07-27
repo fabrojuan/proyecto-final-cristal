@@ -117,4 +117,11 @@ export class ReclamoService {
     return this.http.get<any>(this.urlBase + 'api/reclamos/' + nroReclamo + '/opciones').pipe(map(res => res));
   }
 
+  /**
+   * Imagenes Reclamos
+   */
+  public getImagenReclamo(nroReclamo: number, nroImagen: number): Observable<string> {
+    return this.http.get(this.urlBase + 'api/reclamos/' + nroReclamo + '/imagenes/' + nroImagen, { responseType: 'text'}).pipe(map(res => res));
+  }
+
 }

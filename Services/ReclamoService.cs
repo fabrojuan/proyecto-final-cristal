@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using MVPSA_V2022.clases;
 using MVPSA_V2022.clases.Mobbex;
 using MVPSA_V2022.Enums;
@@ -103,6 +104,7 @@ namespace MVPSA_V2022.Services
                     PruebaGraficaReclamo pruebaGraficaReclamo1 = new PruebaGraficaReclamo();
                     pruebaGraficaReclamo1.IdUsuario = idUsuarioAlta;
                     pruebaGraficaReclamo1.Bhabilitado = 1;
+                    pruebaGraficaReclamo1.Foto = reclamoCLS.foto1;
                     reclamo.PruebaGraficaReclamos.Add(pruebaGraficaReclamo1);
                 }
 
@@ -112,6 +114,7 @@ namespace MVPSA_V2022.Services
                     PruebaGraficaReclamo pruebaGraficaReclamo2 = new PruebaGraficaReclamo();
                     pruebaGraficaReclamo2.IdUsuario = idUsuarioAlta;
                     pruebaGraficaReclamo2.Bhabilitado = 1;
+                    pruebaGraficaReclamo2.Foto = reclamoCLS.foto2;
                     reclamo.PruebaGraficaReclamos.Add(pruebaGraficaReclamo2);
                 }
 
@@ -213,6 +216,11 @@ namespace MVPSA_V2022.Services
                 && reclamo.Bhabilitado == 1)
                 .FirstOrDefault();
 
+            var pruebasGraficas = this.dbContext.PruebaGraficaReclamos
+                .Where(item => item.NroReclamo == nroReclamo)
+                .OrderBy(item => item.NroImagen)
+                .ToList();
+
             ReclamoDto reclamoResponse = new ReclamoDto
             {
                 nroReclamo = reclamo.NroReclamo,
@@ -236,7 +244,9 @@ namespace MVPSA_V2022.Services
                 nroArea = reclamo.NroArea,
                 interno = reclamo.Interno,
                 fechaCierre = reclamo.FechaCierre,
-                idSugerenciaOrigen = reclamo.IdSugerenciaOrigen
+                idSugerenciaOrigen = reclamo.IdSugerenciaOrigen,
+                idImagen1 = pruebasGraficas != null && pruebasGraficas.Count > 0 ? pruebasGraficas[0].NroImagen : null,
+                idImagen2 = pruebasGraficas != null && pruebasGraficas.Count == 2 ? pruebasGraficas[1].NroImagen : null
             };
 
             List<PruebaGraficaReclamo> listaPruebaGraficaReclamo =
@@ -741,6 +751,19 @@ namespace MVPSA_V2022.Services
                 && codEstadoReclamo == ((int)EstadoReclamoEnum.EN_CURSO);
 
             return opciones;
+        }
+
+        public string getImagenReclamo(int nroReclamo, int nroImagen)
+        {
+            var imagen = this.dbContext.PruebaGraficaReclamos
+                            .Where(grafica => grafica.NroReclamo == nroReclamo && grafica.NroImagen == nroImagen)
+                            .FirstOrDefault();
+
+            if (imagen != null) {
+                return imagen.Foto;
+            }
+
+            return "";
         }
     }
 }

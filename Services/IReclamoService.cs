@@ -32,5 +32,7 @@ namespace MVPSA_V2022.Services
 
         public OpcionesReclamoDto getOpcionesReclamo(int numeroReclamo, int idUsuario);
 
+        public String getImagenReclamo(int nroReclamo, int nroImagen);
+
     }        
 }

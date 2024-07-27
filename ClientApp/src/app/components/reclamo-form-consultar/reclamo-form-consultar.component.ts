@@ -13,6 +13,7 @@ import { ReclamoSuspenderComponent } from '../reclamo-suspender/reclamo-suspende
 import { ReclamoFinalizarComponent } from '../reclamo-finalizar/reclamo-finalizar.component';
 import { ToastService } from 'src/app/services/toast.service';
 import { ReclamoEnviarFinalizarComponent } from '../reclamo-enviar-finalizar/reclamo-enviar-finalizar.component';
+import { ReclamoVerImagenesComponent } from '../reclamo-ver-imagenes/reclamo-ver-imagenes.component';
 
 @Component({
   selector: 'app-reclamo-form-consultar',
@@ -27,6 +28,7 @@ export class ReclamoFormConsultarComponent implements OnInit {
   cambioEstadoReclamoForm: FormGroup;
   isCambioEstadoReclamoFormSubmitted: boolean=false;
   opcionesReclamo: any;
+  mostrarBotonVerImagenes: boolean = false;
   
   constructor(private _activatedRouter: ActivatedRoute,
               private _router: Router,
@@ -38,7 +40,14 @@ export class ReclamoFormConsultarComponent implements OnInit {
       this.nroReclamo = params['id'];
       this.reclamoService.getReclamo(this.nroReclamo).subscribe(datosReclamo => {
         this.reclamo = datosReclamo;
+
+        if ((this.reclamo.idImagen1 != null && this.reclamo.idImagen1 != "") || (this.reclamo.idImagen2 != null && this.reclamo.idImagen2 != ""))
+        {
+          this.mostrarBotonVerImagenes = true;
+        }
+
       });
+
       this.reclamoService.getOpcionesReclamo(this.nroReclamo).subscribe(opciones => {
         this.opcionesReclamo = opciones;
       });
@@ -315,6 +324,12 @@ export class ReclamoFormConsultarComponent implements OnInit {
       this._toastService.showError("Debe cargar una descripción");
     }    
     
+  }
+
+  verImagenes() {
+    const modalRef = this.modalService.open(ReclamoVerImagenesComponent, 
+      { animation: false, backdrop: "static", centered: true, keyboard: false, size: "lg" });
+    modalRef.componentInstance.reclamo = this.reclamo;
   }
 
 
