@@ -10,7 +10,9 @@
         public decimal? SupTerreno { get; set; }
         public decimal? SupEdificada { get; set; }
         public string? NomenclaturaCatastral { get; set; }
-        //public string? CodTipoInmueble { get; set; }
+        public string? NombreLote { get; set; }
+        public string? propietarioLote { get; set; }
+
 
         public int? CodTipoInmueble { get; set; }
 

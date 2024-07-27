@@ -3,6 +3,9 @@ import { ImpuestoService } from '../../services/impuesto.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatasetFinanzasService } from '../../services/dataset-finanzas.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DialogoInformacionService } from '../../services/dialogo-informacion.service';
+
 
 @Component({
   selector: 'datos-finan-econom-generar',
@@ -12,7 +15,7 @@ import { DatasetFinanzasService } from '../../services/dataset-finanzas.service'
 export class DatosFinanEconomGenerarComponent implements OnInit {
 
   impuestos: any;
-  constructor(private datasetImpuestoService: DatasetFinanzasService, private router: Router) { }
+  constructor(private datasetImpuestoService: DatasetFinanzasService, private dialogoInformacionService: DialogoInformacionService, private router: Router) { }
 
 
   generarDatasetImpuestos() {
@@ -23,7 +26,7 @@ export class DatosFinanEconomGenerarComponent implements OnInit {
     this.datasetImpuestoService.ExportarExcel();
     this.datasetImpuestoService.ExportarPDF();
     /*console.log('Los impuestos son', this.impuestos);*/
-
+    this.dialogoInformacionService.open('Dataset Generado!', 'Se Generó el dataset de Impuestos en los siguientes 3 formatos: PDF, XLS y CSV.');
   }
 
   volver() {

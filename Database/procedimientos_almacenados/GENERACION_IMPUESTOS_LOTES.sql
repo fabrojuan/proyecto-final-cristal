@@ -15,7 +15,7 @@ AS
 BEGIN
 	DECLARE @lote INT,
 		@supTerreno DECIMAL(18, 2),
-		@supEdificada DECIMAL(18, 2)
+		@SupEdificada DECIMAL(18, 2)
 
 	-- DECLARACIÓN DEL CURSOR
 	DECLARE CURSOR_LOTE CURSOR
@@ -33,21 +33,21 @@ BEGIN
 	FROM CURSOR_LOTE
 	INTO @lote,
 		@supTerreno,
-		@supEdificada;
+		@SupEdificada;
 
 	-- RECORRER EL CURSOR MIENTRAS HAYAN REGISTROS
 	WHILE @@FETCH_STATUS = 0
 	BEGIN
 		UPDATE LOTE
 		SET BaseImponible = @supTerreno * @montoSupTerreno,
-			ValuacionTotal = (@supTerreno - @supEdificada) * @montoSupTerreno + @supEdificada * @montoSupEdificada
+			ValuacionTotal = (@supTerreno - @SupEdificada) * @montoSupTerreno + @SupEdificada * @montoSupEdificada
 		WHERE IdLote = @Lote
 
 		FETCH NEXT
 		FROM CURSOR_LOTE
 		INTO @lote,
 			@supTerreno,
-			@supEdificada;
+			@SupEdificada;
 	END
 
 	CLOSE CURSOR_LOTE

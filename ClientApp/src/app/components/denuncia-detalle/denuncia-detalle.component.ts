@@ -94,8 +94,8 @@ export class DenunciaDetalleComponent implements OnInit {
       //   Y para realizar todo el tratamiento de los estados de la denuncia.
       this.denunciaService.DerivaPriorizaDenuncia(this.Trabajo.value).subscribe(data => {
         if (data) {
-          this.tituloModal = "Gestion Realizada!"
-          this.resultadoGuardadoModal = "La denuncia se derivó al Inspector o Empleado correspondiente";
+          this.tituloModal = "Gestión Realizada!"
+          this.resultadoGuardadoModal = "La denuncia se derivó y/o priorizó al Inspector o Empleado correspondiente";
           this.redirectModal = 1;
         }
         else

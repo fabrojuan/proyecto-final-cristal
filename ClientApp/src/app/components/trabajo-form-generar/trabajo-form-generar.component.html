@@ -1,12 +1,8 @@
 <div class="container">
     <div class="card">
       <div class="card-body">
-        <div class="d-flex align-items-center">
-          <i class="bi bi-shield-lock text-dark" [routerLink]="['/tabla-denuncia']" style="font-size: 2.0em;" title="Listado de Denuncias Activas.Click para dashboard"></i>
-          <div class="card-title text-center form-group col-md-8 offset-md-1">
-            <p>Registro de Trabajo en Denuncias</p>
-          </div>
-        </div>
+
+        <app-cabecera-titulo [nombreComponente]="'TrabajoFormGenerarComponent'"></app-cabecera-titulo>
 
         <form [formGroup]="Trabajo" (ngSubmit)="guardarDatos()">
           <div class="row p-1 my-2 ">
@@ -35,9 +31,9 @@
           <div class="row p-1 my-2 mt-1">
             <div class=" form-group col-md-8 mb-3">
               <label class="letraSubtitulos">Trabajo Realizado por:&nbsp;</label>
-              <select class="letraGral2" id="Id_Usuario" formControlName="Id_Usuario">
-                <option class="letraGral2" value="">--Seleccione Opción--</option>
-                <option class="letraGral2" [ngValue]="Empleado.idUsuario" *ngFor="let Empleado of Empleados">
+              <select  id="Id_Usuario" formControlName="Id_Usuario">
+                <option  value="">--Seleccione Opción--</option>
+                <option  [ngValue]="Empleado.idUsuario" *ngFor="let Empleado of Empleados">
                   Legajo&nbsp;:&nbsp;
                   {{Empleado.idUsuario}}&nbsp;--&nbsp;Empleado&nbsp;:&nbsp;{{Empleado.nombreUser}}
                 </option>
@@ -54,26 +50,26 @@
             <div class="card-title text-center form-group col-md-11">
               <p>Adjuntar hasta 3 pruebas graficas&nbsp;</p>
             </div>
-         </div>
+          </div>
 
           <div class="row col-md-12 order-md-2 mb-4 mt-1">
 
             <div class="offset-md-1 col-md-3 mb-3 custom-file ">
-              <input type="file" class="form-control  custom-file-input letraGral2" id="fupFoto" lang="es" (change)="changeFoto()" accept="image/*">
+              <input type="file" class="form-control  custom-file-input " id="fupFoto" lang="es" (change)="changeFoto()" accept="image/*">
               <img class="offset-3 mt-md-3" src="{{foto}}" width="100" height="100" />
 
               <label class="custom-file-label" for="customFileLang"><img src="../../../assets/IconsGoogle/card-image.svg" alt="" width="16" height="16" title="card-image"> Adjuntar Prueba 1</label>
             </div>
 
             <div class="offset-md-1 col-md-3 mb-3 custom-file">
-              <input type="file" class="form-control custom-file-input letraGral2" id="fupFoto2" lang="es" (change)="changeFoto()" accept="image/*">
+              <input type="file" class="form-control custom-file-input " id="fupFoto2" lang="es" (change)="changeFoto()" accept="image/*">
               <img class="offset-3 mt-md-3" src="{{foto2}}" width="100" height="100" />
 
               <label class="custom-file-label" for="customFileLang"><img src="../../../assets/IconsGoogle/card-image.svg" alt="" width="16" height="16" title="card-image"> Adjuntar Prueba 2</label>
             </div>
 
             <div class="offset-md-1 col-md-3 mb-3 custom-file">
-              <input type="file" class="form-control custom-file-input letraGral2" id="fupFoto3" lang="es" (change)="changeFoto()" accept="image/*">
+              <input type="file" class="form-control custom-file-input " id="fupFoto3" lang="es" (change)="changeFoto()" accept="image/*">
               <img class="offset-3 mt-md-3" src="{{foto3}}" width="100" height="100" />
 
               <label class="custom-file-label" for="customFileLang"><img src="../../../assets/IconsGoogle/card-image.svg" alt="" width="16" height="16" title="card-image"> Adjuntar Prueba 3</label>
@@ -97,7 +93,7 @@
             </div>
 
             <div class="col-md-2 mx-md-2 mb-4 mt-xs-5">
-              <button class="btn btn-danger btn-sm btn-block letraButton" type="button" (click)="solucionarDenuncia()" title="Se enviara a Mesa de de baja la denuncia que no corresponde" style="display: flex; justify-content: center; align-items: center;"><i class="bi bi-x-circle-fill fs-5"></i>&nbsp;&nbsp;Dar de baja</button>
+              <button class="btn btn-danger btn-sm btn-block letraButton" type="button" (click)="solucionarDenuncia()" title="Se enviará a Mesa para que dé baja a la denuncia que no corresponde" style="display: flex; justify-content: center; align-items: center;"><i class="bi bi-x-circle-fill fs-5"></i>&nbsp;&nbsp;Dar de baja</button>
             </div>
 
             <div class="col-md-2 mx-md-2 mb-4 mt-xs-5">
@@ -108,7 +104,7 @@
             <div class="modal bg-secondary" tabindex="-1" style="display:block;" role="dialog">
               <div class="modal-dialog modal-dialog-scrollable modal-lg">
                 <div class="modal-content ">
-                  <div class="modal-header">
+                  <div class="modal-header d-flex justify-content-between align-items-center">
                     <h5 class="modal-title">{{tituloModal}}  </h5>
                     <img src="../../../assets/Imagenes/logo-cristal_3.png" width="100" height="100" />
                   </div>
