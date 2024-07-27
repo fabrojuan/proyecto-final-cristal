@@ -1,4 +1,3 @@
-
 <div class="container">
   <div class="card">
     <div class="card-body">
@@ -90,12 +89,13 @@
                     <!-- Dividir en 2 columnas, cada una con ancho 6 -->
                     <div class="form-group mb-3">
                       <label for="idUsuario">Derivar a:</label>
-                      <select id="idUsuario" formControlName="idUsuario" class="form-control text-bg-primary">
+                      <select id="idUsuario" formControlName="idUsuario" >
                         <option value="">--Seleccione Opción--</option>
                         <option [ngValue]="Empleado.idUsuario" *ngFor="let Empleado of Empleados">
                           Leg: {{Empleado.idUsuario}} -- {{Empleado.nombreUser}}
                         </option>
                       </select>
+
                     </div>
                   </div>
                   <div class="col-md-2"> </div>
@@ -103,25 +103,26 @@
                     <!-- Dividir en 2 columnas, cada una con ancho 6 -->
                     <div class="form-group mb-2">
                       <label for="Nro_Prioridad">Prioridad:</label>
-                      <select id="Nro_Prioridad" formControlName="Nro_Prioridad" class="form-control text-bg-primary">
-                        <option value="">--Seleccione Opción--</option>
+                      <select id="Nro_Prioridad" formControlName="Nro_Prioridad">
+                        <option value="">--Seleccione Opción-- </option>
                         <option [ngValue]="Prioridad.nroPrioridad" *ngFor="let Prioridad of Prioridades">
                           {{Prioridad.nombrePrioridad}}
                         </option>
                       </select>
-                      <div style="color: coral" *ngIf="Trabajo.controls['Nro_Prioridad'].errors?.pattern">
+                   <div style="color: coral" *ngIf="Trabajo.controls['Nro_Prioridad'].errors?.pattern">
                         Debe especificar criticidad..
                       </div>
                     </div>
                   </div>
                 </div>
 
+
                 <div class="row p-4 my-2">
-                  <div class="col-md-2 offset-1">
-                    <button [disabled]="!Trabajo.valid" title="Puede derivar la denuncia a otro empleado, y/o recategorizar la Prioridad de la denuncia" class="btn btn-secondary btn-sm btn-block" (click)="guardarDatos()" style="display: flex; justify-content: center; align-items: center;"><i class="bi bi-forward-fill fs-5"></i>&nbsp;Derivar</button>
+                  <div class="col-md-4 offset-1">
+                    <button [disabled]="!Trabajo.valid" title="Puede derivar la denuncia a otro empleado, y/o recategorizar la Prioridad de la denuncia" class="btn btn-secondary btn-sm btn-block" (click)="guardarDatos()" style="display: flex; justify-content: center; align-items: center;"><i class="bi bi-forward-fill fs-5"></i>&nbsp;Derivar/Priorizar</button>
                   </div>
-                  <div class="col-md-4 offset-2">
-                    <button class="btn btn-primary btn-sm btn-block" data-bs-placement="top" data-bs-toggle="tooltip" title="Registre el trabajo realizado sobre la denuncia" (click)="registrarTrabajo()" style="display: flex; justify-content: center; align-items: center;"><i class="bi bi-wrench-adjustable-circle fs-5"></i>&nbsp;&nbsp;Guardar&nbsp;&nbsp;</button>
+                  <div class="col-md-4">
+                    <button class="btn btn-primary btn-sm btn-block" data-bs-placement="top" data-bs-toggle="tooltip" title="Registre el trabajo realizado sobre la denuncia" (click)="registrarTrabajo()" style="display: flex; justify-content: center; align-items: center;"><i class="bi bi-wrench-adjustable-circle fs-5"></i>&nbsp;&nbsp;Registrar Trabajo&nbsp;&nbsp;</button>
                   </div>
                   <div class="col-md-2 ">
                     <button class="btn btn-secondary btn-sm btn-block" (click)="volver()" style="display: flex; justify-content: center; align-items: center;"><i class="bi bi-arrow-left-circle fs-5"></i>&nbsp;Volver</button>
@@ -133,7 +134,7 @@
               <div class="modal bg-secondary" tabindex="-1" style="display:block;" role="dialog">
                 <div class="modal-dialog modal-dialog-scrollable modal-lg">
                   <div class="modal-content ">
-                    <div class="modal-header">
+                    <div class="modal-header d-flex justify-content-between align-items-center">
                       <h5 class="modal-title">{{tituloModal}}</h5>
                       <img src="../../../assets/Imagenes/logo-cristal_3.png" width="100" height="100" />
                     </div>

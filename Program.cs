@@ -35,10 +35,11 @@ Console.WriteLine(builder.Configuration.GetConnectionString("VPSAConnectionStrin
 
 
 builder.Services.AddDbContext<M_VPSA_V3Context>(options
-      => options.UseLazyLoadingProxies().UseSqlServer("Server=localhost;Database=cristal;User Id=sa;Password=pepito1#;TrustServerCertificate=True;"));
+      => options.UseLazyLoadingProxies().UseSqlServer("Data Source=RomanS;Initial Catalog=cristal;Encrypt=False;Integrated Security=True;"));
 
 builder.Services.AddScoped<IReclamoService, ReclamoService>();
 builder.Services.AddScoped<IDenunciaService, DenunciaService>();
+builder.Services.AddScoped<ILoteService, LoteService>();
 builder.Services.AddScoped<IReclamoService, ReclamoService>();
 builder.Services.AddScoped<ITrabajoReclamoService, TrabajoReclamoService>();
 builder.Services.AddSingleton<IPagoService, PagoService>();

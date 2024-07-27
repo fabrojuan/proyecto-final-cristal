@@ -7,7 +7,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.SpaProxy"
       },
-      "applicationUrl": "http://localhost:5266"
+      "applicationUrl": "http://localhost:5200"
     },
     "IIS Express": {
       "commandName": "IISExpress",
@@ -20,11 +20,11 @@
     "WSL": {
       "commandName": "WSL2",
       "launchBrowser": true,
-      "launchUrl": "http://localhost:5266",
+      "launchUrl": "http://localhost:5200",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.SpaProxy",
-        "ASPNETCORE_URLS": "http://localhost:5266"
+        "ASPNETCORE_URLS": "http://localhost:5200"
       },
       "distributionName": ""
     }

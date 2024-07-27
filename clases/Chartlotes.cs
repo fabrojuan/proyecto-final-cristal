@@ -5,6 +5,7 @@
       
             public int totalLotes { get; set; }
         public int totalVecinos { get; set; }
+        
 
 
     }

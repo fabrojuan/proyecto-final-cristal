@@ -14,12 +14,10 @@ namespace MVPSA_V2022.Services
         public readonly IMapper mapper;
         public readonly IUsuarioService usuarioService;
         private readonly M_VPSA_V3Context dbContext;
-       // private readonly CristalContext dbContext;
-
+       
         public DenunciaService(IMapper mapper, IUsuarioService usuarioService,
        M_VPSA_V3Context dbContext)
-   ///  reeemplazar por este sino funca              M_VPSA_V3Context dbContext)
-
+  
         {
             this.mapper = mapper;
             this.usuarioService = usuarioService;
@@ -246,24 +244,6 @@ namespace MVPSA_V2022.Services
                 // tipoDenuncia.IdUsuarioModificacion = idUsuarioModificacion;
                 bd.SaveChanges();
 
-                /*tipoDenunciaDto = (from tipoDenunciaQuery in bd.TipoDenuncia
-                                   join usuarioAlta in bd.Usuarios
-                                    on tipoDenunciaQuery.IdUsuarioAlta equals usuarioAlta.IdUsuario
-                                   join usuarioModificacion in bd.Usuarios
-                                     on tipoDenunciaQuery.IdUsuarioModificacion equals usuarioModificacion.IdUsuario
-                                   where tipoDenunciaQuery.CodTipoDenuncia == tipoDenuncia.CodTipoDenuncia
-                                   select new TipoDenunciaCLS
-                                   {
-                                       Cod_Tipo_Denuncia = tipoDenunciaQuery.CodTipoDenuncia,
-                                       Nombre = tipoDenunciaQuery.Nombre,
-                                       Descripcion = tipoDenunciaQuery.Descripcion,
-                                       Tiempo_Max_Tratamiento = tipoDenunciaQuery.TiempoMaxTratamiento == null ? 0 : (int)tipoDenunciaQuery.TiempoMaxTratamiento,
-                                       fechaAlta = (DateTime)tipoDenunciaQuery.FechaAlta,
-                                       fechaModificacion = (DateTime)tipoDenunciaQuery.FechaModificacion,
-                                       usuarioAlta = usuarioAlta.NombreUser,
-                                       usuarioModificacion = usuarioModificacion.NombreUser
-                                   })
-                                    .Single();*/
             }
 
             return tipoDenunciaDto;

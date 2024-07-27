@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --port 44487 --live-reload=false",
+    "start": "ng serve --port 44488",
     "build": "ng build",
     "build:ssr": "ng run MVPSA_V2022:server:dev",
     "watch": "ng build --watch --configuration development",

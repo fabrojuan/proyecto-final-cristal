@@ -103,7 +103,7 @@ namespace MVPSA_V2022.Modelos
         public virtual DbSet<VwReclamo> VwReclamos { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-            => optionsBuilder.UseSqlServer("Server=localhost;Database=cristal;User Id=sa;Password=pepito1#;TrustServerCertificate=True;");
+            => optionsBuilder.UseSqlServer("Data Source=RomanS;Initial Catalog=cristal;Encrypt=False;Integrated Security=True;");
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

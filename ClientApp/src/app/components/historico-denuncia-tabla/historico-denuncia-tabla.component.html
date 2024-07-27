@@ -21,7 +21,7 @@
               <td class="text-center">{{Denuncia.estado_Denuncia}}</td>
               <td class="text-center">{{Denuncia.nombreUser}} </td>
               <td class="text-center" *ngIf="isMantenimiento==true">
-                <button type="button" class="btn btn-light" [routerLink]="['/historico-denuncia-trabajos',Denuncia.nro_Denuncia]"><img src="../../../assets/IconsGoogle/eyeglasses.svg" alt="" width="20" height="20" title="Visualizacion de Trabajos registrados"></button>
+                <button type="button" class="btn btn-outline-primary btn-sm" [routerLink]="['/historico-denuncia-trabajos',Denuncia.nro_Denuncia]" title="Visualizacion de Trabajos registrados"> <i class="bi bi-eye-fill"></i></button>
                 <!--<button type="button" class="btn btn-outline-primary" [routerLink]="['/trabajo-form-generar',Denuncia.nro_Denuncia]">
               <img src="../../../assets/IconsGoogle/gear.svg" alt="" width="20" height="20" title="Registrar Trabajo">
             </button>       historico-denuncia-trabajos

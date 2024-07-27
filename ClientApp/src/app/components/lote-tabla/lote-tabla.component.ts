@@ -6,6 +6,7 @@ import { VecinoService } from '../../services/vecino.service';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import espaniolDatatables from 'src/assets/espaniolDatatables.json';
+import { DetalleLoteService } from '../../services/detalle-lote.service';
 
 @Component({
   selector: 'lote-tabla',
@@ -16,6 +17,7 @@ import espaniolDatatables from 'src/assets/espaniolDatatables.json';
 export class LoteTablaComponent implements OnInit {
   @Input() isMantenimiento = true; //A ESTO DEBO DARLE EVENTO DE CLICK PARA GESTION
   Lotes: any;
+  nroLote: any;
   Usuarios: any;
   TiposDenuncia: any;
   DenunciasFiltradas: any;
@@ -25,7 +27,7 @@ export class LoteTablaComponent implements OnInit {
   dtTrigger: Subject<any> = new Subject<any>();
 
   cabeceras: string[] = ["Id Lote", "Mza", "Nro", "Superficie Terreno", "Base Imponible", "Titular", "Dni"];
-  constructor(private loteservice: LoteService, private vecinoService: VecinoService, private formBuilder: UntypedFormBuilder, private router: Router) {
+  constructor(private loteservice: LoteService, private vecinoService: VecinoService, private detalleLoteService: DetalleLoteService, private formBuilder: UntypedFormBuilder, private router: Router) {
     this.form = new UntypedFormGroup({
      
     });
@@ -54,6 +56,19 @@ export class LoteTablaComponent implements OnInit {
   }
   volverHome() {
     this.router.navigate(["/lotesypersonas"]);
+  }
+
+  getDetalleLote(idLote:any) {
+    this.detalleLoteService.open('Información adicional del Lote ', 'Informacion adicional del lote', idLote)
+      .then((result) => {
+        if (result) {
+          //this.borrarDatosAbiertos(this.nroLote);
+          console.log('Confirmado');
+        } else {
+          console.log('Cancelado');
+        }
+      })
+      .catch(() => console.log('Modal cerrado sin confirmar' ));
   }
 
 }

@@ -76,8 +76,15 @@ import { TrabajoService } from './services/trabajo.service';
 import { PruebaGraficaService } from './services/prueba-grafica.service';
 import { IndicadoresService } from './services/indicadores.service';
 import { ImpuestoService } from './services/impuesto.service';
+import { DialogoConfirmacionService } from './services/dialogo-confirmacion.service';
+import { DialogoInformacionComponent } from './components/dialogo-informacion/dialogo-informacion.component';
+import { DialogoInformacionService } from './services/dialogo-informacion.service';
+import { DetalleLoteService } from './services/detalle-lote.service';
+import { DetalleLoteComponent } from './components/detalle-lote/detalle-lote.component';
 import { TipoReclamoTablaComponent } from './components/tipo-reclamo-tabla/tipo-reclamo-tabla.component';
 import { TipoReclamoFormComponent } from './components/tipo-reclamo-form/tipo-reclamo-form.component';
+import { DialogoConfirmacionComponent } from './components/dialogo-confirmacion/dialogo-confirmacion.component';
+
 
 import { ToastService } from './services/toast.service';
 import { ToastsContainer } from './components/toasts-container/toasts-container.component';
@@ -114,6 +121,7 @@ import { ModalSiNoComponent } from './components/modal-si-no/modal-si-no.compone
 import { CabeceraTituloComponent } from './components/cabecera-titulo/cabecera-titulo.component';
 
 import { TitulosServiceService } from './services/titulos-service.service';
+
 
 
 @NgModule({
@@ -197,7 +205,9 @@ import { TitulosServiceService } from './services/titulos-service.service';
     VecinoNuevaContraseniaComponent,
     PaginaNoEncontradaComponent,
     ModalSiNoComponent,
-    CabeceraTituloComponent
+    CabeceraTituloComponent,
+    DialogoInformacionComponent,
+    DetalleLoteComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -290,7 +300,7 @@ import { TitulosServiceService } from './services/titulos-service.service';
 
     ])
   ],
-  providers: [UsuarioService, DenunciaService, TrabajoService, SeguridadGuard, VecinoService, SeguridadVecinoGuard, PruebaGraficaService, IndicadoresService, ImpuestoService, LoteService, ToastService, TitulosServiceService, 
+  providers: [UsuarioService, DenunciaService, TrabajoService, SeguridadGuard, DialogoConfirmacionService, DialogoInformacionService, DetalleLoteService, VecinoService, SeguridadVecinoGuard, PruebaGraficaService, IndicadoresService, ImpuestoService, LoteService, ToastService, TitulosServiceService, 
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
    
   ],

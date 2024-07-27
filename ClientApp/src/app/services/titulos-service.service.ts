@@ -134,8 +134,8 @@ export class TitulosServiceService {
       nombreComponente: "TablaDenunciaComponent",
       titulo: "Tablero de Gestión de Denuncias",
       tipoImagen: TipoImagenEnum.FOTO,
-      pathImagen: "../../../assets/IconsGoogle/denuncia.png",
-      link: "/tabla-denuncia",
+      pathImagen: "../../../assets/IconsGoogle/shield-exclamation.svg",
+      link: "/bienvenida",
       tituloLink: "Denuncia generada por el vecino. Click para regresar al tablero"
     };
     this.configuration.push(tituloTablaDenunciaComponent  );
@@ -179,7 +179,100 @@ export class TitulosServiceService {
       tituloLink: ""
     };
     this.configuration.push(tituloDatosFinanzasEconomicosComponent);
+
+    /**
+     * DatosFinanEconomgenerarComponent          
+     */
+    var tituloDatosFinanEconomGenerarComponent: Titulo = {
+      nombreComponente: "DatosFinanEconomGenerarComponent",
+      titulo: "Gestión de Datos Abiertos Financieros",
+      tipoImagen: TipoImagenEnum.FOTO,
+      pathImagen: "../../../assets/IconsGoogle/Finanzas.png",
+      link: "/bienvenida",
+      tituloLink: "Volver al escritorio"
+    };
+    this.configuration.push(tituloDatosFinanEconomGenerarComponent);
+
     
+    /**
+    * DatosFinanzasEconomicosBorradoComponent          
+    */
+    var tituloDatosFinanzasEconomicosBorradoComponent: Titulo = {
+      nombreComponente: "DatosFinanzasEconomicosBorradoComponent",
+      titulo: " Borrado de Datasets Impositivos",
+      tipoImagen: TipoImagenEnum.FOTO,
+      pathImagen: "../../../assets/IconsGoogle/trash.svg",
+      link: "/datos-finan-econom-generar",
+      tituloLink: "Volver a la gestión de datos financieros"
+    };
+    this.configuration.push(tituloDatosFinanzasEconomicosBorradoComponent);
+
+    /**
+    * DenunciaDetalleComponent          
+    */
+    var tituloDenunciaDetalleComponent: Titulo = {
+      nombreComponente: "DenunciaDetalleComponent",
+      titulo: "Información provista inicialmente",
+      tipoImagen: TipoImagenEnum.FOTO,
+      pathImagen: "../../../assets/IconsGoogle/informacion.svg",
+      link: "/tabla-denuncia",
+      tituloLink: "Volver a la gestión de denuncias"
+    };
+    this.configuration.push(tituloDenunciaDetalleComponent);
+
+    /**
+   * DenunciaDetalleComponent          
+   */
+    var tituloTrabajoFormGenerarComponent: Titulo = {
+      nombreComponente: "TrabajoFormGenerarComponent",
+      titulo: "Registrar trabajo en la Denuncia",
+      tipoImagen: TipoImagenEnum.FOTO,
+      pathImagen: "../../../assets/IconsGoogle/hammer.svg",
+      link: "/tabla-denuncia",
+      tituloLink: "Volver a la gestión de denuncias"
+    };
+    this.configuration.push(tituloTrabajoFormGenerarComponent);
+
+    /**
+  * DenunciaDetalleComponent          
+  */
+    var tituloTrabajoTablaComponent: Titulo = {
+      nombreComponente: "TrabajoTablaComponent",
+      titulo: "Trabajos realizados en la Denuncia",
+      tipoImagen: TipoImagenEnum.FOTO,
+      pathImagen: "../../../assets/Imagenes/trabajando.svg",
+      link: "/tabla-denuncia",
+      tituloLink: "Volver a la gestión de denuncias"
+    };
+    this.configuration.push(tituloTrabajoTablaComponent);
+
+    /**
+ * HistoricoDenunciaTablaComponent          
+ */
+    var tituloHistoricoDenunciaTablaComponent: Titulo = {
+      nombreComponente: "HistoricoDenunciaTablaComponent",
+      titulo: "Historial de Denuncias Cerradas",
+      tipoImagen: TipoImagenEnum.FOTO,
+      pathImagen: "../../../assets/IconsGoogle/calendar3.svg",
+      link: "/bienvenida",
+      tituloLink: "Volver al escritorio"
+    };
+    this.configuration.push(tituloHistoricoDenunciaTablaComponent);
+
+    /**
+* HistoricoDenunciaTablaComponent          
+*/
+    var tituloHistoricoDenunciaTrabajosComponent: Titulo = {
+      nombreComponente: "HistoricoDenunciaTrabajosComponent",
+      titulo: "Historial de trabajos realizados en la Denuncia",
+      tipoImagen: TipoImagenEnum.FOTO,
+      pathImagen: "../../../assets/IconsGoogle/calendar3.svg",
+      link: "/historico-denuncia-tabla",
+      tituloLink: "Volver al tablero de historicos de denuncia"
+    };
+    this.configuration.push(tituloHistoricoDenunciaTrabajosComponent);
+
+
 
   }
 }

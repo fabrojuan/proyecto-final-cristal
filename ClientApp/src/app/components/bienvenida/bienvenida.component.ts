@@ -21,6 +21,7 @@ export class BienvenidaComponent implements OnInit {
   totalDenunCerradas: any;
   totalLotes: any;
   totalVecinos: any;
+  totalDatosAbiertos: any;
 
   
 
@@ -46,8 +47,16 @@ export class BienvenidaComponent implements OnInit {
       this.totalLotes = chartLotes.totalLotes;
       this.totalVecinos = chartLotes.totalVecinos;
      
-      console.log("total de lotes"+this.totalLotes);
+      //console.log("total de lotes"+this.totalLotes);
     });
+
+    this.indicadoresService.cantidadDatosAbiertosGenerados().subscribe(ChartDatos => {
+      this.totalDatosAbiertos = ChartDatos.totalDatosAbiertos;
+   
+
+      console.log("total de datos abiertos" + this.totalDatosAbiertos);
+    });
+
 /////////////*******charts************ */
     // datos
     //const data = {
