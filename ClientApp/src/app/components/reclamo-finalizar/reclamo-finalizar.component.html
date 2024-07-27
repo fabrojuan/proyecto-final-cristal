@@ -1,6 +1,6 @@
 <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title">Finalizar Requerimiento</h5>
+        <h5 class="modal-title">Validar Cierre</h5>
 
         <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
             <span aria-hidden="true">&times;</span>
@@ -13,6 +13,15 @@
             <div class="col-sm-10">
                 <select id="Tipo_Reclamo" class="form-select" [(ngModel)]="resultadoSeleccionado">
                     <option [ngValue]="resultado.clave" *ngFor="let resultado of resultados">{{resultado.valor}}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row mb-3" *ngIf="mostrarComboAreas()">
+            <label class="col-sm-2 col-form-label">(*) Área</label>
+            <div class="col-sm-10">
+                <select id="Tipo_Reclamo" class="form-select" [(ngModel)]="areaSelected">
+                    <option [ngValue]="area.nroArea" *ngFor="let area of areas">{{area.nombre}}</option>
                 </select>
             </div>
         </div>

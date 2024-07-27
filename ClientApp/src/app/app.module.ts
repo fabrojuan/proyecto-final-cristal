@@ -76,15 +76,8 @@ import { TrabajoService } from './services/trabajo.service';
 import { PruebaGraficaService } from './services/prueba-grafica.service';
 import { IndicadoresService } from './services/indicadores.service';
 import { ImpuestoService } from './services/impuesto.service';
-import { DialogoConfirmacionService } from './services/dialogo-confirmacion.service';
-import { DialogoInformacionComponent } from './components/dialogo-informacion/dialogo-informacion.component';
-import { DialogoInformacionService } from './services/dialogo-informacion.service';
-import { DetalleLoteService } from './services/detalle-lote.service';
-import { DetalleLoteComponent } from './components/detalle-lote/detalle-lote.component';
 import { TipoReclamoTablaComponent } from './components/tipo-reclamo-tabla/tipo-reclamo-tabla.component';
 import { TipoReclamoFormComponent } from './components/tipo-reclamo-form/tipo-reclamo-form.component';
-import { DialogoConfirmacionComponent } from './components/dialogo-confirmacion/dialogo-confirmacion.component';
-
 
 import { ToastService } from './services/toast.service';
 import { ToastsContainer } from './components/toasts-container/toasts-container.component';
@@ -121,7 +114,9 @@ import { ModalSiNoComponent } from './components/modal-si-no/modal-si-no.compone
 import { CabeceraTituloComponent } from './components/cabecera-titulo/cabecera-titulo.component';
 
 import { TitulosServiceService } from './services/titulos-service.service';
-
+import { ImpuestosHistoriaPagoComponent } from './components/impuestos-historia-pago/impuestos-historia-pago.component';
+import { ReclamoEnviarFinalizarComponent } from './components/reclamo-enviar-finalizar/reclamo-enviar-finalizar.component';
+import { ImpuestoHistorialPagoComponent } from './components/impuesto-historial-pago/impuesto-historial-pago.component';
 
 
 @NgModule({
@@ -206,8 +201,9 @@ import { TitulosServiceService } from './services/titulos-service.service';
     PaginaNoEncontradaComponent,
     ModalSiNoComponent,
     CabeceraTituloComponent,
-    DialogoInformacionComponent,
-    DetalleLoteComponent,
+    ImpuestosHistoriaPagoComponent,
+    ReclamoEnviarFinalizarComponent,
+    ImpuestoHistorialPagoComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -234,6 +230,7 @@ import { TitulosServiceService } from './services/titulos-service.service';
       { path: 'impuesto-pago-send', component: ImpuestoPagoSendComponent },
       { path: 'impuestos-vecino-adeuda-tabla', component: ImpuestosVecinoAdeudaTablaComponent },
       { path: 'impuestos-vecino-adeuda-tabla/:id', component: ImpuestosVecinoAdeudaTablaComponent },
+      { path: 'impuesto-historial-pago/:id', component: ImpuestosHistoriaPagoComponent },
       { path: 'impuestos-vecino-identificador', component: ImpuestosVecinoIdentificadorComponent },
       { path: 'impuestos-vecino-identificador/:id', component: ImpuestosVecinoIdentificadorComponent },
       { path: 'login', component: LoginComponent },
@@ -300,7 +297,7 @@ import { TitulosServiceService } from './services/titulos-service.service';
 
     ])
   ],
-  providers: [UsuarioService, DenunciaService, TrabajoService, SeguridadGuard, DialogoConfirmacionService, DialogoInformacionService, DetalleLoteService, VecinoService, SeguridadVecinoGuard, PruebaGraficaService, IndicadoresService, ImpuestoService, LoteService, ToastService, TitulosServiceService, 
+  providers: [UsuarioService, DenunciaService, TrabajoService, SeguridadGuard, VecinoService, SeguridadVecinoGuard, PruebaGraficaService, IndicadoresService, ImpuestoService, LoteService, ToastService, TitulosServiceService, 
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
    
   ],

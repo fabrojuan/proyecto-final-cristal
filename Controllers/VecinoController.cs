@@ -21,12 +21,15 @@ namespace MVPSA_V2022.Controllers
     {
         private readonly IJwtAuthenticationService _jwtAuthenticationService;
         private readonly M_VPSA_V3Context dbContext;
+        private readonly INotificacionVecinoService notificacionVecinoService;
 
         public VecinoController(IJwtAuthenticationService jwtAuthenticationService,
-                                M_VPSA_V3Context dbContext)
+                                M_VPSA_V3Context dbContext,
+                                INotificacionVecinoService notificacionVecinoService)
         {
             _jwtAuthenticationService = jwtAuthenticationService;
             this.dbContext = dbContext;
+            this.notificacionVecinoService = notificacionVecinoService;
         }
 
         public IActionResult Index()
@@ -297,6 +300,7 @@ namespace MVPSA_V2022.Controllers
             this.dbContext.SaveChanges();
 
             // enviar mail a usuario con el link
+            this.notificacionVecinoService.notificarRecuperacionCuenta(recuperacionCuenta.IdRecuperacionCuenta);
 
             return Ok();
 

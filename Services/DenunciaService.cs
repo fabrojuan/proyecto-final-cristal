@@ -169,7 +169,7 @@ namespace MVPSA_V2022.Services
             String codRolUsuarioConectado = usuarioConectado.IdTipoUsuarioNavigation.NombreRol;
 
 
-              var query1 = dbContext.VwDenuncia;
+              //var query1 = dbContext.VwDenuncia;
                 //.Where(den => den.Bhabilitado >= 0);
 
             var query = dbContext.Denuncia.Where(den => den.Bhabilitado == 1);

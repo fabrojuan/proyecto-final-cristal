@@ -13,7 +13,8 @@
 
               <div class="col-4">
                   <label for="formGroupExampleInput" class="form-label">(*) Número de Cuenta</label>
-                  <input type="number" class="form-control" [ngClass]="{'is-invalid' : nroCuentaNoValido}" id="nroCuenta" formControlName="nroCuenta" value="">
+                  <input type="number" class="form-control" [ngClass]="{'is-invalid' : nroCuentaNoValido}" id="nroCuenta" 
+                         formControlName="nroCuenta" value="" (input)="validateNumber($event)">
                   <div class="invalid-feedback" *ngIf="nroCuentaNoValido">
                       El número de cuenta es requerido
                   </div>

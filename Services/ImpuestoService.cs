@@ -7,6 +7,7 @@ namespace MVPSA_V2022.Services
 {
     public class ImpuestoService : IImpuestoService
     {
+
         public ResultadoEjecucionProcesoCLS generarImpuestos(
             SolicitudGeneracionImpuestosCLS solicitud)
         {
@@ -116,6 +117,38 @@ namespace MVPSA_V2022.Services
                     + ". Error: " + ex.Message);
                 return new ResultadoEjecucionProcesoCLS(
                     "ERROR", "No se pudieron generar los impuestos para el año " + solicitud.anio);
+            }
+        }
+
+        public IEnumerable<ImpuestoPagoDto> listarImpuestosPagados(int idLote)
+        {
+            
+            List<ImpuestoPagoDto> result = new List<ImpuestoPagoDto>();
+
+            using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
+            {
+                result = (from ii in bd.Impuestoinmobiliarios
+                                  join det in bd.Detalleboleta
+                                  on ii.IdImpuesto equals det.IdImpuesto
+                                  join bol in bd.Boleta
+                                  on det.IdBoleta equals bol.IdBoleta
+                                  where ii.IdLote == idLote
+                                  && bol.FechaPago != null
+                                  && det.Estado == 1
+                                  orderby bol.FechaPago descending, ii.Año, ii.Mes
+                                  select new ImpuestoPagoDto
+                                  {
+                                      idImpuesto = (int)ii.IdImpuesto,
+                                      mes = (int)ii.Mes,
+                                      anio = (int)ii.Año,
+                                      fechaPago = (DateTime)bol.FechaPago,
+                                      importePagado = (decimal)det.Importe,
+                                      periodo = ii.Mes == 0 ?  ii.Año.ToString() : 
+                                      ii.Año.ToString() + "/" + ii.Mes.ToString(),
+                                      cuota = ii.Mes == 0 ? "Única" : ii.Mes .ToString()
+                                  }).ToList();
+
+                return result;
             }
         }
     }

@@ -12,6 +12,7 @@ import { TrabajosReclamoTablaComponent } from '../trabajos-reclamo-tabla/trabajo
 import { ReclamoSuspenderComponent } from '../reclamo-suspender/reclamo-suspender.component';
 import { ReclamoFinalizarComponent } from '../reclamo-finalizar/reclamo-finalizar.component';
 import { ToastService } from 'src/app/services/toast.service';
+import { ReclamoEnviarFinalizarComponent } from '../reclamo-enviar-finalizar/reclamo-enviar-finalizar.component';
 
 @Component({
   selector: 'app-reclamo-form-consultar',
@@ -116,7 +117,7 @@ export class ReclamoFormConsultarComponent implements OnInit {
 
       modalRef.componentInstance.eventoFinalizacionConfirmado.subscribe((finalizacion: any) => {
          modalRef.close();
-         this.confirmarFinalizacionReclamo(finalizacion.resultado, finalizacion.descripcion);
+         this.confirmarFinalizacionReclamo(finalizacion.resultado, finalizacion.descripcion, finalizacion.nroArea);
        })
   }
 
@@ -147,13 +148,14 @@ export class ReclamoFormConsultarComponent implements OnInit {
     
   }
 
-  confirmarFinalizacionReclamo(resultado: string, descripcion: string) {
+  confirmarFinalizacionReclamo(resultado: string, descripcion: string, nroArea?: number) {
     if (resultado && resultado.length > 1 && descripcion && descripcion.length > 1) {
       let aplicarAccion: AplicarAccion = {};
       aplicarAccion.codAccion = resultado;
+      aplicarAccion.codArea = nroArea;
       aplicarAccion.observacion = descripcion;
       this.reclamoService.aplicarAccion(this.nroReclamo, aplicarAccion).subscribe(resp => {
-        this._toastService.showOk("Se registró correctamente la finalización del requerimiento");
+        this._toastService.showOk("Se registró correctamente la verificación del cierre del requerimiento");
 
         this.reclamoService.getReclamo(this.nroReclamo).subscribe(datosReclamo => {
           this.reclamo = datosReclamo;
@@ -164,7 +166,7 @@ export class ReclamoFormConsultarComponent implements OnInit {
 
         return;
       }, error => {
-        this._toastService.showError("Ocurrió un error al registrar la finalización del requerimiento");
+        this._toastService.showError("Ocurrió un error al registrar la verificación del cierre del requerimiento");
         return;
       });
     } else {
@@ -255,5 +257,66 @@ export class ReclamoFormConsultarComponent implements OnInit {
   volver() {
     this._router.navigate(["/reclamo-tabla"]);
   }
+
+  activarReclamo() {
+    let aplicarAccion: AplicarAccion = {};
+      aplicarAccion.codAccion = "ACTIVAR";
+      this.reclamoService.aplicarAccion(this.nroReclamo, aplicarAccion).subscribe(resp => {
+        this._toastService.showOk("Se registró correctamente la activación del requerimiento");
+
+        this.reclamoService.getReclamo(this.nroReclamo).subscribe(datosReclamo => {
+          this.reclamo = datosReclamo;
+        });
+        this.reclamoService.getOpcionesReclamo(this.nroReclamo).subscribe(opciones => {
+          this.opcionesReclamo = opciones;
+        });
+
+        return;
+      }, error => {
+        this._toastService.showError("Ocurrió un error al registrar la activación del requerimiento");
+        return;
+      });
+  }
+
+  enviarACerrarReclamo() {
+    const modalRef = this.modalService.open(ReclamoEnviarFinalizarComponent, 
+      { animation: false, backdrop: "static", centered: true, keyboard: false, size: "lg" });
+      
+    modalRef.componentInstance.eventoEnviarCierreConfirmado.subscribe((descripcion: string) => {
+      modalRef.close();
+      this.confirmarEnvioCierre(descripcion);
+    })
+  }
+
+  confirmarEnvioCierre(descripcion : string) {
+    if (descripcion && descripcion.length > 0) {
+
+      let aplicarAccion: AplicarAccion = {};
+      aplicarAccion.codAccion = "ENVIAR_A_CERRAR";
+      aplicarAccion.observacion = descripcion;
+      this.reclamoService.aplicarAccion(this.nroReclamo, aplicarAccion).subscribe(resp => {
+        this._toastService.showOk("Se registró correctamente el envío a cerrar del requerimiento");
+
+        this.reclamoService.getReclamo(this.nroReclamo).subscribe(datosReclamo => {
+          this.reclamo = datosReclamo;
+        });
+        this.reclamoService.getOpcionesReclamo(this.nroReclamo).subscribe(opciones => {
+          this.opcionesReclamo = opciones;
+        });
+
+        return;
+      }, error => {
+        this._toastService.showError("Ocurrió un error al registrar el envío a cerrar del requerimiento");
+        return;
+      });
+
+
+    } else {
+      this._toastService.showError("Debe cargar una descripción");
+    }    
+    
+  }
+
+
 
 }

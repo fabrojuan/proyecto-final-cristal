@@ -1,13 +1,13 @@
-<div class="container">
+<div class="container" *ngIf="!seEstaRedireccionandoAMobbex">
   <section class="section">
 
     <div class="row">
       <div class="card">
         <div class="card-header">
-          <h5 class="card-title">Impuestos Adeudados</h5>
+          <h5 class="card-title">Impuestos Adeudados - Nro. Cuenta: {{parametro}}</h5>
         </div>
 
-        <div class="card-body">
+        <div class="card-body">          
 
           <!-- <div class="d-flex align-items-center p-3 my-3 bg-purple bg-light shadow p-2 mb-5 rounded shadow-sm">
             <img src="../../../assets/IconsGoogle/money.svg" alt="" width="58" height="58">
@@ -21,21 +21,22 @@
             <thead>
               <tr>
                 <th class="text-center" *ngFor="let cabecera of cabeceras">{{cabecera}} </th>
-                <!-- <th class="text-center"><input class="check" (change)="verCheck()" type="checkbox" title="Todos/Ninguno" /></th> -->
+                <th class="text-center"><input class="check" (change)="seleccionarTodos()" [(ngModel)]="opcionSeleccionarTodo" type="checkbox" title="Todos/Ninguno"/></th>
               </tr>
             </thead>
 
             <tbody>
-              <tr *ngFor="let impuesto of impuestos | paginate: { itemsPerPage: 11, currentPage: p }">
-                <td class="text-center">{{impuesto.periodo}}</td>
+              <tr *ngFor="let impuesto of impuestos | paginate: { itemsPerPage: 10, currentPage: p }">
+                <td class="text-center">{{impuesto.periodo}} <i *ngIf="impuesto.estaVencido" class="bi bi-exclamation text-danger fs-5" title="Impuesto vencido"></i></td>
                 <td class="text-center">{{impuesto.cuota}}</td>
                 <td class="text-center">{{impuesto.fechaVencimiento | date: 'dd/MM/yyyy'}}</td>
-                <td class="text-center">{{impuesto.importeBase|currency:'USD':'symbol'}}</td>
+                <td class="text-center">{{impuesto.importeNeto|currency:'USD':'symbol'}}</td>
                 <td class="text-center">{{impuesto.interesValor|currency:'USD':'symbol'}}</td>
                 <td class="text-center">{{impuesto.importeFinal|currency:'USD':'symbol'}}</td>
                 <td class="text-center">
-                  <input class="check" [name]="impuesto.idImpuesto" (change)="verCheck()" [value]="impuesto.importeFinal" type="checkbox" title="Pagar" />
+                  <input class="check" [name]="impuesto.idImpuesto" (change)="seleccionarImpuesto()" [(ngModel)]="impuesto.estaSeleccionado" type="checkbox" title="Pagar" />
                 </td>
+                                
               </tr>
             </tbody>
           </table>
@@ -59,67 +60,23 @@
     <div class="row">
       <hr class="mb-4">
       <div class="form-group col-md-12 mb-3 pt-3">
-        <button type="button" class="btn btn-primary col-md-4 offset-md-1 " (click)="guardarDatos()">Pagar</button>
+        <button type="button" class="btn btn-primary col-md-4 offset-md-1 " (click)="guardarDatos()">Pagar</button>        
         <button type="button" class="btn btn-secondary col-md-4 offset-md-1" (click)="volver()">Volver</button>
+        <button type="button" class="btn btn-link text-rigth col-2" (click)="verHistorialPago()"><small>Historial de Pagos</small></button>
       </div>
-
     </div>
 
   </div>
 
 </div>
 
-<!-- <div class="container">
+<div class="container mb-3"  *ngIf="seEstaRedireccionandoAMobbex">
   <div class="card">
     <div class="card-body">
-      <div class="d-flex align-items-center p-3 my-3 bg-purple bg-light shadow p-2 mb-5 rounded shadow-sm">
-        <img src="../../../assets/IconsGoogle/money.svg" alt="" width="58" height="58">
-        <div class="card-title text-center form-group col-md-8 offset-md-1">
-          <p>Tabla de Impuestos </p>
-        </div>
+      <h5 class="card-title text-center"> Estamos redireccionándolo al sitio de pago, por favor aguarde unos instantes ... </h5>
+      <div class="col-12 pt-3 pb-3 text-center">
+        <img src="../../../assets/Imagenes/mobbex_gif.gif" alt="" width="500" height="175" class="mt-2 mb-2">
       </div>
-      <body>
-        <form [formGroup]="FGimpuestos" (ngSubmit)="guardarDatos()">
-          <table class="table table-hover">
-            <thead class="thead-dark">
-              <tr>
-                <th class="text-center" *ngFor="let cabecera of cabeceras">{{cabecera}} </th>
-
-              </tr>
-            </thead>
-
-            <tbody class="textoTabla">
-              <tr *ngFor="let impuestoss of impuestos | paginate: { itemsPerPage: 12, currentPage: p }">
-                <td class="text-center">{{impuestoss.mes}}</td>
-                <td class="text-center">{{impuestoss.anio}}</td>
-                <td class="text-center">{{impuestoss.importeBase|currency:'USD':'symbol'}}</td>
-                <td class="text-center">{{impuestoss.interesValor|currency:'USD':'symbol'}}</td>
-                <td class="text-center">{{impuestoss.importeFinal|currency:'USD':'symbol'}}</td>
-                <td class="text-center">
-                  <input class="check" [name]="impuestoss.idImpuesto" (change)="verCheck()" [value]="impuestoss.importeFinal" type="checkbox" title="Pagar" />
-
-
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <pagination-controls (pageChange)="p = $event"></pagination-controls>
-          <div class="row">
-            <label class="textopagar Col-md-12 offset-3 d-flex align-items-center text-center ">El importe total a abonar es: {{suma_actual|currency:'USD':'symbol'}}</label>
-          </div>
-
-          <div class="row p-3 my-2">
-            <hr class="mb-4">
-            <div class="form-group col-md-12 mb-3 pt-3">
-
-              <input type="submit" value="Pagar" class="btn btn-success col-md-4 offset-md-1 " />
-              <button type="button" class="btn btn-secondary col-md-4 offset-md-1" (click)="volver()">Volver</button>
-            </div>
-
-          </div>
-        </form>
-      </body>
     </div>
   </div>
-  <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
-</div> -->
+</div>
