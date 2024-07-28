@@ -6,9 +6,9 @@ const target = env.ASPNETCORE_HTTPS_PORT ? `https://localhost:${env.ASPNETCORE_H
 const PROXY_CONFIG = [{
     context: [
         "/api/usuarios",
-    "/api/denuncias",
-    "/api/Denuncia",
-     "/api/vecinos",
+        "/api/denuncias",
+        "/api/Denuncia",
+        "/api/vecinos",
         "/api/roles",
         "/api/impuestos",
         "/api/reclamos",
@@ -17,10 +17,9 @@ const PROXY_CONFIG = [{
         "/api/paginas",
         "/api/Lote",
         "/api/pagos",
-    "/api/personas",
-    "/api/Persona",
-    "/api/DatosAbiertos",
-    "/api/Indicadores",
+        "/api/personas",
+        "/api/DatosAbiertos",
+        "/api/Indicadores",
         "/api/areas",
         "/api/Sugerencia"
     ],

@@ -1,13 +1,21 @@
 {
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:44488",
+      "sslPort": 0
+    }
+  },
   "profiles": {
     "MVPSA_V2022": {
       "commandName": "Project",
       "launchBrowser": true,
+      "applicationUrl": "http://localhost:5200",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.SpaProxy"
-      },
-      "applicationUrl": "http://localhost:5200"
+      }
     },
     "IIS Express": {
       "commandName": "IISExpress",
@@ -27,14 +35,6 @@
         "ASPNETCORE_URLS": "http://localhost:5200"
       },
       "distributionName": ""
-    }
-  },
-  "iisSettings": {
-    "windowsAuthentication": false,
-    "anonymousAuthentication": true,
-    "iisExpress": {
-      "applicationUrl": "http://localhost:44488",
-      "sslPort": 0
     }
   }
 }
