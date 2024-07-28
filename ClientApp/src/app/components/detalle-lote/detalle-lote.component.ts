@@ -2,8 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { LoteService } from '../../services/lote.service';
 import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
-import { Observable, Subscription } from 'rxjs';
-import { Router } from '@angular/router';
 
 
 @Component({
@@ -19,7 +17,7 @@ export class DetalleLoteComponent implements OnInit {
   asfaltadobox: boolean;
   esquinabox: boolean;
   loteDeudorbox: boolean;
-  constructor(public activeModal: NgbActiveModal, private router: Router, private loteService: LoteService) {
+  constructor(public activeModal: NgbActiveModal, private loteService: LoteService) {
     this.asfaltadobox = true; //
     this.esquinabox = true; // 
     this.loteDeudorbox = true; // 
