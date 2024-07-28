@@ -55,6 +55,7 @@ import { LoteFormGenerarComponent } from './components/lote-form-generar/lote-fo
 import { LoteService } from './services/lote.service';
 import { LoteDetalleComponent } from './components/lote-detalle/lote-detalle.component';
 import { CampoRequeridoComponent } from './components/campo-requerido/campo-requerido.component';
+import { DetalleLoteComponent } from './components/detalle-lote/detalle-lote.component';
 
 //*****Errores y librerias Auxiliares**********
 import { ErrorPaginLoginComponent } from './components/error-pagin-login/error-pagin-login.component';
@@ -205,7 +206,8 @@ import { ReclamoVerImagenesComponent } from './components/reclamo-ver-imagenes/r
     ImpuestosHistoriaPagoComponent,
     ReclamoEnviarFinalizarComponent,
     ImpuestoHistorialPagoComponent,
-    ReclamoVerImagenesComponent
+    ReclamoVerImagenesComponent,
+    DetalleLoteComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
