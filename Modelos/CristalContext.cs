@@ -29,6 +29,8 @@ public partial class CristalContext : DbContext
 
     public virtual DbSet<Detalleboletum> Detalleboleta { get; set; }
 
+    public virtual DbSet<EmailQueue> EmailQueues { get; set; }
+
     public virtual DbSet<EstadoDenuncium> EstadoDenuncia { get; set; }
 
     public virtual DbSet<EstadoReclamo> EstadoReclamos { get; set; }
@@ -97,18 +99,14 @@ public partial class CristalContext : DbContext
 
     public virtual DbSet<ValuacionInmobiliario> ValuacionInmobiliarios { get; set; }
 
-    public virtual DbSet<VwDenuncium> VwDenuncia { get; set; }
-
     public virtual DbSet<VwReclamo> VwReclamos { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=ROMANS;Initial Catalog=cristal;Integrated Security=True ;TrustServerCertificate=true");
+        => optionsBuilder.UseSqlServer("Server=localhost;Database=cristal;User Id=sa;Password=pepito1#;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.UseCollation("SQL_Latin1_General_CP1_CI_AS");
-
         modelBuilder.Entity<Alicuotum>(entity =>
         {
             entity.HasKey(e => e.IdAlicuota).HasName("PK__ALICUOTA__381F0CC3436A82EF");
@@ -282,6 +280,28 @@ public partial class CristalContext : DbContext
             entity.Property(e => e.Importe).HasColumnType("decimal(18, 0)");
         });
 
+        modelBuilder.Entity<EmailQueue>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__EmailQue__3214EC0723BD6E11");
+
+            entity.ToTable("EmailQueue");
+
+            entity.Property(e => e.CcRecipients)
+                .HasMaxLength(250)
+                .IsUnicode(false)
+                .HasColumnName("Cc_recipients");
+            entity.Property(e => e.EmailBody)
+                .IsUnicode(false)
+                .HasColumnName("Email_body");
+            entity.Property(e => e.EmailSubject)
+                .HasMaxLength(250)
+                .IsUnicode(false)
+                .HasColumnName("Email_Subject");
+            entity.Property(e => e.Recipients)
+                .HasMaxLength(250)
+                .IsUnicode(false);
+        });
+
         modelBuilder.Entity<EstadoDenuncium>(entity =>
         {
             entity.HasKey(e => e.CodEstadoDenuncia).HasName("PK__ESTADO_D__FA18336DE876F9A0");
@@ -332,7 +352,7 @@ public partial class CristalContext : DbContext
 
         modelBuilder.Entity<EstadoSugerencium>(entity =>
         {
-            entity.HasKey(e => e.CodEstadoSugerencia).HasName("PK__ESTADO_S__50AF48C06B2B7065");
+            entity.HasKey(e => e.CodEstadoSugerencia).HasName("PK__ESTADO_S__50AF48C06359A88A");
 
             entity.ToTable("ESTADO_SUGERENCIA");
 
@@ -1153,69 +1173,6 @@ public partial class CristalContext : DbContext
                 .HasColumnType("datetime");
             entity.Property(e => e.ValorSupEdificada).HasColumnType("decimal(18, 0)");
             entity.Property(e => e.ValorSupTerreno).HasColumnType("decimal(18, 0)");
-        });
-
-        modelBuilder.Entity<VwDenuncium>(entity =>
-        {
-            entity
-                .HasNoKey()
-                .ToView("vw_Denuncia");
-
-            entity.Property(e => e.Altura)
-                .HasMaxLength(18)
-                .IsUnicode(false);
-            entity.Property(e => e.ApellidoInfractor)
-                .HasMaxLength(75)
-                .IsUnicode(false)
-                .HasColumnName("Apellido_Infractor");
-            entity.Property(e => e.Bhabilitado).HasColumnName("BHabilitado");
-            entity.Property(e => e.Calle)
-                .HasMaxLength(100)
-                .IsUnicode(false);
-            entity.Property(e => e.CodEstadoDenuncia).HasColumnName("Cod_Estado_Denuncia");
-            entity.Property(e => e.CodTipoDenuncia).HasColumnName("Cod_Tipo_Denuncia");
-            entity.Property(e => e.Descripcion)
-                .HasMaxLength(2500)
-                .IsUnicode(false);
-            entity.Property(e => e.Empleado)
-                .HasMaxLength(252)
-                .IsUnicode(false)
-                .HasColumnName("empleado");
-            entity.Property(e => e.EntreCalles)
-                .HasMaxLength(100)
-                .IsUnicode(false)
-                .HasColumnName("Entre_Calles");
-            entity.Property(e => e.EstadoDenuncia)
-                .HasMaxLength(80)
-                .IsUnicode(false)
-                .HasColumnName("estado_denuncia");
-            entity.Property(e => e.Fecha).HasColumnType("datetime");
-            entity.Property(e => e.MailNotificacion)
-                .HasMaxLength(100)
-                .IsUnicode(false)
-                .HasColumnName("Mail_Notificacion");
-            entity.Property(e => e.MovilNotificacion)
-                .HasMaxLength(18)
-                .IsUnicode(false)
-                .HasColumnName("Movil_Notificacion");
-            entity.Property(e => e.NombreInfractor)
-                .HasMaxLength(60)
-                .IsUnicode(false)
-                .HasColumnName("Nombre_Infractor");
-            entity.Property(e => e.NroDenuncia).HasColumnName("Nro_Denuncia");
-            entity.Property(e => e.NroPrioridad).HasColumnName("Nro_Prioridad");
-            entity.Property(e => e.PrioridadDenuncia)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("prioridad_denuncia");
-            entity.Property(e => e.TipoDenuncia)
-                .HasMaxLength(90)
-                .IsUnicode(false)
-                .HasColumnName("tipo_denuncia");
-            entity.Property(e => e.Usuario)
-                .HasMaxLength(100)
-                .IsUnicode(false)
-                .HasColumnName("usuario");
         });
 
         modelBuilder.Entity<VwReclamo>(entity =>
