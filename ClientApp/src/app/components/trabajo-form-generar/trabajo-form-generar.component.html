@@ -23,32 +23,33 @@
 
           <div class="row mt-1">
             <div class="letraSubtitulos form-group col-md-12 mb-3">
-              <label for="Descripcion">(*) </label>
-              <textarea class="letraGral form-control" formControlName="Descripcion" id="exampleFormControlTextarea1" rows="8" placeholder="Describa la actividad realizada... "></textarea>
+              <label for="Descripcion">(*) Descripción</label>
+              <textarea class="letraGral form-control" formControlName="Descripcion" id="exampleFormControlTextarea1" rows="3" placeholder="Describa la actividad realizada... "></textarea>
             </div>
           </div>
 
           <div class="row p-1 my-2 mt-1">
             <div class=" form-group col-md-8 mb-3">
               <label class="letraSubtitulos">Trabajo Realizado por:&nbsp;</label>
-              <select  id="Id_Usuario" formControlName="Id_Usuario">
+              <select  id="Id_Usuario" formControlName="Id_Usuario" class="form-select">
                 <option  value="">--Seleccione Opción--</option>
                 <option  [ngValue]="Empleado.idUsuario" *ngFor="let Empleado of Empleados">
                   Legajo&nbsp;:&nbsp;
                   {{Empleado.idUsuario}}&nbsp;--&nbsp;Empleado&nbsp;:&nbsp;{{Empleado.nombreUser}}
                 </option>
               </select>
-            </div>
+            </div>  
             <div class="letraSubtitulos  col-md-4  custom-control custom-checkbox ">
+              <div><span>&nbsp;</span></div>
               <input class="check" (change)="verCheck()" type="checkbox" />
-              <label class="custom-control-label" for="same-address">&nbsp;Notificar a Denunciante.</label>
+              <label class="custom-control-label" for="same-address">&nbsp;Notificar a Denunciante</label>
             </div>
           </div>
 
           <div class="row  ">
             <!--<h6 class=" col-md-4 offset-md-4 d-flex justify-content-between align-items-center mb-3">-->
-            <div class="card-title text-center form-group col-md-11">
-              <p>Adjuntar hasta 3 pruebas graficas&nbsp;</p>
+            <div class="card-title text-center form-group">
+              <p>Adjuntar hasta 3 pruebas gráficas&nbsp;</p>
             </div>
           </div>
 
@@ -56,50 +57,40 @@
 
             <div class="offset-md-1 col-md-3 mb-3 custom-file ">
               <input type="file" class="form-control  custom-file-input " id="fupFoto" lang="es" (change)="changeFoto()" accept="image/*">
-              <img class="offset-3 mt-md-3" src="{{foto}}" width="100" height="100" />
+              <img class="offset-3 mt-md-3" src="{{foto}}" width="100" height="100" *ngIf="hayFoto1()"/>
+              <img class="offset-3 mt-md-3" src="../../../assets/Imagenes/imagen_no_disponible.png" width="100" height="100" *ngIf="!hayFoto1()"/>
 
-              <label class="custom-file-label" for="customFileLang"><img src="../../../assets/IconsGoogle/card-image.svg" alt="" width="16" height="16" title="card-image"> Adjuntar Prueba 1</label>
+              <!-- <label class="custom-file-label" for="customFileLang"><img src="../../../assets/IconsGoogle/card-image.svg" alt="" width="16" height="16" title="card-image"> Adjuntar Prueba 1</label> -->
             </div>
 
             <div class="offset-md-1 col-md-3 mb-3 custom-file">
               <input type="file" class="form-control custom-file-input " id="fupFoto2" lang="es" (change)="changeFoto()" accept="image/*">
-              <img class="offset-3 mt-md-3" src="{{foto2}}" width="100" height="100" />
+              <img class="offset-3 mt-md-3" src="{{foto2}}" width="100" height="100" *ngIf="hayFoto2()"/>
+              <img class="offset-3 mt-md-3" src="../../../assets/Imagenes/imagen_no_disponible.png" width="100" height="100" *ngIf="!hayFoto2()"/>
 
-              <label class="custom-file-label" for="customFileLang"><img src="../../../assets/IconsGoogle/card-image.svg" alt="" width="16" height="16" title="card-image"> Adjuntar Prueba 2</label>
+              <!-- <label class="custom-file-label" for="customFileLang"><img src="../../../assets/IconsGoogle/card-image.svg" alt="" width="16" height="16" title="card-image"> Adjuntar Prueba 2</label> -->
             </div>
 
             <div class="offset-md-1 col-md-3 mb-3 custom-file">
               <input type="file" class="form-control custom-file-input " id="fupFoto3" lang="es" (change)="changeFoto()" accept="image/*">
-              <img class="offset-3 mt-md-3" src="{{foto3}}" width="100" height="100" />
+              <img class="offset-3 mt-md-3" src="{{foto3}}" width="100" height="100" *ngIf="hayFoto3()"/>
+              <img class="offset-3 mt-md-3" src="../../../assets/Imagenes/imagen_no_disponible.png" width="100" height="100" *ngIf="!hayFoto3()"/>
 
-              <label class="custom-file-label" for="customFileLang"><img src="../../../assets/IconsGoogle/card-image.svg" alt="" width="16" height="16" title="card-image"> Adjuntar Prueba 3</label>
+              <!-- <label class="custom-file-label" for="customFileLang"><img src="../../../assets/IconsGoogle/card-image.svg" alt="" width="16" height="16" title="card-image"> Adjuntar Prueba 3</label> -->
             </div>
 
             <div class="row p-1 my-2 col-md-10  mt-1">
             </div>
 
           </div>
-          <div class="row col-md-12 offset-1 order-md-2 mb-4 mt-5">
-            <div class="col-md-2 mx-md-2 mb-4 mt-xs-5">
-              <button [disabled]="!Trabajo.valid" class="btn btn-primary btn-sm btn-block letraButton " type="submit" title="Para registrar el trabajo minimamente debe ingresar 50 caracteres" style="display: flex; justify-content: center; align-items: center;"><i class="bi bi-wrench-adjustable-circle fs-5"></i>&nbsp;Guardar Trabajo</button>
-            </div>
 
-            <div class="col-md-2 mx-md-2 mb-4 mt-xs-5">
-              <button class="btn btn-primary btn-sm  btn-block letraButton" type="button" (click)="derivarAMesaEntrada()" title="Deriva la Denuncia para que Mesa de Entrada realice gestiones posteriores&#44; o la derive a quien corresponda" style="display: flex; justify-content: center; align-items: center;"><i class="bi bi-forward-fill fs-5"></i>&nbsp;&nbsp;Derivar a Mesa</button>
-            </div>
-
-            <div class="col-md-2 mx-md-2 mb-4 mt-xs-5">
-              <button class="btn btn-primary btn-sm btn-block letraButton" type="button" (click)="solucionarDenuncia()" title="Se enviara a Mesa para que cierre la denuncia" style="display: flex; justify-content: center; align-items: center;"><i class="bi bi-check2-circle fs-5"></i>&nbsp;&nbsp;Solucionar</button>
-            </div>
-
-            <div class="col-md-2 mx-md-2 mb-4 mt-xs-5">
-              <button class="btn btn-danger btn-sm btn-block letraButton" type="button" (click)="solucionarDenuncia()" title="Se enviará a Mesa para que dé baja a la denuncia que no corresponde" style="display: flex; justify-content: center; align-items: center;"><i class="bi bi-x-circle-fill fs-5"></i>&nbsp;&nbsp;Dar de baja</button>
-            </div>
-
-            <div class="col-md-2 mx-md-2 mb-4 mt-xs-5">
-              <button class="btn btn-primary btn-sm btn-block letraButton" type="button" (click)="volver()" title="ir al Tablero de Gestión de Denuncias" style="display: flex; justify-content: center; align-items: center;"><i class="bi bi-arrow-left-circle fs-5"></i>&nbsp;&nbsp;Volver</button>
-            </div>
+          <div class="row">
+            <button type="button" class="btn btn-danger col-md-2 m-1" 
+                    (click)="solucionarDenuncia()" title="Se enviará a Mesa para que dé baja a la denuncia que no corresponde"><i class="bi bi-x"></i> Dar de baja</button>
+            <button class="btn btn-warning col-md-2 m-1" type="button" (click)="derivarAMesaEntrada()" title="Deriva la Denuncia para que Mesa de Entrada realice gestiones posteriores&#44; o la derive a quien corresponda" ><i class="bi bi-forward-fill"></i> Derivar a Mesa</button>
+            <button class="btn btn-warning col-md-2 m-1" type="button" (click)="solucionarDenuncia()" title="Se enviara a Mesa para que cierre la denuncia" ><i class="bi bi-check2-circle"></i> Solucionar</button>
           </div>
+
           <ng-template #myModalInfo let-modal>
             <div class="modal bg-secondary" tabindex="-1" style="display:block;" role="dialog">
               <div class="modal-dialog modal-dialog-scrollable modal-lg">
@@ -121,13 +112,21 @@
             </div>
           </ng-template>
 
+          <div class="row" >
+            <hr>
+            <div class="form-group col-md-12 mb-3 pt-3">
+              <input [disabled]="!Trabajo.valid" type="submit" class="btn btn-primary col-md-4 offset-md-1" title="Para registrar el trabajo minimamente debe ingresar 50 caracteres" value="Generar" />
+              <button type="button" class="btn btn-secondary col-md-4 offset-md-2" (click)="volver()" title="ir al Tablero de Gestión de Denuncias">Volver</button>
+            </div>
+            
+          </div>
+
         </form>
 
 
 
       </div>
 
-      <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
     </div>
 
   </div>

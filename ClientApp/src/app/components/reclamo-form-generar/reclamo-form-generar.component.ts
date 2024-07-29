@@ -17,9 +17,6 @@ export class ReclamoFormGenerarComponent implements OnInit {
   Reclamo: UntypedFormGroup;
   @ViewChild('fileUploader1') fileUploader1: ElementRef | undefined;
   @ViewChild('fileUploader2') fileUploader2: ElementRef | undefined;
-  mensajeUsuario: string | undefined;
-  mostrarMensajeUsuario: boolean | undefined;
-  esMensajeOk: boolean | undefined;
 
   constructor(private reclamoservice: ReclamoService, private vecinoService: VecinoService,
               public _toastService: ToastService  ) {
@@ -47,9 +44,6 @@ export class ReclamoFormGenerarComponent implements OnInit {
   guardarDatos() {
 
     this.isFormSubmitted = true;
-    this.mensajeUsuario = "";
-    this.mostrarMensajeUsuario = false;
-    this.esMensajeOk = true;
 
     if (this.Reclamo.invalid) {
       Object.values(this.Reclamo.controls).forEach(
@@ -80,18 +74,6 @@ export class ReclamoFormGenerarComponent implements OnInit {
         this._toastService.showOk(`Se registró con éxito el requerimiento nro: ${nroReclamoGenerado}`);
       }
     );
-  }
-
-  mostrarMensajeError(mensaje:string) {
-    this.mensajeUsuario = mensaje;
-    this.mostrarMensajeUsuario = true;
-    this.esMensajeOk = false;
-  }
-
-  mostrarMensajeOk(mensaje:string) {
-    this.mensajeUsuario = mensaje;
-    this.mostrarMensajeUsuario = true;
-    this.esMensajeOk = true;
   }
 
   changeFoto1(event: any) {
@@ -148,11 +130,11 @@ export class ReclamoFormGenerarComponent implements OnInit {
   }
 
   get calleNoValido() {
-    return this.isFormSubmitted && this.Reclamo.controls.Calle.errors;
+    return this.isFormSubmitted && this.Reclamo.controls.calle.errors;
   }
 
   get alturaNoValido() {
-    return this.isFormSubmitted && this.Reclamo.controls.Altura.errors;
+    return this.isFormSubmitted && this.Reclamo.controls.altura.errors;
   }
 
   get entreCallesNoValido() {
@@ -160,7 +142,7 @@ export class ReclamoFormGenerarComponent implements OnInit {
   }
 
   get descripcionNoValido() {
-    return this.isFormSubmitted && this.Reclamo.controls.Descripcion.errors;
+    return this.isFormSubmitted && this.Reclamo.controls.descripcion.errors;
   }
 
 }

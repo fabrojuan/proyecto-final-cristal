@@ -5,7 +5,7 @@
     <div class="card">
         <div class="card-body">
           
-            <h5 class="card-title">Consultar Requerimiento</h5>
+            <app-cabecera-titulo [nombreComponente]="'ReclamoFormConsultarComponent'"></app-cabecera-titulo>
 
             <app-reclamo-cabecera [reclamo]="reclamo"></app-reclamo-cabecera>
 
@@ -39,7 +39,7 @@
 
         <div class="card-footer">
             <div class="row pt-3" >
-                <button type="button" class="btn btn-secondary col-md-3 offset-md-9" (click)="volver()">Volver</button>
+                <button type="button" class="btn btn-secondary col-md-3 offset-md-8" (click)="volver()">Volver</button>
             </div>
         </div>
 

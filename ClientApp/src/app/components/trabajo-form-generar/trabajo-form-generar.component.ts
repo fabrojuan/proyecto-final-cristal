@@ -192,4 +192,16 @@ export class TrabajoFormGenerarComponent implements OnInit {
 
   }
 
+  hayFoto1(): boolean {
+    return this.foto != null && this.foto != "" && this.foto != "data:text/plain;base64,dGVzdCB0ZXh0";
+  }
+
+  hayFoto2(): boolean {
+    return this.foto2 != null && this.foto2 != "" && this.foto2 != "data:text/plain;base64,dGVzdCB0ZXh0";
+  }
+
+  hayFoto3(): boolean {
+    return this.foto3 != null && this.foto3 != "" && this.foto3 != "data:text/plain;base64,dGVzdCB0ZXh0";
+  }
+
 }
