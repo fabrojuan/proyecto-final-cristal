@@ -3,7 +3,8 @@
   <div class="card">
       <div class="card-body">
         
-          <h5 class="card-title">{{titulo}} Empleado Municipal</h5>
+          <app-cabecera-titulo [nombreComponente]="'FormUsuarioGenerarComponent'"></app-cabecera-titulo>
+
 
           <form [formGroup]="Usuario" (ngSubmit)="guardarDatos()" class="row g-3">
 

@@ -10,8 +10,8 @@
         public string? NomApeVecino { get; set; }
         public string? MailVecino { get; set; }
         public string? TelefonoVecino { get; set; }
-        public string foto1 { get; set; }
-        public string foto2 { get; set; }
+        public string? foto1 { get; set; }
+        public string? foto2 { get; set; }
         public int nroArea { get; set; }
         public int idSugerenciaOrigen { get; set; }
         public string interno { get; set; }

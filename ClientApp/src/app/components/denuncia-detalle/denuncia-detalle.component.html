@@ -2,14 +2,15 @@
   <div class="card">
     <div class="card-body">
       <app-cabecera-titulo [nombreComponente]="'DenunciaDetalleComponent'"></app-cabecera-titulo>
-      
+
       <div class="row">
         <div class="col-md-4 order-md-2 mb-4">
           <h5 class="d-flex justify-content-between align-items-center mb-3">
             <span class="badge badge-secondary badge-pill">3</span>
           </h5>
           <ul class="list-group mb-3">
-            <li class="list-group-item d-flex justify-content-between lh-condensed" *ngFor="let prueba of pruebas let i = index">
+            <li class="list-group-item d-flex justify-content-between lh-condensed"
+              *ngFor="let prueba of pruebas let i = index">
               <div>
                 <h6 class="my-0 text-muted">Prueba gráfica nro {{prueba.nroImagen}}</h6>
                 <!--<small class="text-muted">ampliar imagen..</small>-->
@@ -24,111 +25,108 @@
         <!--Aca empieza la Primera columa del row general que es la de registro de trabajo. (ngSubmit)="guardarDatos() -->
 
         <div class="col-md-8 order-md-1">
-          <form [formGroup]="Trabajo">
-            <div class="container-fluid">
-              <div class="row p-1 my-2 ">
-                <div class="col-md-6 form-inline">
-                  <label>Nro Denuncia&nbsp;:&nbsp;</label>
-                  <input type="text" class=" sin-borde" id="nro_Denuncia" formControlName="nro_Denuncia" placeholder="" value="" readonly>
+
+          <form [formGroup]="Trabajo" class="row g-3">
+
+            <div class="col-md-6">
+              <label>Nro. Denuncia:</label>
+              <input type="text" class="form-control" id="nro_Denuncia" formControlName="nro_Denuncia" placeholder=""
+                value="" readonly>
+            </div>
+
+            <div class="col-md-6">
+              <label for="firstName">Estado:</label>
+              <input type="text" class="form-control" id="estado_Denuncia" formControlName="estado_Denuncia"
+                placeholder="" value="" readonly>
+            </div>
+
+            <div class="col-md-12">
+              <label for="Descripcion">Descripcion:</label>
+                <textarea class="form-control" formControlName="Descripcion"
+                  id="exampleFormControlTextarea1" rows="4" readonly></textarea>
+            </div>
+
+            <div class="col-md-6">
+              <label for="calle">Calle:</label>
+              <input type="text" class="form-control" id="calle" formControlName="calle" readonly>
+            </div>
+
+            <div class="col-md-6">
+              <label for="altura">Altura:</label>
+              <input type="text" class="form-control" id="altura" formControlName="altura" readonly>
+            </div>
+
+            <div class="col-md-6">
+              <label for="entre_Calles">Entre Calles:</label>
+              <input type="text" class="form-control" id="entre_Calles" formControlName="entre_Calles" readonly>
+            </div>
+
+            <div class="col-md-6">
+              <label for="Nombre_Infractor">Infractor:</label>
+              <input type="text" class="form-control" id="nombre_Infractor" formControlName="nombre_Infractor"
+                    readonly>
+            </div>
+
+            <div class="col-md-6">
+              <label for="tipo_Denuncia">Tipo Denuncia:</label>
+              <input type="text" class="form-control" id="tipo_Denuncia" formControlName="tipo_Denuncia" readonly>
+            </div>
+
+            <div class="col-md-6">
+              <label for="legajoActual"
+                    title="Se visualiza el legajo del empleado que actualmente posee la denuncia">Legajo Empleado:</label>
+              <input type="text" class="form-control" id="legajoActual" formControlName="legajoActual" placeholder=""
+                value="">
+            </div>
+
+            <div class="col-md-6">
+              <label for="idUsuario">Derivar a:</label>
+              <select id="idUsuario" formControlName="idUsuario" class="form-select">
+                <option value="">--Seleccione Opción--</option>
+                <option [ngValue]="Empleado.idUsuario" *ngFor="let Empleado of Empleados">
+                  Leg: {{Empleado.idUsuario}} -- {{Empleado.nombreUser}}
+                </option>
+              </select>
+            </div>
+
+            <div class="col-md-6">
+              <label for="Nro_Prioridad">Prioridad:</label>
+              <select id="Nro_Prioridad" formControlName="Nro_Prioridad" class="form-select">
+                <option value="">--Seleccione Opción-- </option>
+                <option [ngValue]="Prioridad.nroPrioridad" *ngFor="let Prioridad of Prioridades">
+                  {{Prioridad.nombrePrioridad}}
+                </option>
+              </select>
+              <div style="color: coral" *ngIf="Trabajo.controls['Nro_Prioridad'].errors?.pattern">
+                Debe especificar criticidad
+              </div>
+            </div>
+
+            <div class="row pt-3">
+              <div class="form-group col-md-12">
+                <button [disabled]="!Trabajo.valid"
+                    title="Puede derivar la denuncia a otro empleado, y/o recategorizar la Prioridad de la denuncia"
+                    class="btn btn-primary btn-sm col-md-4" (click)="guardarDatos()"><i
+                      class="bi bi-forward-fill"></i>&nbsp;Derivar/Priorizar</button>
+                <button class="btn btn-primary btn-sm col-md-3 mx-1"  data-bs-placement="top" data-bs-toggle="tooltip"
+                      title="Registre el trabajo realizado sobre la denuncia" (click)="registrarTrabajo()">Registrar Trabajo&nbsp;&nbsp;</button>
+                <button class="btn btn-secondary btn-sm col-md-4 mx-1" (click)="volver()">Volver</button>
+              </div>              
+            </div>
+
+
+              <div class="row p-4 my-2">
+                <div class="col-md-4 offset-1">
+                  
                 </div>
-
-                <div class="col-md-6 form-inline">
-                  <label for="firstName">Estado&nbsp;:&nbsp;&nbsp;</label>
-                  <input type="text" class=" sin-borde" id="estado_Denuncia" formControlName="estado_Denuncia" placeholder="" value="" readonly>
-
+                <div class="col-md-4">
+                  
+                </div>
+                <div class="col-md-2 ">
+                  
                 </div>
               </div>
-              <div class="row">
-                <div class="form-group col-md-12 mb-3">
-                  <label for="Descripcion">Descripcion:</label>
-                  <textarea class="form-control sin-borde" formControlName="Descripcion" id="exampleFormControlTextarea1" rows="4" readonly></textarea>
-                </div>
-              </div>
 
-              <div class="row p-1 my-2 ">
-                <div class="col-md-6  d-flex align-items-center">
-                  <label for="calle">Calle &nbsp;:&nbsp;</label>
-                  <input type="text" class="sin-borde" id="calle" formControlName="calle" readonly>
-                </div>
-
-                <div class="col-md-6 d-flex align-items-center">
-                  <label for="altura">Altura &nbsp;:&nbsp;</label>
-                  <input type="text" class="sin-borde" id="altura" formControlName="altura" readonly>
-                </div>
-
-                <div class="col-md-6 mt-3 align-items-center">
-                  <label for="entre_Calles">Entre Calles &nbsp;:&nbsp;</label>
-                  <input type="text" class=" sin-borde " id="entre_Calles" formControlName="entre_Calles" readonly>
-                </div>
-
-                <div class="col-md-6 mt-3 align-items-center">
-                  <label for="Nombre_Infractor">Infractor &nbsp;:&nbsp;&nbsp;</label>
-                  <input type="text" class=" sin-borde " id="nombre_Infractor" formControlName="nombre_Infractor" readonly>
-                </div>
-
-               
-
-
-              </div>
-
-              <div class="row ">
-
-                <div class="col-md-6">
-                  <label for="tipo_Denuncia">Tipo Denuncia &nbsp;:&nbsp;&nbsp;</label>
-                  <input type="text" class=" sin-borde " id="tipo_Denuncia" formControlName="tipo_Denuncia" readonly>
-                </div>
-
-                <div class="col-md-6">
-                  <label for="legajoActual" title="Se visualiza el legajo del empleado que actualmente posee la denuncia">Legajo Empleado: &nbsp;&nbsp;&nbsp;</label>
-                  <input type="text" class="sin-borde " id="legajoActual" formControlName="legajoActual" placeholder="" value="">
-                </div>
-              </div>
-
-                <div class="row my-5 mt-5 encuadre">
-                  <div class="col-md-4 mb-2">
-                    <!-- Dividir en 2 columnas, cada una con ancho 6 -->
-                    <div class="form-group mb-3">
-                      <label for="idUsuario">Derivar a:</label>
-                      <select id="idUsuario" formControlName="idUsuario" >
-                        <option value="">--Seleccione Opción--</option>
-                        <option [ngValue]="Empleado.idUsuario" *ngFor="let Empleado of Empleados">
-                          Leg: {{Empleado.idUsuario}} -- {{Empleado.nombreUser}}
-                        </option>
-                      </select>
-
-                    </div>
-                  </div>
-                  <div class="col-md-2"> </div>
-                  <div class="col-md-4 mb-3">
-                    <!-- Dividir en 2 columnas, cada una con ancho 6 -->
-                    <div class="form-group mb-2">
-                      <label for="Nro_Prioridad">Prioridad:</label>
-                      <select id="Nro_Prioridad" formControlName="Nro_Prioridad">
-                        <option value="">--Seleccione Opción-- </option>
-                        <option [ngValue]="Prioridad.nroPrioridad" *ngFor="let Prioridad of Prioridades">
-                          {{Prioridad.nombrePrioridad}}
-                        </option>
-                      </select>
-                   <div style="color: coral" *ngIf="Trabajo.controls['Nro_Prioridad'].errors?.pattern">
-                        Debe especificar criticidad..
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-
-                <div class="row p-4 my-2">
-                  <div class="col-md-4 offset-1">
-                    <button [disabled]="!Trabajo.valid" title="Puede derivar la denuncia a otro empleado, y/o recategorizar la Prioridad de la denuncia" class="btn btn-secondary btn-sm btn-block" (click)="guardarDatos()" style="display: flex; justify-content: center; align-items: center;"><i class="bi bi-forward-fill fs-5"></i>&nbsp;Derivar/Priorizar</button>
-                  </div>
-                  <div class="col-md-4">
-                    <button class="btn btn-primary btn-sm btn-block" data-bs-placement="top" data-bs-toggle="tooltip" title="Registre el trabajo realizado sobre la denuncia" (click)="registrarTrabajo()" style="display: flex; justify-content: center; align-items: center;"><i class="bi bi-wrench-adjustable-circle fs-5"></i>&nbsp;&nbsp;Registrar Trabajo&nbsp;&nbsp;</button>
-                  </div>
-                  <div class="col-md-2 ">
-                    <button class="btn btn-secondary btn-sm btn-block" (click)="volver()" style="display: flex; justify-content: center; align-items: center;"><i class="bi bi-arrow-left-circle fs-5"></i>&nbsp;Volver</button>
-                  </div>
-                </div>
-              </div>
 
             <ng-template #myModalInfo let-modal>
               <div class="modal bg-secondary" tabindex="-1" style="display:block;" role="dialog">
@@ -162,5 +160,3 @@
     <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
   </div>
 </div>
-
-

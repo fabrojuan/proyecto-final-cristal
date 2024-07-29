@@ -272,7 +272,59 @@ export class TitulosServiceService {
     };
     this.configuration.push(tituloHistoricoDenunciaTrabajosComponent);
 
+    /**
+     * ReclamoFormConsultarComponent
+     */
+    var tituloReclamoFormConsultarComponent: Titulo = {
+      nombreComponente: "ReclamoFormConsultarComponent",
+      titulo: "Consultar Requerimiento",
+      tipoImagen: TipoImagenEnum.ICONO,
+      pathImagen: "bi bi-list-task",
+      link: "/bienvenida",
+      tituloLink: ""
+    };
+    this.configuration.push(tituloReclamoFormConsultarComponent);
 
+
+    
+    // FormUsuarioGenerarComponent
+    var tituloFormUsuarioGenerarComponent: Titulo = {
+      nombreComponente: "FormUsuarioGenerarComponent",
+      titulo: "Alta/Edición de Empleados",
+      tipoImagen: TipoImagenEnum.FOTO,
+      pathImagen: "../../../assets/IconsGoogle/trabajador.svg",
+      link: "/bienvenida",
+      tituloLink: ""
+    };
+    this.configuration.push(tituloFormUsuarioGenerarComponent);
+
+
+    /**
+     * PaginaFormGenerarComponent
+     */
+    var tituloPaginaFormGenerarComponent: Titulo = {
+      nombreComponente: "PaginaFormGenerarComponent",
+      titulo: "Alta/Edición de Páginas",
+      tipoImagen: TipoImagenEnum.ICONO,
+      pathImagen: "bi bi-book",
+      link: "/bienvenida",
+      tituloLink: ""
+    };
+    this.configuration.push(tituloPaginaFormGenerarComponent);
+
+
+    /**
+     * TipoRolFormGenerarComponent
+     */
+    var tituloTTipoRolFormGenerarComponent: Titulo = {
+      nombreComponente: "TipoRolFormGenerarComponent",
+      titulo: "Alta/Edición de Roles",
+      tipoImagen: TipoImagenEnum.ICONO,
+      pathImagen: "bi bi-list-task",
+      link: "/bienvenida",
+      tituloLink: ""
+    };
+    this.configuration.push(tituloTTipoRolFormGenerarComponent);
 
   }
 }

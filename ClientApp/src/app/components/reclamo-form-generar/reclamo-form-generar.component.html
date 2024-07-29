@@ -1,16 +1,5 @@
 <div class="container">
 
-    <div class="alert border-0 alert-dismissible fade show" 
-         [class.alert-success]="esMensajeOk"
-         [class.bg-success]="esMensajeOk"
-         [class.text-light]="esMensajeOk"
-         [class.alert-warning]="!esMensajeOk"
-         [class.bg-warning]="!esMensajeOk"
-        role="alert" *ngIf="mostrarMensajeUsuario">
-        <i class="bi bi-check-circle me-1"></i> {{ mensajeUsuario }}
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-
     <div class="card">
         <div class="card-body">
           
