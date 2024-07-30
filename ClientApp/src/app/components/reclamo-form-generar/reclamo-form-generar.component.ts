@@ -20,6 +20,11 @@ export class ReclamoFormGenerarComponent implements OnInit {
 
   constructor(private reclamoservice: ReclamoService, private vecinoService: VecinoService,
               public _toastService: ToastService  ) {
+    this.Reclamo = new UntypedFormGroup({});
+    this.configurarFormulario();
+  }
+
+  private configurarFormulario() {
     this.Reclamo = new UntypedFormGroup(
       {
         "codTipoReclamo": new UntypedFormControl("", [Validators.required]),
@@ -105,13 +110,12 @@ export class ReclamoFormGenerarComponent implements OnInit {
   }
 
   cancelar() {
-    this.isFormSubmitted = false;
     this.limpiarFormulario();
   }
 
   private limpiarFormulario() {
     this.isFormSubmitted = false;
-    this.Reclamo.reset();
+    this.configurarFormulario();
 
     this.foto1 = "";
     this.foto2 = "";

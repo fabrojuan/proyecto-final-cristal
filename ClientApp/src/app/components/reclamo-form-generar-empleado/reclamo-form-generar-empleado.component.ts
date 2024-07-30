@@ -6,6 +6,7 @@ import { Area } from 'src/app/modelos_Interfaces/Area';
 import { AreasService } from 'src/app/services/areas.service';
 import { ClaveValor } from 'src/app/modelos_Interfaces/ClaveValor';
 import { ToastService } from 'src/app/services/toast.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-reclamo-form-generar-empleado',
@@ -28,7 +29,7 @@ export class ReclamoFormGenerarEmpleadoComponent implements OnInit {
   opcionesReclamoInterno: ClaveValor[] = [{clave : "N", valor : "No"}, {clave : "S", valor : "Sí"}];
 
   constructor(private reclamoservice: ReclamoService, private vecinoService: VecinoService,
-              private _areasService: AreasService, public _toastService: ToastService
+              private _areasService: AreasService, public _toastService: ToastService, private router: Router
   ) {
     this.Reclamo = new FormGroup({});
     this.crearFormularioRequerimientoExterno();
@@ -78,11 +79,12 @@ export class ReclamoFormGenerarEmpleadoComponent implements OnInit {
         this._toastService.showError(error.error);
       },
       () => {
-        this.limpiarFormulario();
-        this.isFormSubmitted = false;
+        //this.limpiarFormulario();
+        //this.isFormSubmitted = false;
         //this.mostrarMensajeOk(`Se registró con éxito el requerimiento nro: ${nroReclamoGenerado}`);
         this._toastService.showOk(`Se registró con éxito el requerimiento nro: ${nroReclamoGenerado}`);
-        this.crearFormularioRequerimientoExterno();
+        //this.crearFormularioRequerimientoExterno();
+        this.router.navigate(["/reclamo-tabla"]);
       }
     );
   }
