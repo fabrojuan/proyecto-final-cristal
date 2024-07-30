@@ -199,7 +199,7 @@ namespace MVPSA_V2022.Services
                     nroPrioridad = (int)reclamo.NroPrioridad,
                     usuarioAsignado = "",
                     empleadoAsignado = reclamo.NroAreaNavigation?.Nombre,
-                   //prioridad = reclamo.NroPrioridadNavigation.NombrePrioridad,
+                    prioridad = reclamo.NroPrioridadNavigation.NombrePrioridad,
                     interno = reclamo.Interno
                 };
                 listaReclamo.Add(reclamoDto);
@@ -240,7 +240,7 @@ namespace MVPSA_V2022.Services
                 nroPrioridad = (int)reclamo.NroPrioridad,
                 //usuarioAsignado = reclamo.Usuario,
                 //empleadoAsignado = reclamo.Empleado,
-                //prioridad = reclamo.NroPrioridadNavigation.NombrePrioridad,
+                prioridad = reclamo.NroPrioridadNavigation.NombrePrioridad,
                 nroArea = reclamo.NroArea,
                 interno = reclamo.Interno,
                 fechaCierre = reclamo.FechaCierre,

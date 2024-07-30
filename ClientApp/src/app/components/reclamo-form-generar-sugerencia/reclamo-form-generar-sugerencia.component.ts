@@ -106,10 +106,11 @@ export class ReclamoFormGenerarSugerenciaComponent implements OnInit {
         this._toastService.showError(error.error);
       },
       () => {
-        this.limpiarFormulario();
-        this.isFormSubmitted = false;
+        //this.limpiarFormulario();
+        //this.isFormSubmitted = false;
         //this.mostrarMensajeOk(`Se registró con éxito el requerimiento nro: ${nroReclamoGenerado}`);
         this._toastService.showOk(`Se registró con éxito el requerimiento nro: ${nroReclamoGenerado}`);
+        this.router.navigate(["/sugerencia-tabla"]);
       }
     );
   }

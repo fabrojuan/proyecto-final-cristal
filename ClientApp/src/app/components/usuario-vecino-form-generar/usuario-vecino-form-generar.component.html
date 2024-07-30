@@ -5,7 +5,7 @@
             <form [formGroup]="Usuario" (ngSubmit)="guardarDatos()" class="row g-3">
 
                 <div class="col-md-6">
-                    <label for="NombrePersona" class="form-label">Nombre</label>
+                    <label for="NombrePersona" class="form-label">(*) Nombre</label>
                     <input type="text" class="form-control" [ngClass]="{'is-invalid' : nombrePersonaNoValido}" id="NombrePersona" formControlName="NombrePersona" value="">
                     <div class="invalid-feedback" *ngIf="isFormSubmitted && Usuario.controls['NombrePersona'].errors?.required">
                         El nombre es requerido.
@@ -13,7 +13,7 @@
                 </div>
 
                 <div class="col-md-6">
-                    <label for="Apellido" class="form-label">Apellido</label>
+                    <label for="Apellido" class="form-label">(*) Apellido</label>
                     <input type="text" class="form-control" [ngClass]="{'is-invalid' : apellidoNoValido}" id="Apellido" formControlName="Apellido" value="">
                     <div class="invalid-feedback" *ngIf="isFormSubmitted && Usuario.controls['Apellido'].errors?.required">
                         El apellido es requerido.
@@ -21,7 +21,7 @@
                 </div>
 
                 <div class="col-md-6">
-                    <label for="Dni" class="form-label">DNI</label>
+                    <label for="Dni" class="form-label">(*) DNI</label>
                     <input type="text" class="form-control" [ngClass]="{'is-invalid' : dniNoValido}" id="Dni" formControlName="Dni" value="">
                     <div class="invalid-feedback" *ngIf="isFormSubmitted && Usuario.controls['Dni'].errors?.required">
                         El DNI es un dato requerido.
@@ -38,7 +38,7 @@
                 </div>
 
                 <div class="col-md-6">
-                    <label for="FechaNac" class="form-label">Fecha de Nacimiento</label>
+                    <label for="FechaNac" class="form-label">(*) Fecha de Nacimiento</label>
                     <input type="date" class="form-control" [ngClass]="{'is-invalid' : fechaNacNoValido}" id="FechaNac" formControlName="FechaNac" value="">
                     <div class="invalid-feedback" *ngIf="isFormSubmitted && Usuario.controls['FechaNac'].errors?.required">
                         La fecha de nacimiento es requerida
@@ -46,7 +46,7 @@
                 </div>
 
                 <div class="col-md-6">
-                    <label for="Domicilio" class="form-label">Domicilio</label>
+                    <label for="Domicilio" class="form-label">(*) Domicilio</label>
                     <input type="text" class="form-control" [ngClass]="{'is-invalid' : domicilioNoValido}" id="Domicilio" formControlName="Domicilio" value="">
                     <div class="invalid-feedback" *ngIf="isFormSubmitted && Usuario.controls['Domicilio'].errors?.required">
                         El domicilio requerido.
@@ -54,7 +54,7 @@
                 </div>
 
                 <div class="col-md-6">
-                    <label for="Altura" class="form-label">Altura</label>
+                    <label for="Altura" class="form-label">(*) Altura</label>
                     <input type="text" class="form-control" [ngClass]="{'is-invalid' : alturaNoValido}" id="Altura" formControlName="Altura" value="">
                     <div class="invalid-feedback" *ngIf="isFormSubmitted && Usuario.controls['Altura'].errors?.required">
                         La altura de la calle es requerida.
@@ -62,7 +62,7 @@
                 </div>
 
                 <div class="col-md-6">
-                    <label for="Telefono" class="form-label">Teléfono</label>
+                    <label for="Telefono" class="form-label">(*) Teléfono</label>
                     <input type="text" class="form-control" [ngClass]="{'is-invalid' : telefonoNoValido}" id="Telefono" formControlName="Telefono" placeholder="Ejemplo: 3515305248 ; Sin guion ni espacios" value="">
                     <div class="invalid-feedback" *ngIf="isFormSubmitted && Usuario.controls['Telefono'].errors?.required">
                         El teléfono es un dato requerido como contacto en la gestión de solicitudes/reclamos.
@@ -73,7 +73,7 @@
                 </div>
 
                 <div class="col-md-6">
-                    <label for="Mail" class="form-label">Mail</label>
+                    <label for="Mail" class="form-label">(*) Mail</label>
                     <input type="text" class="form-control" [ngClass]="{'is-invalid' : mailNoValido}" id="Mail" formControlName="Mail" value="">
                     <div class="invalid-feedback" *ngIf="isFormSubmitted && Usuario.controls['Mail'].errors?.pattern ">
                         El email es incorrecto, verifique por favor.
@@ -88,7 +88,7 @@
                 </div>
 
                 <div class="col-md-6">
-                    <label for="NombreUser" class="form-label">Nombre de Usuario</label>
+                    <label for="NombreUser" class="form-label">(*) Nombre de Usuario</label>
                     <input type="text" class="form-control" [ngClass]="{'is-invalid' : nombreUserNoValido}" id="NombreUser" formControlName="NombreUser" placeholder="Ejemplo: jorgitoelperez" value="">
                     <div class="invalid-feedback" *ngIf="isFormSubmitted && Usuario.controls['NombreUser'].errors?.required">
                         El nombre de usuario es requerido.
@@ -96,7 +96,7 @@
                 </div>
 
                 <div class="col-md-6">
-                    <label for="Contrasenia" class="form-label">Contraseña</label>
+                    <label for="Contrasenia" class="form-label">(*) Contraseña</label>
                     <input type="password" id="Contrasenia" formControlName="Contrasenia" class="form-control" [ngClass]="{'is-invalid' : contraseniaNoValido}" placeholder="Ejemplo: A5T5DerfG" value="">
                     <div class="invalid-feedback" *ngIf="isFormSubmitted && Usuario.controls['Contrasenia'].errors?.required ">
                         Ingrese una contraseña.
@@ -107,7 +107,7 @@
                 </div>
 
                 <div class="col-md-6">
-                    <label for="lastName" class="form-label">Repetir Contraseña</label>
+                    <label for="lastName" class="form-label">(*) Repetir Contraseña</label>
                     <input type="password" id="Contrasenia2" formControlName="Contrasenia2" class="form-control" placeholder="Repetir Contraseña" value="">
                     <div class="invalid-feedback" *ngIf="isFormSubmitted && Usuario.controls['Contrasenia2'].errors?.noIguales">
                         La contraseña no es la misma, verifique.
