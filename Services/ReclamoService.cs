@@ -1,9 +1,11 @@
-﻿using AutoMapper;
+﻿using System.Diagnostics.CodeAnalysis;
+using AutoMapper;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
 using MVPSA_V2022.clases;
 using MVPSA_V2022.clases.Mobbex;
+using MVPSA_V2022.Controllers;
 using MVPSA_V2022.Enums;
 using MVPSA_V2022.Exceptions;
 using MVPSA_V2022.Modelos;
@@ -765,5 +767,68 @@ namespace MVPSA_V2022.Services
 
             return "";
         }
+
+        public void generarRequerimientosRandomParaIndicadores()
+        {
+            DateTime[] fechasCreacion = getDates(1000, new DateTime(2022, 1, 1), new DateTime(2024, 7, 31));
+            for(int i = 0; i < 1000; i++) {
+                Reclamo reclamo = new Reclamo();
+                reclamo.Altura = "0";
+                reclamo.Bhabilitado = 1;
+                reclamo.Calle = "Tandil";
+                reclamo.CodEstadoReclamo = 5;
+
+                int randomCodTipoReclamo = random.Next(1, 13);
+                reclamo.CodTipoReclamo = randomCodTipoReclamo;
+
+                reclamo.Descripcion = "Requerimiento generado para tener datos en los indicadores";
+                reclamo.EntreCalles = "Matanza y Tres Arroyos";
+
+                int randomDiasResolucion = random.Next(1, 10);
+                reclamo.Fecha = fechasCreacion[i];
+                reclamo.FechaCierre = fechasCreacion[i].AddDays(randomDiasResolucion);
+
+                reclamo.IdUsuario = 1;
+                reclamo.Interno = "N";
+                reclamo.MailVecino = "vecino@gmail.com";
+                reclamo.NomApeVecino = "vecino ficticio";
+
+                reclamo.NroArea = 1;
+
+                int randomNroPrioridad = random.Next(1, 3);
+                reclamo.NroPrioridad = randomNroPrioridad;
+
+                reclamo.TelefonoVecino = "4556677";
+                this.dbContext.Reclamos.Add(reclamo);
+            }
+            this.dbContext.SaveChanges();
+        }
+
+        /******************************************************************************
+        *
+        */
+        
+        // Crear una instancia de la clase Random
+        Random random = new Random();
+
+        Random seed = new Random(DateTime.Now.Millisecond);
+        
+        private DateTime[] getDates(int numDates, DateTime dateInit, DateTime dateEnd)
+           {
+               DateTime[] lst = new DateTime[numDates];
+               for (int i = 0; i < numDates; i++)
+               {
+                   // Obtenemos el intervalo de tiempo
+                   TimeSpan interval = dateEnd.Subtract(dateInit);
+                   // Se calcula el número de días
+                   int randomMax = (int)interval.TotalDays;
+                   // Se obtiene un número aleatorio
+                   long randomValue = seed.Next(0, randomMax);
+                   // Se le añade a la fecha inicial
+                   lst[i] = dateInit.AddDays(randomValue);
+               }
+               return lst;
+           }
+        
     }
 }

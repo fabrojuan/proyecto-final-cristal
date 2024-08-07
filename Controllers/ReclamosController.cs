@@ -214,5 +214,14 @@ namespace MVPSA_V2022.Controllers
             return Ok(this.reclamoService.getImagenReclamo(nroReclamo, nroImagen));
         }
 
+        [HttpPost]
+        [Route("datos")]
+        [AllowAnonymous]
+        public IActionResult generarReclamos() {                                 
+            reclamoService.generarRequerimientosRandomParaIndicadores();
+            return Ok();
+            
+        }
+
     }
 }

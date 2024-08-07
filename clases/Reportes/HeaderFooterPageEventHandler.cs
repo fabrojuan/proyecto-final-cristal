@@ -22,7 +22,8 @@ namespace MVPSA_V2022.clases.Reportes
         { 
             PdfDocumentEvent docEvent = (PdfDocumentEvent)@event;
             PdfDocument pdfDoc = docEvent.GetDocument();
-            string logoPath = "C:\\Proyecto_JUAN\\proyecto-final-cristal\\ClientApp\\src\\assets\\Imagenes\\Arco100px.png";
+            //string logoPath = "C:\\Proyecto_JUAN\\proyecto-final-cristal\\ClientApp\\src\\assets\\Imagenes\\Arco100px.png";
+            string logoPath = "." + System.IO.Path.DirectorySeparatorChar + "datos_abiertos" + System.IO.Path.DirectorySeparatorChar + "Arco100px.png";
         var logo = ImageDataFactory.Create(logoPath);
             PdfPage page = docEvent.GetPage();
             Rectangle pageSize = page.GetPageSize();

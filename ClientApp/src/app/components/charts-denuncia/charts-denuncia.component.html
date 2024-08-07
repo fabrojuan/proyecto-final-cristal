@@ -1,18 +1,55 @@
-
 <div class="container">
+  <app-cabecera-titulo [nombreComponente]="'ChartsDenunciaComponent'"></app-cabecera-titulo>
+
+  <div class="row">
+
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Proporción Denuncias en los últimos 6 meses</h5>
+
+          <!-- Stacked Bar Chart -->
+          <canvas id="chart" style="max-height: 250px; height: 250px; min-height: 250px;">{{ chart }}</canvas>
+          <!-- End Stacked Bar Chart -->
+
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Cant. Denuncias por tipo en los últimos 6 meses</h5>
+
+          <!-- Stacked Bar Chart -->
+          <canvas id="barchart2" style="max-height: 250px; height: 250px; min-height: 250px;"></canvas>
+          <!-- End Stacked Bar Chart -->
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- <div class="container">
   <div class="card">
     <div class="card-body">
       <div class="d-flex align-items-center p-3 my-3 bg-purple bg-light shadow p-2 mb-5 rounded shadow-sm container">
-        <i class="bi bi-shield-lock text-dark" [routerLink]="['/bienvenida']" style="font-size: 2.5em;" title="Listado de Denuncias Activas.Click para dashboard"></i>
+        <i class="bi bi-shield-lock text-dark" [routerLink]="['/bienvenida']" style="font-size: 2.5em;"
+          title="Listado de Denuncias Activas.Click para dashboard"></i>
         <div class="card-title text-center form-group col-md-8 offset-md-1">
           <p>Charts Denuncias</p>
         </div>
       </div>
- 
+
       <div class="row mt-5 row-cols-10 row-cols-md-10 align-items-center">
-        <div class="tarjeta offset-md-1">
+        <div class="tarjeta offset-md-1 col-md-4">
           <div class="card-body text-center">
-            <h5 class="card-title titulo" title="Click aqui para ayuda Contextual.">Proporción denuncias en los ultimos 6 meses</h5>
+            <h5 class="card-title titulo" title="Click aqui para ayuda Contextual.">Proporción denuncias en los ultimos
+              6 meses</h5>
             <canvas id="chart">{{ chart }}</canvas>
           </div>
         </div>
@@ -24,15 +61,16 @@
           </div>
         </div>
 
-        <div class="tarjeta2 mt-5 offset-md-1">
+        <div class="tarjeta2 mt-5 offset-md-1 col-md-5">
           <div class="card-body text-center">
-            <h5 class="card-title titulo" title="Click aqui para ayuda Contextual.">Denuncias por tipo en los ultimos 6 meses</h5>
+            <h5 class="card-title titulo" title="Click aqui para ayuda Contextual.">Denuncias por tipo en los ultimos 6
+              meses</h5>
             <canvas id="barchart2"></canvas>
           </div>
         </div>
 
       </div>
- 
+
 
       <div class="row mt-5 row-cols-4 row-cols-md-4 justify-content-center">
 
@@ -40,7 +78,8 @@
           <button type="button" class="btn btn-secondary col-md-8 offset-md-1" (click)="volver()">Escritorio</button>
         </div>
         <div class=" align-content-start">
-          <button type="button" class="btn btn-secondary col-md-8 offset-md-1" (click)="volverAtras()">Volver atr&aacute;s</button>
+          <button type="button" class="btn btn-secondary col-md-8 offset-md-1" (click)="volverAtras()">Volver
+            atr&aacute;s</button>
 
         </div>
       </div>
@@ -50,7 +89,4 @@
 
   </div>
 
-  <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
-</div>
-
-
+</div> -->

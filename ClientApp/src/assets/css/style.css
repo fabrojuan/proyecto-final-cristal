@@ -1282,3 +1282,12 @@ h6 {
     font-size: 13px;
     color: #012970;
 }
+
+
+/*--------------------------------------------------------------
+# Cristal
+--------------------------------------------------------------*/
+
+.image-as-link {
+    cursor: pointer; /* Changes the cursor to a pointer (hand icon) */
+}

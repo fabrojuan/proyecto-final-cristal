@@ -13,10 +13,17 @@ export class ChartsReclamosComponent implements OnInit {
   chartReclamosNuevosPorMes?: Chart;
   chartReclamosAbiertosPorEstado?: any;
   chartTrabajosReclamosPorAreaYMes?: any;
+  chartComparativaMensualTiempoResolucionReclamos?: Chart;
   dataChartReclamosCerradosPorMes: any;
   dataChartReclamosNuevosPorMes: any;
   dataChartReclamosAbiertosPorEstado: any;
   dataChartTrabajosReclamosPorAreaYMes: any;
+  dataChartComparativaMensualTiempoResolucionReclamos: any;
+
+  tituloPeriodoIndicadorTiempoMedioResolucionRequerimientos: string = "Este Mes"
+  valorActual: string = ""
+  valorVariacion: string = ""
+  tipoVariacion: string = ""
 
   constructor(private indicadoresService: IndicadoresService) {
 
@@ -124,8 +131,61 @@ export class ChartsReclamosComponent implements OnInit {
 
     });
 
+    /**
+     * Inicio ChartComparativaMensualTiempoResolucionRequerimientos 
+     */
+    this.indicadoresService.getDatosChartComparativaMensualTiempoResolucionRequerimientos().subscribe(resp => {
+      this.dataChartComparativaMensualTiempoResolucionReclamos = resp;
+      this.chartComparativaMensualTiempoResolucionReclamos = new Chart("chartComparativaMensualTiempoResolucionReclamos", {
+        type: 'bar',
+        data: this.dataChartComparativaMensualTiempoResolucionReclamos,
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'top',
+            },
+            title: {
+              display: false,
+              text: 'Chart.js Bar Chart'
+            }
+          }
+        }
+      })
+    });
+    /**
+     * Fin ChartComparativaMensualTiempoResolucionRequerimientos
+     */
+
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void { 
+    this.cargarDatos("MES");
+  }
+
+  private cargarDatos(tipoPeriodo: string) {
+    this.indicadoresService.getIndicadorTiempoMedioResolucionRequerimientosGeneral(tipoPeriodo)
+      .subscribe(res => {
+        console.log(res);
+        this.valorActual = res.valorActual;
+        this.valorVariacion = res.valorVariacion;
+        this.tipoVariacion = res.tipoVariacion;
+      });
+  }
+
+  verTiempoMedioResolucionRequerimientosMes() {
+    this.tituloPeriodoIndicadorTiempoMedioResolucionRequerimientos = "Este Mes"
+    this.cargarDatos("MES");
+  }
+
+  verTiempoMedioResolucionRequerimientosTrimestre() {
+    this.tituloPeriodoIndicadorTiempoMedioResolucionRequerimientos = "Este Trimestre"
+    this.cargarDatos("TRIMESTRE");
+  }
+
+  verTiempoMedioResolucionRequerimientosAnio() {
+    this.tituloPeriodoIndicadorTiempoMedioResolucionRequerimientos = "Este Año"
+    this.cargarDatos("ANIO");
+  }
 
 }

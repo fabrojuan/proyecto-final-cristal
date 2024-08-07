@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Extensions;
 using Microsoft.VisualBasic;
 using MVPSA_V2022.clases;
 using MVPSA_V2022.Enums;
@@ -154,12 +155,13 @@ namespace MVPSA_V2022.Services
         public ChartDataDto getDatosChartReclamosAbiertosPorEstado()
         {
 
-            int[] datos = new int[3];
+            int[] datos = new int[4];
 
             this.dbContext.Reclamos
                 .Where(reclamos => reclamos.CodEstadoReclamo == (int)EstadoReclamoEnum.CREADO
                     || reclamos.CodEstadoReclamo == (int)EstadoReclamoEnum.EN_CURSO
-                    || reclamos.CodEstadoReclamo == (int)EstadoReclamoEnum.SUSPENDIDO)
+                    || reclamos.CodEstadoReclamo == (int)EstadoReclamoEnum.SUSPENDIDO
+                    || reclamos.CodEstadoReclamo == (int)EstadoReclamoEnum.PENDIENTE_CIERRE)
                 .ToList()
                 .ForEach(rec =>
                 {
@@ -178,18 +180,23 @@ namespace MVPSA_V2022.Services
                     {
                         datos[2] = datos[2] + 1;
                     }
+
+                    if (rec.CodEstadoReclamo == (int)EstadoReclamoEnum.PENDIENTE_CIERRE)
+                    {
+                        datos[3] = datos[3] + 1;
+                    }
                     
 
                 });
 
             ChartDataDto chartDataDto = new ChartDataDto();
-            chartDataDto.labels = new String[3] { "Creado", "En Curso", "Suspendido" };
+            chartDataDto.labels = new String[4] { "Creado", "En Curso", "Suspendido", "Pendiente" };
 
             ChartDatasetDto chartDatasetDto1 = new ChartDatasetDto();
             chartDatasetDto1.label = "Cantidad";
             chartDatasetDto1.data = datos;
             chartDatasetDto1.borderColor = "white";
-            chartDatasetDto1.backgroundColor = new string[] { "rgb(255, 99, 132)", "rgb(54, 162, 235)", "rgb(255, 205, 86)" };
+            chartDatasetDto1.backgroundColor = new string[] { "rgb(255, 99, 132)", "rgb(54, 162, 235)", "rgb(255, 205, 86)", "rgb(75, 192, 192)" };
 
             chartDataDto.datasets = new ChartDatasetDto[1] { chartDatasetDto1 };
 
@@ -421,11 +428,149 @@ namespace MVPSA_V2022.Services
             }
         } //Cierre de La CLASE
 
+       public IndicadorGenericoDto getIndicadorTiempoMedioResolucionRequerimientosGeneral(TipoPeriodoEnum tipoPeriodo)
+        {
+            IndicadorGenericoDto indicador = new IndicadorGenericoDto();
+
+            DateTime fechaDesdeActual = DateTime.Now;
+            DateTime fechaHastaActual = DateTime.Now;
+
+            DateTime fechaDesdeAnterior = DateTime.Now;
+            DateTime fechaHastaAnterior = DateTime.Now;
+
+            if (tipoPeriodo == TipoPeriodoEnum.MES) {
+                fechaDesdeActual = new DateTime(fechaHastaActual.Year, fechaHastaActual.Month, 1);
+                fechaDesdeAnterior = fechaDesdeActual.AddMonths(-1);
+                fechaHastaAnterior = fechaDesdeActual.AddDays(-1);
+
+            } else if (tipoPeriodo == TipoPeriodoEnum.TRIMESTRE) {
+                if (fechaHastaActual.Month >= 1 && fechaHastaActual.Month <= 3) {
+                    fechaDesdeActual = new DateTime(fechaHastaActual.Year, 1, 1);
+
+                } else if (fechaHastaActual.Month >= 4 && fechaHastaActual.Month <= 6) {
+                    fechaDesdeActual = new DateTime(fechaHastaActual.Year, 4, 1);
+
+                } else if (fechaHastaActual.Month >= 7 && fechaHastaActual.Month <= 9) {
+                    fechaDesdeActual = new DateTime(fechaHastaActual.Year, 7, 1);
+ 
+                } else {
+                    fechaDesdeActual = new DateTime(fechaHastaActual.Year, 10, 1);
+
+                }
+
+                fechaDesdeAnterior = fechaDesdeActual.AddMonths(-3);
+                fechaHastaAnterior = fechaDesdeActual.AddDays(-1);
 
 
+            } else if (tipoPeriodo == TipoPeriodoEnum.ANIO) {
+                fechaDesdeActual = new DateTime(fechaHastaActual.Year, 1, 1);
+                fechaDesdeAnterior = new DateTime(fechaHastaActual.Year - 1, 1, 1);
+                fechaHastaAnterior = fechaDesdeActual.AddDays(-1);       
 
+            }
 
+             Double valorActual = Math.Round(this.dbContext.Reclamos.Where(rec => rec.CodEstadoReclamo == (int)EstadoReclamoEnum.SOLUCIONADO
+                 && rec.Fecha >= fechaDesdeActual && rec.Fecha <= fechaHastaActual && rec.FechaCierre != null && rec.Fecha != null)
+                 .Select(rec => ((TimeSpan)(rec.FechaCierre - rec.Fecha)).Days + 1 )
+                 .ToList().Average(), 2);
+
+            Double valorAnterior = Math.Round(this.dbContext.Reclamos.Where(rec => rec.CodEstadoReclamo == (int)EstadoReclamoEnum.SOLUCIONADO
+                 && rec.Fecha >= fechaDesdeAnterior && rec.Fecha <= fechaHastaAnterior && rec.FechaCierre != null && rec.Fecha != null)
+                 .Select(rec =>  Math.Ceiling(((TimeSpan)(rec.FechaCierre - rec.Fecha)).TotalDays) )
+                 .ToList().Average(), 2);
+
+            indicador.valorActual = valorActual.ToString() + " días";
+            indicador.valorAnterior = valorAnterior.ToString() + " días";
+            indicador.valorVariacion = Math.Round(Math.Abs((valorActual * 100 / valorAnterior) - 100), 2) .ToString() + " %";
+            indicador.periodo = tipoPeriodo.ToString();
+            
+            if (valorActual > valorAnterior) {
+                indicador.tipoVariacion = "incremento";
+            } else if (valorActual < valorAnterior) {
+                indicador.tipoVariacion = "decremento";
+            } else {
+                indicador.tipoVariacion = "sin cambios";
+            }
+
+            return indicador;
+        }
+
+        public ChartDoubleDataDto getDatosChartComparativaMensualTiempoResolucionRequerimientos()
+        {
+
+            String[] mesesNombre = new string[12] { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" };
+
+            var fechaActual = DateTime.Now;
+            var fechaDesde = new DateTime(fechaActual.Year - 1, 1, 1);
+            var anioActual = fechaActual.Year;
+            var anioAnterior = fechaDesde.Year;
+
+            Double[] datosActual = new Double[fechaActual.Month];
+            Double[] datosAnterior = new Double[fechaActual.Month];
+
+            Double[] sumaCantDiasResolucionActual = new Double[fechaActual.Month];
+            int[] sumaCantRequerimientosActual = new int[fechaActual.Month];
+
+            Double[] sumaCantDiasResolucionAnterior = new Double[fechaActual.Month];
+            int[] sumaCantRequerimientosAnterior = new int[fechaActual.Month];
+
+            int[] meses = new int[fechaActual.Month];
+            for (int i = 0; i < fechaActual.Month; i++) {
+                meses[i] = i + 1;
+                sumaCantDiasResolucionActual[i] = 0;
+                sumaCantDiasResolucionAnterior[i] = 0;
+
+                sumaCantRequerimientosActual[i] = 0;
+                sumaCantRequerimientosAnterior[i] = 0;
+               
+                datosActual[i] = 0;
+                datosAnterior[i] = 0;
+            }
+
+            this.dbContext.Reclamos.Where(rec => rec.CodEstadoReclamo == (int)EstadoReclamoEnum.SOLUCIONADO
+                 && rec.Fecha >= fechaDesde && rec.FechaCierre != null && rec.Fecha != null)
+                 .ToList()
+                 .ForEach(rec => {
+
+                    int indice = (int)(rec.Fecha?.Month - 1);
+                    if (indice < fechaActual.Month) {
+                        if (rec.Fecha?.Year == anioActual) {                        
+                            sumaCantDiasResolucionActual[indice] = sumaCantDiasResolucionActual[indice] + ((TimeSpan)(rec.FechaCierre - rec.Fecha)).Days + 1;
+                            sumaCantRequerimientosActual[indice] = sumaCantRequerimientosActual[indice] + 1;
+                        } else {
+                            sumaCantDiasResolucionAnterior[indice] = sumaCantDiasResolucionAnterior[indice] + ((TimeSpan)(rec.FechaCierre - rec.Fecha)).Days + 1;
+                            sumaCantRequerimientosAnterior[indice] = sumaCantRequerimientosAnterior[indice] + 1;
+                        }
+                    }                    
+                 });
+
+            for (int i = 0; i < fechaActual.Month; i++) {
+                datosActual[i] = Math.Round(sumaCantDiasResolucionActual[i] / sumaCantRequerimientosActual[i], 2);
+                datosAnterior[i] = Math.Round(sumaCantDiasResolucionAnterior[i] / sumaCantRequerimientosAnterior[i], 2);
+            }
+
+            ChartDoubleDataDto chartDataDto = new ChartDoubleDataDto();
+            chartDataDto.labels = new String[fechaActual.Month]; //{ mesesNombre[meses[0] - 1], mesesNombre[meses[1] - 1], mesesNombre[meses[2] - 1], mesesNombre[meses[3] - 1], mesesNombre[meses[4] - 1], mesesNombre[meses[5] - 1] };
+            for (int i = 0; i < fechaActual.Month; i++) {
+                chartDataDto.labels[i] = mesesNombre[i];
+            }
+
+            ChartDatasetDoubleDto chartDatasetDto1 = new ChartDatasetDoubleDto();
+            chartDatasetDto1.label = "Año " + anioAnterior;
+            chartDatasetDto1.data = datosAnterior;
+            chartDatasetDto1.backgroundColor = new string[] {"rgb(255, 99, 132)"};
+
+            ChartDatasetDoubleDto chartDatasetDto2 = new ChartDatasetDoubleDto();
+            chartDatasetDto2.label = "Año " + anioActual;
+            chartDatasetDto2.data = datosActual;
+            chartDatasetDto2.backgroundColor = new string[] { "rgb(75, 192, 192)" };
+
+            chartDataDto.datasets = new ChartDatasetDoubleDto[2] { chartDatasetDto1, chartDatasetDto2 };
+
+            return chartDataDto;
+        }
     }
+    
 }
 
    

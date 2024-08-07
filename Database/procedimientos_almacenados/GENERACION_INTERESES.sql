@@ -1,7 +1,11 @@
-CREATE
-	OR
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER
+	
 
-ALTER PROCEDURE [dbo].[GENERACION_INTERESES]
+ PROCEDURE [dbo].[GENERACION_INTERESES]
 AS
 -- DECLARACIÓN DE VARIABLES DE TRABAJO
 DECLARE @id_impuesto INT,
@@ -30,9 +34,8 @@ SELECT I.IdImpuesto AS id_impuesto,
 	I.ImporteFinal AS importe_final
 FROM IMPUESTOINMOBILIARIO I
 WHERE I.Año = @anio
-	AND I.mes <= @mes
-	AND I.Estado = 0
-	AND @dia > 1
+    AND I.FechaVencimiento < cast(getdate() as Date)
+	AND I.Estado = 0;
 
 -- APERTURA DEL CURSOR
 OPEN MI_CURSOR
@@ -79,3 +82,4 @@ CLOSE MI_CURSOR
 DEALLOCATE MI_CURSOR;
 
 SELECT @result AS Result
+GO

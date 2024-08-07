@@ -65,4 +65,12 @@ export class IndicadoresService {
     return this.http.get(this.urlBase + "api/Indicadores/trabajos-reclamos-por-area-y-mes").pipe(map(res => res));
   }
 
+  public getDatosChartComparativaMensualTiempoResolucionRequerimientos(): Observable<any> {
+    return this.http.get(this.urlBase + "api/Indicadores/comparativa-mensual-tiempos-resolucion").pipe(map(res => res));
+  }
+
+  public getIndicadorTiempoMedioResolucionRequerimientosGeneral(tipoPeriodo: string): Observable<any> {
+    return this.http.get(this.urlBase + "api/Indicadores/tiempo-promedio-resolucion_reclamos/" + tipoPeriodo).pipe(map(res => res));
+  }
+
 }
