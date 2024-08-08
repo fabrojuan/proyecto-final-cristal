@@ -364,5 +364,47 @@ export class TitulosServiceService {
     };
     this.configuration.push(tituloIndicadoresGestionComponent);
 
+
+    
+    /**
+     * ReclamoFormGenerarComponent
+     */
+    var tituloReclamoFormGenerarComponent: Titulo = {
+      nombreComponente: "ReclamoFormGenerarComponent",
+      titulo: "Formulario de Requerimientos Vecino",
+      tipoImagen: TipoImagenEnum.ICONO,
+      pathImagen: "bi bi-pen",
+      link: "/bienvenida",
+      tituloLink: ""
+    };
+    this.configuration.push(tituloReclamoFormGenerarComponent);
+
+    /**
+     * ReclamoFormGenerarEmpleadoComponent
+     */
+    var tituloReclamoFormGenerarEmpleadoComponent: Titulo = {
+      nombreComponente: "ReclamoFormGenerarEmpleadoComponent",
+      titulo: "Formulario de Requerimientos Empleado",
+      tipoImagen: TipoImagenEnum.ICONO,
+      pathImagen: "bi bi-pen",
+      link: "/bienvenida",
+      tituloLink: ""
+    };
+    this.configuration.push(tituloReclamoFormGenerarEmpleadoComponent);
+
+
+    /**
+     * SugerenciaFormGenerarComponent
+     */
+    var tituloSugerenciaFormGenerarComponent: Titulo = {
+      nombreComponente: "SugerenciaFormGenerarComponent",
+      titulo: "Formulario de Sugerencias",
+      tipoImagen: TipoImagenEnum.ICONO,
+      pathImagen: "bi bi-envelope-arrow-down",
+      link: "/bienvenida",
+      tituloLink: ""
+    };
+    this.configuration.push(tituloSugerenciaFormGenerarComponent);    
+
   }
 }
