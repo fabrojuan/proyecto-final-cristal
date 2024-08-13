@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MVPSA_V2022.clases;
+using MVPSA_V2022.Enums;
 using MVPSA_V2022.Exceptions;
 using MVPSA_V2022.Modelos;
 using MVPSA_V2022.Services;
@@ -108,6 +109,23 @@ namespace MVPSA_V2022.Controllers
         public IActionResult getDatosChartTrabajosReclamosPorAreaYMes() {
             return Ok(this.indicadoresService.getDatosChartTrabajosReclamosPorAreaYMes());
         }
+
+
+
+        [HttpGet]
+        [Route("comparativa-mensual-tiempos-resolucion")]
+        public IActionResult getDatosChartComparativaMensualTiempoResolucionRequerimientos() {
+            return Ok(this.indicadoresService.getDatosChartComparativaMensualTiempoResolucionRequerimientos()) ;
+        }
+
+        [HttpGet]
+        [Route("tiempo-promedio-resolucion_reclamos/{tipoPeriodo}")]
+        public IActionResult getIndicadorTiempoMedioResolucionRequerimientosGeneral(TipoPeriodoEnum tipoPeriodo) {
+            return Ok(this.indicadoresService.getIndicadorTiempoMedioResolucionRequerimientosGeneral(tipoPeriodo));
+        }
+
+
+        
 
 
     }

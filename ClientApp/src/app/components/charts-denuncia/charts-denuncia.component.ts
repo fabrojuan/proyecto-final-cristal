@@ -52,8 +52,8 @@ export class ChartsDenunciaComponent implements OnInit {
   chartdataTipo: any;
   labeldata: any[] = [];
   realdata: any[] = [];
-  colordata: any[] = ['rgb(54, 162, 235)',
-    'rgb(255, 205, 86)', 'rgb(153, 0, 153)', 'rgb(255,255, 51)'];
+  colordata: any[] = ['rgb(255, 99, 132)',
+    'rgb(75, 192, 192)', 'rgb(255, 205, 86)', 'rgb(54, 162, 235)'];
   labeldata2: any[] = [];
   realdata2: any[] = [];
   colordata2: any[] = ['rgb(54, 162, 235)',
@@ -162,17 +162,17 @@ export class ChartsDenunciaComponent implements OnInit {
         datasets: [{
           label: '#Tipos de Denuncias',
           data: maindata,
-          backgroundColor: colordata,
-          borderColor: [
-            'rgba(215, 99, 132, 1)'
-          ],
-          borderWidth: 1
+          backgroundColor: colordata
         }]
       },
       options: {
-        scales: {
-          y: {
-            beginAtZero: true
+        plugins: {
+          legend: {
+            position: 'top',
+            display:   false
+          },
+          title: {
+            display: false
           }
         }
       }

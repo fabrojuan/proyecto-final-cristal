@@ -1,7 +1,11 @@
-CREATE
-	OR
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER
+	
 
-ALTER PROCEDURE [dbo].[GENERACION_IMPUESTOS_LOTES]
+ PROCEDURE [dbo].[GENERACION_IMPUESTOS_LOTES]
 	-- Add the parameters for the stored procedure here
 	-- <@Param1, sysname, @p1> <Datatype_For_Param1, , int> = <Default_Value_For_Param1, , 0>,
 	-- <@Param2, sysname, @p2> <Datatype_For_Param2, , int> = <Default_Value_For_Param2, , 0>
@@ -15,7 +19,7 @@ AS
 BEGIN
 	DECLARE @lote INT,
 		@supTerreno DECIMAL(18, 2),
-		@SupEdificada DECIMAL(18, 2)
+		@supEdificada DECIMAL(18, 2)
 
 	-- DECLARACIÓN DEL CURSOR
 	DECLARE CURSOR_LOTE CURSOR
@@ -33,21 +37,21 @@ BEGIN
 	FROM CURSOR_LOTE
 	INTO @lote,
 		@supTerreno,
-		@SupEdificada;
+		@supEdificada;
 
 	-- RECORRER EL CURSOR MIENTRAS HAYAN REGISTROS
 	WHILE @@FETCH_STATUS = 0
 	BEGIN
 		UPDATE LOTE
 		SET BaseImponible = @supTerreno * @montoSupTerreno,
-			ValuacionTotal = (@supTerreno - @SupEdificada) * @montoSupTerreno + @SupEdificada * @montoSupEdificada
+			ValuacionTotal = (@supTerreno - @supEdificada) * @montoSupTerreno + @supEdificada * @montoSupEdificada
 		WHERE IdLote = @Lote
 
 		FETCH NEXT
 		FROM CURSOR_LOTE
 		INTO @lote,
 			@supTerreno,
-			@SupEdificada;
+			@supEdificada;
 	END
 
 	CLOSE CURSOR_LOTE
@@ -108,7 +112,8 @@ BEGIN
 			ImporteBase,
 			ImporteFinal,
 			InteresValor,
-			IdLote
+			IdLote,
+            BHabilitado
 			)
 		VALUES (
 			@contador,
@@ -119,7 +124,8 @@ BEGIN
 			@Valuacion,
 			@TOTAL,
 			0,
-			@lote
+			@lote,
+            1
 			)
 
 		WHILE (@contador < 12)
@@ -135,7 +141,8 @@ BEGIN
 				ImporteBase,
 				ImporteFinal,
 				InteresValor,
-				IdLote
+				IdLote,
+                BHabilitado
 				)
 			VALUES (
 				@contador,
@@ -146,7 +153,8 @@ BEGIN
 				@Valuacion,
 				@MONTO,
 				0,
-				@lote
+				@lote,
+                1
 				)
 
 			SET @FechaVencimiento = dateadd(mm, 1, @FechaVencimiento)
@@ -176,3 +184,4 @@ BEGIN
 	-- LIBERAR EL RECURSO
 	DEALLOCATE MI_CURSOR;
 END
+GO

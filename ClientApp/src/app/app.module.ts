@@ -119,6 +119,7 @@ import { ImpuestosHistoriaPagoComponent } from './components/impuestos-historia-
 import { ReclamoEnviarFinalizarComponent } from './components/reclamo-enviar-finalizar/reclamo-enviar-finalizar.component';
 import { ImpuestoHistorialPagoComponent } from './components/impuesto-historial-pago/impuesto-historial-pago.component';
 import { ReclamoVerImagenesComponent } from './components/reclamo-ver-imagenes/reclamo-ver-imagenes.component';
+import { IndicadoresGestionComponent } from './components/indicadores-gestion/indicadores-gestion.component';
 
 
 @NgModule({
@@ -207,7 +208,8 @@ import { ReclamoVerImagenesComponent } from './components/reclamo-ver-imagenes/r
     ReclamoEnviarFinalizarComponent,
     ImpuestoHistorialPagoComponent,
     ReclamoVerImagenesComponent,
-    DetalleLoteComponent
+    DetalleLoteComponent,
+    IndicadoresGestionComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -284,10 +286,10 @@ import { ReclamoVerImagenesComponent } from './components/reclamo-ver-imagenes/r
       { path: 'reclamo-form-generar-empleado', component: ReclamoFormGenerarEmpleadoComponent/*, canActivate: [SeguridadGuard] */},
       { path: 'pagina-form-generar', component: PaginaFormGenerarComponent, canActivate: [SeguridadGuard] },
       { path: 'historico-denuncia-tabla', component: HistoricoDenunciaTablaComponent, canActivate: [SeguridadGuard] },
-      { path: 'historico-denuncia-trabajos/:id', component: HistoricoDenunciaTrabajosComponent, canActivate: [SeguridadGuard] },
+      { path: 'historico-denuncia-trabajos/:id', component: HistoricoDenunciaTrabajosComponent/*, canActivate: [SeguridadGuard]*/ },
       { path: 'indicadores-graficos', component: IndicadoresGraficosComponent, canActivate: [SeguridadGuard] },
       { path: 'empleadosyroles', component: EmpleadosyrolesComponent, canActivate: [SeguridadGuard] },
-      { path: 'historico-denuncia-trabajos', component: HistoricoDenunciaTrabajosComponent, canActivate: [SeguridadGuard] },
+      { path: 'historico-denuncia-trabajos', component: HistoricoDenunciaTrabajosComponent/*, canActivate: [SeguridadGuard]*/ },
       { path: 'charts-denuncia', component: ChartsDenunciaComponent, canActivate: [SeguridadGuard] },
       { path: 'lotesypersonas', component: LotesypersonasComponent, canActivate: [SeguridadGuard] },
       { path: 'charts-reclamos', component: ChartsReclamosComponent, canActivate: [SeguridadGuard] },
@@ -296,6 +298,7 @@ import { ReclamoVerImagenesComponent } from './components/reclamo-ver-imagenes/r
       { path: 'vecino-olvido-contrasenia', component: VecinoOlvidoContraseniaComponent },
       { path: 'vecino-nueva-contrasenia/:uuid', component: VecinoNuevaContraseniaComponent },
       { path: 'pagina-no-encontrada', component: PaginaNoEncontradaComponent },
+      { path: 'indicadores-gestion', component: IndicadoresGestionComponent },
       { path: '*', redirectTo: '' } //a home
 
 

@@ -213,8 +213,8 @@ export class TitulosServiceService {
     var tituloDenunciaDetalleComponent: Titulo = {
       nombreComponente: "DenunciaDetalleComponent",
       titulo: "Información provista inicialmente",
-      tipoImagen: TipoImagenEnum.FOTO,
-      pathImagen: "../../../assets/IconsGoogle/informacion.svg",
+      tipoImagen: TipoImagenEnum.ICONO,
+      pathImagen: "bi bi-shield-fill-exclamation",
       link: "/tabla-denuncia",
       tituloLink: "Volver a la gestión de denuncias"
     };
@@ -226,8 +226,8 @@ export class TitulosServiceService {
     var tituloTrabajoFormGenerarComponent: Titulo = {
       nombreComponente: "TrabajoFormGenerarComponent",
       titulo: "Registrar trabajo en la Denuncia",
-      tipoImagen: TipoImagenEnum.FOTO,
-      pathImagen: "../../../assets/IconsGoogle/hammer.svg",
+      tipoImagen: TipoImagenEnum.ICONO,
+      pathImagen: "bi bi-shield-fill-exclamation",
       link: "/tabla-denuncia",
       tituloLink: "Volver a la gestión de denuncias"
     };
@@ -325,6 +325,86 @@ export class TitulosServiceService {
       tituloLink: ""
     };
     this.configuration.push(tituloTTipoRolFormGenerarComponent);
+
+        /**
+    * DenunciaFormGenerarComponent    
+    */
+    var tituloDenunciaFormGenerarComponent: Titulo = {
+      nombreComponente: "DenunciaFormGenerarComponent",
+      titulo: "Formulario de Generación de Denuncia",
+      tipoImagen: TipoImagenEnum.ICONO,
+      pathImagen: "bi bi-shield-fill-exclamation",
+      link: "/",
+      tituloLink: "Volver al home"
+    };
+    this.configuration.push(tituloDenunciaFormGenerarComponent);
+
+           /**
+    * TrabajoDetalleDenuncia          
+    */
+    var tituloTrabajoDetalleDenunciaComponent: Titulo = {
+      nombreComponente: "TrabajoDetalleDenunciaComponent",
+      titulo: "Trabajos realizados en la Denuncia",
+      tipoImagen: TipoImagenEnum.ICONO,
+      pathImagen: "bi bi-shield-fill-exclamation",
+      link: "/trabajo-tabla",
+      tituloLink: "Volver a la gestión de denuncias"
+    };
+    this.configuration.push(tituloTrabajoDetalleDenunciaComponent);
+
+    
+    // IndicadoresGestionComponent
+    var tituloIndicadoresGestionComponent: Titulo = {
+      nombreComponente: "IndicadoresGestionComponent",
+      titulo: "Indicadores de Gestión",
+      tipoImagen: TipoImagenEnum.ICONO,
+      pathImagen: "bi bi-file-bar-graph",
+      link: "/bienvenida",
+      tituloLink: ""
+    };
+    this.configuration.push(tituloIndicadoresGestionComponent);
+
+
+    
+    /**
+     * ReclamoFormGenerarComponent
+     */
+    var tituloReclamoFormGenerarComponent: Titulo = {
+      nombreComponente: "ReclamoFormGenerarComponent",
+      titulo: "Formulario de Requerimientos Vecino",
+      tipoImagen: TipoImagenEnum.ICONO,
+      pathImagen: "bi bi-pen",
+      link: "/bienvenida",
+      tituloLink: ""
+    };
+    this.configuration.push(tituloReclamoFormGenerarComponent);
+
+    /**
+     * ReclamoFormGenerarEmpleadoComponent
+     */
+    var tituloReclamoFormGenerarEmpleadoComponent: Titulo = {
+      nombreComponente: "ReclamoFormGenerarEmpleadoComponent",
+      titulo: "Formulario de Requerimientos Empleado",
+      tipoImagen: TipoImagenEnum.ICONO,
+      pathImagen: "bi bi-pen",
+      link: "/bienvenida",
+      tituloLink: ""
+    };
+    this.configuration.push(tituloReclamoFormGenerarEmpleadoComponent);
+
+
+    /**
+     * SugerenciaFormGenerarComponent
+     */
+    var tituloSugerenciaFormGenerarComponent: Titulo = {
+      nombreComponente: "SugerenciaFormGenerarComponent",
+      titulo: "Formulario de Sugerencias",
+      tipoImagen: TipoImagenEnum.ICONO,
+      pathImagen: "bi bi-envelope-arrow-down",
+      link: "/bienvenida",
+      tituloLink: ""
+    };
+    this.configuration.push(tituloSugerenciaFormGenerarComponent);    
 
   }
 }

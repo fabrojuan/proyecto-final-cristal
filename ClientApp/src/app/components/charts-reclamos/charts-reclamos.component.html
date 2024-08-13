@@ -7,26 +7,63 @@
   <app-cabecera-titulo [nombreComponente]="'ChartsReclamosComponent'"></app-cabecera-titulo>
 
   <div class="row">
-    <div class="col-lg-6">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Requerimientos Cerrados por Mes</h5>
 
-            <!-- Stacked Bar Chart -->
-            <canvas id="chartReclamosCerradosPorMes" style="max-height: 400px;"> {{ chartReclamosCerradosPorMes }} </canvas>            
-            <!-- End Stacked Bar Chart -->
+    <div class="col-lg-6 dashboard" >
+      <div class="card info-card sales-card " style="max-height: 140px;">
+  
+        <div class="filter">
+          <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+            <li class="dropdown-header text-start">
+              <h6>Filtro</h6>
+            </li>
 
+            <li><a class="dropdown-item" (click)="verTiempoMedioResolucionRequerimientosMes()">Este Mes</a></li>
+            <li><a class="dropdown-item" (click)="verTiempoMedioResolucionRequerimientosTrimestre()">Este Trimestre</a></li>
+            <li><a class="dropdown-item" (click)="verTiempoMedioResolucionRequerimientosAnio()">Este Año</a></li>
+          </ul>
+        </div>
+
+        <div class="card-body">
+          <h5 class="card-title">Tiempo Medio Resolución <span>| {{ tituloPeriodoIndicadorTiempoMedioResolucionRequerimientos }}</span></h5>
+
+          <div class="d-flex align-items-center">
+            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+              <i class="bi bi-clock-fill"></i>
+            </div>
+            <div class="ps-3">
+              <h5>{{ valorActual }}</h5>
+              <span class="small pt-1 fw-bold" 
+                    [ngClass]="{ 'text-success': tipoVariacion === 'decremento', 
+                                 'text-default': tipoVariacion === 'sin cambios',
+                                 'text-danger': tipoVariacion === 'incremento' }" >{{ valorVariacion }}</span> <span class="text-muted small pt-2 ps-1">{{ tipoVariacion }}</span>
+
+            </div>
           </div>
         </div>
-      </div>
 
-    <div class="col-lg-6">
+      </div>      
+
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">Requerimientos Nuevos por Mes</h5>
 
           <!-- Stacked Bar Chart -->
-          <canvas id="chartReclamosNuevosPorMes" style="max-height: 400px;"> {{ chartReclamosNuevosPorMes }} </canvas>            
+          <canvas id="chartReclamosNuevosPorMes" style="max-height: 150px;"> {{ chartReclamosNuevosPorMes }} </canvas>            
+          <!-- End Stacked Bar Chart -->
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Comparativa Mensual Tiempos Resolución</h5>
+
+          <!-- Stacked Bar Chart -->
+          <canvas id="chartComparativaMensualTiempoResolucionReclamos" style="min-height: 321px;"> {{ chartComparativaMensualTiempoResolucionReclamos }} </canvas>            
           <!-- End Stacked Bar Chart -->
 
         </div>
@@ -36,14 +73,13 @@
   </div>
 
   <div class="row">
-
     <div class="col-lg-6">
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">Requerimientos Abiertos por Estado</h5>
 
           <!-- Stacked Bar Chart -->
-          <canvas id="chartReclamosAbiertosPorEstado" style="max-height: 400px;"> {{ chartReclamosAbiertosPorEstado }} </canvas>            
+          <canvas id="chartReclamosAbiertosPorEstado" style="max-height: 253px;"> {{ chartReclamosAbiertosPorEstado }} </canvas>            
           <!-- End Stacked Bar Chart -->
 
         </div>
@@ -51,12 +87,39 @@
     </div>
 
     <div class="col-lg-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Requerimientos Cerrados por Mes</h5>
+
+            <!-- Stacked Bar Chart -->
+            <canvas id="chartReclamosCerradosPorMes" style="max-height: 253px;"> {{ chartReclamosCerradosPorMes }} </canvas>            
+            <!-- End Stacked Bar Chart -->
+
+          </div>
+        </div>
+      </div>    
+
+  </div>
+
+  <div class="row">
+
+    <!-- <div class="col-lg-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Requerimientos Abiertos por Estado</h5>
+          <canvas id="chartReclamosAbiertosPorEstado" style="max-height: 253px;"> {{ chartReclamosAbiertosPorEstado }} </canvas>            
+
+        </div>
+      </div>
+    </div> -->
+
+    <div class="col-lg-12">
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">Trabajos por Área y Mes</h5>
 
           <!-- Stacked Bar Chart -->
-          <canvas id="chartTrabajosReclamosPorAreaYMes" style="max-height: 400px;"> {{ chartTrabajosReclamosPorAreaYMes }} </canvas>            
+          <canvas id="chartTrabajosReclamosPorAreaYMes" style="max-height: 253px"> {{ chartTrabajosReclamosPorAreaYMes }} </canvas>            
           <!-- End Stacked Bar Chart -->
 
         </div>
@@ -64,6 +127,8 @@
     </div>
 
   </div>
+
+  
 
 </div>
   

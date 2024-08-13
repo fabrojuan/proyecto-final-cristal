@@ -1,4 +1,5 @@
 ﻿using MVPSA_V2022.clases;
+using MVPSA_V2022.Enums;
 using MVPSA_V2022.Modelos;
 
 namespace MVPSA_V2022.Services
@@ -16,8 +17,8 @@ namespace MVPSA_V2022.Services
        public ChartDataDto getDatosChartReclamosNuevosPorMes();
        public ChartDataDto getDatosChartReclamosAbiertosPorEstado();
        public ChartDataDto getDatosChartTrabajosReclamosPorAreaYMes();
-
-        //el total de las denuncias se obtinene de la suma de estas dos
-
+       public ChartDoubleDataDto getDatosChartComparativaMensualTiempoResolucionRequerimientos();
+       public IndicadorGenericoDto getIndicadorTiempoMedioResolucionRequerimientosGeneral(TipoPeriodoEnum tipoPeriodo);
+       
     }
 }

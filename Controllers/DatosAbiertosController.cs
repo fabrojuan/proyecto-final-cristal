@@ -27,6 +27,9 @@ namespace MVPSA_V2022.Controllers
     [Authorize]
     public class DatosAbiertosController : Controller
     {
+
+        private String filesBasePath = "." + Path.DirectorySeparatorChar + "datos_abiertos" + Path.DirectorySeparatorChar;
+
         public IActionResult Index()
         {
             return View();
@@ -37,10 +40,7 @@ namespace MVPSA_V2022.Controllers
         [Produces("text/csv")]
         public async Task<IActionResult> generaImpuestoInmobiliarioMensual()
         {
-            //string dateString = DateTime.Today.ToShortDateString();
             string dateString = DateTime.Now.ToString("dd-MM-yyTHHmm"); //yyyyMMddTHHmmssZ
-            string path = @"C:\Proyecto_JUAN\proyecto-final-cristal\ClientApp\src\assets\DatosAbiertos\";
-            //  string path = @"C:\Proyecto_JUAN\proyecto-final-cristal\ClientApp\src\assets\DatosAbiertos\";
             string filename = "impuestos" + dateString + ".csv";
             var builder = new StringBuilder();
             builder.AppendLine("Mes,Año,FechaVencimiento,Estado,ImporteBase,InteresValor,ImporteFinal,IdLote");
@@ -78,7 +78,7 @@ namespace MVPSA_V2022.Controllers
                     Console.WriteLine(ex);
                     return BadRequest(ex);
                 }
-                using (StreamWriter outputFile = new StreamWriter(Path.Combine(path, filename)))
+                using (StreamWriter outputFile = new StreamWriter(Path.Combine(filesBasePath, filename)))
                 {
                     await outputFile.WriteAsync(builder.ToString());
 
@@ -92,7 +92,7 @@ namespace MVPSA_V2022.Controllers
                     // oDenuncia.CodTipoDenuncia = int.Parse(DenunciaCLS2.Tipo_Denuncia);
                     oDatos.Bhabilitado = 1;
                     oDatos.IdTipoDato = 5;
-                    oDatos.Ubicacion = path;
+                    oDatos.Ubicacion = filesBasePath;
                     // reemplazo el path por el hardcodeo del web server que lo levanto en pwerchell de visual studio(string)path;
                     oDatos.NombreArchivo = (string)filename;
                     oDatos.Tamaño = (int)builder.Length;
@@ -142,7 +142,7 @@ namespace MVPSA_V2022.Controllers
         [Route("api/DatosAbiertos/DescargarArchivo/{nombreArchivo}")]
         public async Task<IActionResult> DescargarArchivo(string nombreArchivo)
         {
-            var rutaArchivo = Path.Combine(Directory.GetCurrentDirectory(), "ClientApp\\src\\assets\\DatosAbiertos\\", nombreArchivo); // Reemplaza "nombreCarpeta" con la carpeta donde se encuentran los archivos
+            var rutaArchivo = Path.Combine(filesBasePath, nombreArchivo); // Reemplaza "nombreCarpeta" con la carpeta donde se encuentran los archivos
             if (!System.IO.File.Exists(rutaArchivo))
             {
                 throw new FileNotFoundException($"El archivo '{nombreArchivo}' no fue encontrado.");
@@ -173,7 +173,7 @@ namespace MVPSA_V2022.Controllers
         [Route("api/DatosAbiertos/DescargarArchivoExcel/{nombreArchivo}")]
         public async Task<IActionResult> DescargarArchivoExcel(string nombreArchivo)
         {
-            var rutaArchivo = Path.Combine(Directory.GetCurrentDirectory(), "ClientApp\\src\\assets\\DatosAbiertos\\", nombreArchivo); // Reemplaza "nombreCarpeta" con la carpeta donde se encuentran los archivos
+            var rutaArchivo = Path.Combine(filesBasePath, nombreArchivo); // Reemplaza "nombreCarpeta" con la carpeta donde se encuentran los archivos
             if (!System.IO.File.Exists(rutaArchivo))
             {
                 throw new FileNotFoundException($"El archivo '{nombreArchivo}' no fue encontrado.");
@@ -203,12 +203,8 @@ namespace MVPSA_V2022.Controllers
         [Route("api/DatosAbiertos/DescargarArchivoPDF/{nombreArchivo}")]
         public async Task<IActionResult> DescargarArchivoPDF(string nombreArchivo)
         {
-            string pdfPathFolder = "";
-            pdfPathFolder = "C:\\Proyecto_JUAN\\proyecto-final-cristal\\ClientApp\\src\\assets\\DatosAbiertos\\";
-
-            
-            //string fullFilePath = $"{Path.Combine(Directory.GetCurrentDirectory(), "archivosGenerados")}\\{nombreArchivo}.pdf";
-           string fullFilePath = pdfPathFolder + nombreArchivo;
+                        
+           string fullFilePath = filesBasePath + nombreArchivo;
             if (!System.IO.File.Exists(fullFilePath))
             {
                 return NotFound("El archivo solicitado no pudo ser encontrado");
@@ -313,13 +309,12 @@ namespace MVPSA_V2022.Controllers
                 long fileSizeInBytes = ms.Length;
                 double tamanioenKB = fileSizeInBytes / 1024; // Tamaño en KB
                 // Guardar el archivo en una ubicación específica con un nombre personalizado
-                string rutaCarpeta = @"C:\Proyecto_JUAN\proyecto-final-cristal\ClientApp\src\assets\DatosAbiertos\"; // Ruta de la carpeta donde deseas guardar el archivo
                 string dateString = DateTime.Now.ToString("dd-MM-yyTHHmm"); //yyyyMMddTHHmmssZ
                
                 string nombreArchivo = "impuestos" + dateString + ".xlsx"; // Nombre del archivo
                 
 
-                ep.SaveAs(new FileInfo(Path.Combine(rutaCarpeta, nombreArchivo)));
+                ep.SaveAs(new FileInfo(Path.Combine(filesBasePath, nombreArchivo)));
                 
                     using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
                 {
@@ -327,7 +322,7 @@ namespace MVPSA_V2022.Controllers
                     // oDenuncia.CodTipoDenuncia = int.Parse(DenunciaCLS2.Tipo_Denuncia);
                     oDatos.Bhabilitado = 1;
                     oDatos.IdTipoDato = 5;
-                    oDatos.Ubicacion = rutaCarpeta;
+                    oDatos.Ubicacion = filesBasePath;
                     oDatos.NombreArchivo = (string)nombreArchivo;
                     oDatos.Tamaño = (int)fileSizeInBytes;
                     oDatos.Extension = "XLSX";
@@ -373,17 +368,14 @@ namespace MVPSA_V2022.Controllers
                 using (PdfDocument pdfDoc = new PdfDocument(writer))
                 {
                //===============================Declaro el file Path, nombre del archivo==============================================
-                        string pdfPathFolder = "";
-                pdfPathFolder ="C:\\Proyecto_JUAN\\proyecto-final-cristal\\ClientApp\\src\\assets\\DatosAbiertos\\";
+                      
 
-                             
-
-                        if (!Directory.Exists(pdfPathFolder))
+                if (!Directory.Exists(filesBasePath))
                 {
-                    Directory.CreateDirectory(pdfPathFolder);
+                    Directory.CreateDirectory(filesBasePath);
                 }
                 string fileName = "Impuestos" + DateTime.Now.ToString("dd-MM-yy") + ".pdf"; //("dd-MM-yyTHHmm")
-                        string fullFilePath = System.IO.Path.Combine(pdfPathFolder, fileName);
+                        string fullFilePath = System.IO.Path.Combine(filesBasePath, fileName);
                       DeviceRgb purpleColour = new(128, 0, 128);
                       DeviceRgb offPurpleColour = new(230, 230, 250);
                         HeaderFooterEventHandler handler = new HeaderFooterEventHandler();
@@ -426,7 +418,7 @@ namespace MVPSA_V2022.Controllers
                         // oDenuncia.CodTipoDenuncia = int.Parse(DenunciaCLS2.Tipo_Denuncia);
                         oDatos.Bhabilitado = 1;
                         oDatos.IdTipoDato = 5;
-                        oDatos.Ubicacion = pdfPathFolder;
+                        oDatos.Ubicacion = filesBasePath; //pdfPathFolder;
                         oDatos.NombreArchivo = (string)fileName;
                         oDatos.Tamaño = (int)fileSizeInBytes;
                         oDatos.Extension = "pdf";

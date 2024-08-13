@@ -1,4 +1,5 @@
 ﻿using MVPSA_V2022.clases;
+using MVPSA_V2022.Enums;
 
 namespace MVPSA_V2022.Services
 {
@@ -33,6 +34,8 @@ namespace MVPSA_V2022.Services
         public OpcionesReclamoDto getOpcionesReclamo(int numeroReclamo, int idUsuario);
 
         public String getImagenReclamo(int nroReclamo, int nroImagen);
+
+        public void generarRequerimientosRandomParaIndicadores();        
 
     }        
 }
