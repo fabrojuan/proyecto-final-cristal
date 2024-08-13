@@ -1,11 +1,17 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AuthInterceptor } from './services/AuthInterceptor';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
+import { DataTablesModule } from 'angular-datatables';
+
+
+import { PersonaFormGenerarComponent } from './components/persona-form-generar/persona-form-generar.component';
+
 //*****Componentes**********
 import { BienvenidaComponent } from './components/bienvenida/bienvenida.component';
 import { LoginComponent } from './components/login/login.component';
@@ -31,8 +37,6 @@ import { PaginaFormGenerarComponent } from './components/pagina-form-generar/pag
 import { PaginaTablaComponent } from './components/pagina-tabla/pagina-tabla.component';
 import { ReclamoFormGenerarComponent } from './components/reclamo-form-generar/reclamo-form-generar.component';
 import { ReclamoTablaComponent } from './components/reclamo-tabla/reclamo-tabla.component';
-import { ReclamoTrabajoFormComponent } from './components/reclamo-trabajo-form/reclamo-trabajo-form.component';
-import { ReclamoTrabajoTablaComponent } from './components/reclamo-trabajo-tabla/reclamo-trabajo-tabla.component';
 import { SugerenciaFormGenerarComponent } from './components/sugerencia-form-generar/sugerencia-form-generar.component';
 import { SugerenciaTablaComponent } from './components/sugerencia-tabla/sugerencia-tabla.component';
 import { TablaDenunciaComponent } from './components/tabla-denuncia/tabla-denuncia.component';
@@ -50,6 +54,8 @@ import { LoteTablaComponent } from './components/lote-tabla/lote-tabla.component
 import { LoteFormGenerarComponent } from './components/lote-form-generar/lote-form-generar.component';
 import { LoteService } from './services/lote.service';
 import { LoteDetalleComponent } from './components/lote-detalle/lote-detalle.component';
+import { CampoRequeridoComponent } from './components/campo-requerido/campo-requerido.component';
+import { DetalleLoteComponent } from './components/detalle-lote/detalle-lote.component';
 
 //*****Errores y librerias Auxiliares**********
 import { ErrorPaginLoginComponent } from './components/error-pagin-login/error-pagin-login.component';
@@ -71,8 +77,49 @@ import { TrabajoService } from './services/trabajo.service';
 import { PruebaGraficaService } from './services/prueba-grafica.service';
 import { IndicadoresService } from './services/indicadores.service';
 import { ImpuestoService } from './services/impuesto.service';
+import { TipoReclamoTablaComponent } from './components/tipo-reclamo-tabla/tipo-reclamo-tabla.component';
+import { TipoReclamoFormComponent } from './components/tipo-reclamo-form/tipo-reclamo-form.component';
 
+import { ToastService } from './services/toast.service';
+import { ToastsContainer } from './components/toasts-container/toasts-container.component';
+import { TipoDenunciaFormComponent } from './components/tipo-denuncia-form/tipo-denuncia-form.component';
+import { TipoDenunciaTablaComponent } from './components/tipo-denuncia-tabla/tipo-denuncia-tabla.component';
+import { PersonasTablaComponent } from './components/personas-tabla/personas-tabla.component';
+import { TasasImpositivasComponent } from './components/tasas-impositivas/tasas-impositivas.component';
+import { GeneracionDatasetsComponent } from './components/generacion-datasets/generacion-datasets.component';
+import { DatosFinanzasEconomicosBorradoComponent } from './components/datos-finanzas-economicos-borrado/datos-finanzas-economicos-borrado.component';
+import { ReclamoCabeceraComponent } from './components/reclamo-cabecera/reclamo-cabecera.component';
+import { ReclamoFormGenerarEmpleadoComponent } from './components/reclamo-form-generar-empleado/reclamo-form-generar-empleado.component';
+import { HistoricoDenunciaTablaComponent } from './components/historico-denuncia-tabla/historico-denuncia-tabla.component';
+import { HistoricoDenunciaTrabajosComponent } from './components/historico-denuncia-trabajos/historico-denuncia-trabajos.component';
+import { ReclamoFormConsultarComponent } from './components/reclamo-form-consultar/reclamo-form-consultar.component';
+import { ReclamoRechazarDialogComponent } from './components/reclamo-form-consultar/reclamo-rechazar-dialog.component';
+import { ReclamoAsignarComponent } from './components/reclamo-asignar/reclamo-asignar.component';
+import { ObservacionesReclamoTablaComponent } from './components/observaciones-reclamo-tabla/observaciones-reclamo-tabla.component';
+import { ReclamoFormGenerarSugerenciaComponent } from './components/reclamo-form-generar-sugerencia/reclamo-form-generar-sugerencia.component';
 
+import { ReportarProblemasComponent } from './components/reportar-problemas/reportar-problemas.component';
+import { IndicadoresGraficosComponent } from './components/indicadores-graficos/indicadores-graficos.component';
+import { ChartsDenunciaComponent } from './components/charts-denuncia/charts-denuncia.component';
+import { EmpleadosyrolesComponent } from './components/empleadosyroles/empleadosyroles.component';
+import { LotesypersonasComponent } from './components/lotesypersonas/lotesypersonas.component';
+import { TrabajoReclamoFormGenerarComponent } from './components/trabajo-reclamo-form-generar/trabajo-reclamo-form-generar.component';
+import { TrabajosReclamoTablaComponent } from './components/trabajos-reclamo-tabla/trabajos-reclamo-tabla.component';
+import { ReclamoSuspenderComponent } from './components/reclamo-suspender/reclamo-suspender.component';
+import { ReclamoFinalizarComponent } from './components/reclamo-finalizar/reclamo-finalizar.component';
+import { ChartsReclamosComponent } from './components/charts-reclamos/charts-reclamos.component';
+import { VecinoOlvidoContraseniaComponent } from './components/vecino-olvido-contrasenia/vecino-olvido-contrasenia.component';
+import { VecinoNuevaContraseniaComponent } from './components/vecino-nueva-contrasenia/vecino-nueva-contrasenia.component';
+import { PaginaNoEncontradaComponent } from './components/pagina-no-encontrada/pagina-no-encontrada.component';
+import { ModalSiNoComponent } from './components/modal-si-no/modal-si-no.component';
+import { CabeceraTituloComponent } from './components/cabecera-titulo/cabecera-titulo.component';
+
+import { TitulosServiceService } from './services/titulos-service.service';
+import { ImpuestosHistoriaPagoComponent } from './components/impuestos-historia-pago/impuestos-historia-pago.component';
+import { ReclamoEnviarFinalizarComponent } from './components/reclamo-enviar-finalizar/reclamo-enviar-finalizar.component';
+import { ImpuestoHistorialPagoComponent } from './components/impuesto-historial-pago/impuesto-historial-pago.component';
+import { ReclamoVerImagenesComponent } from './components/reclamo-ver-imagenes/reclamo-ver-imagenes.component';
+import { IndicadoresGestionComponent } from './components/indicadores-gestion/indicadores-gestion.component';
 
 
 @NgModule({
@@ -105,8 +152,6 @@ import { ImpuestoService } from './services/impuesto.service';
     PaginaTablaComponent,
     ReclamoFormGenerarComponent,
     ReclamoTablaComponent,
-    ReclamoTrabajoFormComponent,
-    ReclamoTrabajoTablaComponent,
     SugerenciaFormGenerarComponent,
     SugerenciaTablaComponent,
     TablaDenunciaComponent,
@@ -122,7 +167,49 @@ import { ImpuestoService } from './services/impuesto.service';
     DenunciaGenerarComponent,
     LoteTablaComponent,
     LoteFormGenerarComponent,
-    LoteDetalleComponent
+    LoteDetalleComponent,
+    TipoReclamoTablaComponent,
+    TipoReclamoFormComponent,
+    ToastsContainer,
+    TipoDenunciaFormComponent,
+    TipoDenunciaTablaComponent,
+    CampoRequeridoComponent,
+    PersonaFormGenerarComponent,
+    PersonasTablaComponent,
+    TasasImpositivasComponent,
+    GeneracionDatasetsComponent,
+    DatosFinanzasEconomicosBorradoComponent,
+    ReclamoCabeceraComponent,
+    ReclamoFormGenerarEmpleadoComponent,
+    HistoricoDenunciaTablaComponent,
+    HistoricoDenunciaTrabajosComponent,
+    ReportarProblemasComponent,
+    IndicadoresGraficosComponent,
+    ChartsDenunciaComponent,
+    EmpleadosyrolesComponent,
+    LotesypersonasComponent,
+    ReclamoFormConsultarComponent,
+    ReclamoRechazarDialogComponent,
+    ReclamoAsignarComponent,
+    ObservacionesReclamoTablaComponent,
+    ReclamoFormGenerarSugerenciaComponent,
+    ReportarProblemasComponent,
+    TrabajoReclamoFormGenerarComponent,
+    TrabajosReclamoTablaComponent,
+    ReclamoSuspenderComponent,
+    ReclamoFinalizarComponent,
+    ChartsReclamosComponent,
+    VecinoOlvidoContraseniaComponent,
+    VecinoNuevaContraseniaComponent,
+    PaginaNoEncontradaComponent,
+    ModalSiNoComponent,
+    CabeceraTituloComponent,
+    ImpuestosHistoriaPagoComponent,
+    ReclamoEnviarFinalizarComponent,
+    ImpuestoHistorialPagoComponent,
+    ReclamoVerImagenesComponent,
+    DetalleLoteComponent,
+    IndicadoresGestionComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -131,10 +218,13 @@ import { ImpuestoService } from './services/impuesto.service';
     FormsModule,
     NgxPaginationModule,
     NgbModule,
+    DataTablesModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'bienvenida', component: BienvenidaComponent, canActivate: [SeguridadGuard] },  //, canActivate: [SeguridadGuard]
+      { path: 'bienvenida-vecino', component: BienvenidaVecinoComponent, canActivate: [SeguridadVecinoGuard] }, 
       { path: 'datos-finanzas-economicos', component: DatosFinanzasEconomicosComponent },
+      { path: 'datos-finan-econom-generar', component: DatosFinanEconomGenerarComponent, canActivate: [SeguridadGuard] }, 
       { path: 'denuncia-form-generar', component: DenunciaFormGenerarComponent },
       { path: 'denuncia-detalle', component: DenunciaDetalleComponent }, //, canActivate: [SeguridadGuard] //Veo que hacen falta los dos rutas sino el guard no anda ok
       { path: 'denuncia-detalle/:id', component: DenunciaDetalleComponent ,canActivate: [SeguridadGuard]}, //, canActivate: [SeguridadGuard]  le dio por no funcionar verlo!
@@ -142,9 +232,11 @@ import { ImpuestoService } from './services/impuesto.service';
       { path: 'ejecucion-procesos', component: EjecucionProcesosComponent, canActivate: [SeguridadGuard] },
       { path: 'error-pagina-login', component: ErrorPaginLoginComponent },
       { path: 'form-usuario-generar', component: FormUsuarioGenerarComponent, canActivate: [SeguridadGuard] },
+      { path: 'form-usuario-generar/:id', component: FormUsuarioGenerarComponent, canActivate: [SeguridadGuard] },
       { path: 'impuesto-pago-send', component: ImpuestoPagoSendComponent },
       { path: 'impuestos-vecino-adeuda-tabla', component: ImpuestosVecinoAdeudaTablaComponent },
       { path: 'impuestos-vecino-adeuda-tabla/:id', component: ImpuestosVecinoAdeudaTablaComponent },
+      { path: 'impuesto-historial-pago/:id', component: ImpuestosHistoriaPagoComponent },
       { path: 'impuestos-vecino-identificador', component: ImpuestosVecinoIdentificadorComponent },
       { path: 'impuestos-vecino-identificador/:id', component: ImpuestosVecinoIdentificadorComponent },
       { path: 'login', component: LoginComponent },
@@ -152,15 +244,17 @@ import { ImpuestoService } from './services/impuesto.service';
       { path: 'mapas-cordoba', component: MapasCordobaComponent },
       { path: 'pagina-form-generar', component: PaginaFormGenerarComponent, canActivate: [SeguridadGuard] },
       { path: 'pagina-form-generar/:id', component: PaginaFormGenerarComponent, canActivate: [SeguridadGuard] },
+      { path: 'persona-form-generar', component: PersonaFormGenerarComponent, canActivate: [SeguridadGuard] }, //, canActivate: [SeguridadGuard]
+      { path: 'personas-tabla', component: PersonasTablaComponent, canActivate: [SeguridadGuard] },
 
       { path: 'pagina-tabla', component: PaginaTablaComponent, canActivate: [SeguridadGuard] },
       { path: 'reclamo-form-generar', component: ReclamoFormGenerarComponent, canActivate: [SeguridadVecinoGuard] },
       { path: 'reclamo-tabla', component: ReclamoTablaComponent, canActivate: [SeguridadGuard] },
-      { path: 'reclamo-trabajo-form/:id', component: ReclamoTrabajoFormComponent, canActivate: [SeguridadGuard] },
       // Revisar si reclamo-trabajo-form/:id funciona sin id..
       { path: 'sugerencia-form-generar', component: SugerenciaFormGenerarComponent },
       { path: 'sugerencia-tabla', component: SugerenciaTablaComponent, canActivate: [SeguridadGuard] },
       { path: 'tabla-denuncia', component: TablaDenunciaComponent, canActivate: [SeguridadGuard] },
+      { path: 'tasas-impositivas', component: TasasImpositivasComponent, canActivate: [SeguridadGuard] },
       { path: 'tabla-estado-denuncia', component: TablaEstadoDenunciaComponent, canActivate: [SeguridadGuard] },
       { path: 'tipo-rol-form-generar', component: TipoRolFormGenerarComponent, canActivate: [SeguridadGuard] },  //Una vez que agregue las paginas a la base se asigna guard canActivate: [SeguridadVecinoGuard]
       { path: 'tipo-rol-form-generar/:id', component: TipoRolFormGenerarComponent, canActivate: [SeguridadGuard] },
@@ -174,15 +268,47 @@ import { ImpuestoService } from './services/impuesto.service';
       { path: 'usuario-vecino-form-generar', component: UsuarioVecinoFormGenerarComponent },
       { path: 'denuncia-generar', component: DenunciaGenerarComponent },
       { path: 'lote-tabla', component: LoteTablaComponent, canActivate: [SeguridadGuard] },
+      { path: 'lote-form-generar', component: LoteFormGenerarComponent, canActivate: [SeguridadGuard] },
       { path: 'lote-detalle', component: LoteDetalleComponent, canActivate: [SeguridadGuard]}, //, canActivate: [SeguridadGuard] //Veo que hacen falta los dos rutas sino el guard no anda ok
       { path: 'lote-detalle/:id', component: LoteDetalleComponent }, //, canActivate: [SeguridadGuard]  le dio por no funcionar verlo!
-
+      { path: 'tipo-reclamo-tabla', component: TipoReclamoTablaComponent, canActivate: [SeguridadGuard] },
+      { path: 'tipo-reclamo-form/:id', component: TipoReclamoFormComponent/*, canActivate: [SeguridadGuard]*/ },
+      { path: 'tipo-reclamo-form', component: TipoReclamoFormComponent, canActivate: [SeguridadGuard] },
+      { path: 'tipo-denuncia-tabla', component: TipoDenunciaTablaComponent, canActivate: [SeguridadGuard] },
+      { path: 'tipo-denuncia-form/:id', component: TipoDenunciaFormComponent/*, canActivate: [SeguridadGuard] */},
+      { path: 'tipo-denuncia-form', component: TipoDenunciaFormComponent/*, canActivate: [SeguridadGuard] */ },
+      { path: 'tabla-tipo-denuncia', component: DenunciaTipoTablaComponent, canActivate: [SeguridadGuard] },
+      { path: 'denuncia-tipo-tabla', component: DenunciaTipoTablaComponent, canActivate: [SeguridadGuard] },
+      { path: 'tipo-denuncia-form', component: TipoDenunciaFormComponent/*, canActivate: [SeguridadGuard] */ },
+      { path: 'generacion-datasets', component: GeneracionDatasetsComponent, canActivate: [SeguridadGuard] },
+      { path: 'datos-finanzas-economicos-borrado', component: DatosFinanzasEconomicosBorradoComponent, canActivate: [SeguridadGuard] },
+      { path: 'datos-finanzas-economicos-borrado/:id', component: DatosFinanzasEconomicosBorradoComponent, canActivate: [SeguridadGuard] },
+      { path: 'reclamo-form-generar-empleado', component: ReclamoFormGenerarEmpleadoComponent/*, canActivate: [SeguridadGuard] */},
+      { path: 'pagina-form-generar', component: PaginaFormGenerarComponent, canActivate: [SeguridadGuard] },
+      { path: 'historico-denuncia-tabla', component: HistoricoDenunciaTablaComponent, canActivate: [SeguridadGuard] },
+      { path: 'historico-denuncia-trabajos/:id', component: HistoricoDenunciaTrabajosComponent/*, canActivate: [SeguridadGuard]*/ },
+      { path: 'indicadores-graficos', component: IndicadoresGraficosComponent, canActivate: [SeguridadGuard] },
+      { path: 'empleadosyroles', component: EmpleadosyrolesComponent, canActivate: [SeguridadGuard] },
+      { path: 'historico-denuncia-trabajos', component: HistoricoDenunciaTrabajosComponent/*, canActivate: [SeguridadGuard]*/ },
+      { path: 'charts-denuncia', component: ChartsDenunciaComponent, canActivate: [SeguridadGuard] },
+      { path: 'lotesypersonas', component: LotesypersonasComponent, canActivate: [SeguridadGuard] },
+      { path: 'charts-reclamos', component: ChartsReclamosComponent, canActivate: [SeguridadGuard] },
+      { path: 'reclamo-form-consultar/:id', component: ReclamoFormConsultarComponent },
+      { path: 'reclamo-form-generar-sugerencia/:id_sugerencia', component: ReclamoFormGenerarSugerenciaComponent },
+      { path: 'vecino-olvido-contrasenia', component: VecinoOlvidoContraseniaComponent },
+      { path: 'vecino-nueva-contrasenia/:uuid', component: VecinoNuevaContraseniaComponent },
+      { path: 'pagina-no-encontrada', component: PaginaNoEncontradaComponent },
+      { path: 'indicadores-gestion', component: IndicadoresGestionComponent },
       { path: '*', redirectTo: '' } //a home
 
 
     ])
   ],
-  providers: [UsuarioService, DenunciaService, TrabajoService, SeguridadGuard, VecinoService, SeguridadVecinoGuard, PruebaGraficaService, IndicadoresService, ImpuestoService, LoteService],
-  bootstrap: [AppComponent]
+  providers: [UsuarioService, DenunciaService, TrabajoService, SeguridadGuard, VecinoService, SeguridadVecinoGuard, PruebaGraficaService, IndicadoresService, ImpuestoService, LoteService, ToastService, TitulosServiceService, 
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+   
+  ],
+  bootstrap: [AppComponent],
+  entryComponents: [ ReclamoRechazarDialogComponent ]
 })
 export class AppModule { }

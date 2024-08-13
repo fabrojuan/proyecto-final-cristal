@@ -14,8 +14,13 @@ export class SeguridadVecinoGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return this.vecinoService.ObtenerVariableSession();
-  }
+      
+      if (!this.vecinoService.isLoggedIn()) {
+        return this.router.navigate(["/error-pagina-login"]).then(() => false);
+      }
+
+      return this.vecinoService.ObtenerVariableSession();
+    }
   
 }
 

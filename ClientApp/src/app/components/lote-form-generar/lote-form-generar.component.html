@@ -1,1 +1,122 @@
-<p>lote-form-generar works!</p>
+<div class="container">
+  <div class="card">
+    <div class="card-body">
+      <app-cabecera-titulo [nombreComponente]="'LoteFormGenerarComponent'"></app-cabecera-titulo>
+
+      <form [formGroup]="Lote" (ngSubmit)="guardarDatos()">
+        <div class="container-fluid">
+
+          <div class="row">
+            <div class="pt-4 col-md-4 offset-md-1">
+              <div class="row">
+                <div class="col-7">
+                  <campo-requerido formControlName="DniTitular" placeholder="Dni de titular" (blur)="onTouched()"></campo-requerido>
+                </div>
+                <div class="col-5">
+                  <button class="btn btn-primary form-control" (click)="VerificarPreexistenciaPersona()" title="Verificar si la persona ya está registrada en caso negativo deberá ingresar los datos correspondientes.">  <img src="../../../assets/IconsGoogle/person-check.svg" alt="" width="20" height="20" title="Verificar si la persona ya está registrada en caso negativo deberá ingresar los datos correspondientes.">&nbsp;&nbsp;Verificar</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="pt-4 col-md-4 offset-md-1">
+
+              <div class="row">
+                <div class="col-7">
+                  <campo-requerido formControlName="NomenclaturaCatastral" placeholder=" Nomenclatura del lote" (blur)="onTouched()"></campo-requerido>
+                </div>
+                <div class="col-5">
+                  <button type="button" value="" class="btn btn-primary form-control" (click)="BuscarLotePrexistente()" title="Verificar si el lote ya existe">  <img src="../../../assets/IconsGoogle/home-check.svg" alt="" width="22" height="22" title="Verificar si el lote ya existe">&nbsp;&nbsp;Verificar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row pt-4 ">
+            <div class="pt-4 col-md-4 offset-md-1" [ngClass]="{ 'was-validated': Lote.value.codTipoLote }">
+              <!--<label>(*) Tipo de Lote&nbsp;</label>-->
+              <select id="CodTipo_Lote" formControlName="CodTipoInmueble" class="form-control" (blur)="onTouched()">
+                <!--combobox-->
+                <option selected disabled value="">--Seleccione el tipo de lote--</option>
+                <option [ngValue]="TipoLote.cod_Tipo_Lote" *ngFor="let TipoLote of TiposLote">{{TipoLote.nombre}}</option>
+              </select>
+            </div>
+            <div class="pt-4 col-md-2 offset-md-1">
+              <input class="check checkbox-tamaño " [name]="esquina" (change)="verCheck()" type="checkbox" />
+              <label class="checkbox-label">Esquina</label>
+            </div>
+            <div class="pt-4 col-md-3">
+              <input class="checkAsfalto checkbox-tamaño" [name]="asfaltado" (change)="verCheckAsfalto()" type="checkbox" />
+              <label class="checkbox-label">Asfaltado/Mejorado</label>
+            </div>
+
+          </div>
+          <div class="row pt-4">
+            <div class="pt-4 col-md-4 offset-md-1">
+              <campo-requerido formControlName="Manzana" placeholder=" Manzana" (blur)="onTouched()"></campo-requerido>
+
+            </div>
+            <div class="pt-4 col-md-4 offset-md-1">
+              <campo-requerido formControlName="NroLote" placeholder="Numero de Lote" (blur)="onTouched()"></campo-requerido>
+            </div>
+          </div>
+          <div class="row pt-4">
+            <div class="pt-4 col-md-4 offset-md-1">
+              <!--<input type="text" class="form-control" id="formGroupExampleInput" placeholder="Calle" formControlName="Calle">-->
+              <campo-requerido formControlName="Calle" placeholder="Calle" (blur)="onTouched()"></campo-requerido>
+
+            </div>
+            <div class="pt-4 col-md-4 offset-md-1">
+              <!--<input type="text" class="form-control" id="formGroupExampleInput" placeholder="Altura" formControlName="Altura">-->
+              <campo-requerido formControlName="Altura" placeholder="Altura" (blur)="onTouched()"></campo-requerido>
+            </div>
+          </div>
+          <div class="row pt-4">
+            <div class="pt-4 col-md-4 offset-md-1">
+              <!--<input type="text" class="form-control col-md-3" id="exampleFormControlInput1" placeholder="superficie del lote en metros cuadrados" formControlName="Sup_Terreno">-->
+              <campo-requerido formControlName="SupTerreno" placeholder="superficie del lote en metros cuadrados" (blur)="onTouched()"></campo-requerido>
+            </div>
+
+            <div class="pt-4 col-md-4 offset-md-1">
+              <!--<input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Superficie Edificada en metros cuadrados" formControlName="Superficie_Edificada" />-->
+              <campo-requerido formControlName="SupEdificada" placeholder="Superficie Edificada en metros cuadrados" (blur)="onTouched()"></campo-requerido>
+            </div>
+          </div>
+
+          <div class="pb-5 mt-5 form-group justify-content-around offset-md-3">
+            <input [disabled]="!Lote.valid" type="submit" value="Generar" class="btn btn-primary col-md-2 offset-md-1" />
+            <button type="button" class="btn btn-secondary col-md-2 offset-md-1" (click)="volverLoteTabla()">Cancelar</button>
+          </div>
+        </div>
+        <ng-template #myModalInfo let-modal>
+          <div class="modal bg-secondary" tabindex="-1" style="display:block;" role="dialog">
+            <div class="modal-dialog modal-dialog-scrollable modal-lg">
+              <div class="modal-content ">
+                <div class="modal-header">
+                  <h5 class="modal-title">{{tituloModal}}</h5>
+                  <img src="../../../assets/Imagenes/logo-cristal_3.png" width="100" height="100" />
+                </div>
+                <div class="modal-body">
+                  {{resultadoGuardadoModal}}
+                </div>
+                <div class="modal-footer">
+                  <!--modal.close('Close click')-->
+                  <button type="button" class="btn btn-outline-dark" (click)="cerrarmodal()">Cerrar</button>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </ng-template>
+
+      </form>
+
+    </div>
+
+  </div>
+
+  <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
+</div>
+
+
+

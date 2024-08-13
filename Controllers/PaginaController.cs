@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MVPSA_V2022.clases;
 using MVPSA_V2022.Modelos;
 using System;
@@ -7,6 +8,7 @@ using System.Linq;
 
 namespace MVPSA_V2022.Controllers
 {
+    [Authorize]
     public class PaginaController : Controller
     {
         public IActionResult Index()
@@ -15,7 +17,7 @@ namespace MVPSA_V2022.Controllers
         }
 
         [HttpGet]
-        [Route("api/Pagina/listarTodasPaginas")]
+        [Route("api/paginas")]
         public List<PaginaCLS> listarTodasPaginas()
         {
             List<PaginaCLS> listaPagina = new List<PaginaCLS>();
@@ -24,7 +26,6 @@ namespace MVPSA_V2022.Controllers
             {
 
                 listaPagina = (from pagina in bd.Paginas
-                               where pagina.Bhabilitado == 1
                                select new PaginaCLS
                                {
                                    idPagina = pagina.IdPagina,
@@ -36,7 +37,7 @@ namespace MVPSA_V2022.Controllers
         }
 
         [HttpPost]
-        [Route("api/Pagina/guardarPagina")]
+        [Route("api/paginas")]
         public int guardarPagina([FromBody] PaginaCLS oPaginaCLS)
         {
             int rpta = 0;
@@ -49,7 +50,7 @@ namespace MVPSA_V2022.Controllers
                         Pagina oPagina = new Pagina();
                         oPagina.Mensaje = oPaginaCLS.Mensaje;
                         oPagina.Accion = oPaginaCLS.Accion;
-                        oPagina.Bhabilitado = 1;
+                        oPagina.Bhabilitado = oPaginaCLS.Bhabilitado;
                         oPagina.Bvisible = oPaginaCLS.Bvisible;
                         bd.Paginas.Add(oPagina);
                         bd.SaveChanges();
@@ -60,8 +61,8 @@ namespace MVPSA_V2022.Controllers
                         //REcuperamos la info.
                         Pagina oPagina = bd.Paginas.Where(p => p.IdPagina == oPaginaCLS.idPagina).First();
                         oPagina.Accion = oPaginaCLS.Accion;
-                        oPagina.Mensaje = oPagina.Mensaje;
-                        oPagina.Bhabilitado = 1;
+                        oPagina.Mensaje = oPaginaCLS.Mensaje;
+                        oPagina.Bhabilitado = oPaginaCLS.Bhabilitado;
                         oPagina.Bvisible = oPaginaCLS.Bvisible;
                         bd.SaveChanges();
                         rpta = 1;
@@ -78,7 +79,7 @@ namespace MVPSA_V2022.Controllers
         }
 
         [HttpGet]
-        [Route("api/Pagina/recuperarPagina/{idPagina}")]
+        [Route("api/paginas/{idPagina}")]
         public PaginaCLS recuperarPagina(int idPagina)
         {
             PaginaCLS oPaginaCLS = new PaginaCLS();
@@ -87,14 +88,14 @@ namespace MVPSA_V2022.Controllers
                 using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
                 {
                     oPaginaCLS = (from pagina in bd.Paginas
-                                  where pagina.Bhabilitado == 1 &&
-                                  pagina.IdPagina == idPagina
+                                  where pagina.IdPagina == idPagina
                                   select new PaginaCLS
                                   {
                                       idPagina = pagina.IdPagina,
                                       Mensaje = pagina.Mensaje,
                                       Accion = pagina.Accion,
-                                      Bvisible = (int)pagina.Bvisible
+                                      Bvisible = (int)pagina.Bvisible,
+                                      Bhabilitado = (int)pagina.Bhabilitado
                                   }).First();
 
                 }
@@ -107,8 +108,9 @@ namespace MVPSA_V2022.Controllers
             }
             return oPaginaCLS;
         }
-        [HttpGet]
-        [Route("api/Pagina/eliminarPagina/{idPagina}")]
+
+        [HttpDelete]
+        [Route("api/paginas/{idPagina}")]
         public int eliminarPagina(int idPagina)
         {
             int rpta = 0;
@@ -118,7 +120,7 @@ namespace MVPSA_V2022.Controllers
                 using (M_VPSA_V3Context bd = new M_VPSA_V3Context())
                 {
                     Pagina oPagina = bd.Paginas.Where(p => p.IdPagina == idPagina).First();
-                    oPagina.Bhabilitado = 0;
+                    bd.Paginas.Remove(oPagina);
                     bd.SaveChanges();
                     rpta = 1;
                 }
@@ -131,9 +133,6 @@ namespace MVPSA_V2022.Controllers
             }
             return rpta;
         }
-
-
-
 
     }
 }

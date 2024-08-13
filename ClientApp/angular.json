@@ -30,10 +30,15 @@
               "src/assets"
             ],
             "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/styles.css"
+              "src/styles.css",
+              "src/assets/css/style.css",
+              "node_modules/datatables.net-dt/css/jquery.dataTables.min.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/page-main.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/datatables.net/js/jquery.dataTables.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -132,5 +137,7 @@
       }
     }
   },
-  "defaultProject": "MVPSA_V2022"
+  "cli": {
+    "analytics": "bcf1fc28-b3ad-4ea4-befd-9f3a45032fbd"
+  }
 }

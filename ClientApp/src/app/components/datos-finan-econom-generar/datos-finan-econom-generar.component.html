@@ -1,22 +1,47 @@
-<div class="cardcss">
-  <div class="card text-center sombras">
-    <div class="card-header tituloTabla">
-      Generación de Datasets Financieros
-    </div>
+
+<div class="container">
+  <div class="card">
     <div class="card-body">
+      <app-cabecera-titulo [nombreComponente]="'DatosFinanEconomGenerarComponent'"></app-cabecera-titulo>
+      <!-- Generacion de SET DE DATOS ABIERTOS-->
+      <div class="row mt-5 row-cols-4 row-cols-md-4 justify-content-center">
+        <div class="tarjeta">
+          <div class="card-body text-center">
+            <h5 class="card-title titulo" title="Click aqui para ayuda Contextual.">Generacion de Dataset Impuestos por lote</h5>
+            <button class="btn btn-primary mb-2" (click)="generarDatasetImpuestos()" title="Click para generar en los 3 formatos.">  <img src="../../../assets/IconsGoogle/arrow-up-circle.svg" width="20" height="20">&nbsp;&nbsp;Generar</button>
+             </div>
+        </div>
+
+        <div class="tarjeta col offset-md-1">
+          <div class="card-body text-center">
+            <h5 class="card-title titulo" title="Click aqui para ayuda Contextual.">Formulario de eliminacion de datasets publicados</h5>
+            <button class="btn btn-primary" [routerLink]="['/datos-finanzas-economicos-borrado']" title="Click para acceder a tabla de eliminacion de registros">  <img src="../../../assets/IconsGoogle/Delete_Gris.svg" width="20" height="20">&nbsp;&nbsp;Eliminacion</button>
+
+          </div>
+        </div>
+
+      </div>
 
 
-      <div class="col-md-5 offset-1 ">
-        <button class="btn btn-primary" (click)="generarDatasetImpuestos()">Impuestos Inmobiliarios </button>
+
+
+      <div class="row mt-5 row-cols-4 row-cols-md-4 justify-content-center">
+
+        <div class="ml-2 align-content-end">
+          <button type="button" class="btn btn-primary col-md-8 offset-md-1" (click)="volver()">Volver</button>
+        </div>
+        <!--<div class=" align-content-start">
+          <button type="button" class="btn btn-secondary col-md-8 offset-md-1" (click)="volverAtras()">Volver atr&aacute;s</button>
+
+        </div>-->
       </div>
-      <div class="col-md-5 offset-1">
-        <button type="button" class="btn btn-secondary col-md-4 offset-md-1" (click)="volver()">Volver</button>
-      </div>
+
 
     </div>
-    <div class="card-footer text-muted">
-      <img src="../../../assets/Imagenes/openData.png" alt="" width="150" height="150">
-    </div>
+
   </div>
+
+  <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
 </div>
+
 

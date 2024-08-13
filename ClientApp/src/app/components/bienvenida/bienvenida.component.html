@@ -1,166 +1,182 @@
-<div class="card-deck">
-  <div class="row p-2 col-12 Padding1">
-    <!--JUGAR ACA CON COL 12 y dividir cada card en 4 col-->
-
-    <div class="card text-center card-info sin-borde">
-      <div class="card-block">
-        <h4 class="card-title titulo">Denuncias</h4>
-        <img src="../../../assets/IconsGoogle/Oficial_Policia.png" alt="" width="88" height="88" [routerLink]="['/tabla-denuncia']" title="Click aquí para gestionar las denuncias.">
-      </div>
-      <div class="row p-2 no-gutters">
-        <div class="col-6">
-          <div class="card card-block text-info redondeoInterno border-left-0 border-top-o border-bottom-0 bg-dark">
-            <h3>{{totalDenuncias}}</h3>
-            <span class="small text-uppercase">Total Activas</span>
-          </div>
-        </div>
-        <div class="col-6">
-          <div class="card card-block text-info redondeoInterno border-right-0 border-top-o border-bottom-0 bg-dark ">
-            <h3>{{totalDenunAsignaEmpleado}}</h3>
-            <span class="small text-uppercase">Asignadas a Mi</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="card text-center card-info sin-borde">
-      <div class="card-block">
-        <h4 class="card-title titulo">Reclamos</h4>
-        <img src="../../../assets/IconsGoogle/Reclamo.png" alt="" width="88" height="88" [routerLink]="['/reclamo-tabla']" title="Click aquí para gestionar los Reclamos.">
-      </div>
-      <div class="row p-2 no-gutters">
-        <div class="col-6">
-          <div class="card card-block text-info redondeoInterno border-left-0 border-top-o border-bottom-0 bg-dark">
-            <h3>{{totalDenuncias}}</h3>
-            <span class="small text-uppercase">Total Activos</span>
-          </div>
-        </div>
-        <div class="col-6">
-          <div class="card card-block text-info redondeoInterno border-right-0 border-top-o border-bottom-0 bg-dark ">
-            <h3>{{totalDenunAsignaEmpleado}}</h3>
-            <span class="small text-uppercase">Asignados a Mi</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="card text-center card-info sin-borde">
-      <div class="card-block">
-        <h4 class="card-title titulo">Solicitudes</h4>
-        <img src="../../../assets/IconsGoogle/Solicitud.png" alt="" width="88" height="88" [routerLink]="['/tabla-denuncia']" title="Click aquí para gestionar las denuncias.">
-      </div>
-      <div class="row p-2 no-gutters">
-        <div class="col-6">
-          <div class="card card-block text-info redondeoInterno border-left-0 border-top-o border-bottom-0 bg-dark">
-            <h3>{{totalDenuncias}}</h3>
-            <span class="small text-uppercase">Total Activas</span>
-          </div>
-        </div>
-        <div class="col-6">
-          <div class="card card-block text-info redondeoInterno border-right-0 border-top-o border-bottom-0 bg-dark ">
-            <h3>{{totalDenunAsignaEmpleado}}</h3>
-            <span class="small text-uppercase">Asignados a Mi</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="card text-center card-info sin-borde">
-      <div class="card-block">
-        <h4 class="card-title titulo">Sugerencias</h4>
-        <img src="../../../assets/IconsGoogle/Sugerencias.png" alt="" width="88" height="88" [routerLink]="['/tabla-denuncia']" title="Click aquí para gestionar las denuncias.">
-      </div>
-      <div class="row p-2 no-gutters">
-        <div class="col-6">
-          <div class="card card-block text-info redondeoInterno border-left-0 border-top-o border-bottom-0 bg-dark">
-            <h3>{{totalDenuncias}}</h3>
-            <span class="small text-uppercase">Total Activas</span>
-          </div>
-        </div>
-        <div class="col-6">
-          <div class="card card-block text-info redondeoInterno border-right-0 border-top-o border-bottom-0 bg-dark ">
-            <h3>{{totalDenunAsignaEmpleado}}</h3>
-            <span class="small text-uppercase">Asignados a Mi</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Generacion de SET DE DATOS ABIERTOS-->
-
-
-
-  <div class="row p-2 col-12 Padding1">
-
-    <div class="card text-center card bg-info sin-borde">
-      <div class="card-block">
-        <h4 class="card-title titulo">Generación dataset Finanzas</h4>
-        <img src="../../../assets/IconsGoogle/Finanzas.png" alt="" width="95" height="95" [routerLink]="['/datos-finan-econom-generar']" title="Click aquí para generar dataset financieros.">
-      </div>
-      <div class="row p-2 no-gutters">
-        <div class="col-6 offset-3">
-          <div class="card card-block text-info redondeoInterno border-left-0 border-top-o border-bottom-0 bg-dark">
-            <h3>{{totalDenuncias}}</h3>
-            <span class="small text-uppercase">Total Generados</span>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <div class="card text-center card bg-info sin-borde">
-      <div class="card-block">
-        <h4 class="card-title titulo">Generación dataset Sociedad</h4>
-        <img src="../../../assets/IconsGoogle/sociedad.png" alt="" width="95" height="95" [routerLink]="['/tabla-denuncia']" title="Click aquí para gestionar las denuncias.">
-      </div>
-      <div class="row p-2 no-gutters">
-        <div class="col-6 offset-3">
-          <div class="card card-block text-info redondeoInterno border-left-0 border-top-o border-bottom-0 bg-dark">
-            <h3>{{totalDenuncias}}</h3>
-            <span class="small text-uppercase">Total Generados</span>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <div class="card text-center card bg-info sin-borde">
-      <div class="card-block">
-        <h4 class="card-title titulo">Generación dataset Ambiente</h4>
-        <img src="../../../assets/IconsGoogle/medioanbiente.png" alt="" width="95" height="95" [routerLink]="['/tabla-denuncia']" title="Click aquí para gestionar las denuncias.">
-      </div>
-      <div class="row p-2 no-gutters">
-        <div class="col-6 offset-3">
-          <div class="card card-block text-info redondeoInterno border-left-0 border-top-o border-bottom-0 bg-dark">
-            <h3>{{totalDenuncias}}</h3>
-            <span class="small text-uppercase">Total Generados</span>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <div class="card text-center card bg-info sin-borde">
-      <div class="card-block">
-        <h4 class="card-title titulo">Generación dataset Salud</h4>
-        <img src="../../../assets/IconsGoogle/salud.png" alt="" width="95" height="95" [routerLink]="['/tabla-denuncia']" title="Click aquí para gestionar las denuncias.">
-      </div>
-      <div class="row p-2 no-gutters">
-        <div class="col-6 offset-3">
-          <div class="card card-block text-info redondeoInterno border-left-0 border-top-o border-bottom-0 bg-dark">
-            <h3>{{totalDenuncias}}</h3>
-            <span class="small text-uppercase">Total Generados</span>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-
-
-
-
-
-  </div>
+<div class="pagetitle">
+    <h1>Bienvenida</h1>
 </div>
+<!-- End Page Title -->
+
+<section class="section dashboard">
+  <div class="row">
+
+    <!-- Card Denuncias Activas -->
+    <div class="card info-card customers-card">
+
+      <div class="card-body">
+        <div class="row">
+
+          <div class="col-md-5">
+            <h5 class="card-title">Denuncias Activas&nbsp;<span class="text-success small pt-1 fw-bold">| {{totalDenuncias}}</span></h5>
+            <div class="d-flex align-items-center">
+              <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                <i class="bi bi-shield-lock" [routerLink]="['/tabla-denuncia']" title="Click aquí para gestionar las denuncias."></i>
+              </div>
+              <div class="ps-3">
+                <span class="text-success small">Asignadas a mi</span>
+                <h6>
+                  {{totalDenunAsignaEmpleado}}
+                </h6>
+                <span class="text-success small pt-1 fw-bold">0</span> <span class="text-muted small pt-2 ps-1">generadas este mes</span>
+              </div>
+            </div>
+          </div>
+
+          <!--Historicos de denuncias-->
+          <div class="col-md-5 offset-2">
+            <h5 class="card-title">Denuncias Finalizadas&nbsp;<span class="text-success small pt-1 fw-bold">| {{totalDenunCerradas}}</span></h5>
+            <div class="d-flex align-items-center">
+              <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                <i class="bi bi-clock-history" [routerLink]="['/historico-denuncia-tabla']" title="Click aquí visualizar el historico de denuncias resueltas."></i>
+              </div>
+              <div class="ps-3">
+                <span class="text-success small">Intervenciones</span>
+                <h6>
+                  <!--  TAREA Aca deben ir el total de denuncias cerradas por el empleado.-->
+                  <!--{{totalDenunAsignaEmpleado}}-->
+                </h6>
+                <span class="text-success small pt-1 fw-bold">6</span> <span class="text-muted small pt-2 ps-1">trabajos generados</span>
+              </div>
+            </div>
+          </div>
+          <!--Fin de historico de denuncias resueltas-->
+        </div>
+      </div>
+    </div>
+    <!-- End Denincias Card -->
+    <!-- Inicia datos Abiertos Card e indicadores de gestion-->
+    <div class="card info-card customers-card">
+
+      <div class="card-body">
+        <div class="row">
+
+          <div class="col-md-5">
+            <h5 class="card-title">Datos Abiertos <span>| 2024</span></h5>
+            <div class="d-flex align-items-center">
+              <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                <i class="bi bi-share" [routerLink]="['/datos-finan-econom-generar']" title="Click aquí para gestionar los dataset para datos abiertos."></i>
+
+              </div>
+              <div class="ps-3">
+                <h6>{{totalDatosAbiertos}}</h6>
+                <span class="text-success small pt-1 fw-bold">Datasets </span> <span class="text-muted small pt-2 ps-1">generados</span>
+
+              </div>
+            </div>
+          </div>
+
+          <!Indicadores Graficoss-->
+          <div class="col-md-5 offset-2">
+            <h5 class="card-title">Indicadores Graficos &nbsp;</h5>
+            <div class="d-flex align-items-center">
+              <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                <i class="bi bi-pie-chart-fill" [routerLink]="['/indicadores-graficos']" title="Click aquí visualizar Diagramas de torta barras, ets con distintos indicadores."></i>
+              </div>
+              <div class="ps-3">
+                <span class="text-success small">Cantidad de Indicadores</span>
+                <h6>
+                  <!--  TAREA Aca deben ir el total de denuncias cerradas por el empleado.-->
+                  <!--{{totalDenunAsignaEmpleado}}-->
+                </h6>
+                <span class="text-success small pt-1 fw-bold">2</span> <span class="text-muted small pt-2 ps-1">diagramas</span>
+              </div>
+            </div>
+          </div>
+          <!-- FIN datos Abiertos Card e indicadores de gestion-->
+        </div>
+      </div>
+    </div>
+    <!-- Requerimientos -->
+    <div class="col-md-6">
+      <div class="card info-card customers-card">
+
+        <div class="card-body">
+          <h5 class="card-title">Requerimientos <span>| Mis Asignaciones</span></h5>
+
+          <div class="d-flex align-items-center">
+            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+              <i class="bi bi-emoji-angry" [routerLink]="['/sugerencia-tabla']" title="Click aquí para gestionar las sugerencias."></i>
+            </div>
+            <div class="ps-3">
+              <h6>0</h6>
+              <span class="text-success small pt-1 fw-bold">507</span> <span class="text-muted small pt-2 ps-1">Total Activas</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!-- Fin Requerimientos -->
+    <!-- Sugerencias -->
+    <div class="col-md-6">
+      <div class="card info-card revenue-card">
+
+        <div class="card-body">
+          <h5 class="card-title">Sugerencias <span></span></h5>
+          <div class="d-flex align-items-center">
+            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+              <i class="bi bi-envelope" [routerLink]="['/sugerencia-tabla']" title="Click aquí para gestionar las sugerencias."></i>
+            </div>
+            <div class="ps-3">
+              <h6>1</h6>
+              <span class="text-success small pt-1 fw-bold">385</span> <span class="text-muted small pt-2 ps-1">Total Activas</span>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+    <!-- Fin Sugerencias -->
+    <!-- Customers Card -->
+    <!-- Gestion de Accesos -->
+    <div class="col-md-6">
+      <div class="card info-card customers-card">
+
+        <div class="card-body">
+          <h5 class="card-title">Gestion de vecinos y Lotes <span>| Mis Formularios</span></h5>
+
+          <div class="d-flex align-items-center">
+            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+              <i [routerLink]="['/lotesypersonas']" title="Click aquí para gestionar las personas asociadas a los lotes.">
+                <img src="../../../assets/Imagenes/construccion_lote.png" alt="" width="70" height="70">
+              </i>
+            </div>
+            <div class="ps-3">
+              <h6 title="Lotes Cargado del Total Declarado en Catastro de La Provincia">{{totalLotes}} de 2325</h6>
+              <span class="text-success small pt-1 fw-bold">{{totalVecinos}}</span> <span class="text-muted small pt-2 ps-1">Vecinos Generados</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!-- Fin Gestion de Accesos -->
+    <!-- Gestion de Roles -->
+    <div class="col-md-6">
+      <div class="card info-card revenue-card">
+     <div class="card-body">
+          <h5 class="card-title">Gestion de empleados, roles y componentes  <span></span></h5>
+          <div class="d-flex align-items-center">
+            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+              <i class="bi bi-people-fill" [routerLink]="['/empleadosyroles']" title="Click aquí para gestionar las paginas web, los empleados los roles."></i>
+            </div>
+            <div class="ps-3">
+              <h6>1</h6>
+              <span class="text-success small pt-1 fw-bold">385</span> <span class="text-muted small pt-2 ps-1">Total Activas</span>
+            </div>
+          </div>
+        </div>
+     </div>
+    </div>
+    <!-- Fin Sugerencias -->
+
+  </div>
+</section>
+

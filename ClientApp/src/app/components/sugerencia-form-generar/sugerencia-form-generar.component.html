@@ -1,34 +1,93 @@
-<form [formGroup]="Sugerencia" (ngSubmit)="guardarDatos()">
-  <div class="container-fluid">
-    <div class="d-flex align-items-center p-2 my-2 bg-purple bg-light shadow p-2 mb-5 rounded shadow-sm">
-      <img src="../../../assets/IconsGoogle/sugerencia.svg" alt="" width="58" height="58">
-      <div class="tituloFormulario text-center form-group col-md-8 offset-md-1">
-        <p> Formulario de Sugerencias</p>
+<div class="container">
+
+  <div class="card">
+      <div class="card-body">
+        
+          <!-- <h5 class="card-title">Formulario de Sugerencias</h5> -->
+          <app-cabecera-titulo [nombreComponente]="'SugerenciaFormGenerarComponent'"></app-cabecera-titulo>
+
+          <!-- <div class="d-flex align-items-center p-2 my-2 bg-purple bg-light shadow p-2 mb-5 rounded shadow-sm">
+            <img src="../../../assets/IconsGoogle/sugerencia.svg" alt="" width="58" height="58">
+            <div class="card-title text-center form-group col-md-8 offset-md-1">
+              <p> Formulario de Sugerencias</p>
+            </div>
+          </div> -->
+
+          <form [formGroup]="Sugerencia" (ngSubmit)="guardarDatos()" class="row g-3">
+
+              <div class="col-12">
+                <label for="Descripcion" class="form-label">(*) Descripción</label>
+                <textarea type="text" class="form-control" [ngClass]="{'is-invalid' : descripcionNoValido}" id="Descripcion" formControlName="Descripcion" value="" rows="7" 
+                          placeholder="Detalle en qué podemos mejorar, ya sea en cuanto a nuestra atención, mejoras que pudiéramos implementar y/o proyectos"></textarea>
+                <div class="invalid-feedback" *ngIf="descripcionNoValido">
+                    La descripción es requerida y debe superar los 50 caracteres
+                </div>
+              </div>
+
+              <div class="col-md-12 order-md-1">
+
+                  <div class="row">
+                      <hr class="mb-4">
+                      <div class="form-group col-md-12 mb-3 pt-3">
+                          <input type="submit" value="Generar" class="btn btn-primary col-md-4 offset-md-1 " />
+                          <button type="button" class="btn btn-secondary col-md-4 offset-md-1" (click)="cancelar()">Cancelar</button>
+                      </div>
+
+                  </div>
+
+              </div>
+
+          </form>
       </div>
-    </div>
 
-
-    <div class="row p-3 ml-3 form-group offset-md-2 ">
-      <div class="form-group col-md-10 offset-md-1">
-        <label for="exampleFormControlTextarea1"> (*)</label>
-        <textarea class="form-control" formControlName="Descripcion" id="exampleFormControlTextarea1" rows="7" placeholder="Detalle en que podemos mejorar,ya sea en cuanto a nuestra atencion, a mejoras que pudieramos implementar o proyectos."></textarea>
-      </div>
-    </div>
-
-
-
-    <div style="margin:1em; color:white" class="form-group col-md-12 justify-content-around">
-      <div class="text-center  bg-danger shadow p-2 mb-5 rounded shadow-sm" *ngIf="Sugerencia.valid==false">Verifique que los datos indicados con (*) estén correctamente ingresados</div>
-    </div>
-
-
-    <div class="form-group col-md-8 offset-md-4">
-      <input [disabled]="!Sugerencia.valid" type="submit" value="Generar" class="btn btn-success col-md-1 offset-md-1" (click)="clickMethod()" />
-      <button type="button" class="btn btn-light col-md-1 offset-md-1">Cancelar</button>
-    </div>
   </div>
 
+</div>
 
 
 
+<!-- 
+
+<div class="container">
+  <div class="card">
+    <div class="card-body">
+      <form [formGroup]="Sugerencia" (ngSubmit)="guardarDatos()">
+        <div class="container-fluid">
+          <div class="d-flex align-items-center p-2 my-2 bg-purple bg-light shadow p-2 mb-5 rounded shadow-sm">
+            <img src="../../../assets/IconsGoogle/sugerencia.svg" alt="" width="58" height="58">
+            <div class="card-title text-center form-group col-md-8 offset-md-1">
+              <p> Formulario de Sugerencias</p>
+            </div>
+          </div>
+
+
+          <div class="row p-2 ml-3 form-group offset-md-1 ">
+            <div class="form-group col-md-10 offset-md-1">
+              <label for="exampleFormControlTextarea1"> (*)</label>
+              <textarea class="form-control" formControlName="Descripcion" id="exampleFormControlTextarea1" rows="7" placeholder="Detalle en que podemos mejorar,ya sea en cuanto a nuestra atencion, a mejoras que pudieramos implementar o proyectos."></textarea>
+            </div>
+          </div>
+
+
+          <div class="row p-2 ml-3 form-group offset-md-2 ">
+            <div style="margin:1em; color:black" class="form-group col-md-10 offset-md-1 justify-content-around">
+              <div class="text-center  bg-danger-light shadow p-2 mb-5 rounded shadow-sm" *ngIf="Sugerencia.valid==false">Ingrese más de 50 caracteres en la caja de descripción para una mejor comprension de la sugerencia</div>
+            </div>
+          </div>
+
+            <div class="form-group justify-content-around offset-md-4">
+              <input [disabled]="!Sugerencia.valid" type="submit" value="Generar" class="btn btn-secondary col-md-2 offset-md-1" (click)="clickMethod()" />
+              <button type="button" class="btn btn-light col-md-2 offset-md-1">Cancelar</button>
+            </div>
+          
+
+
+
+          </div>
 </form>
+    </div>
+
+  </div>
+
+  <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
+</div> -->

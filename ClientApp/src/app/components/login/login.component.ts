@@ -2,8 +2,9 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UsuarioService } from '../../services/usuario.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastService } from 'src/app/services/toast.service';
 
 
 @Component({
@@ -13,37 +14,59 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   urlBase: string = "";
-  usuario: FormGroup;
+  usuario: UntypedFormGroup;
   error: boolean = false;
-  constructor(private usuarioService: UsuarioService, private router: Router, @Inject('BASE_URL') baseUrl: string) {
+  isFormSubmitted: boolean=false;
+
+  constructor(private usuarioService: UsuarioService, private router: Router, @Inject('BASE_URL') baseUrl: string,
+              public _toastService: ToastService) {
     this.urlBase = baseUrl;
-    this.usuario = new FormGroup({
+    this.usuario = new UntypedFormGroup({
       //Por ahora desojo el validators required solo para pass luego agregar en el usuario  Validators.required
-      'NombreUser': new FormControl("", Validators.required),
-      'Contrasenia': new FormControl("", Validators.required)
+      'usuarioNombre': new UntypedFormControl("", Validators.required),
+      'usuarioContrasenia': new UntypedFormControl("", Validators.required)
     });
   }
 
   ngOnInit() {
 
   }
-  login() {
-    if (this.usuario.valid == true) {
-      this.usuarioService.login(this.usuario.value).subscribe(res => {
-        if (res.idUsuario == 0 || res.idUsuario == "") {
-          this.error = true;
-          this.router.navigate(["/login"]);
-        }
-        else {
-          //Esta Ok
-          this.error = false;
-          //this.router.navigate(["/bienvenida"]);login
-          window.location.href = this.urlBase + "bienvenida";
-        }
-        console.log(res);
 
-      });
+  login() {
+
+    this.isFormSubmitted = true;
+
+    if (this.usuario.invalid) {
+      Object.values(this.usuario.controls).forEach(
+        control => {
+          control.markAsTouched();
+        }
+      );
+      return;
     }
+
+    this.usuarioService.login(this.usuario.value).subscribe(res => {
+      if (res.idUsuario == 0 || res.idUsuario == "") {
+        this._toastService.showError("Usuario y/o contraseńa no válidos");
+        return;
+      }
+      else {
+        //Esta Ok
+        window.location.href = this.urlBase + "bienvenida";
+      }
+    }, error => {
+      //this._toastService.showError("Usuario y/o contraseńa no válidos");
+      this._toastService.showError(error.error.responseMessage);
+    });
+  
+  }
+
+  get usuarioNoValido() {
+    return this.isFormSubmitted && this.usuario.controls.usuarioNombre.errors;
+  }
+
+  get contraseniaNoValido() {
+    return this.isFormSubmitted && this.usuario.controls.usuarioContrasenia.errors;
   }
 
 }

@@ -23,5 +23,6 @@ namespace MVPSA_V2022.clases
         public string Apellido { get; set; }
         public string Altura { get; set; }
         public string Error { get; internal set; }
+        public int NroArea { get; set; }
     }
 }

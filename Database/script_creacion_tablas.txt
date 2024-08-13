@@ -1,0 +1,502 @@
+﻿USE [M_VPSA_V3]
+GO
+
+/****** Object:  Table [dbo].[MOBBEX_PAGO]    Script Date: 25/8/2022 04:03:14 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[MOBBEX_PAGO](
+	[id_mobbex_pago] [int] IDENTITY(1,1) NOT NULL,
+	[type] [varchar](30) NOT NULL,
+	[view_type] [varchar](50) NULL,
+	[payment_id] [varchar](50) NOT NULL,
+	[payment_status_code] [varchar](3) NOT NULL,
+	[payment_status_text] [varchar](30) NOT NULL,
+	[payment_status_message] [varchar](100) NULL,
+	[payment_total] [decimal](18, 2) NOT NULL,
+	[payment_currency_code] [varchar](10) NOT NULL,
+	[payment_currency_symbol] [varchar](10) NOT NULL,
+	[payment_created] [varchar](30) NOT NULL,
+	[payment_updated] [varchar](30) NULL,
+	[payment_reference] [varchar](30) NOT NULL,
+	[customer_uid] [varchar](30) NULL,
+	[customer_email] [varchar](50) NULL,
+	[checkout_uid] [varchar](30) NOT NULL,
+	[fecha_alta] [datetime] NULL,
+ CONSTRAINT [PK_MOBBEX_PAGO] PRIMARY KEY CLUSTERED 
+(
+	[id_mobbex_pago] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[MOBBEX_PAGO] ADD  CONSTRAINT [DF_MOBBEX_PAGO_fecha_alta]  DEFAULT (getdate()) FOR [fecha_alta]
+GO
+
+
+ALTER TABLE dbo.TIPO_RECLAMO 
+ADD FechaAlta datetime DEFAULT (getdate());  
+
+ALTER TABLE dbo.TIPO_RECLAMO 
+ADD FechaModificacion datetime DEFAULT (getdate());  
+
+ALTER TABLE dbo.TIPO_RECLAMO 
+ADD IdUsuarioAlta int; 
+
+ALTER TABLE dbo.TIPO_RECLAMO 
+ADD IdUsuarioModificacion int; 
+ 
+update dbo.TIPO_RECLAMO
+  set FechaAlta = GETDATE(),
+  FechaModificacion = GETDATE();
+
+ALTER TABLE dbo.PRUEBA_GRAFICA_RECLAMO ADD foto varchar(MAX); 
+
+alter TABLE dbo.CONTROL_PROCESOS alter COLUMN FechaEjecucion DATETIME not null;
+
+alter TABLE dbo.lote alter COLUMN Bhabilitado int not null;
+
+alter table dbo.RECLAMO add NomApeVecino VARCHAR(100);
+
+alter table dbo.reclamo add Nro_Prioridad int;
+
+update dbo.RECLAMO SET Nro_Prioridad = 4;
+
+
+
+DELETE FROM Prioridad_RECLAMO;
+
+  SET IDENTITY_INSERT Prioridad_RECLAMO ON;
+
+  ALTER TABLE Prioridad_RECLAMO ADD Tiempo_Max_Tratamiento int NOT NULL;
+
+  INSERT INTO Prioridad_RECLAMO (Nro_Prioridad, Nombre_Prioridad, BHabilitado, Descripcion, Tiempo_Max_Tratamiento)
+  values(1, 'Alta', 1, '', 1);
+
+  INSERT INTO Prioridad_RECLAMO (Nro_Prioridad, Nombre_Prioridad, BHabilitado, Descripcion, Tiempo_Max_Tratamiento)
+  values(2, 'Media', 1, '', 2);
+
+  INSERT INTO Prioridad_RECLAMO (Nro_Prioridad, Nombre_Prioridad, BHabilitado, Descripcion, Tiempo_Max_Tratamiento)
+  values(3, 'Baja', 1, '', 7);
+
+  SET IDENTITY_INSERT Prioridad_RECLAMO OFF;
+
+
+
+  ALTER TABLE DBO.TIPO_RECLAMO
+   ADD CONSTRAINT FK__TIPO_RECLAMO__USUARIO_ALTA FOREIGN KEY (IdUsuarioAlta)
+      REFERENCES DBO.USUARIO (idUsuario)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION;
+
+ALTER TABLE DBO.TIPO_RECLAMO
+   ADD CONSTRAINT FK__TIPO_RECLAMO__USUARIO_MODIFICACION FOREIGN KEY (IdUsuarioModificacion)
+      REFERENCES DBO.USUARIO (idUsuario)
+      ON DELETE  NO ACTION
+      ON UPDATE  NO ACTION;
+
+
+update TIPO_RECLAMO
+   set Tiempo_Max_Tratamiento = 100
+ where Tiempo_Max_Tratamiento is null;
+
+ALTER TABLE TIPO_RECLAMO ALTER COLUMN Tiempo_Max_Tratamiento int NOT NULL;
+
+create view dbo.vw_reclamo as
+select rec.*, 
+       tre.Nombre tipo_reclamo, 
+	   est.Nombre estado_reclamo, 
+	   pre.Nombre_Prioridad Prioridad_reclamo,
+	   usu.NombreUser usuario, 
+	   case 
+		when usu.NombreUser is null then 'Sin Asignar' 
+		else concat(per.Apellido, ', ', per.Nombre) 
+	   end  empleado
+from dbo.RECLAMO rec join M_VPSA_V3.dbo.TIPO_RECLAMO tre on tre.Cod_Tipo_Reclamo = rec.Cod_Tipo_Reclamo
+join dbo.ESTADO_RECLAMO est on est.Cod_Estado_Reclamo = rec.Cod_Estado_Reclamo
+join dbo.Prioridad_RECLAMO pre on pre.Nro_Prioridad = rec.Nro_Prioridad
+left outer join dbo.USUARIO usu on usu.idUsuario = rec.IdUsuario
+left outer join dbo.PERSONA per on per.idPersona = usu.idPersona;
+
+
+
+
+
+
+ALTER TABLE [dbo].[RECLAMO]
+ADD MailVecino VARCHAR(100) NULL;
+
+ALTER TABLE [dbo].[RECLAMO]
+ADD TelefonoVecino VARCHAR(50) NULL;
+
+
+
+SET IDENTITY_INSERT [dbo].[ROL] ON;
+
+insert into [dbo].[ROL] (idRol, NombreRol, BHabilitado) values (2000, 'Vecino', 1);
+
+SET IDENTITY_INSERT [dbo].[ROL] OFF;
+
+DROP VIEW IF EXISTS vw_reclamo;
+
+
+create view dbo.vw_reclamo as SELECT        rec.Nro_Reclamo, 
+rec.Fecha,
+rec.Descripcion, 
+rec.Cod_Tipo_Reclamo,
+rec.Cod_Estado_Reclamo, 
+rec.BHabilitado,
+rec.Calle, 
+rec.Altura, 
+rec.EntreCalles, 
+rec.IdVecino, 
+rec.IdUsuario, 
+rec.NomApeVecino, 
+rec.Nro_Prioridad, 
+rec.MailVecino,
+rec.TelefonoVecino, 
+tre.Nombre AS tipo_reclamo ,
+est.Nombre AS estado_reclamo , 
+pre.Nombre_Prioridad AS Prioridad_reclamo  ,
+usu.NombreUser AS usuario, 
+CASE WHEN usu.NombreUser IS NULL THEN 'Sin Asignar' ELSE concat(per.Apellido, ', ', per.Nombre) END AS empleado
+FROM            dbo.RECLAMO AS rec INNER JOIN
+                         dbo.TIPO_RECLAMO AS tre ON tre.Cod_Tipo_Reclamo = rec.Cod_Tipo_Reclamo INNER JOIN
+                         dbo.ESTADO_RECLAMO AS est ON est.Cod_Estado_Reclamo = rec.Cod_Estado_Reclamo INNER JOIN
+                         dbo.Prioridad_RECLAMO AS pre ON pre.Nro_Prioridad = rec.Nro_Prioridad LEFT OUTER JOIN
+                         dbo.USUARIO AS usu ON usu.idUsuario = rec.IdUsuario LEFT OUTER JOIN
+                         dbo.PERSONA AS per ON per.idPersona = usu.idPersona;
+
+
+
+alter table [dbo].[ROL]
+  add tipoRol VARCHAR(15) not null default 'EMPLEADO'; 
+
+UPDATE [dbo].[ROL] 
+	set tipoRol = 'VECINO'
+	WHERE idRol = 2000;
+
+
+
+ALTER TABLE [dbo].[TRABAJO]  WITH CHECK ADD FOREIGN KEY([Nro_Denuncia])
+REFERENCES [dbo].[DENUNCIA] ([Nro_Denuncia]);
+
+ALTER TABLE [dbo].[Rol]
+ADD codRol VARCHAR(15) not NULL default 'NULL';
+
+update [dbo].[Rol]
+set codRol = 'OPT'
+where NombreRol = 'Operador Tecnico';
+
+update [dbo].[Rol]
+set codRol = 'MDE'
+where NombreRol = 'Mesa de Entrada';
+
+update [dbo].[Rol]
+set codRol = 'TDC'
+where NombreRol = 'TribunalDeCuentas';
+
+update [dbo].[Rol]
+set codRol = 'INT'
+where NombreRol = 'Intendente';
+
+delete from [dbo].[Rol]
+where NombreRol in ('SecretarioDeGobierno', 'Inspector');
+
+update [dbo].[Rol]
+set codRol = 'ADS'
+where NombreRol = 'AdministradorDeSistema';
+
+update [dbo].[Rol]
+set codRol = 'VEC'
+where NombreRol = 'Vecino';
+
+drop TABLE [dbo].[SESIONES]
+
+Alter table [dbo].[PRUEBA_GRAFICA_RECLAMO]
+drop constraint FK__PRUEBA_GR__IdVec__47A6A41B;
+
+ALTER TABLE [dbo].[PRUEBA_GRAFICA_RECLAMO]
+DROP COLUMN idVecino;
+
+Alter table [dbo].[RECLAMO]
+drop constraint FK__RECLAMO__IdVecin__4D5F7D71;
+
+ALTER TABLE [dbo].[RECLAMO]
+   ADD FOREIGN KEY (idVecino)
+      REFERENCES [dbo].[USUARIO] (idUsuario);
+
+Alter table [dbo].[SOLICITUD]
+drop constraint FK__SOLICITUD__IdVec__5224328E;
+
+ALTER TABLE [dbo].[SOLICITUD]
+   ADD FOREIGN KEY (idVecino)
+      REFERENCES [dbo].[USUARIO] (idUsuario);
+
+Alter table [dbo].[TRABAJO_RECLAMO]
+drop constraint FK__TRABAJO_R__IdVec__55009F39;
+
+ALTER TABLE [dbo].[TRABAJO_RECLAMO]
+   ADD FOREIGN KEY (idVecino)
+      REFERENCES [dbo].[USUARIO] (idUsuario);
+
+Alter table [dbo].[TRABAJO_SOLICITUD]
+drop constraint FK__TRABAJO_S__IdVec__57DD0BE4;
+
+ALTER TABLE [dbo].[TRABAJO_SOLICITUD]
+   ADD FOREIGN KEY (idVecino)
+      REFERENCES [dbo].[USUARIO] (idUsuario);
+
+drop TABLE [dbo].[USUARIO_VECINO];
+
+alter TABLE [dbo].[RECLAMO] alter COLUMN idUsuario int not null;
+
+alter TABLE [dbo].[TIPO_RECLAMO] alter COLUMN IdUsuarioAlta int not null; 
+
+alter TABLE [dbo].[TIPO_RECLAMO] alter COLUMN IdUsuarioModificacion int not null;
+
+alter TABLE [dbo].[USUARIO] alter COLUMN NombreUser VARCHAR (100) not null; 
+alter TABLE [dbo].[USUARIO] alter COLUMN Contrasenia VARCHAR (100) not null; 
+alter TABLE [dbo].[USUARIO] alter COLUMN BHabilitado int not null; 
+alter TABLE [dbo].[USUARIO] alter COLUMN idTipoUsuario int not null; 
+alter TABLE [dbo].[USUARIO] alter COLUMN FechaAlta DATE not null;
+
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[OBSERVACION_RECLAMO]') AND type in (N'U'))
+DROP TABLE [dbo].[OBSERVACION_RECLAMO]
+GO
+
+CREATE TABLE [dbo].[OBSERVACION_RECLAMO](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[nro_reclamo] [int] NOT NULL,
+	[observacion] [varchar](250) NOT NULL,
+	[cod_estado_reclamo] [int] NOT NULL,
+	[id_usuario_alta] [int] NOT NULL,
+	[fecha_alta] [datetime] NOT NULL,
+	[codAccion] [varchar](15) NOT NULL
+);
+
+ALTER TABLE [dbo].[OBSERVACION_RECLAMO] ADD  CONSTRAINT [PK_OBSERVACION_RECLAMO] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+);
+
+ALTER TABLE [dbo].[OBSERVACION_RECLAMO] ADD  CONSTRAINT [DEFAULT_obervacion_reclamo_fecha_alta]  DEFAULT (getdate()) FOR [fecha_alta];
+ALTER TABLE [dbo].[OBSERVACION_RECLAMO]  WITH CHECK ADD  CONSTRAINT [FK_OBSERVACION_RECLAMO_ESTADO_RECLAMO] FOREIGN KEY([cod_estado_reclamo])
+REFERENCES [dbo].[ESTADO_RECLAMO] ([Cod_Estado_Reclamo]);
+ALTER TABLE [dbo].[OBSERVACION_RECLAMO] CHECK CONSTRAINT [FK_OBSERVACION_RECLAMO_ESTADO_RECLAMO];
+ALTER TABLE [dbo].[OBSERVACION_RECLAMO]  WITH CHECK ADD  CONSTRAINT [FK_OBSERVACION_RECLAMO_RECLAMO] FOREIGN KEY([nro_reclamo])
+REFERENCES [dbo].[RECLAMO] ([Nro_Reclamo]);
+ALTER TABLE [dbo].[OBSERVACION_RECLAMO] CHECK CONSTRAINT [FK_OBSERVACION_RECLAMO_RECLAMO];
+ALTER TABLE [dbo].[OBSERVACION_RECLAMO]  WITH CHECK ADD  CONSTRAINT [FK_OBSERVACION_RECLAMO_USUARIO] FOREIGN KEY([id_usuario_alta])
+REFERENCES [dbo].[USUARIO] ([idUsuario]);
+ALTER TABLE [dbo].[OBSERVACION_RECLAMO] CHECK CONSTRAINT [FK_OBSERVACION_RECLAMO_USUARIO];
+
+CREATE TABLE [dbo].[AREA] (
+    [nro_area]    INT           IDENTITY (1, 1) NOT NULL,
+    [nombre]      VARCHAR (100) NOT NULL,
+    [cod_area]    VARCHAR (20)  NOT NULL,
+    [bhabilitado] INT           CONSTRAINT [DEFAULT_AREA_bhabilitado] DEFAULT 1 NOT NULL,
+    CONSTRAINT [PK_AREA] PRIMARY KEY CLUSTERED ([nro_area] ASC)
+);
+
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TRABAJO_RECLAMO]') AND type in (N'U'))
+DROP TABLE [dbo].[TRABAJO_RECLAMO]
+GO
+
+
+CREATE TABLE [dbo].[TRABAJO_RECLAMO] (
+    [nro_trabajo]     INT           IDENTITY (1, 1) NOT NULL,
+    [nro_reclamo]     INT           NOT NULL,
+    [nro_area_trabajo] INT           NOT NULL,
+    [fecha_trabajo]   DATE          NOT NULL,
+    [descripcion]     VARCHAR (250) NOT NULL,
+    [id_usuario_alta] INT           NOT NULL,
+    [fecha_alta]      DATETIME      CONSTRAINT [DEFAULT_TRABAJO_RECLAMO_fecha_alta] DEFAULT getDate() NOT NULL,
+    [bhabilitado]     INT           CONSTRAINT [DEFAULT_TRABAJO_RECLAMO_bhabilitado] DEFAULT 1 NOT NULL,
+    CONSTRAINT [PK_TRABAJO_RECLAMO] PRIMARY KEY CLUSTERED ([nro_trabajo] ASC),
+    CONSTRAINT [FK_TRABAJO_RECLAMO_RECLAMO] FOREIGN KEY ([nro_reclamo]) REFERENCES [dbo].[RECLAMO] ([Nro_Reclamo]),
+    CONSTRAINT [FK_TRABAJO_RECLAMO_AREA] FOREIGN KEY ([nro_area_trabajo]) REFERENCES [dbo].[AREA] ([nro_area]),
+    CONSTRAINT [FK_TRABAJO_RECLAMO_USUARIO] FOREIGN KEY ([id_usuario_alta]) REFERENCES [dbo].[USUARIO] ([idUsuario])
+);
+
+
+ALTER TABLE dbo.RECLAMO 
+ADD nro_area INT;  
+
+ALTER TABLE dbo.RECLAMO 
+ADD id_usuario_responsable INT;  
+
+ALTER TABLE DBO.RECLAMO
+   ADD FOREIGN KEY (nro_area)
+      REFERENCES DBO.AREA (nro_area)
+      ON DELETE  NO ACTION
+      ON UPDATE  NO ACTION;
+
+ALTER TABLE DBO.RECLAMO
+   ADD FOREIGN KEY (id_usuario_responsable)
+      REFERENCES DBO.USUARIO (idUsuario)
+      ON DELETE  NO ACTION
+      ON UPDATE  NO ACTION;
+
+
+SET IDENTITY_INSERT [dbo].[AREA] ON;
+
+INSERT INTO AREA (nro_area, nombre, cod_area, bhabilitado)
+VALUES(1, 'MESA DE ENTRADA', 'ME', 1);
+INSERT INTO AREA (nro_area, nombre, cod_area, bhabilitado)
+VALUES(2, 'ESPACIOS VERDES', 'EV', 1);
+INSERT INTO AREA (nro_area, nombre, cod_area, bhabilitado)
+VALUES(3, 'ALUMBRADO PUBLICO', 'AP', 1);
+INSERT INTO AREA (nro_area, nombre, cod_area, bhabilitado)
+VALUES(4, 'OBRAS VIALES', 'OV', 1);
+INSERT INTO AREA (nro_area, nombre, cod_area, bhabilitado)
+VALUES(5, 'RECOLECCION DE RESIDUOS', 'RS', 1);
+
+SET IDENTITY_INSERT [dbo].[AREA] OFF;
+
+
+DROP VIEW IF EXISTS vw_reclamo;
+
+
+create view dbo.vw_reclamo as SELECT        rec.Nro_Reclamo, 
+rec.Fecha,
+rec.Descripcion, 
+rec.Cod_Tipo_Reclamo,
+rec.Cod_Estado_Reclamo, 
+rec.BHabilitado,
+rec.Calle, 
+rec.Altura, 
+rec.EntreCalles, 
+rec.IdVecino, 
+rec.IdUsuario, 
+rec.NomApeVecino, 
+rec.Nro_Prioridad, 
+rec.MailVecino,
+rec.TelefonoVecino, 
+tre.Nombre AS tipo_reclamo ,
+est.Nombre AS estado_reclamo , 
+pre.Nombre_Prioridad AS prioridad_reclamo  ,
+usu.NombreUser AS usuario, 
+CASE WHEN usu.NombreUser IS NULL THEN 'Sin Asignar' ELSE concat(per.Apellido, ', ', per.Nombre) END AS empleado,
+rec.nro_area
+FROM            dbo.RECLAMO AS rec INNER JOIN
+                         dbo.TIPO_RECLAMO AS tre ON tre.Cod_Tipo_Reclamo = rec.Cod_Tipo_Reclamo INNER JOIN
+                         dbo.ESTADO_RECLAMO AS est ON est.Cod_Estado_Reclamo = rec.Cod_Estado_Reclamo INNER JOIN
+                         dbo.PRIORIDAD_RECLAMO AS pre ON pre.Nro_Prioridad = rec.Nro_Prioridad LEFT OUTER JOIN
+                         dbo.USUARIO AS usu ON usu.idUsuario = rec.IdUsuario LEFT OUTER JOIN
+                         dbo.PERSONA AS per ON per.idPersona = usu.idPersona;
+
+
+ALTER TABLE dbo.usuario 
+ADD nro_area int not null DEFAULT (1);
+
+ALTER TABLE [dbo].[RECLAMO]
+    ADD [id_sugerencia_origen] INT NULL;
+
+
+CREATE TABLE ESTADO_SUGERENCIA(
+	Cod_Estado_Sugerencia int IDENTITY(1,1) PRIMARY KEY,
+	Nombre varchar(80) NOT NULL,
+	BHabilitado int Default(0),
+	Descripcion varchar(250) NULL);
+	INSERT INTO ESTADO_SUGERENCIA(Nombre)
+VALUES('Registrado');
+	INSERT INTO ESTADO_SUGERENCIA(Nombre)
+VALUES('Considerado');
+	INSERT INTO ESTADO_SUGERENCIA(Nombre)
+VALUES('Descartado');
+INSERT INTO ESTADO_SUGERENCIA(Nombre)
+VALUES('Gestionado');
+
+ALTER TABLE SUGERENCIA ADD CONSTRAINT FK_Estado FOREIGN KEY (Estado)
+      REFERENCES ESTADO_SUGERENCIA (Cod_Estado_Sugerencia) ;
+
+ALTER TABLE SUGERENCIA ALTER COLUMN Estado int NOT NULL;
+
+ALTER TABLE [dbo].[RECLAMO]
+    ADD [interno] VARCHAR (1) CONSTRAINT [DEFAULT_RECLAMO_interno] DEFAULT ('N') NOT NULL;
+
+ALTER TABLE reclamo ADD CONSTRAINT FK_reclamo_prioridad FOREIGN KEY (Nro_Prioridad)
+      REFERENCES Prioridad_reclamo (Nro_Prioridad) ;
+
+-- En Tratamiento
+  update ESTADO_RECLAMO
+  set Nombre = 'En Curso'
+  where Cod_Estado_Reclamo = 3;
+
+  -- Asignado
+  update ESTADO_RECLAMO
+  set BHabilitado = 0
+  where Cod_Estado_Reclamo = 2;
+
+-- Nuevo
+  update ESTADO_RECLAMO
+  set Nombre = 'Creado'
+  where Cod_Estado_Reclamo = 1;
+
+ALTER TABLE [dbo].[RECLAMO]
+    ADD [fecha_cierre] DATE NULL;
+
+CREATE TABLE [dbo].[RECUPERACION_CUENTA] (
+    [id_recuperacion_cuenta] INT            IDENTITY (1, 1) NOT NULL,
+    [id_usuario]             INT            NOT NULL,
+    [mail]                   VARCHAR (100)  NOT NULL,
+    [uuid]                   VARCHAR (1000) NOT NULL,
+    [fecha_alta]             DATETIME       NOT NULL,
+    CONSTRAINT [PK_RECUPERACION_CUENTA] PRIMARY KEY CLUSTERED ([id_recuperacion_cuenta] ASC),
+    CONSTRAINT [FK_RECUPERACION_CUENTA_USUARIO] FOREIGN KEY ([id_usuario]) REFERENCES [dbo].[USUARIO] ([idUsuario])
+);
+
+update [dbo].[ROL]
+set NombreRol = 'Tribunal de Cuentas'
+where idRol = 3;
+
+update [dbo].[ROL]
+set NombreRol = 'Operador Técnico'
+where idRol = 1;
+
+update [dbo].[ROL]
+set NombreRol = 'Administrador de Sistema'
+where idRol = 1002;
+
+update [dbo].[ROL]
+set BHabilitado = 1
+where idRol = 1;
+
+update [dbo].[ROL]
+set BHabilitado = 0
+where idRol = 3;
+
+SET IDENTITY_INSERT [dbo].[AREA] ON;
+
+INSERT INTO AREA (nro_area, nombre, cod_area, bhabilitado)
+VALUES(6, 'SISTEMAS Y TELECOMUNICACIONES', 'SI', 1);
+
+SET IDENTITY_INSERT [dbo].[AREA] OFF;
+
+/**
+* Envio de Correos
+*/
+CREATE TABLE [dbo].[EmailQueue](
+    Id              int             NOT NULL PRIMARY KEY IDENTITY(1,1),
+    Recipients      varchar(250)    NOT NULL,
+    Cc_recipients   varchar(250)    NULL,
+    Email_Subject   varchar(250)    NOT NULL,
+    Email_body      varchar(max)    NULL,
+    QueueTime       datetime2       NOT NULL,
+    SentTime        datetime2       NULL
+);
+
+SET IDENTITY_INSERT [dbo].[estado_reclamo] ON;
+INSERT INTO estado_reclamo (Cod_Estado_Reclamo, Nombre, BHabilitado)
+VALUES(8, 'Pendiente de Cierre', 1);
+SET IDENTITY_INSERT [dbo].[estado_reclamo] OFF;
+
+
+
+
+

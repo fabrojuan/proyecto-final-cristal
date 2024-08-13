@@ -1,35 +1,26 @@
+
+.combobox {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 1.2em;
+  color: #240f7d;
+}
+.subtitulo {
+  font-family: "Times New Roman", Times, serif;
+  color: #240f7d;
+  font-size: 1.7em;
+  font-weight: 900;
+  text-shadow: 6px 8px 10px #555;
+}
+
+/*-------------------------aca el nuevo -----------------------*/
 .texto-blanco {
   color: white;
   font-size: 1.12em;
 }
 
 .tituloFormulario {
-  color: #240f7d;
-  font-size: 3em;
-  font-weight: 900;
-  text-shadow: 6px 8px 10px #555;
-}
-
-.combobox {
   font-family: "Times New Roman", Times, serif;
-  font-size: 1.3em;
-  color: #240f7d;
-}
-
-
-.subtitulo {
-  color: #240f7d;
-  background-color: skyblue;
-  /*align-content: center;*/
-}
-
-.fondoTextTitulo {
-  background-color: skyblue;
-}
-
-.subtitulo {
-  font-family: "Times New Roman", Times, serif;
-  font-size: 2.5em;
+  font-size: 3.5em;
 }
 
 
@@ -38,14 +29,6 @@
   display: inline-block;
   border-bottom: 1px dotted black;
 }
-.container-fluid {
-  background: rgb(81,197,245);
-  background: linear-gradient(76deg, rgba(81,197,245,1) 0%, rgba(67,116,237,1) 14%, rgba(150,224,236,1) 100%);
- /* background-color: #240f7d;*/
- padding-top: 1.5em;
-  color: skyblue !important;
-}
-
 
 .tooltiper .tooltiptext {
   /*visibility: hidden;*/
@@ -63,3 +46,9 @@
 .tooltip:hover .tooltiptext {
   visibility: visible;
 }
+
+
+
+/*.custom-file-input::before {
+  content: none;*/ /* Oculta el contenido antes del campo de entrada */
+/*}*/

@@ -1,0 +1,25 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title">Suspender Requerimiento</h5>
+
+        <!-- <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
+            <span aria-hidden="true">&times;</span>
+        </button> -->
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+            (click)="activeModal.dismiss()"></button>
+    </div>
+    <div class="modal-body">
+
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label">(*) Observación</label>
+            <div class="col-sm-10"> 
+                <textarea type="text" class="form-control"  [(ngModel)]="descripcion" rows="3"></textarea>
+            </div>                
+        </div>
+    </div>    
+
+    <div class="modal-footer">
+        <button (click)="confirmarSuspension()" type="submit" class="btn btn-primary">Confirmar Suspensión</button>
+        <button (click)="cancelarSuspension()" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+    </div>
+</div>

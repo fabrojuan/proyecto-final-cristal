@@ -1,0 +1,16 @@
+<div class="modal bg-secondary" tabindex="-1" style="display:block;" role="dialog">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg">
+    <div class="modal-content">
+      <div class="modal-header d-flex justify-content-between align-items-center">
+        <h4 class="modal-title me-3">{{tituloInformacion}}</h4>
+        <img src="../../../assets/Imagenes/logo-cristal_3.png" width="100" height="100" class="ms-auto" />
+      </div>
+      <div class="modal-body">
+        <p>{{mensajeInformacion}}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>

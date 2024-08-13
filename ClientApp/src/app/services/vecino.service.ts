@@ -3,6 +3,7 @@ import { Injectable, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import * as moment from 'moment';
 
 
 @Injectable({
@@ -21,7 +22,7 @@ export class VecinoService {
   }
 
   public getvecino() {
-    return this.http.get(this.urlBase + 'api/Vecino/listarvecinos')
+    return this.http.get(this.urlBase + 'api/vecinos')
       .pipe(map(res => res));
   }
   public getFiltrarvecinoPorTipo(idTipo: any): Observable<any> {
@@ -33,12 +34,12 @@ export class VecinoService {
   }
 
   public Guardarvecino(vecino: any): Observable<any> {
-    var url = this.urlBase + 'api/Vecino/guardarvecino/';
+    var url = this.urlBase + 'api/vecinos/';
     return this.http.post(url, vecino).pipe(map(res => res));
   }
 
   public GuardarVecino(vecino:any) :Observable<any> {
-    var url = this.urlBase + 'api/Vecino/guardarVecino/';
+    var url = this.urlBase + 'api/vecinos/';
     return this.http.post(url, vecino).pipe(map(res => res));
   }
 
@@ -46,7 +47,7 @@ export class VecinoService {
 
   //SOlo utilizado en el login
   public ObtenerVariableSession() {
-    return this.http.get(this.urlBase + 'api/vecino/obtenerVariableSession').pipe(map((res: any) => {
+    return this.http.get(this.urlBase + 'api/vecinos/obtenerVariableSession').pipe(map((res: any) => {
       var data = res;
       var inf = data.valor;
       if (inf == "") {
@@ -61,7 +62,7 @@ export class VecinoService {
   }
 
   public ObtenerSession(): Observable<any> {
-    return this.http.get(this.urlBase + 'api/vecino/obtenerVariableSession').pipe(map((res: any) => {
+    return this.http.get(this.urlBase + 'api/vecinos/obtenerVariableSession').pipe(map((res: any) => {
       var data = res;
       var inf = data.valor;
       if (inf == "") {
@@ -76,22 +77,79 @@ export class VecinoService {
 
 
   public obtenerSessionidVecino(): Observable<any> {
-    return this.http.get(this.urlBase + 'api/vecino/obtenerVariableSession').pipe(map(res => res));
+    return this.http.get(this.urlBase + 'api/vecinos/obtenerVariableSession').pipe(map(res => res));
   }
-  public obtenerSessionNombreVecino(): Observable<any> {
-    return this.http.get(this.urlBase + 'api/vecino/obtenerSessionNombreVecino').pipe(map(res => res));
 
+  public GuardarPersona(Persona: any): Observable<any> {
+    var url = this.urlBase + 'api/personas';
+    return this.http.post(url, Persona).pipe(map(res => res));
   }
+
+
+
 
   //   ************** LOGIN *****************
   public login(vecino:any): Observable<any> {
-    return this.http.post(this.urlBase + "api/Vecino/login/", vecino).pipe(map(res => res));
+    return this.http.post(this.urlBase + "api/vecinos/login", vecino).pipe(
+      map(res => {
+        this.guardarToken(res);
+        return res;
+      })
+    );
   }
 
+  public guardarToken(authResult: any) {
+    const expiresAt = moment().add(authResult.expiresAt, 'seconds');
+
+    localStorage.setItem('tokenId', authResult.tokenId);
+    localStorage.setItem("expiresAt", JSON.stringify(expiresAt.valueOf()));
+  }
+
+  private borrarToken() {
+    localStorage.removeItem("tokenId");
+    localStorage.removeItem("expiresAt");
+  }
+
+  public isLoggedIn(): boolean {
+    try {
+      return moment().isBefore(this.getExpiration());
+    } catch (e) {
+      return false;
+    }
+  }
+
+  isLoggedOut() {
+    return !this.isLoggedIn();
+  }
+
+  getExpiration() {
+    const expiration = localStorage.getItem("expiresAt") || "";
+    const expiresAt = JSON.parse(expiration);
+    return moment(expiresAt);
+  }
 
   public cerrarSessionVecino() {
-    return this.http.get(this.urlBase + "api/Vecino/cerrarSessionVecino").pipe(map(res => res));
+    return this.http.get(this.urlBase + "api/vecinos/cerrarSessionVecino").pipe(
+      map(res => {
+        this.borrarToken();
+        return res;
+      })
+    );
   }
 
+
+
 //  //   *************** FIN LOGIN ***************
+
+  public recuperarCuenta(mail: string): Observable<any> {
+    return this.http.post(this.urlBase + 'api/vecinos/cuentas/recuperaciones', {'email': mail}).pipe(map(res => res));
+  }
+
+  public validarRecuperacionCuenta(uuid: string): Observable<any> {
+    return this.http.get(this.urlBase + 'api/vecinos/cuentas/recuperaciones/' + uuid).pipe(map(res => res));
+  }
+
+  public resetearContrasenia(datos: any): Observable<any> {
+    return this.http.post(this.urlBase + 'api/vecinos/cuentas/reseteos', datos).pipe(map(res => res));
+  }
 }

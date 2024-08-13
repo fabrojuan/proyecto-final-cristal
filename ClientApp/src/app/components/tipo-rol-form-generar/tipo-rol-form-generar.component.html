@@ -1,105 +1,169 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Rol Paginas</title>
-  <style>
-    .bd-placeholder-img {
-      font-size: 1.125rem;
-      text-anchor: middle;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-    }
+<div class="container">
 
-    @media (min-width: 900px) {
-      .bd-placeholder-img-lg {
-        font-size: 3.5rem;
-      }
-    }
-  </style>
+  <div class="card">
+      <div class="card-body">
+        
+        <app-cabecera-titulo [nombreComponente]="'TipoRolFormGenerarComponent'"></app-cabecera-titulo>
 
-</head>
-<body class="bg-light">
-  <form [formGroup]="Rol" (ngSubmit)="guardarDatos()">
+          <form [formGroup]="Rol" (ngSubmit)="guardarDatos()" class="row g-3">
 
-    <div class="container">
-      <div class="d-flex align-items-center p-2 my-1 bg-purple bg-light shadow p-2 mb-5 rounded shadow-sm">
-        <img src="../../../assets/Imagenes/Rol.png" alt="" width="88" height="88">
-        <div class="tituloFormulario text-center form-group col-md-8 offset-md-1">
-          <p> {{titulo}} Rol.</p>
-        </div>
+            <div class="col-md-2">
+              <label for="CodRol" class="form-label">(*) Código</label>
+              <input type="text" class="form-control" [ngClass]="{'is-invalid' : codRolNoValido}" id="CodRol" formControlName="CodRol" value="">
+              <div class="invalid-feedback" *ngIf="codRolNoValido">
+                  El código de rol es requerido y no puede superar los 15 caracteres
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="NombreRol" class="form-label">(*) Nombre</label>
+              <input type="text" class="form-control" [ngClass]="{'is-invalid' : nombreRolNoValido}" id="NombreRol" formControlName="NombreRol" value="">
+              <div class="invalid-feedback" *ngIf="nombreRolNoValido">
+                  El nombre de rol es requerido y no puede superar los 100 caracteres
+              </div>
+            </div>
+
+            <div class="col-md-2">
+              <label for="TipoRol" class="form-label">(*) Tipo</label>
+              <select id="TipoRol" formControlName="TipoRol" class="form-select">
+                  <option value="EMPLEADO">Empleado</option>
+                  <option value="VECINO">Vecino</option>
+              </select>
+            </div>
+
+            <div class="col-md-2">
+              <label for="BHabilitado" class="form-label">(*) Habilitado</label>
+              <select id="BHabilitado" formControlName="BHabilitado" class="form-select">
+                  <option value="1">Si</option>
+                  <option value="0">No</option>
+              </select>
+            </div>
+
+            
+
+            <div class="col-12">
+              <p class="card-title">Páginas habilitadas:</p>
+              <div class="form-group col-md-10">
+                <label> </label>
+                <div *ngFor="let pagina of paginas">
+                  <input class="check" [name]="pagina.idPagina" (change)="verCheck()" type="checkbox" />
+                  <label>
+                    &nbsp; &nbsp; {{pagina.mensaje}}
+                  </label>
+                </div>
+              </div>
+            </div>
+
+              <div class="col-md-12 order-md-1">
+
+                  <div class="row">
+                      <hr class="mb-4">
+                      <div class="form-group col-md-12 mb-3 pt-3">
+                          <input type="submit" value="Generar" class="btn btn-primary col-md-4 offset-md-1 " />
+                          <button type="button" class="btn btn-secondary col-md-4 offset-md-1" (click)="volverHome()">Cancelar</button>
+                      </div>
+
+                  </div>
+
+              </div>
+
+          </form>
       </div>
 
-      <div class="col-md-12 order-md-1">
-        <div class="row">
-          <div class="form-group col-md-2 mb-3 form-group offset-md-1">
-            <label for="IidRol"> Id Rol</label>
-            <input type="text" class="form-control" id="IidRol" formControlName="IidRol" readonly>
+  </div>
 
-          </div>
-          <div class="form-group col-md-4 mb-3 offset-md-1">
-            <label for="NombreRol">Nombre Rol</label>
-            <input type="text" class="form-control" id="NombreRol" formControlName="NombreRol" placeholder="Ejemplo: Externo" value="" required>
-            <div style="color: coral" *ngIf="Rol.controls['NombreRol'].errors?.required">
-              Nombre del Rol es un dato requerido.
+</div>
+
+
+
+
+<!-- <div class="container">
+  <div class="card">
+    <div class="card-body">
+   
+        <form [formGroup]="Rol" (ngSubmit)="guardarDatos()">
+
+     
+            <div class="d-flex align-items-center p-2 my-1 bg-purple bg-light shadow p-2 mb-5 rounded shadow-sm">
+              <img src="../../../assets/Imagenes/Rol.png" [routerLink]="['/tipo-rol-tabla']" alt="" width="60" height="60">
+              <div class="card-title text-center form-group col-md-8 offset-md-1">
+                <p> Seleccione Las paginas Permitidas para el {{titulo}} Rol.</p>
+              </div>
             </div>
-          </div>
 
-          <div class="form-group col-md-2 mb-3 offset-md-1">
-            <label for="BHabilitado"> Habilitado</label>
-            <input type="text" class="form-control" id="BHabilitado" formControlName="BHabilitado" placeholder="Ejemplo: 1 o 0 ; Sin guion ni espacios" value="" required>
-            <div style="color: coral" *ngIf="Rol.controls['BHabilitado'].errors?.required">
-              Ingrese  1 o 0 por favor.
+            <div class="col-md-12 order-md-1">
+              <div class="row">
+                <div class="form-group col-md-2 mb-3 form-group offset-md-1">
+                  <label for="IidRol"> Id Rol</label>
+                  <input type="text" class="form-control" id="IidRol" formControlName="IidRol" readonly>
+
+                </div>
+                <div class="form-group col-md-4 mb-3 offset-md-1">
+                  <label for="NombreRol">Nombre Rol</label>
+                  <input type="text" class="form-control" id="NombreRol" formControlName="NombreRol" placeholder="Ejemplo: Externo" value="" required>
+                  <div style="color: coral" *ngIf="Rol.controls['NombreRol'].errors?.required">
+                    Nombre del Rol es un dato requerido.
+                  </div>
+                </div>
+
+                <div class="form-group col-md-2 mb-3 offset-md-1">
+                  <label for="BHabilitado"> Habilitado</label>
+                  <input type="text" class="form-control" id="BHabilitado" formControlName="BHabilitado" placeholder="Ejemplo: 1 o 0 ; Sin guion ni espacios" value="" required>
+                  <div style="color: coral" *ngIf="Rol.controls['BHabilitado'].errors?.required">
+                    Ingrese  1 o 0 por favor.
+                  </div>
+                  <div style="color: coral" *ngIf="Rol.controls['BHabilitado'].errors?.pattern ">
+                    Ingrese únicamente número 0 o 1.
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+
+
+                <div class="form-group col-md-10 mb-3">
+                  <label class="subtitulo"> </label>
+                  <div *ngFor="let pagina of paginas">
+                    <input class="check" [name]="pagina.idPagina" (change)="verCheck()" type="checkbox" />
+
+                    <label>
+                      &nbsp; &nbsp; {{pagina.mensaje}}
+                    </label>
+                  </div>
+                </div>
+
+              </div>
+
+
+              <div class="row p-3 my-2">
+                <hr class="mb-4">
+                <div class="form-group col-md-12 mb-3 pt-3">
+                  <input [disabled]="!Rol.valid" type="submit" value="Generar" class="btn btn-secondary col-md-4 offset-md-1 " (click)="clickMethod()" />
+                  <button type="button" class="btn btn-secondary col-md-4 offset-md-1" (click)="volverHome()">Cancelar</button>
+                </div>
+
+              </div>
+
+              <div style="margin:1em; color:white" class="form-group col-md-12 justify-content-around">
+
+                <div class="text-center  bg-danger shadow p-2 mb-5 rounded shadow-sm" *ngIf="Rol.valid==false">Esta Alerta se ocultará cuando todos los campos sean llenados, completa y correctamente.</div>
+
+              </div>
+
+
+
+
+
+
             </div>
-            <div style="color: coral" *ngIf="Rol.controls['BHabilitado'].errors?.pattern ">
-              Ingrese únicamente número 0 o 1.
-            </div>
-          </div>
-        </div>
+      
 
-        <div class="row">
+        </form>
+   
 
-
-          <div class="form-group col-md-10 mb-3">
-            <label class="subtitulo"> Seleccione Las paginas Permitidas:</label>
-            <div *ngFor="let pagina of paginas">
-              <input class="check" [name]="pagina.idPagina" (change)="verCheck()" type="checkbox" />
-
-              <label>
-                {{pagina.mensaje}}
-              </label>
-            </div>
-          </div>
-
-        </div>
-
-
-        <div class="row p-3 my-2">
-          <hr class="mb-4">
-          <div class="form-group col-md-12 mb-3 pt-3">
-            <input [disabled]="!Rol.valid" type="submit" value="Generar" class="btn btn-success col-md-4 offset-md-1 " (click)="clickMethod()" />
-            <button type="button" class="btn btn-secondary col-md-4 offset-md-1" (click)="volverHome()">Cancelar</button>
-          </div>
-
-        </div>
-
-        <div style="margin:1em; color:white" class="form-group col-md-12 justify-content-around">
-
-          <div class="text-center  bg-danger shadow p-2 mb-5 rounded shadow-sm" *ngIf="Rol.valid==false">Esta Alerta se ocultará cuando todos los campos sean llenados, completa y correctamente.</div>
-
-        </div>
-
-
-
-
-
-
-      </div>
     </div>
 
-  </form>
-</body>
+  </div>
 
-</html>
+  <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
+</div> -->

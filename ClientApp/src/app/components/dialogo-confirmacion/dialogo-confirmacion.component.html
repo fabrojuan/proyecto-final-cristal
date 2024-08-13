@@ -1,0 +1,21 @@
+<div class="modal bg-secondary" tabindex="-1" style="display:block;" role="dialog">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg">
+    <div class="modal-content">
+      <div class="modal-header d-flex justify-content-between align-items-center">
+        <h4 class="modal-title me-3">{{tituloConfirmacion}}</h4>
+        <img src="../../../assets/Imagenes/logo-cristal_3.png" width="100" height="100" class="ms-auto" />
+        <!--<button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
+          <span aria-hidden="true">&times;</span>
+        </button>-->
+      </div>
+      <div class="modal-body">
+        <p>{{mensajeConfirmacion}}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="activeModal.close(true)">Confirmar</button>
+        <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+

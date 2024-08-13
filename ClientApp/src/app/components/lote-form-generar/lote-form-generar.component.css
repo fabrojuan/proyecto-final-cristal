@@ -1,0 +1,56 @@
+/*-------------------------aca el nuevo -----------------------*/
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+.tooltiper .tooltiptext {
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.Tipo_Denuncia {
+  margin-right: 1.5em;
+}
+
+.textoTabla {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 1em;
+  color: #000000;
+}
+
+
+.tituloTabla {
+  font-size: 0.9em;
+}
+
+.combobox {
+  font-family: "Times New Roman", Times, serif;
+  font-size: 1.1em;
+  color: #240f7d;
+}
+
+
+.checkbox-tamaño {
+  width: 1em;
+  height: 1.5em;
+  margin-right: 0.7rem;
+  vertical-align: middle;
+}
+
+.checkbox-label {
+  padding-top: .2rem;
+  color: black;
+}
+

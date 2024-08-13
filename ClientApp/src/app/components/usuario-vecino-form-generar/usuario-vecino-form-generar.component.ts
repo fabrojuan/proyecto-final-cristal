@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UsuarioService } from '../../services/usuario.service';
-import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-//import { resolve } from 'url';
+import { UntypedFormGroup, UntypedFormControl, FormBuilder, Validators } from '@angular/forms';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'usuario-vecino-form-generar',
@@ -10,13 +10,16 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
   styleUrls: ['./usuario-vecino-form-generar.component.css']
 })
 export class UsuarioVecinoFormGenerarComponent implements OnInit {
-  Usuario: FormGroup;
+  Usuario: UntypedFormGroup;
   titulo: string = "";
   parametro: any;
   respuesta: any = 0;
-  yaExiste: boolean=false;
+  yaExiste: boolean = false;
+  isFormSubmitted: boolean = false
 
-  constructor(private usuarioService: UsuarioService, private router: Router, private activatedRoute: ActivatedRoute) {
+  constructor(private usuarioService: UsuarioService, private router: Router, private activatedRoute: ActivatedRoute,
+    public _toastService: ToastService
+  ) {
     this.activatedRoute.params.subscribe(parametro => {
       this.parametro = parametro["id"]
       if (this.parametro >= 1) {
@@ -25,24 +28,25 @@ export class UsuarioVecinoFormGenerarComponent implements OnInit {
         this.titulo = "Registrarse";
       }
     });
-    this.Usuario = new FormGroup(
+    this.Usuario = new UntypedFormGroup(
       {
-        "IdVecino": new FormControl("0"),
-        "NombreUser": new FormControl("", [Validators.required, Validators.maxLength(100)]),
-        "Contrasenia": new FormControl("", [Validators.required, Validators.maxLength(100), Validators.minLength(8), Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$")]),  //pattern=""
-        "Contrasenia2": new FormControl("", [Validators.required, Validators.maxLength(100), Validators.minLength(8), this.validarContraseñas.bind(this)]),
-        "IdPersona": new FormControl("0"),
-        "NombrePersona": new FormControl("", [Validators.required, Validators.maxLength(100)]),
-        "Apellido": new FormControl("", [Validators.required, Validators.maxLength(100)]),
-        "BHabilitado": new FormControl("1"),
-        "Telefono": new FormControl("", [Validators.required, Validators.maxLength(20), Validators.pattern("[0-9]{9,}")]),
-        "Mail": new FormControl("", [Validators.required, Validators.pattern("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"), Validators.maxLength(100), this.noRepetirMail.bind(this)]),
-        "Domicilio": new FormControl("", [Validators.required, Validators.maxLength(100)]),        "Dni": new FormControl("", [Validators.required, Validators.maxLength(8), Validators.minLength(7), Validators.pattern("[0-9]{7,8}")]),
-        "Altura": new FormControl("", [Validators.required, Validators.maxLength(5)]),
-        "FechaNac": new FormControl("")
+        "IdVecino": new UntypedFormControl("0"),
+        "NombreUser": new UntypedFormControl("", [Validators.required, Validators.maxLength(100)]),
+        "Contrasenia": new UntypedFormControl("", [Validators.required, Validators.maxLength(100), Validators.minLength(8), Validators.pattern("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$")]),  //pattern=""
+        "Contrasenia2": new UntypedFormControl("", [Validators.required, Validators.maxLength(100), Validators.minLength(8), this.validarContraseñas.bind(this)]),
+        "IdPersona": new UntypedFormControl("0"),
+        "NombrePersona": new UntypedFormControl("", [Validators.required, Validators.maxLength(100)]),
+        "Apellido": new UntypedFormControl("", [Validators.required, Validators.maxLength(100)]),
+        "BHabilitado": new UntypedFormControl("1"),
+        "Telefono": new UntypedFormControl("", [Validators.required, Validators.maxLength(20), Validators.pattern("[0-9]{9,}")]),
+        "Mail": new UntypedFormControl("", [Validators.required, Validators.pattern("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"), Validators.maxLength(100)/*, this.noRepetirMail.bind(this)*/]),
+        "Domicilio": new UntypedFormControl("", [Validators.required, Validators.maxLength(100)]),
+        "Dni": new UntypedFormControl("", [Validators.required, Validators.maxLength(8), Validators.minLength(7), Validators.pattern("[0-9]{7,8}")]),
+        "Altura": new UntypedFormControl("", [Validators.required, Validators.maxLength(5)]),
+        "FechaNac": new UntypedFormControl("", [Validators.required])
       }
     );
-    //
+
   }
 
   ngOnInit() {
@@ -64,20 +68,31 @@ export class UsuarioVecinoFormGenerarComponent implements OnInit {
     } else {
     }
   }
+
   guardarDatos() {
-    if (this.Usuario.valid == true) {
-      this.respuesta = this.usuarioService.GuardarVecino(this.Usuario.value).subscribe(data => { })
-      if (this.respuesta == 0) {
-        console.log("No se guardo correcto hubo error");
-      }
-      else {
-        console.log("Se guardo Joya!!!");
-        this.router.navigate(["/"]);
-      }
+
+    this.isFormSubmitted = true;
+
+    if (this.Usuario.invalid) {
+      Object.values(this.Usuario.controls).forEach(
+        control => {
+          control.markAsTouched();
+        }
+      );
+      return;
     }
+
+    this.usuarioService.GuardarVecino(this.Usuario.value).subscribe(data => {
+      this._toastService.showOk("El vecino se registró con éxito");
+      this.router.navigate(["/"]);
+    }, error => {
+      console.log(error);
+      this._toastService.showError(error.error);
+    });
+
   }
 
-  validarContraseñas(control: FormControl) {
+  validarContraseñas(control: UntypedFormControl) {
     if (control.value != "" && control.value != null) {
       if (this.Usuario.controls["Contrasenia"].value != control.value) {
         return ({ noIguales: true })
@@ -91,7 +106,7 @@ export class UsuarioVecinoFormGenerarComponent implements OnInit {
 
   }
 
-  noRepetirMail(control: FormControl) {
+  noRepetirMail(control: UntypedFormControl) {
     var promesa = new Promise((resolve, reject) => {
       if (control.value != "" && control.value != null) {
         this.usuarioService.validarCorreo(this.Usuario.controls["IdVecino"].value, control.value).subscribe(data => {
@@ -104,23 +119,54 @@ export class UsuarioVecinoFormGenerarComponent implements OnInit {
         })
 
       }
-      else
-      {
+      else {
         resolve({ yaExiste: true });
       }
     });
     return promesa;
   }
 
-  clickMethod() {
-    alert("Se registró el usuario correctamente");
-    //Luego de presionar click debe redireccionar al home
-  }
-
   volverHome() {
-    this.router.navigate(["/"]);
+    this.router.navigate(["/login-vecino"]);
   }
 
+  get nombrePersonaNoValido() {
+    return this.isFormSubmitted && this.Usuario.controls.NombrePersona.errors;
+  }
 
+  get apellidoNoValido() {
+    return this.isFormSubmitted && this.Usuario.controls.Apellido.errors;
+  }
 
+  get telefonoNoValido() {
+    return this.isFormSubmitted && this.Usuario.controls.Telefono.errors;
+  }
+
+  get mailNoValido() {
+    return this.isFormSubmitted && this.Usuario.controls.Mail.errors;
+  }
+
+  get domicilioNoValido() {
+    return this.isFormSubmitted && this.Usuario.controls.Domicilio.errors;
+  }
+
+  get alturaNoValido() {
+    return this.isFormSubmitted && this.Usuario.controls.Altura.errors;
+  }
+
+  get nombreUserNoValido() {
+    return this.isFormSubmitted && this.Usuario.controls.NombreUser.errors;
+  }
+
+  get contraseniaNoValido() {
+    return this.isFormSubmitted && this.Usuario.controls.Contrasenia.errors;
+  }
+
+  get dniNoValido() {
+    return this.isFormSubmitted && this.Usuario.controls.Dni.errors;
+  }
+
+  get fechaNacNoValido() {
+    return this.isFormSubmitted && this.Usuario.controls.FechaNac.errors;
+  }
 }

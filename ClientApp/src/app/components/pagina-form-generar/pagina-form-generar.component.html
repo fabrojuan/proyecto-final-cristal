@@ -1,69 +1,73 @@
-<form [formGroup]="Pagina" (ngSubmit)="guardarDatos()">
-  <div class="container-fluid">
-    <div class="d-flex align-items-center p-2 my-2 bg-purple bg-light shadow p-2 mb-5 rounded shadow-sm">
-      <img src="../../../assets/Imagenes/Reclamo.svg" alt="" width="58" height="58">
-      <div class="tituloFormulario text-center form-group col-md-8 offset-md-1">
-        <p> Formulario Registrar Página{{titulo}}</p>
-      </div>
-    </div>
+<div class="container">
 
+  <div class="card">
+    <div class="card-body">
 
-    <div class="row p-3 ml-2 form-group offset-md-2 ">
+      <app-cabecera-titulo [nombreComponente]="'PaginaFormGenerarComponent'"></app-cabecera-titulo>
 
-      <div class="form-group col-md-3 offset-md-1">
-        <label for="formGroupExampleInput">Id de Pagina:</label>
-        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="sm-3" formControlName="idPagina" readonly>
-      </div>
-
-
-      <div class="form-group col-md-2 offset-md-1">
-        <label for="formGroupExampleInput">Mensaje:</label>
-        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="" formControlName="Mensaje" required>
-        <div style="color: coral" *ngIf="Pagina.controls['Mensaje'].errors?.required">
-          El mensaje es obligatorio.
+      <!-- <div class="d-flex align-items-center p-2 my-2 bg-purple bg-light shadow p-2 mb-5 rounded shadow-sm">
+        <img src="../../../assets/Imagenes/book.svg" alt="" width="58" height="58">
+        <div class="card-title text-center form-group col-md-8 offset-md-1">
+          <p> Registrar Página {{titulo}}</p>
         </div>
-        <div style="color: coral" *ngIf="Pagina.controls['Mensaje'].errors?.maxLength ">
-          No debe superar los 70 caracteres.
+      </div> -->
+
+      <form [formGroup]="Pagina" (ngSubmit)="guardarDatos()" class="row g-3">
+
+        <div class="col-md-2" *ngIf="esEdicionDePagina()">
+          <label for="idPagina" class="form-label">Número</label>
+          <input type="text" class="form-control" id="idPagina" formControlName="idPagina" value="" readonly>
         </div>
-      </div>
-      <div class="form-group col-md-3 offset-md-1">
-        <label for="formGroupExampleInput">Accion´:</label>
-        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="" formControlName="Accion" required>
-        <div style="color: coral" *ngIf="Pagina.controls['Accion'].errors?.required">
-          Dato obligatorio comenzar la uri con /.
+
+        <div class="col-md-10">
+          <label for="Mensaje" class="form-label">(*) Nombre</label>
+          <input type="text" class="form-control" [ngClass]="{'is-invalid' : nombreNoValido}" id="Mensaje" formControlName="Mensaje" value="">
+          <div class="invalid-feedback" *ngIf="nombreNoValido">
+            El nombre de la página es requerido y no puede superar los 70 caracteres
+          </div>
         </div>
-        <div style="color: coral" *ngIf="Pagina.controls['Accion'].errors?.maxLength ">
-          La url debe no debe superar los 100 caracteres
+
+        <div class="col-md-8">
+          <label for="Accion" class="form-label">(*) Ruta</label>
+          <input type="text" class="form-control" [ngClass]="{'is-invalid' : rutaNoValido}" id="Accion" formControlName="Accion"
+                 value="" placeholder="Debe comenzar con /">
+          <div class="invalid-feedback" *ngIf="rutaNoValido">
+            La ruta de la página es requerida y no puede superar los 100 caracteres
+          </div>
         </div>
-        <!--<div style="color: coral" *ngIf="Pagina.controls['Accion'].errors?.pattern ">
-          La url debe iniciar con "/"
-        </div>-->
-      </div>
+
+        <div class="col-md-2">
+          <label for="Bvisible" class="form-label">(*) Visible en Menú</label>
+          <select id="Bvisible" formControlName="Bvisible" class="form-select">
+            <option value="1">Si</option>
+            <option value="0">No</option>
+          </select>
+        </div>
+
+        <div class="col-md-2">
+          <label for="Bhabilitado" class="form-label">(*) Habilitada</label>
+          <select id="Bhabilitado" formControlName="Bhabilitado" class="form-select">
+            <option value="1">Si</option>
+            <option value="0">No</option>
+          </select>
+        </div>
+
+        <div class="col-md-12 order-md-1">
+
+          <div class="row">
+            <hr class="mb-4">
+            <div class="form-group col-md-12 mb-3 pt-3">
+              <input type="submit" value="Guardar" class="btn btn-primary col-md-4 offset-md-1 " />
+              <button type="button" class="btn btn-secondary col-md-4 offset-md-1" (click)="cancelar()">Cancelar</button>
+            </div>
+
+          </div>
+
+        </div>
+
+      </form>
     </div>
 
-    <!--radion button debajo    "col-md-5    -->
-    <div class="row form-group p-3 ml-2 col-md-12 offset-md-2">
-      <div class="col-md-3  offset-md-2">
-        <label>Visible:</label>
-        <input type="radio" name="Bvisible" title="Visible" value=1 class="form-control" id="formGroupExampleInput" formControlName="Bvisible">
-      </div>
-      <div class="col-md-3  offset-md-2">
-        <label>No Visible:</label>
-        <input type="radio" name="Bvisible" title="No Visible" value=0 class="form-control" id="formGroupExampleInput" formControlName="Bvisible">
-      </div>
-    </div>
-
-
-    <div style="margin:1em; color:white" class="form-group col-md-12 justify-content-around">
-      <div class="text-center  bg-danger shadow p-2 mb-5 rounded shadow-sm" *ngIf="Pagina.valid==false">Verifique que los datos indicados con (*) estén correctamente ingresados</div>
-    </div>
-
-
-    <div class="form-group col-md-8 offset-md-4">
-      <input [disabled]="!Pagina.valid" type="submit" value="Generar" class="btn btn-success col-md-1 offset-md-1" (click)="clickMethod()" />
-      <button type="button" [routerLink]="['/pagina-tabla']" class="btn btn-light col-md-1 offset-md-1">Cancelar</button>
-    </div>
   </div>
-</form>
 
-
+</div>

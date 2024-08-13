@@ -5,6 +5,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { IndicadoresService } from '../../services/indicadores.service';
 
 
+
 @Component({
   selector: 'bienvenida',
   templateUrl: './bienvenida.component.html',
@@ -17,8 +18,16 @@ export class BienvenidaComponent implements OnInit {
   chartDenuncia: any;
   totalDenuncias: any;
   totalDenunAsignaEmpleado: any;
+  totalDenunCerradas: any;
+  totalLotes: any;
+  totalVecinos: any;
+  totalDatosAbiertos: any;
 
-  constructor(private usuarioService: UsuarioService, private indicadoresService: IndicadoresService) { }
+  
+
+  constructor(private usuarioService: UsuarioService, private indicadoresService: IndicadoresService) {
+    
+  }
   ngOnInit() {
     this.indicadoresService.getDenunciasxEmpleado().subscribe(chartDenuncia => {
       this.idEmpleado = chartDenuncia.idUsuario;
@@ -27,8 +36,51 @@ export class BienvenidaComponent implements OnInit {
       this.totalDenunAsignaEmpleado = chartDenuncia.totalDenunAsignaEmpleado;
       console.log(this.idEmpleado, this.nombreEmpleado, this.totalDenuncias, this.totalDenunAsignaEmpleado);
     });
+    this.indicadoresService.getDenunciasCerradas().subscribe(chartDenuncia => {
+      this.idEmpleado = chartDenuncia.idUsuario;
+      this.nombreEmpleado = chartDenuncia.nombreEmpleado;
+      this.totalDenunCerradas = chartDenuncia.totalDenuncias;
+      this.totalDenunAsignaEmpleado = chartDenuncia.totalDenunAsignaEmpleado;
+      console.log(this.idEmpleado, this.nombreEmpleado, this.totalDenuncias, this.totalDenunAsignaEmpleado);
+    });
+    this.indicadoresService.getLotesCargados().subscribe(chartLotes => {
+      this.totalLotes = chartLotes.totalLotes;
+      this.totalVecinos = chartLotes.totalVecinos;
+     
+      //console.log("total de lotes"+this.totalLotes);
+    });
 
+    this.indicadoresService.cantidadDatosAbiertosGenerados().subscribe(ChartDatos => {
+      this.totalDatosAbiertos = ChartDatos.totalDatosAbiertos;
+   
 
+      console.log("total de datos abiertos" + this.totalDatosAbiertos);
+    });
+
+/////////////*******charts************ */
+    // datos
+    //const data = {
+    //  labels: [
+    //    'Blue',
+    //    'Yellow'
+    //  ],
+    //  datasets: [{
+    //    label: 'My First Dataset',
+    //    data: [300, 50, 100],
+    //    backgroundColor: [
+    //      'rgb(255, 99, 132)',
+    //      'rgb(54, 162, 235)',
+    //      'rgb(255, 205, 86)'
+    //    ],
+    //    hoverOffset: 4
+    //  }]
+    //};
+    //// Creamos la gráfica
+    //this.chart = new Chart("chart", {
+    //  type: 'pie' as ChartType, // tipo de la gráfica 
+    //  data // datos 
+    //})
+/////****fin charts*****/
   }
 
 

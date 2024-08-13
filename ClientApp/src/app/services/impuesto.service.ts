@@ -3,6 +3,8 @@ import { Injectable, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { SolicitudGeneracionImpuestos } from '../modelos/SolicitudGeneracionImpuestos';
+import { ResultadoEjecucionProceso } from '../modelos/ResultadoEjecucionProceso';
 
 
 @Injectable({
@@ -16,38 +18,44 @@ export class ImpuestoService {
     this.urlBase = baseUrl;
   }
   public getUltimaFechaInteres(): Observable<any> {
-    return this.http.get(this.urlBase + 'api/Impuestos/getUltimaFechaInteres').pipe(map(res => res));
+    return this.http.get(this.urlBase + 'api/impuestos/getUltimaFechaInteres').pipe(map(res => res));
   }
 
   getUltimaFechaBoleta() {
-    return this.http.get(this.urlBase + 'api/Impuestos/getUltimaFechaBoleta').pipe(map(res => res));
+    return this.http.get(this.urlBase + 'api/impuestos/getUltimaFechaBoleta').pipe(map(res => res));
   }
 
   public ListarImpuestosAdeudados(idLote:any): Observable<any> {
-    return this.http.get(this.urlBase + 'api/Impuestos/ListarImpuestosAdeudados/' + idLote).pipe(map(res => res));
+    return this.http.get(this.urlBase + 'api/impuestos/' + idLote + "/impagos").pipe(map(res => res));
   }
 
-  public SP_GeneracionImpuestos(): Observable<any> {
-    return this.http.get(this.urlBase + 'api/Impuestos/SP_GeneracionImpuestos')
+  public listarHistorialPago(idLote:any): Observable<any> {
+    return this.http.get(this.urlBase + 'api/impuestos/' + idLote + "/pagos").pipe(map(res => res));
   }
 
-  public SP_GeneracionInteresesMensuales(): Observable<any> {
-    return this.http.get(this.urlBase + 'api/Impuestos/SP_GeneracionInteresesMensuales')
+  public generarImpuestos(solicitud: SolicitudGeneracionImpuestos): Observable<ResultadoEjecucionProceso> {
+    return this.http.post<ResultadoEjecucionProceso>(this.urlBase + 'api/impuestos/SP_GeneracionImpuestos',
+                          solicitud)
+  }
+
+  public generarInteresesMensuales(): Observable<ResultadoEjecucionProceso> {
+    return this.http.get<ResultadoEjecucionProceso>(this.urlBase + 'api/impuestos/SP_GeneracionInteresesMensuales')
 
   }
-  public SP_LimpiezaBoletas(): Observable<any> {
-    return this.http.get(this.urlBase + 'api/Impuestos/SP_LimpiezaBoletas')
 
-  }
+  public confirmarBoletas(): Observable<ResultadoEjecucionProceso> {
+    return this.http.get<ResultadoEjecucionProceso>(this.urlBase + 'api/impuestos/SP_LimpiezaBoletas')
+  } 
+
   public guardarBoleta(FGimpuestos :any): Observable<any> {
-    var url = this.urlBase + 'api/Impuestos/guardarBoleta/';
+    var url = this.urlBase + 'api/impuestos/guardarBoleta/';
     return this.http.post(url, FGimpuestos).pipe(map(res => res));
 
   }
 
   public obtenerUrlMobbexx(): Observable<any> {
     //return this.http.get(this.urlBase + 'api/Impuesto/obtenerUrlMobbexx').map(res => res.json());
-    return this.http.get(this.urlBase + 'api/Impuestos/obtenerUrlMobbexx').pipe(map((res: any) => {
+    return this.http.get(this.urlBase + 'api/impuestos/obtenerUrlMobbexx').pipe(map((res: any) => {
       var myJSON = decodeURIComponent(res.json());
       var myObject = JSON.parse(myJSON);
       console.log("Se hace +" + myObject);
@@ -57,7 +65,7 @@ export class ImpuestoService {
 
   }
   public obtenerUrlMobbexx2(): Observable<any> {
-    return this.http.get(this.urlBase + 'api/Impuestos/obtenerUrlMobbexx2').pipe(map(res => res));
+    return this.http.get(this.urlBase + 'api/impuestos/obtenerUrlMobbexx2').pipe(map(res => res));
 
   }
 

@@ -1,35 +1,114 @@
-<div class="d-flex align-items-center p-3 my-3 bg-purple bg-light shadow p-2 mb-5 rounded shadow-sm">
-  <img src="../../../assets/Imagenes/opendataFinance.png" alt="" width="90" height="90">
-  <div class="tituloSombra text-center form-group col-md-8 offset-md-1">
-    <p>Descarga de Datos Abiertos Financieros</p>
-  </div>
-</div>
 
-<br />
-<br />
-<table class="table table-hover" style="padding-bottom: 2.5em">
-  <thead class="thead-dark tituloTabla">
+<div class="container">
+  <div class="card">
+    <div class="card-body">
+
+      <app-cabecera-titulo [nombreComponente]="'DatosFinanzasEconomicosComponent'"></app-cabecera-titulo>
+
+      <!--<div class="d-flex align-items-center ">
+        <img class="ms-3 " src="../../../assets/Imagenes/open-data.png" alt="" width="60" height="55">
+        <div class="card-title text-center form-group col-md-7 offset-md-1">
+          <p> Descarga de Datos Abiertos Financieros</p>
+        </div>
+      </div>-->
+      <br />
+
+      <!------------------------Eleccion del Formato ----------------------------------------->
+      <div class="card-body">
+        <div class="d-flex align-items-center col-10">
+          <div class="card-icon rounded-circle justify-content-around offset-md-4">
+            <i class="bi bi-file-earmark-pdf col-md-2 offset-md-1" (click)="formatoPDF()" title="Click aquí para descargar en formato PDF." (mouseenter)="cambiarColor($event)" (mouseleave)="volverColor($event)"></i>
+          </div>
+          <div class="card-icon rounded-circle justify-content-around offset-md-2">
+            <i class="bi bi-filetype-csv col-md-2 offset-md-1" (click)="formatoCSV()" title="Click aquí para descargar en formato CSV." (mouseenter)="cambiarColor($event)" (mouseleave)="volverColor($event)"></i>
+          </div>
+          <div class="card-icon justify-content-around offset-md-2">
+            <i class="bi bi-filetype-xls col-md-2 offset-md-1" (click)="formatoXLS()" title="Click aquí para descargar en formato Excel." (mouseenter)="cambiarColor($event)" (mouseleave)="volverColor($event)"></i>
+          </div>
+        </div>
+      </div>
+      <!--------------------------En Formato CSV------------------------------------->
+      <table *ngIf="mostrarTablaCSV" class=" table table-striped table-sm" style="padding-bottom: 1.0em">
+        <thead class="thead-dark tituloTabla">
+          <tr>
+            <th class="text-center" *ngFor="let cabecera of cabeceras ">{{cabecera}} </th>
+            <th class="text-center" *ngIf="isMantenimiento==true">Descarga en CSV</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let financiero of financieros | paginate: { itemsPerPage: 20, currentPage: p }">
+            <td class="text-center textoTabla" *ngIf="financiero.extension==='csv'">{{financiero.nombreArchivo}}</td>
+            <td class="text-center textoTabla" *ngIf="financiero.extension==='csv'">Gobierno abierto municipal</td>
+            <td class="text-center" *ngIf="financiero.extension==='csv'">
+              <button type="button" class="btn btn-link" (click)="DescargarArchivo(financiero.nombreArchivo)">
 
 
-    <tr>
-      <th class="text-center" *ngFor="let cabecera of cabeceras ">{{cabecera}} </th>
-      <th class="text-center" *ngIf="isMantenimiento==true">Operaciones</th>
-    </tr>
-  </thead>
 
-  <tbody>
-    <tr *ngFor="let financiero of financieros | paginate: { itemsPerPage: 10, currentPage: p }">
-      <td class="text-center textoTabla">{{financiero.nombreArchivo}}</td>
-      <td class="text-center textoTabla">Gobierno abierto municipal</td>
-      <!-- <td class="text-center textoTabla"><a href={{financiero.ubicacion}}{{financiero.nombreArchivo}} target="_blank" rel="noopener noreferrer">Descargar</a></td>-->
+                <!--<a href={{financiero.ubicacion}}{{financiero.nombreArchivo}} download>Descargar</a>-->
+                <img src="../../../assets/IconsGoogle/download.svg" alt="" width="24" height="24" title="Descarga en formato CSV">
+              </button>
 
-      <td class="text-center" *ngIf="isMantenimiento==true">
-        <button type="button" class="btn btn-light">
-          <a href={{financiero.ubicacion}}{{financiero.nombreArchivo}} target="_blank" rel="noopener noreferrer">Descargar</a>
-          <img src="../../../assets/IconsGoogle/download.svg" alt="" width="24" height="24" title="Marcar como Irrelevante">
-        </button>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<pagination-controls (pageChange)="p = $event"></pagination-controls>
+            </td>
+          </tr>
+          
+        </tbody>
+       
+      </table>
+
+      <!------------------- formato PDF ----------------------------------->
+      <table *ngIf="mostrarTablaPDF" class=" table table-striped table-sm" style="padding-bottom: 1.0em">
+        <thead class="thead-dark tituloTabla">
+          <tr>
+            <th class="text-center" *ngFor="let cabecera of cabeceras ">{{cabecera}} </th>
+            <th class="text-center" *ngIf="isMantenimiento==true">Descarga en PDF</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let financiero of financieros | paginate: { itemsPerPage: 20, currentPage: p }">
+            <td class="text-center textoTabla" *ngIf="financiero.extension==='pdf'">{{financiero.nombreArchivo}}</td>
+            <td class="text-center textoTabla" *ngIf="financiero.extension==='pdf'">Gobierno abierto municipal</td>
+            <!-- <td class="text-center textoTabla"><a href={{financiero.ubicacion}}{{financiero.nombreArchivo}} target="_blank" rel="noopener noreferrer">Descargar</a></td>-->
+
+            <td class="text-center" *ngIf="financiero.extension==='pdf'">
+              <button type="button" class="btn btn-light" (click)="DescargarArchivoPDF(financiero.nombreArchivo)">
+                <img src="../../../assets/IconsGoogle/download.svg" alt="" width="24" height="24" title="Descargar en formato PDF">
+             </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <!---------------------------En Formato XLS-------------------------------------->
+      <table *ngIf="mostrarTablaXLS" class="table table-striped table-sm" style="padding-bottom: 1.0em">
+        <thead class="thead-dark tituloTabla">
+          <tr>
+            <th class="text-center" *ngFor="let cabecera of cabeceras ">{{cabecera}} </th>
+            <th class="text-center" *ngIf="isMantenimiento==true">Descarga en EXCEL</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let financiero of financieros | paginate: { itemsPerPage: 20, currentPage: p }">
+            <td class="text-center textoTabla" *ngIf="financiero.extension==='XLSX'">{{financiero.nombreArchivo}}</td>
+            <td class="text-center textoTabla" *ngIf="financiero.extension==='XLSX'">Gobierno abierto municipal</td>
+            <td class="text-center" *ngIf="financiero.extension==='XLSX'">
+              <button type="button" class="btn btn-link" (click)="DescargarArchivoExcel(financiero.nombreArchivo)">
+
+                <!--<a href={{financiero.ubicacion}}{{financiero.nombreArchivo}} download>Descargar</a>-->
+                <img src="../../../assets/IconsGoogle/download.svg" alt="" width="24" height="24" title="Descargar Dataset Excel">
+              </button>
+            </td>
+          </tr>
+         
+        </tbody>
+        
+      </table>
+      
+      <div class="row text-center">
+        <pagination-controls *ngIf="mostrarTablaXLS||mostrarTablaPDF||mostrarTablaCSV" (pageChange)="p = $event"></pagination-controls>
+      </div>
+      
+
+      <div *ngIf="bannerInicial" class="d-flex align-items-center ">
+        <div class="card-title text-center form-group col-md-6 offset-md-3">
+          <p> Seleccione uno de los 3 Formatos para descarga de Datasets</p>
+        </div>
+      </div>

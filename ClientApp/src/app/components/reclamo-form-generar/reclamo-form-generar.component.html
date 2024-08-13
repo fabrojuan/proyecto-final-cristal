@@ -1,78 +1,168 @@
-<form [formGroup]="Reclamo" (ngSubmit)="guardarDatos()">
-  <div class="container-fluid">
-    <div class="d-flex align-items-center p-2 my-2 bg-purple bg-light shadow p-2 mb-5 rounded shadow-sm">
-      <img src="../../../assets/Imagenes/Reclamo.svg" alt="" width="58" height="58">
-      <div class="tituloFormulario text-center form-group col-md-8 offset-md-1">
-        <p> Formulario de Reclamo.</p>
-      </div>
-    </div>
+<div class="container">
 
-    <div class="row p-3 ml-3 form-group offset-md-2 ">
-      <label class=" p-2">(*) Tipo de Reclamo&nbsp;:&nbsp;&nbsp;</label>
-      <select id="Tipo_Reclamo" formControlName="codTipoReclamo" class="form-control">
-        <option value="">--Seleccione Opción--</option>
-        <option [ngValue]="TipoReclamo.cod_Tipo_Reclamo" *ngFor="let TipoReclamo of TiposReclamo">{{TipoReclamo.nombre}}</option>
-      </select>
-      <div class="offset-md-1  form-group form-inline">
-        <label for="id_Vecino">Id Vecino&nbsp;:&nbsp;&nbsp;</label>
-        <input type="hidden" class="form-control sin-borde" id="idVecino" formControlName="idVecino" placeholder="" value="" readonly>
-      </div>
-      <div class="offset-md-1  form-group form-inline">
-        <input type="text" class="form-control sin-borde" id="nombreVecino" formControlName="nombreVecino" placeholder="" value="" readonly>
-      </div>
-    </div>
+    <div class="card">
+        <div class="card-body">
+          
+            <!-- <h5 class="card-title">Formulario de Requerimiento</h5> -->
+            <app-cabecera-titulo [nombreComponente]="'ReclamoFormGenerarComponent'"></app-cabecera-titulo>
 
-    <div class="row p-3 ml-2 form-group offset-md-2 ">
+            <form [formGroup]="Reclamo" (ngSubmit)="guardarDatos()" class="row g-3">
 
-      <div class="form-group col-md-3 offset-md-1">
-        <label for="formGroupExampleInput">(*)</label>
-        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Nombre Calle sm-3" formControlName="Calle">
-      </div>
-      <div class="form-group col-md-2 offset-md-1">
-        <label for="formGroupExampleInput">(*)</label>
-        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Altura aproximada" formControlName="Altura">
-      </div>
-      <div class="form-group col-md-3 offset-md-1">
-        <label for="formGroupExampleInput">(*)</label>
-        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Entre Calles" formControlName="entreCalles">
-      </div>
-    </div>
+                <div class="col-md-6">
+                    <label for="exampleInputEmail1" class="form-label">(*) Tipo de Requerimiento</label>
+                    <select id="Tipo_Reclamo" formControlName="codTipoReclamo" class="form-select" [ngClass]="{'is-invalid' : codTipoReclamoNoValido}">
+                        <option value="">--Seleccione Opción--</option>
+                        <option [ngValue]="TipoReclamo.cod_Tipo_Reclamo" *ngFor="let TipoReclamo of TiposReclamo">{{TipoReclamo.nombre}}</option>
+                    </select>
+                    <div class="invalid-feedback" *ngIf="codTipoReclamoNoValido">
+                        El tipo de requerimiento es requerido.
+                    </div>
+                </div>
 
-    <div class="row p-3 ml-3 form-group offset-md-2 ">
-      <div class="form-group col-md-10 offset-md-1">
-        <label for="exampleFormControlTextarea1"> (*)</label>
-        <textarea class="form-control" formControlName="Descripcion" id="exampleFormControlTextarea1" rows="5" placeholder="Descripcion del reclamo del servicio, circunstancias que lo generaron puede incluir nombres de personas implicadas para mayor trazabilidad."></textarea>
-      </div>
-    </div>
+                <div class="col-md-6">
+                    <label for="formGroupExampleInput" class="form-label">(*) Nombre calle</label>
+                    <input type="text" class="form-control" [ngClass]="{'is-invalid' : calleNoValido}" id="calle" formControlName="calle" value="">
+                    <div class="invalid-feedback" *ngIf="calleNoValido">
+                        El nombre de calle es requerido y no puede superar los 50 caracteres.
+                    </div>
+                </div>
 
-    <div class="row p-3 ml-3 form-group offset-md-2 ">
+                <div class="col-md-6">
+                    <label for="formGroupExampleInput" class="form-label">(*) Altura aproximada</label>
+                    <input type="text" class="form-control" [ngClass]="{'is-invalid' : alturaNoValido}" id="altura" formControlName="altura" value="">
+                    <div class="invalid-feedback" *ngIf="alturaNoValido">
+                        La altura aproximada es requerida y no puede superar los 6 caracteres.
+                    </div>
+                </div>
 
-      <div class="form-group justify-content-around offset-md-1">
-        <div class="offset-md-1 col-md-4 mb-3 custom-file">
-          <input type="file" class="custom-file-input" id="customFileLang" lang="es">
-          <label class="custom-file-label" for="customFileLang"><img src="../../../assets/IconsGoogle/card-image.svg" alt="" width="16" height="16" title="card-image"> Adjuntar Imagen 1</label>
+                <div class="col-md-6">
+                    <label for="formGroupExampleInput" class="form-label">(*) Entre calles</label>
+                    <input type="text" class="form-control" [ngClass]="{'is-invalid' : entreCallesNoValido}" id="formGroupExampleInput" formControlName="entreCalles" value="">
+                    <div class="invalid-feedback" *ngIf="entreCallesNoValido">
+                        El dato de entre calles es requerido y no puede superar los 50 caracteres.
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <label for="descripcion" class="form-label">(*) Descripción</label>
+                    <textarea type="text" class="form-control" [ngClass]="{'is-invalid' : descripcionNoValido}" id="descripcion" formControlName="descripcion" value="" rows="3" placeholder="Detalle aquī todo lo que considere necesario."></textarea>
+                    <div class="invalid-feedback" *ngIf="descripcionNoValido">
+                        La descripción es requerida y no puede superar los 200 caracteres.
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <input type="file" class="form-control" id="fotoUploader1" lang="es" #fileUploader1 (change)="changeFoto1($event)" accept="image/*">
+                </div>
+
+                <div class="col-md-6">
+                    <input type="file" class="form-control" id="fotoUploader2" lang="es" #fileUploader2 (change)="changeFoto2($event)" accept="image/*">
+                </div>
+
+                <div class="col-md-12 order-md-1">
+
+                    <div class="row">
+                        <hr class="mb-4">
+                        <div class="form-group col-md-12 mb-3 pt-3">
+                            <input type="submit" value="Generar" class="btn btn-primary col-md-4 offset-md-1 " />
+                            <button type="button" class="btn btn-secondary col-md-4 offset-md-1" (click)="cancelar()">Cancelar</button>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </form>
         </div>
-        <div class="offset-md-1 col-md-4 mb-3 custom-file">
-          <input type="file" class="custom-file-input" id="customFileLang" lang="es">
-          <label class="custom-file-label" for="customFileLang"><img src="../../../assets/IconsGoogle/card-image.svg" alt="" width="16" height="16" title="card-image"> Adjuntar Imagen 2</label>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="container">
+
+    <form [formGroup]="Reclamo" (ngSubmit)="guardarDatos()">
+        <div class="d-flex align-items-center p-2 my-2 bg-purple bg-light shadow p-2 mb-3 rounded shadow-sm">
+            <img src="../../../assets/Imagenes/Reclamo.svg" alt="" width="58" height="58">
+            <div class="card-title text-center form-group col-md-8 offset-md-1">
+                <p> Formulario de Reclamo</p>
+            </div>
         </div>
-      </div>
-    </div>
 
-    <div style="margin:1em; color:white" class="form-group col-md-12 justify-content-around">
-      <div class="text-center  bg-danger shadow p-2 mb-5 rounded shadow-sm" *ngIf="Reclamo.valid==false">Verifique que los datos indicados con (*) estén correctamente ingresados</div>
-    </div>
+        <div class="row mb-3">
+            <div class="col-md-5">
+                <label for="exampleInputEmail1" class="form-label">(*) Tipo de Reclamo</label>
+                <select id="Tipo_Reclamo" formControlName="codTipoReclamo" class="form-select">
+          <option value="">--Seleccione Opción--</option>
+          <option [ngValue]="TipoReclamo.cod_Tipo_Reclamo" *ngFor="let TipoReclamo of TiposReclamo">{{TipoReclamo.nombre}}</option>
+        </select>
+                <small *ngIf="codTipoReclamoNoValido" class="text-danger">
+          El Tipo de Reclamo es requerido.
+        </small>
+            </div>
+        </div>
 
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label for="formGroupExampleInput">(*) Nombre calle</label>
+                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Nombre calle" formControlName="Calle">
+                <small *ngIf="calleNoValido" class="text-danger">
+          El nombre de calle es requerido. No puede superar los 50 caracteres.
+        </small>
+            </div>
+            <div class="col-md-4">
+                <label for="formGroupExampleInput">(*) Altura aproximada</label>
+                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Altura aproximada" formControlName="Altura">
+                <small *ngIf="alturaNoValido" class="text-danger">
+          La altura aproximada es requerida. No puede superar los 6 caracteres.
+        </small>
+            </div>
+            <div class="col-md-4">
+                <label for="formGroupExampleInput">(*) Entre calles</label>
+                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Entre calles" formControlName="entreCalles">
+                <small *ngIf="entreCallesNoValido" class="text-danger">
+          El dato de entre calles es requerido. No puede superar los 50 caracteres.
+        </small>
+            </div>
+        </div>
 
-    <div class="form-group col-md-10 offset-md-2">
-      <input [disabled]="!Reclamo.valid" type="submit" value="Generar" class="btn btn-success col-md-1 offset-md-1" (click)="clickMethod()" />
-      <button type="button" class="btn btn-light col-md-1 offset-md-1">Cancelar</button>
-    </div>
-  </div>
+        <div class="row mb-3">
+            <div class="col">
+                <label for="exampleFormControlTextarea1">(*) Descripci&oacute;n</label>
+                <textarea class="form-control" formControlName="Descripcion" id="exampleFormControlTextarea1" rows="3" placeholder="Descripcion del reclamo del servicio, circunstancias que lo generaron. Puede incluir nombres de personas implicadas para mayor trazabilidad."></textarea>
+                <small *ngIf="descripcionNoValido" class="text-danger">
+          La descripci&oacute;n es requerida. No puede superar los 200 caracteres.
+        </small>
+            </div>
+        </div>
 
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <input type="file" class="form-control" id="fotoUploader1" lang="es" #fileUploader1 (change)="changeFoto1($event)" accept="image/*">
+            </div>
+            <div class="col-md-6">
+                <input type="file" class="form-control" id="fotoUploader2" lang="es" #fileUploader2 (change)="changeFoto2($event)" accept="image/*">
+            </div>
+        </div>
 
+        <div class="d-grid gap-4 d-md-flex justify-content-md-center">
+            <input type="submit" value="Generar" class="btn btn-secondary" />
+            <button type="button" class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
+        </div>
 
+    </form>
 
-</form>
+    <app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
 
-
+</div> -->

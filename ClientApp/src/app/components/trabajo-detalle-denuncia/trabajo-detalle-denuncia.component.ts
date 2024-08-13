@@ -17,6 +17,7 @@ export class TrabajoDetalleDenunciaComponent implements OnInit {
   pruebas: any;
   parametro: any;
   NroDenuncia: any;
+  volveradenuncia: any;
   foto: any;
   Foto: any;
   constructor(private TrabajoService: TrabajoService, private denunciaService: DenunciaService, private PruebaGraficaService: PruebaGraficaService, private router: Router, private activatedRoute: ActivatedRoute) {
@@ -42,7 +43,8 @@ export class TrabajoDetalleDenunciaComponent implements OnInit {
       this.TrabajoService.detalleTrabajoDenuncia(this.parametro).subscribe(param => {
         if (param) {
           this.trabajo = param
-          console.log(param);
+          //console.log(this.trabajo.nro_Denuncia);
+          this.volveradenuncia = this.trabajo.nro_Denuncia;
 
         }
 
@@ -54,7 +56,7 @@ export class TrabajoDetalleDenunciaComponent implements OnInit {
       this.TrabajoService.ImagenTrabajoDenuncia(this.parametro).subscribe(param => {
         if (param) {
           this.pruebas = param
-          console.log("Pruebas fotos"+param);
+          //console.log("Pruebas fotos"+param);
 
         }
         //console.log("Datos Trabajo trabajo dtalle denuncia" + this.pruebas);
@@ -78,7 +80,7 @@ export class TrabajoDetalleDenunciaComponent implements OnInit {
     //Luego de presionar click debe redireccionar al home
   }
   volver() {
-    this.router.navigate(["/tabla-denuncia"]);
+    this.router.navigate(["/trabajo-tabla/" + this.volveradenuncia]);
   }
 
   registrarTrabajo() {

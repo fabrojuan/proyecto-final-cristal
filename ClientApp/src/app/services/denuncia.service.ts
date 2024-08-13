@@ -13,13 +13,37 @@ export class DenunciaService {
     this.urlBase = baseUrl;
 
   }
-  
-  public getTipoDenuncia(): Observable<any> {
-    return this.http.get(this.urlBase + 'api/Denuncia/listarTiposDenuncia').pipe(map(res => res));
+
+  public getTipoDenunciaByCodigo(codTipoDenuncia: number): Observable<any> {
+    return this.http.get(this.urlBase + 'api/denuncias/tipos-denuncia/' + codTipoDenuncia).pipe(map(res => res));
   }
 
+  public agregarTipoDenuncia(tipoDenuncia: any): Observable<any> {
+    return this.http.post(this.urlBase + 'api/denuncias/tipos-denuncia', tipoDenuncia).pipe(map(res => res));
+  }
+
+   
+  public modificarTipoDenuncia(tipoDenuncia: any): Observable<any> {
+
+
+    return this.http.put(this.urlBase + 'api/denuncias/tipos-denuncia', tipoDenuncia).pipe(map(res => res));
+  }
+
+  public eliminarTipoDenuncia(codTipoDenuncia: number): Observable<any> {
+    return this.http.delete(this.urlBase + 'api/denuncias/tipos-denuncia/' + codTipoDenuncia).pipe(map(res => res));
+  }
+
+  public getTipoDenuncia(): Observable<any> {
+    console.log("Llama al metodo tipo de denuncia.");
+    return this.http.get(this.urlBase + 'api/Denuncia/listarTiposDenuncia').pipe(map(res => res));
+  }
+  
+  
   public getEstadoDenuncia(): Observable<any> {
     return this.http.get(this.urlBase + 'api/Denuncia/listarEstadosDenuncia').pipe(map(res => res));
+  }
+  public ListarDenunciasCerradas(): Observable<any> {
+    return this.http.get(this.urlBase + 'api/Denuncia/ListarDenunciasCerradas').pipe(map(res => res));
   }
 
   public devolverAMesa(Trabajo: any){
@@ -37,9 +61,14 @@ export class DenunciaService {
   public getDenuncia() {
     return this.http.get(this.urlBase + 'api/Denuncia/listarDenuncias').pipe(map(res => res));
   }
+  //con filtros
+  public getDenunciasConFiltros(queryParams: any): Observable<any> {
+    return this.http.get(this.urlBase + 'api/Denuncia/listarDenunciasconFiltros', { params: queryParams }).pipe(map(res => res));
+  }
+
   public agregarDenuncia(Denuncia: any)
   {
-    var url = this.urlBase + 'api/Denuncia/guardarDenuncia/';
+    var url = this.urlBase + 'api/Denuncia/guardarDenuncia';
     return this.http.post(url,Denuncia).pipe(map(res => res));
   }
 

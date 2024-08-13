@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TrabajoService } from '../../services/trabajo.service';
 import { DenunciaService } from '../../services/denuncia.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -11,7 +11,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./trabajo-form-generar.component.css']
 })
 export class TrabajoFormGenerarComponent implements OnInit {
-  Trabajo: FormGroup;
+  Trabajo: UntypedFormGroup;
   Empleados: any;
   Prioridades: any;
   parametro: any;
@@ -22,6 +22,9 @@ export class TrabajoFormGenerarComponent implements OnInit {
   notificacionMail: any;
   resultadoGuardadoModal: any = "";
   @ViewChild("myModalInfo", { static: false }) myModalInfo: TemplateRef<any> | undefined;
+  tituloModal: string = "";  //estas cuatro lineas son del modal de accion sobre el formulario.
+  redirectModal: number = 0;
+
 
   constructor(private TrabajoService: TrabajoService, private denunciaService: DenunciaService, private modalService: NgbModal, private router: Router, private activatedRoute: ActivatedRoute) {
     this.activatedRoute.params.subscribe(parametro => {
@@ -33,18 +36,19 @@ export class TrabajoFormGenerarComponent implements OnInit {
       }
     });
 
-    this.Trabajo = new FormGroup(
+    this.Trabajo = new UntypedFormGroup(
       {
-        "Id_Usuario": new FormControl("0"),
-        "Descripcion": new FormControl("", [Validators.required, Validators.minLength(50), Validators.maxLength(2500)]),
-        "Nro_Prioridad": new FormControl("3"),
-        "estado_Denuncia": new FormControl(""),
-        "nro_Denuncia": new FormControl("0"),
-        "legajoActual": new FormControl("0"),
+        "Id_Usuario": new UntypedFormControl("0"),
+        "Descripcion": new UntypedFormControl("", [Validators.required, Validators.minLength(20), Validators.maxLength(2500)]),
+        "Nro_Prioridad": new UntypedFormControl("3"),
+        "estado_Denuncia": new UntypedFormControl(""),
+        "nro_Denuncia": new UntypedFormControl("0"),
+        "legajoActual": new UntypedFormControl("0"),
         //"Mail": new FormControl("", [Validators.required, Validators.maxLength(100), Validators.pattern("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$")]),
-        "foto": new FormControl(""),
-        "foto2": new FormControl(""),
-        "foto3": new FormControl("")
+        "foto": new UntypedFormControl(""),
+        "foto2": new UntypedFormControl(""),
+        "foto3": new UntypedFormControl(""),
+        "ApellidoEmpleado": new UntypedFormControl("")
 
       });
   }
@@ -68,7 +72,7 @@ export class TrabajoFormGenerarComponent implements OnInit {
   //Aqui vamos a leer el archivo
   changeFoto() {
     var file = (<HTMLInputElement>document.getElementById("fupFoto")).files?.[0] || new Blob(['test text'], { type: 'text/plain' });
-   var fileReader = new FileReader();
+    var fileReader = new FileReader();
 
     fileReader.onloadend = () => {   //Uso el Arrowfunction sino me marca error con foto.
 
@@ -98,23 +102,26 @@ export class TrabajoFormGenerarComponent implements OnInit {
   //En guardar datos si la denuncia no se deriva a nadie se carga el usuario que está logueado, sino se asignara la denuncia al id correspondiente que se seleccione en el combobx
   guardarDatos() {
     if (this.Trabajo.valid == true) {
-
-      this.Trabajo.controls["foto"].setValue(this.foto); //Seteo la foto antes de guardarla
+      if (this.foto != "data:text/plain;base64,dGVzdCB0ZXh0")
+        this.Trabajo.controls["foto"].setValue(this.foto); //Seteo la foto antes de guardarla
+    if (this.foto2 != "data:text/plain;base64,dGVzdCB0ZXh0")
       this.Trabajo.controls["foto2"].setValue(this.foto2); //Seteo la foto antes de guardarla
+    if (this.foto3 != "data:text/plain;base64,dGVzdCB0ZXh0")
       this.Trabajo.controls["foto3"].setValue(this.foto3); //Seteo la foto antes de guardarla
+    
+      this.TrabajoService.GuardarTrabajo(this.Trabajo.value).subscribe(data => {
+        if (data) {
+          this.tituloModal = "Registro de Trabajo";
+          this.resultadoGuardadoModal = "Se añadió la actividad correctamente.";
 
-      this.TrabajoService.GuardarTrabajo(this.Trabajo.value).subscribe(data => { 
-      if (data) {
-        console.log(data);
-        this.resultadoGuardadoModal = "Se añadió la actividad correctamente.";
-
-      }
-      else
-        this.resultadoGuardadoModal = "No se ha podido registrar el trabajo genere un ticket con el error en nuestra pestaña de problemas";
-    });
+        }
+        else { this.tituloModal = "ERROR!";
+          this.resultadoGuardadoModal = "No se ha podido registrar el trabajo genere un ticket con el error en nuestra pestaña de problemas";
+        }
+        });
 
 
-    this.modalService.open(this.myModalInfo);
+      this.modalService.open(this.myModalInfo);
 
       if (this.notificacionMail == 1) {
         this.TrabajoService.notificar(this.Trabajo.value).subscribe(data => { });
@@ -130,21 +137,37 @@ export class TrabajoFormGenerarComponent implements OnInit {
     this.router.navigate(["/tabla-denuncia"]);
   }
   derivarAMesaEntrada() {
+    this.tituloModal = "Denuncia derivada a mesa de entrada";
+    this.resultadoGuardadoModal = "La denuncia se ha derivadado para que personal de mesa de Ayuda continue con el tratamiento";
     if (this.parametro >= 1) {
       this.denunciaService.devolverAMesa(this.Trabajo.value).subscribe(data => { })
-      alert("La Denuncia ha sido derivada a Mesa de Entrada");
+      this.modalService.open(this.myModalInfo);
       this.router.navigate(["/tabla-denuncia"]);
     }
   }
 
   solucionarDenuncia() {
+    this.tituloModal = "Denuncia en proceso de Solucion";
+    this.resultadoGuardadoModal = "La denuncia se ha etiquetado para que sea finalizada por personal de mesa de Ayuda";
     if (this.parametro >= 1) {
+      
       this.denunciaService.solucionarDenuncia(this.Trabajo.value).subscribe(data => { })
-      alert("Denuncia Finalizada");
+      this.modalService.open(this.myModalInfo);
       this.router.navigate(["/tabla-denuncia"]);
     }
   }
-
+  cerrarmodal() {
+    this.modalService.dismissAll(this.myModalInfo);
+    if (this.redirectModal > 0) {
+      this.router.navigate(["/tabla-denuncia"]);
+      this.tituloModal = "Se redirigira al Tablero de Denuncias"
+      this.redirectModal = 0;
+    }
+    else { //resetear campos del modal ya que la persona esta registrada y seteamos lote.
+      this.tituloModal = "No te olvides de generar el ticket con el error en el menu de problemas.";
+      this.router.navigate(["/tabla-denuncia"]);
+    }
+  }
   verCheck() {
     var seleccionados = "";
     var noseleccionados = "";
@@ -167,6 +190,18 @@ export class TrabajoFormGenerarComponent implements OnInit {
       }
     }
 
+  }
+
+  hayFoto1(): boolean {
+    return this.foto != null && this.foto != "" && this.foto != "data:text/plain;base64,dGVzdCB0ZXh0";
+  }
+
+  hayFoto2(): boolean {
+    return this.foto2 != null && this.foto2 != "" && this.foto2 != "data:text/plain;base64,dGVzdCB0ZXh0";
+  }
+
+  hayFoto3(): boolean {
+    return this.foto3 != null && this.foto3 != "" && this.foto3 != "data:text/plain;base64,dGVzdCB0ZXh0";
   }
 
 }
